@@ -7,13 +7,14 @@ CC     = mpicc
 CFLAGS = -O2
 
 ##> directory setting
-MOD_DIR  = -J ./include
-INCLUDE  = -I /usr/include
-BIN_DIR  = ./bin
-SRC_DIR  = ./src
-OBJ_DIR  = ./obj
-LIBRARY  = -L./lib -lmonolis_utils
-CPP      = -cpp $(FLAG_DEBUG)
+MOD_DIR = -J ./include
+INCLUDE = -I /usr/include
+BIN_DIR = ./bin
+SRC_DIR = ./src
+OBJ_DIR = ./obj
+LIB_DIR = ./lib
+LIBRARY = libmonolis_utils
+CPP     = -cpp $(FLAG_DEBUG)
 
 ##> option setting
 ifdef FLAGS
@@ -40,21 +41,34 @@ ifdef FLAGS
 endif
 
 ##> other commands
-MAKE     = make
-CD       = cd
-RM       = rm -r
-AR       = - ar ruv
+MAKE = make
+CD   = cd
+RM   = rm -r
+AR   = - ar ruv
 
 ##> lib target
-#LIB_TARGET = $(addprefix $(LIB_DIR)/, $(LIB_LIST))
+LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 
-##> source
-#SRC_ =
-#SRC_ALL =
+##> source file define
+SRC_DEFINE = \
+def_prm.f90
 
+SRC_STD = \
+std_sort_I.f90 \
+std.f90
+
+SRC_SHAPE = \
+shape_C2D3.f90
+
+SRC_ALL = \
+$(addprefix define/, $(SRC_DEFINE)) \
+$(addprefix std/, $(SRC_STD))
+#$(addprefix shape/, $(SRC_SHAPE))
+
+##> objs
 SOURCES = $(addprefix $(SRC_DIR)/, $(SRC_ALL))
-OBJSt = $(subst $(SRC_DIR), $(OBJ_DIR), $(SOURCES:.f90=.o))
-OBJS = $(OBJSt:.c=.o)
+OBJSt   = $(subst $(SRC_DIR), $(OBJ_DIR), $(SOURCES:.f90=.o))
+OBJS    = $(OBJSt:.c=.o)
 
 ##> target
 all: $(LIB_TARGET)
