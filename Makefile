@@ -13,7 +13,8 @@ BIN_DIR = ./bin
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 LIB_DIR = ./lib
-LIBRARY = libmonolis_utils
+TST_DIR = ./test
+LIBRARY = libmonolis_utils.a
 CPP     = -cpp $(FLAG_DEBUG)
 
 ##> option setting
@@ -46,7 +47,8 @@ CD   = cd
 RM   = rm -r
 AR   = - ar ruv
 
-##> lib target
+##> **********
+##> target (1)
 LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 
 ##> source file define
@@ -62,20 +64,40 @@ shape_C2D3.f90
 
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
-$(addprefix std/, $(SRC_STD))
-#$(addprefix shape/, $(SRC_SHAPE))
+$(addprefix std/, $(SRC_STD)) \
+monolis_utils.f90
 
-##> objs
-SOURCES = $(addprefix $(SRC_DIR)/, $(SRC_ALL))
-OBJSt   = $(subst $(SRC_DIR), $(OBJ_DIR), $(SOURCES:.f90=.o))
-OBJS    = $(OBJSt:.c=.o)
+##> lib objs
+LIB_SOURCES = $(addprefix $(SRC_DIR)/, $(SRC_ALL))
+LIB_OBJSt   = $(subst $(SRC_DIR), $(OBJ_DIR), $(LIB_SOURCES:.f90=.o))
+LIB_OBJS    = $(LIB_OBJSt:.c=.o)
+
+##> **********
+##> target (2)
+TEST_TARGET = $(TST_DIR)/monolis_utils_test
+
+##> test file define
+SRC_STD_TEST = \
+std_sort_I_test.f90
+
+SRC_TEST_ALL = \
+$(addprefix std/, $(SRC_STD_TEST)) \
+test.f90
+
+##> lib objs
+TST_SOURCES = $(addprefix $(TST_DIR)/, $(SRC_TEST_ALL))
+TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=.o))
+TST_OBJS    = $(TST_OBJSt:.c=.o)
 
 ##> target
-all: $(LIB_TARGET)
+all: $(LIB_TARGET) $(TEST_TARGET)
 lib: $(LIB_TARGET)
 
-$(LIB_TARGET): $(OBJS)
-	$(AR) $@ $(OBJS)
+$(LIB_TARGET): $(LIB_OBJS)
+	$(AR) $@ $(LIB_OBJS)
+
+$(TEST_TARGET): $(TST_OBJS)
+	$(FC) $(FFLAGS) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
@@ -83,9 +105,19 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(CPP) $(INCLUDE) -o $@ -c $<
 
+$(OBJ_DIR)/%.o: $(TST_DIR)/%.f90
+	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: $(TST_DIR)/%.c
+	$(CC) $(CFLAGS) $(CPP) $(INCLUDE) -o $@ -c $<
+
 clean:
-	$(RM) $(OBJS) \
+	$(RM) \
+	$(LIB_OBJS) \
+	$(TST_OBJS) \
 	$(LIB_TARGET) \
-	./include/*.mod ./bin/*
+	$(TEST_TARGET) \
+	./include/*.mod \
+	./bin/*
 
 .PHONY: clean
