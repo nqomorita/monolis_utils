@@ -1,6 +1,6 @@
 !> std test モジュール
 module mod_monolis_utils_std_test
-  use mod_monolis_utils_prm
+  use mod_monolis_utils_define_prm
   implicit none
 
 contains

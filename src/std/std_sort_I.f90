@@ -1,6 +1,6 @@
 !> std sort モジュール
 module mod_monolis_utils_std_sort_I
-  use mod_monolis_utils_prm
+  use mod_monolis_utils_define_prm
   implicit none
 
 contains
@@ -45,53 +45,6 @@ contains
     if(iS < left - 1)  call monolis_qsort_I_1d(array, iS, left - 1)
     if(right + 1 < iE) call monolis_qsort_I_1d(array, right + 1, iE)
   end subroutine monolis_qsort_I_1d
-
-  !> @ingroup std
-  !> 置換ベクトルを戻すクイックソート（1次元整数配列）
-  recursive subroutine monolis_qsort_I_1d_with_perm(array, iS, iE, perm)
-    implicit none
-    !> [inout] 整数配列
-    integer(kint), intent(inout) :: array(:)
-    !> [inout] 置換ベクトル
-    integer(kint), intent(inout) :: perm(:)
-    !> [in] ソートする開始位置
-    integer(kint), intent(in) :: iS
-    !> [in] ソートする終了位置
-    integer(kint), intent(in) :: iE
-    integer(kint) :: pivot, center, left, right, tmp
-
-    if (iS >= iE) return
-
-    center = (iS + iE) / 2
-    pivot = array(center)
-    left = iS
-    right = iE
-
-    do
-      do while (array(left) < pivot)
-        left = left + 1
-      enddo
-      do while (pivot < array(right))
-        right = right - 1
-      enddo
-
-      if (left >= right) exit
-
-      tmp = array(left)
-      array(left) = array(right)
-      array(right) = tmp
-
-      tmp = perm(left)
-      perm(left) = perm(right)
-      perm(right) = tmp
-
-      left = left + 1
-      right = right - 1
-    enddo
-
-    if(iS < left - 1)  call monolis_qsort_I_1d_with_perm(array, iS, left - 1, perm)
-    if(right + 1 < iE) call monolis_qsort_I_1d_with_perm(array, right + 1, iE, perm)
-  end subroutine monolis_qsort_I_1d_with_perm
 
   !> @ingroup std
   !> クイックソート（2次元整数配列）

@@ -1,5 +1,5 @@
 !> parameter モジュール
-module mod_monolis_utils_prm
+module mod_monolis_utils_define_prm
   implicit none
 
   !> integer 変数の精度
@@ -16,5 +16,4 @@ module mod_monolis_utils_prm
 
   !> monolis ライブラリにおけるテスト機能の一致判定閾値
   real(kdouble), parameter :: monolis_test_ths = 1.0d-8
-
-end module mod_monolis_utils_prm
+end module mod_monolis_utils_define_prm
