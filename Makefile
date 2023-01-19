@@ -69,8 +69,8 @@ shape_C2D3.f90
 
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
-$(addprefix alloc/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
+$(addprefix alloc/, $(SRC_ALLOC)) \
 monolis_utils.f90
 
 ##> lib objs

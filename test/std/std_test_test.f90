@@ -13,6 +13,7 @@ contains
     call monolis_test_check_eq_I_main_test()
     call monolis_test_check_eq_R_main_test()
     call monolis_test_check_eq_C_main_test()
+    call monolis_test_check_eq_L_main_test()
   end subroutine monolis_utils_std_test_test
 
   !> unit test
@@ -180,4 +181,47 @@ contains
       call monolis_test_assert_fail("monolis_test_check_eq_C_main_test case 6", "")
     endif
   end subroutine monolis_test_check_eq_C_main_test
+
+  subroutine monolis_test_check_eq_L_main_test()
+    implicit none
+    logical :: a
+    logical :: b
+    logical :: is_eq
+
+    !> case 1
+    a = .true.
+    b = .true.
+
+    call monolis_test_check_eq_L_main(a, b, is_eq)
+
+    if(is_eq)then
+      call monolis_test_assert_pass("monolis_test_check_eq_L_main_test case 1")
+    else
+      call monolis_test_assert_fail("monolis_test_check_eq_L_main_test case 1", "")
+    endif
+
+    !> case 2
+    a = .true.
+    b = .false.
+
+    call monolis_test_check_eq_L_main(a, b, is_eq)
+
+    if(.not. is_eq)then
+      call monolis_test_assert_pass("monolis_test_check_eq_L_main_test case 2")
+    else
+      call monolis_test_assert_fail("monolis_test_check_eq_L_main_test case 2", "")
+    endif
+
+    !> case 2
+    a = .false.
+    b = .false.
+
+    call monolis_test_check_eq_L_main(a, b, is_eq)
+
+    if(is_eq)then
+      call monolis_test_assert_pass("monolis_test_check_eq_L_main_test case 3")
+    else
+      call monolis_test_assert_fail("monolis_test_check_eq_L_main_test case 3", "")
+    endif
+  end subroutine monolis_test_check_eq_L_main_test
 end module mod_monolis_utils_std_test_test

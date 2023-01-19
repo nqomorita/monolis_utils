@@ -68,6 +68,24 @@ contains
     endif
   end subroutine monolis_test_check_eq_C_main
 
+  !> @ingroup dev_test
+  !> 複素数値の比較（メイン関数）
+  subroutine monolis_test_check_eq_L_main(a, b, is_eq)
+    implicit none
+    !> [in] 入力配列 a
+    logical, intent(in) :: a
+    !> [in] 入力配列 b
+    logical, intent(in) :: b
+    !> [out] 一致判定
+    logical :: is_eq
+
+    if(a .eqv. b)then
+      is_eq = .true.
+    else
+      is_eq = .false.
+    endif
+  end subroutine monolis_test_check_eq_L_main
+
   !> @ingroup test
   !> 整数値（スカラ）の比較
   subroutine monolis_test_check_eq_I1(header, a, b)
@@ -130,6 +148,27 @@ contains
       call monolis_test_assert_fail(header, "value mismatch")
     endif
   end subroutine monolis_test_check_eq_C1
+
+  !> @ingroup test
+  !> 論理型（スカラ）の比較
+  subroutine monolis_test_check_eq_L1(header, a, b)
+    implicit none
+    !> [in] テスト内容を示す文字列
+    character(*), intent(in)  :: header
+    !> [in] 入力配列 a
+    logical, intent(in) :: a
+    !> [in] 入力配列 b
+    logical, intent(in) :: b
+    logical :: is_eq
+
+    call monolis_test_check_eq_L_main(a, b, is_eq)
+
+    if(is_eq)then
+      call monolis_test_assert_pass(header)
+    else
+      call monolis_test_assert_fail(header, "value mismatch")
+    endif
+  end subroutine monolis_test_check_eq_L1
 
   !> @ingroup test
   !> 整数値（ベクトル）の比較
@@ -205,6 +244,31 @@ contains
 
     call monolis_test_assert_pass(header)
   end subroutine monolis_test_check_eq_C
+
+  !> @ingroup test
+  !> 複素数値（ベクトル）の比較
+  subroutine monolis_test_check_eq_L(header, a, b)
+    implicit none
+    !> [in] テスト内容を示す文字列
+    character(*), intent(in)  :: header
+    !> [in] 入力配列 a
+    logical, intent(in) :: a(:)
+    !> [in] 入力配列 b
+    logical, intent(in) :: b(:)
+    integer(kint) :: i
+    logical :: is_eq
+
+    if(size(a) /= size(b))then
+      call monolis_test_assert_fail(header, "size mismatch")
+    endif
+
+    do i = 1, size(a)
+      call monolis_test_check_eq_L_main(a(i), b(i), is_eq)
+      if(.not. is_eq) call monolis_test_assert_fail(header, "value mismatch")
+    enddo
+
+    call monolis_test_assert_pass(header)
+  end subroutine monolis_test_check_eq_L
 
   !> @ingroup test
   !> テストパス時の標準出力

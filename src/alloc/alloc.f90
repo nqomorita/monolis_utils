@@ -66,19 +66,19 @@ contains
     integer(kint) :: j, iold
 
     if(.not. allocated(var))then
-      call monolis_alloc_int_1d(var, i)
+      call monolis_alloc_I_1d(var, i)
       return
     endif
 
     iold = size(var)
 
-    call monolis_alloc_int_1d(temp, iold)
+    call monolis_alloc_I_1d(temp, iold)
 
     temp(:) = var(:)
 
-    call monolis_dealloc_int_1d(var)
+    call monolis_dealloc_I_1d(var)
 
-    call monolis_alloc_int_1d(var, i)
+    call monolis_alloc_I_1d(var, i)
 
     do j = 1, min(iold, i)
       var(j) = temp(j)
@@ -105,7 +105,7 @@ contains
 
     n_all = n_old + n_add
 
-    call monolis_realloc_int_1d(var, n_all)
+    call monolis_realloc_I_1d(var, n_all)
 
     do i = n_old + 1, n_all
       var(i) = var_add(i - n_old)
@@ -425,7 +425,7 @@ contains
 
   !> @ingroup alloc
   !> 2 次元論理型配列のメモリ開放
-  subroutine monolis_dealloc_Ll_2d(var)
+  subroutine monolis_dealloc_L_2d(var)
     implicit none
     !> [in] メモリ開放する配列
     logical, allocatable :: var(:,:)
@@ -438,9 +438,9 @@ contains
     deallocate(var, stat = ierr)
 
     if(ierr /= 0)then
-      call monolis_std_error_string("monolis_dealloc_Ll_2d")
+      call monolis_std_error_string("monolis_dealloc_L_2d")
       call monolis_std_error_string("deallocation is failed")
       call monolis_std_error_stop()
     endif
-  end subroutine monolis_dealloc_Ll_2d
+  end subroutine monolis_dealloc_L_2d
 end module mod_monolis_utils_alloc
