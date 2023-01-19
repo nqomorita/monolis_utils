@@ -89,7 +89,8 @@ alloc_test.f90
 
 SRC_STD_TEST = \
 std_test_test.f90 \
-std_sort_I_test.f90
+std_sort_I_test.f90 \
+std_algebra_test.f90
 
 SRC_TEST_ALL = \
 $(addprefix alloc/, $(SRC_ALLOC_TEST)) \

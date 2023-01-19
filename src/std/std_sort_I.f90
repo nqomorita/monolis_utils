@@ -9,7 +9,7 @@ contains
   !> クイックソート（1次元整数配列）
   recursive subroutine monolis_qsort_I_1d(array, iS, iE)
     implicit none
-    !> [inout] 整数配列
+    !> [in,out] 整数配列
     integer(kint), intent(inout) :: array(:)
     !> [in] ソートする開始位置
     integer(kint), intent(in) :: iS
@@ -51,7 +51,7 @@ contains
   !> @details 第一引数をソート
   recursive subroutine monolis_qsort_I_2d(array1, array2, iS, iE)
     implicit none
-    !> [inout] ソートされる整数配列
+    !> [in,out] ソートされる整数配列
     integer(kint), intent(inout) :: array1(:)
     !> [inout] ソートに従属する整数配列
     integer(kint), intent(inout) :: array2(:)
