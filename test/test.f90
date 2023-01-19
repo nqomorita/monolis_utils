@@ -6,4 +6,3 @@ program monolis_utils_test
   !> std test
   call monolis_utils_std_sort_I_test()
 end program monolis_utils_test
-

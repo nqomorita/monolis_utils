@@ -56,6 +56,7 @@ SRC_DEFINE = \
 def_prm.f90
 
 SRC_STD = \
+std_test.f90 \
 std_sort_I.f90 \
 std.f90
 
@@ -78,6 +79,7 @@ TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> test file define
 SRC_STD_TEST = \
+std_test_test.f90 \
 std_sort_I_test.f90
 
 SRC_TEST_ALL = \

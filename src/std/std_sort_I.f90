@@ -15,7 +15,6 @@ contains
     integer(kint), intent(in) :: iS
     !> [in] ソートする終了位置
     integer(kint), intent(in) :: iE
-
     integer(kint) :: pivot, center, left, right, tmp
 
     if (iS >= iE) return
@@ -59,7 +58,6 @@ contains
     integer(kint), intent(in) :: iS
     !> [in] ソートする終了位置
     integer(kint), intent(in) :: iE
-
     integer(kint) :: pivot, center, left, right, tmp
 
     if (iS >= iE) return
@@ -108,7 +106,6 @@ contains
     integer(kint), intent(in) :: iS
     !> [in] ソートする終了位置
     integer(kint), intent(in) :: iE
-
     integer(kint) :: pivot, center, left, right, tmp
 
     if (iS >= iE) return
@@ -158,7 +155,6 @@ contains
     integer(kint), intent(in) :: val
     !> [out] 検索した結果の位置（検索結果がない場合 -1 を返す）
     integer(kint), intent(out) :: idx
-
     integer(kint) :: center, left, right, pivot
 
     left = iS
@@ -196,11 +192,10 @@ contains
     integer(kint), intent(in) :: origin
     !> [in] 交差
     integer(kint), intent(in) :: difference
-
     integer(kint) :: i
 
     do i = 1, n
-      array(i) = origin + (i-1)*difference
+      array(i) = origin + (i - 1)*difference
     enddo
   end subroutine monolis_get_sequence_array_I
 

@@ -13,4 +13,8 @@ module mod_monolis_utils_prm
   integer(kint), parameter :: monolis_fail = 1
   !> monolis ライブラリにおける文字列長さ
   integer(kint), parameter :: monolis_charlen = 1024
+
+  !> monolis ライブラリにおけるテスト機能の一致判定閾値
+  real(kdouble), parameter :: monolis_test_ths = 1.0d-8
+
 end module mod_monolis_utils_prm
