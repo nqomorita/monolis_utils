@@ -5,7 +5,7 @@ module mod_monolis_utils_std_test
 
 contains
 
-  !> @ingroup test
+  !> @ingroup dev_test
   !> 整数値の比較（メイン関数）
   subroutine monolis_test_check_eq_I_main(a, b, is_eq)
     implicit none
@@ -23,7 +23,7 @@ contains
     endif
   end subroutine monolis_test_check_eq_I_main
 
-  !> @ingroup test
+  !> @ingroup dev_test
   !> 実数値の比較（メイン関数）
   subroutine monolis_test_check_eq_R_main(a, b, is_eq)
     implicit none
@@ -45,7 +45,7 @@ contains
     endif
   end subroutine monolis_test_check_eq_R_main
 
-  !> @ingroup test
+  !> @ingroup dev_test
   !> 複素数値の比較（メイン関数）
   subroutine monolis_test_check_eq_C_main(a, b, is_eq)
     implicit none
