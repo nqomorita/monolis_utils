@@ -62,6 +62,7 @@ SRC_STD = \
 std_test.f90 \
 std_error.f90 \
 std_sort_I.f90 \
+std_algebra.f90 \
 std.f90
 
 SRC_SHAPE = \

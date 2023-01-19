@@ -1,6 +1,6 @@
-# monolis_utils {#mainpage}
+# monolis utils {#mainpage}
 
-monolis_utils: utilities for monolithic library of numerical simulation
+monolis utils: utilities for monolithic library of numerical simulation
 
 マニュアル
 
