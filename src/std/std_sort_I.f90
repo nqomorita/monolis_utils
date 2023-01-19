@@ -48,7 +48,7 @@ contains
 
   !> @ingroup std
   !> クイックソート（2次元整数配列）
-  !> 第一引数をソート
+  !> @details 第一引数をソート
   recursive subroutine monolis_qsort_I_2d(array1, array2, iS, iE)
     implicit none
     !> [inout] ソートされる整数配列

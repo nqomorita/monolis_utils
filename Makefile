@@ -55,8 +55,12 @@ LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 SRC_DEFINE = \
 def_prm.f90
 
+SRC_ALLOC = \
+alloc.f90
+
 SRC_STD = \
 std_test.f90 \
+std_error.f90 \
 std_sort_I.f90 \
 std.f90
 
@@ -65,6 +69,7 @@ shape_C2D3.f90
 
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
+$(addprefix alloc/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
 monolis_utils.f90
 
@@ -78,11 +83,15 @@ LIB_OBJS    = $(LIB_OBJSt:.c=.o)
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> test file define
+SRC_ALLOC_TEST = \
+alloc_test.f90
+
 SRC_STD_TEST = \
 std_test_test.f90 \
 std_sort_I_test.f90
 
 SRC_TEST_ALL = \
+$(addprefix alloc/, $(SRC_ALLOC_TEST)) \
 $(addprefix std/, $(SRC_STD_TEST)) \
 test.f90
 

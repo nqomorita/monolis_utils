@@ -228,6 +228,6 @@ contains
     character :: esc*1 = char(27)
 
     write(*,"(a,a)")esc//"[31m"//"[ FAILED ] "//trim(header)//esc//"[0m"//" : "//trim(reason)
-    error stop
+    error stop monolis_fail
   end subroutine monolis_test_assert_fail
 end module mod_monolis_utils_std_test
