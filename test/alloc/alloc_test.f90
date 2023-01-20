@@ -36,6 +36,8 @@ contains
     integer(kint) :: b(5)
     integer(kint), allocatable :: a(:)
 
+    call monolis_std_log_string("monolis_alloc_I_1d_test")
+
     call monolis_alloc_I_1d(a, 5)
 
     if(.not. allocated(a))then
@@ -55,6 +57,8 @@ contains
     implicit none
     integer(kint), allocatable :: a(:)
 
+    call monolis_std_log_string("monolis_dealloc_I_1d_test")
+
     call monolis_alloc_I_1d(a, 5)
 
     call monolis_dealloc_I_1d(a)
@@ -70,6 +74,8 @@ contains
     implicit none
     integer(kint) :: b(5)
     integer(kint), allocatable :: a(:)
+
+    call monolis_std_log_string("monolis_realloc_I_1d_test")
 
     call monolis_alloc_I_1d(a, 3)
 
@@ -92,6 +98,8 @@ contains
     implicit none
     integer(kint) :: b(5), c(2)
     integer(kint), allocatable :: a(:)
+
+    call monolis_std_log_string("monolis_append_I_1d_test")
 
     call monolis_alloc_I_1d(a, 3)
 
@@ -117,6 +125,8 @@ contains
     integer(kint) :: b(3,2)
     integer(kint), allocatable :: a(:,:)
 
+    call monolis_std_log_string("monolis_alloc_I_2d_test")
+
     call monolis_alloc_I_2d(a, 3, 2)
 
     if(.not. allocated(a))then
@@ -135,6 +145,8 @@ contains
     implicit none
     integer(kint), allocatable :: a(:,:)
 
+    call monolis_std_log_string("monolis_dealloc_I_2d_test")
+
     call monolis_alloc_I_2d(a, 3, 2)
 
     call monolis_dealloc_I_2d(a)
@@ -150,6 +162,8 @@ contains
     implicit none
     real(kdouble) :: b(5)
     real(kdouble), allocatable :: a(:)
+
+    call monolis_std_log_string("monolis_alloc_R_1d_test")
 
     call monolis_alloc_R_1d(a, 5)
 
@@ -170,6 +184,8 @@ contains
     implicit none
     real(kdouble), allocatable :: a(:)
 
+    call monolis_std_log_string("monolis_dealloc_R_1d_test")
+
     call monolis_alloc_R_1d(a, 5)
 
     call monolis_dealloc_R_1d(a)
@@ -186,15 +202,17 @@ contains
     real(kdouble) :: b(3,2)
     real(kdouble), allocatable :: a(:,:)
 
+    call monolis_std_log_string("monolis_alloc_R_2d_test")
+
     call monolis_alloc_R_2d(a, 3, 2)
 
     if(.not. allocated(a))then
       call monolis_test_assert_fail("monolis_alloc_R_2d_test", "")
     endif
 
-    b(1,1) = 0; b(1,2) = 0
-    b(2,1) = 0; b(2,2) = 0
-    b(3,1) = 0; b(3,2) = 0
+    b(1,1) = 0.0d0; b(1,2) = 0.0d0
+    b(2,1) = 0.0d0; b(2,2) = 0.0d0
+    b(3,1) = 0.0d0; b(3,2) = 0.0d0
 
     call monolis_test_check_eq_R("monolis_alloc_R_2d_test", a(:,1), b(:,1))
     call monolis_test_check_eq_R("monolis_alloc_R_2d_test", a(:,2), b(:,2))
@@ -203,6 +221,8 @@ contains
   subroutine monolis_dealloc_R_2d_test()
     implicit none
     real(kdouble), allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_dealloc_R_2d_test")
 
     call monolis_alloc_R_2d(a, 3, 2)
 
@@ -219,6 +239,8 @@ contains
     implicit none
     complex(kdouble) :: b(5)
     complex(kdouble), allocatable :: a(:)
+
+    call monolis_std_log_string("monolis_alloc_C_1d_test")
 
     call monolis_alloc_C_1d(a, 5)
 
@@ -239,6 +261,8 @@ contains
     implicit none
     complex(kdouble), allocatable :: a(:)
 
+    call monolis_std_log_string("monolis_dealloc_C_1d_test")
+
     call monolis_alloc_C_1d(a, 5)
 
     call monolis_dealloc_C_1d(a)
@@ -252,11 +276,30 @@ contains
 
   subroutine monolis_alloc_C_2d_test()
     implicit none
+    complex(kdouble) :: b(3,2)
+    complex(kdouble), allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_alloc_C_2d_test")
+
+    call monolis_alloc_C_2d(a, 3, 2)
+
+    if(.not. allocated(a))then
+      call monolis_test_assert_fail("monolis_alloc_C_2d_test", "")
+    endif
+
+    b(1,1) = (0.0d0, 0.0d0); b(1,2) = (0.0d0, 0.0d0)
+    b(2,1) = (0.0d0, 0.0d0); b(2,2) = (0.0d0, 0.0d0)
+    b(3,1) = (0.0d0, 0.0d0); b(3,2) = (0.0d0, 0.0d0)
+
+    call monolis_test_check_eq_C("monolis_alloc_C_2d_test", a(:,1), b(:,1))
+    call monolis_test_check_eq_C("monolis_alloc_C_2d_test", a(:,2), b(:,2))
   end subroutine monolis_alloc_C_2d_test
 
   subroutine monolis_dealloc_C_2d_test()
     implicit none
     complex(kdouble), allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_dealloc_C_2d_test")
 
     call monolis_alloc_C_2d(a, 3, 2)
 
@@ -273,6 +316,8 @@ contains
     implicit none
     logical :: b(5)
     logical, allocatable :: a(:)
+
+    call monolis_std_log_string("monolis_alloc_L_1d_test")
 
     call monolis_alloc_L_1d(a, 5)
 
@@ -293,6 +338,8 @@ contains
     implicit none
     logical, allocatable :: a(:)
 
+    call monolis_std_log_string("monolis_dealloc_L_1d_test")
+
     call monolis_alloc_L_1d(a, 5)
 
     call monolis_dealloc_L_1d(a)
@@ -308,6 +355,8 @@ contains
     implicit none
     logical :: b(3,2)
     logical, allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_alloc_L_2d_test")
 
     call monolis_alloc_L_2d(a, 3, 2)
 
@@ -326,6 +375,8 @@ contains
   subroutine monolis_dealloc_L_2d_test()
     implicit none
     logical, allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_dealloc_L_2d_test")
 
     call monolis_alloc_L_2d(a, 3, 2)
 

@@ -2,7 +2,8 @@
 
 ##> compiler setting
 FC     = mpif90
-FFLAGS = -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
+#FFLAGS = -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
+FFLAGS  = -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
 CC     = mpicc
 CFLAGS = -O2
 

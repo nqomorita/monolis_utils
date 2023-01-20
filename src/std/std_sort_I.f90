@@ -53,7 +53,7 @@ contains
     implicit none
     !> [in,out] ソートされる整数配列
     integer(kint), intent(inout) :: array1(:)
-    !> [inout] ソートに従属する整数配列
+    !> [in,out] ソートに従属する整数配列
     integer(kint), intent(inout) :: array2(:)
     !> [in] ソートする開始位置
     integer(kint), intent(in) :: iS

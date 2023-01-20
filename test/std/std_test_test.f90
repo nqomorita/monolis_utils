@@ -1,6 +1,7 @@
 !> std test test モジュール
 module mod_monolis_utils_std_test_test
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_std_error
   use mod_monolis_utils_std_test
   implicit none
 
@@ -22,6 +23,8 @@ contains
     integer(kint) :: a
     integer(kint) :: b
     logical :: is_eq
+
+    call monolis_std_log_string("monolis_test_check_eq_I_main_test")
 
     !> case 1
     a = 2
@@ -53,6 +56,8 @@ contains
     real(kdouble) :: a
     real(kdouble) :: b
     logical :: is_eq
+
+    call monolis_std_log_string("monolis_test_check_eq_R_main_test")
 
     !> case 1
     a = 2.0d0
@@ -108,6 +113,8 @@ contains
     complex(kdouble) :: a
     complex(kdouble) :: b
     logical :: is_eq
+
+    call monolis_std_log_string("monolis_test_check_eq_C_main_test")
 
     !> case 1
     a = (2.0d0, 1.0d0)
@@ -187,6 +194,8 @@ contains
     logical :: a
     logical :: b
     logical :: is_eq
+
+    call monolis_std_log_string("monolis_test_check_eq_L_main_test")
 
     !> case 1
     a = .true.

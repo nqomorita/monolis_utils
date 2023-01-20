@@ -37,6 +37,8 @@ contains
     if(abs(a) < 1.0d-20)then
       if(abs(a - b) > monolis_test_ths)then
         is_eq = .false.
+      else
+        is_eq = .true.
       endif
     elseif(abs(a - b)/abs(a) > monolis_test_ths)then
       is_eq = .false.
@@ -56,9 +58,11 @@ contains
     !> [out] 一致判定
     logical :: is_eq
 
-    if(abs(real(a)) < 1.0d-20 .or. abs(dimag(b)) < 1.0d-20)then
+    if(abs(real(a)) < 1.0d-20 .or. abs(dimag(a)) < 1.0d-20)then
       if(abs(real(a) - real(b)) + abs(dimag(a) - dimag(b)) > monolis_test_ths)then
         is_eq = .false.
+      else
+        is_eq = .true.
       endif
     elseif(abs(real(a) - real(b))/abs(real(a)) + abs(dimag(a) - dimag(b))/abs(dimag(a)) &
       & > monolis_test_ths)then

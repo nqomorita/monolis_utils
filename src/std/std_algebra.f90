@@ -1,6 +1,7 @@
 !> std algebra モジュール
 module mod_monolis_utils_std_algebra
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_std_error
   implicit none
 
 contains
@@ -8,13 +9,13 @@ contains
   !> @ingroup std_algebra
   !> 逆行列の取得（n x n 行列）
   !> @details ピボットが 0 であればエラーストップ
-  subroutine monolis_get_inverse_matrix(n, a, inv)
+  subroutine monolis_get_inverse_matrix_R(n, a, inv)
     implicit none
     !> [in] 行列の大きさ
     integer(kint), intent(in) :: n
-    !> [in] 入力行列
+    !> [in] 入力行列（サイズ [n, n]）
     real(kdouble), intent(in) :: a(n,n)
-    !> [out] 逆行列
+    !> [out] 逆行列（サイズ [n, n]）
     real(kdouble), intent(out) :: inv(n,n)
     integer(kint) :: i, j, k
     real(kdouble) :: b(n,n), tmp
@@ -28,7 +29,7 @@ contains
 
     do i = 1, n
       if(b(i,i) == 0.0d0)then
-        call monolis_std_error_string("monolis_get_inverse_matrix")
+        call monolis_std_error_string("monolis_get_inverse_matrix_R")
         call monolis_std_error_string("diagonal component is 0")
         call monolis_std_error_stop()
       endif
@@ -50,17 +51,17 @@ contains
         endif
       enddo
     enddo
-  end subroutine monolis_get_inverse_matrix
+  end subroutine monolis_get_inverse_matrix_R
 
   !> @ingroup std_algebra
   !> 逆行列の取得（2 x 2 行列）
   !> @details 行列式が 0 以下であればエラーストップ
   !> @details `is_fail` 引数が渡されている場合、行列式が 0 以下であれば `true` が戻る
-  subroutine monolis_get_inverse_matrix_2d(a, inv, det, is_fail)
+  subroutine monolis_get_inverse_matrix_R_2d(a, inv, det, is_fail)
     implicit none
-    !> [in] 入力行列
+    !> [in] 入力行列（サイズ [2, 2]）
     real(kdouble), intent(in) :: a(2,2)
-    !> [out] 逆行列
+    !> [out] 逆行列（サイズ [2, 2]）
     real(kdouble), intent(out) :: inv(2,2)
     !> [out] 行列式
     real(kdouble), intent(out) :: det
@@ -68,7 +69,7 @@ contains
     logical, optional, intent(out) :: is_fail
     real(kdouble) :: detinv
 
-    is_fail = .false.
+    if(present(is_fail)) is_fail = .false.
 
     det = a(1,1) * a(2,2) &
         - a(2,1) * a(1,2)
@@ -77,7 +78,7 @@ contains
       if(present(is_fail))then
         is_fail = .true.
       else
-        call monolis_std_error_string("monolis_get_inverse_matrix_2d")
+        call monolis_std_error_string("monolis_get_inverse_matrix_R_2d")
         call monolis_std_error_string("determinant is less than 0")
         call monolis_std_error_stop()
       endif
@@ -88,17 +89,17 @@ contains
     inv(1,2) = -a(1,2)*detinv
     inv(2,1) = -a(2,1)*detinv
     inv(2,2) =  a(1,1)*detinv
-  end subroutine monolis_get_inverse_matrix_2d
+  end subroutine monolis_get_inverse_matrix_R_2d
 
   !> @ingroup std_algebra
   !> 逆行列の取得（3 x 3 行列）
   !> @details 行列式が 0 以下であればエラーストップ
   !> @details `is_fail` 引数が渡されている場合、行列式が 0 以下であれば `true` が戻る
-  subroutine monolis_get_inverse_matrix_3d(a, inv, det, is_fail)
+  subroutine monolis_get_inverse_matrix_R_3d(a, inv, det, is_fail)
     implicit none
-    !> [in] 入力行列
+    !> [in] 入力行列（サイズ [3, 3]）
     real(kdouble), intent(in) :: a(3,3)
-    !> [out] 逆行列
+    !> [out] 逆行列（サイズ [3, 3]）
     real(kdouble), intent(out) :: inv(3,3)
     !> [out] 行列式
     real(kdouble), intent(out) :: det
@@ -119,7 +120,7 @@ contains
       if(present(is_fail))then
         is_fail = .true.
       else
-        call monolis_std_error_string("monolis_get_inverse_matrix_3d")
+        call monolis_std_error_string("monolis_get_inverse_matrix_R_3d")
         call monolis_std_error_string("determinant is less than 0")
         call monolis_std_error_stop()
       endif
@@ -135,50 +136,85 @@ contains
     inv(3,1) = detinv * ( a(2,1)*a(3,2) - a(3,1)*a(2,2))
     inv(3,2) = detinv * (-a(1,1)*a(3,2) + a(3,1)*a(1,2))
     inv(3,3) = detinv * ( a(1,1)*a(2,2) - a(2,1)*a(1,2))
-  end subroutine monolis_get_inverse_matrix_3d
+  end subroutine monolis_get_inverse_matrix_R_3d
 
-  subroutine monolis_normalize_cross_product_3d(a, b, vec)
+  !> @ingroup std_algebra
+  !> 3 次元の外積計算（正規化あり）
+  subroutine monolis_normalize_cross_product_R_3d(v1, v2, v3)
     implicit none
-    real(kdouble) :: vec(3), a(3), b(3), norm(3), l2
+    !> [in] 入力ベクトル v1（サイズ [3]）
+    real(kdouble) :: v1(3)
+    !> [in] 入力ベクトル v2（サイズ [3]）
+    real(kdouble) :: v2(3)
+    !> [out] 出力ベクトル v3 = v1 x v2（サイズ [3]）
+    real(kdouble) :: v3(3)
+    real(kdouble) :: s(3), vec(3)
 
-    norm(1) = a(2)*b(3) - a(3)*b(2)
-    norm(2) = a(3)*b(1) - a(1)*b(3)
-    norm(3) = a(1)*b(2) - a(2)*b(1)
-    l2 = dsqrt(norm(1)*norm(1) + norm(2)*norm(2) + norm(3)*norm(3))
-    if(l2 == 0.0d0)then
-      vec = 0.0d0
+    s = v1
+    vec(1) = s(2)*v2(3) - s(3)*v2(2)
+    vec(2) = s(3)*v2(1) - s(1)*v2(3)
+    vec(3) = s(1)*v2(2) - s(2)*v2(1)
+
+    call monolis_normalize_vector_R(3, vec, v3)
+  end subroutine monolis_normalize_cross_product_R_3d
+
+  !> @ingroup std_algebra
+  !> 3 次元の外積計算（正規化なし）
+  subroutine monolis_cross_product_R_3d(v1, v2, v3)
+    implicit none
+    !> [in] 入力ベクトル v1（サイズ [3]）
+    real(kdouble) :: v1(3)
+    !> [in] 入力ベクトル v2（サイズ [3]）
+    real(kdouble) :: v2(3)
+    !> [out] 出力ベクトル v3 = v1 x v2（サイズ [3]）
+    real(kdouble) :: v3(3)
+    real(kdouble) :: s(3)
+
+    s = v1
+    v3(1) = s(2)*v2(3) - s(3)*v2(2)
+    v3(2) = s(3)*v2(1) - s(1)*v2(3)
+    v3(3) = s(1)*v2(2) - s(2)*v2(1)
+  end subroutine monolis_cross_product_R_3d
+
+  !> @ingroup std_algebra
+  !> ベクトルの正規化
+  subroutine monolis_normalize_vector_R(n, v1, v2)
+    implicit none
+    !> [in] ベクトルのサイズ
+    integer(kint) :: n
+    !> [in] 入力ベクトル（サイズ [n]）
+    real(kdouble) :: v1(n)
+    !> [in] 出力ベクトル（サイズ [n]）
+    real(kdouble) :: v2(n)
+    real(kdouble) :: norm
+
+    call monolis_get_l2_norm_R(n, v1, norm)
+
+    if(norm == 0.0d0)then
+      v2 = 0.0d0
       return
     endif
-    vec = norm/l2
-  end subroutine monolis_normalize_cross_product_3d
 
-  subroutine monolis_normalize_vector(n, a)
+    v2 = v1/norm
+  end subroutine monolis_normalize_vector_R
+
+  !> @ingroup std_algebra
+  !> ベクトルのノルム計算
+  subroutine monolis_get_l2_norm_R(n, v1, norm)
     implicit none
-    integer(kint) :: i, n
-    real(kdouble) :: vec(n), a(n), l2
+    !> [in] ベクトルのサイズ
+    integer(kint) :: n
+    !> [in] 入力ベクトル（サイズ [n]）
+    real(kdouble) :: v1(n)
+    !> [in] 出力ノルム
+    real(kdouble) :: norm
+    integer(kint) :: i
+    real(kdouble) :: l2
 
     l2 = 0.0d0
     do i = 1, n
-      l2 = l2 + a(i)*a(i)
-    enddo
-    l2 = dsqrt(l2)
-    if(l2 == 0.0d0)then
-      vec = 0.0d0
-      return
-    endif
-    vec = a/l2
-  end subroutine monolis_normalize_vector
-
-  subroutine monolis_get_l2_norm(n, a)
-    implicit none
-    integer(kint) :: i, n
-    real(kdouble) :: norm, a(n), l2
-
-    l2 = 0.0d0
-    do i = 1, n
-      l2 = l2 + a(i)*a(i)
+      l2 = l2 + v1(i)*v1(i)
     enddo
     norm = dsqrt(l2)
-  end subroutine monolis_get_l2_norm
-
+  end subroutine monolis_get_l2_norm_R
 end module mod_monolis_utils_std_algebra

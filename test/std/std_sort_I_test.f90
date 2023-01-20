@@ -1,6 +1,7 @@
 !> std sort test モジュール
 module mod_monolis_utils_std_sort_I_test
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_std_error
   use mod_monolis_utils_std_test
   use mod_monolis_utils_std_sort_I
   implicit none
@@ -22,6 +23,8 @@ contains
   subroutine monolis_qsort_I_1d_test()
     implicit none
     integer(kint) :: a(5), b(5)
+
+    call monolis_std_log_string("monolis_qsort_I_1d_test")
 
     !> case 1
     a(1) = 5
@@ -78,6 +81,8 @@ contains
   subroutine monolis_qsort_I_2d_test()
     implicit none
     integer(kint) :: a(5), b(5), c(5), d(5)
+
+    call monolis_std_log_string("monolis_qsort_I_2d_test")
 
     !> case 1
     a(1) = 5; b(1) = 50
@@ -138,6 +143,8 @@ contains
     implicit none
     integer(kint) :: a(5), idx
 
+    call monolis_std_log_string("monolis_bsearch_I_test")
+
     !> case 1
     a(1) = 10
     a(2) = 20
@@ -161,6 +168,8 @@ contains
   subroutine monolis_get_sequence_array_I_test()
     implicit none
     integer(kint) :: a(5), b(5)
+
+    call monolis_std_log_string("monolis_get_sequence_array_I_test")
 
     !> case 1
     call monolis_get_sequence_array_I(a, 5, 1, 1)
@@ -188,6 +197,8 @@ contains
   subroutine monolis_get_uniq_array_I_test()
     implicit none
     integer(kint) :: a(5), b(3), newlen
+
+    call monolis_std_log_string("monolis_get_uniq_array_I_test")
 
     !> case 1
     a(1) = 1
