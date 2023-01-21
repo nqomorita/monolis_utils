@@ -1,0 +1,24 @@
+image: hrektts/doxygen:latest
+
+stages:
+  - build
+  - deploy
+
+build_doxygen:
+  stage: build
+  script:
+    - cd manual
+    - doxygen
+  artifacts:
+    paths:
+      - manual
+
+pages:
+  stage: deploy
+  dependencies:
+    - build_doxygen
+  script:
+    - mv manual/html public
+  artifacts:
+    paths:
+      - public
