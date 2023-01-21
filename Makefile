@@ -63,6 +63,7 @@ SRC_STD = \
 std_test.f90 \
 std_error.f90 \
 std_sort_I.f90 \
+std_sort_R.f90 \
 std_algebra.f90 \
 std.f90
 
@@ -99,6 +100,7 @@ alloc_test.f90
 SRC_STD_TEST = \
 std_test_test.f90 \
 std_sort_I_test.f90 \
+std_sort_R_test.f90 \
 std_algebra_test.f90
 
 SRC_AABB_TEST = \

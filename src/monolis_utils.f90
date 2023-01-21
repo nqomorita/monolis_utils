@@ -22,6 +22,9 @@ end module mod_monolis_utils
 !> @defgroup aabb バウンディングボックス関数群
 !> バウンディングボックスに関連する関数グループ
 
+!> @defgroup kdtree k-d ツリー関数群
+!> k-d ツリーに関連する関数グループ
+
 !> @defgroup hash ハッシュ関数群
 !> ハッシュに関連する関数グループ
 
