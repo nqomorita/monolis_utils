@@ -1,6 +1,7 @@
 !> std ソートモジュール（実数型）
 module mod_monolis_utils_std_sort_R
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_alloc
   implicit none
 
 contains
@@ -202,4 +203,27 @@ contains
       array(i) = origin + (i - 1)*difference
     enddo
   end subroutine monolis_get_sequence_array_R
+
+  !> @ingroup std
+  !> 整数配列の置換
+  subroutine monolis_perm_array_R(array, perm, n)
+    implicit none
+    !> [in,out] 整数配列
+    real(kdouble), intent(inout) :: array(:)
+    !> [in] 置換ベクトル
+    integer(kint), intent(in) :: perm(:)
+    !> [in] ベクトルサイズ
+    integer(kint), intent(in) :: n
+    integer(kint) :: i, in
+    real(kdouble), allocatable :: temp(:)
+
+    call monolis_alloc_R_1d(temp, n)
+
+    temp = array
+
+    do i = 1, n
+      in = perm(i)
+      array(i) = temp(in)
+    enddo
+  end subroutine monolis_perm_array_R
 end module mod_monolis_utils_std_sort_R

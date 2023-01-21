@@ -1,7 +1,7 @@
 !> std test テストモジュール
 module mod_monolis_utils_std_test_test
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std_error
+  use mod_monolis_utils_error
   use mod_monolis_utils_std_test
   implicit none
 

@@ -1,7 +1,7 @@
 !> std sort テストモジュール
 module mod_monolis_utils_std_sort_I_test
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std_error
+  use mod_monolis_utils_error
   use mod_monolis_utils_std_test
   use mod_monolis_utils_std_sort_I
   implicit none
@@ -17,6 +17,7 @@ contains
     call monolis_bsearch_I_test()
     call monolis_get_sequence_array_I_test()
     call monolis_get_uniq_array_I_test()
+    call monolis_perm_array_I_test()
   end subroutine monolis_utils_std_sort_I_test
 
   !> unit test
@@ -216,4 +217,34 @@ contains
     call monolis_test_check_eq_I ("monolis_bsearch_I_test case 1", a(1:3), b)
     call monolis_test_check_eq_I1("monolis_bsearch_I_test case 1", newlen, 3)
   end subroutine monolis_get_uniq_array_I_test
+
+  subroutine monolis_perm_array_I_test()
+    implicit none
+    integer(kint) :: perm(5), a(5), b(5)
+
+    call monolis_std_log_string("monolis_perm_array_I_test")
+
+    a(1) = 1
+    a(2) = 2
+    a(3) = 3
+    a(4) = 4
+    a(5) = 5
+
+    perm(1) = 5
+    perm(2) = 4
+    perm(3) = 3
+    perm(4) = 2
+    perm(5) = 1
+
+    call monolis_perm_array_I(a, perm, 5)
+
+    b(1) = 5
+    b(2) = 4
+    b(3) = 3
+    b(4) = 2
+    b(5) = 1
+
+    call monolis_test_check_eq_I("monolis_perm_array_I_test case 1", a, b)
+  end subroutine monolis_perm_array_I_test
+
 end module mod_monolis_utils_std_sort_I_test

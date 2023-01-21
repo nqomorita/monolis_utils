@@ -1,7 +1,7 @@
 !> ハッシュテストモジュール
 module mod_monolis_utils_hash_test
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std_error
+  use mod_monolis_utils_error
   use mod_monolis_utils_std_test
   use mod_monolis_utils_hash
   implicit none

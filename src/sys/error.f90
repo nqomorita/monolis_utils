@@ -1,5 +1,5 @@
 !> std エラーモジュール
-module mod_monolis_utils_std_error
+module mod_monolis_utils_error
   use mod_monolis_utils_define_prm
   implicit none
 
@@ -38,4 +38,4 @@ contains
     character(*) :: string
     write(*,"(a,a)")"** MONOLIS WARNING: ", trim(string)
   end subroutine monolis_std_warning_string
-end module mod_monolis_utils_std_error
+end module mod_monolis_utils_error

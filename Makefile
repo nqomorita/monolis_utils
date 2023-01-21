@@ -57,11 +57,11 @@ SRC_DEFINE = \
 def_prm.f90
 
 SRC_ALLOC = \
+error.f90 \
 alloc.f90
 
 SRC_STD = \
 std_test.f90 \
-std_error.f90 \
 std_sort_I.f90 \
 std_sort_R.f90 \
 std_algebra.f90 \
@@ -78,8 +78,8 @@ shape_C2D3.f90
 
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
+$(addprefix sys/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
-$(addprefix alloc/, $(SRC_ALLOC)) \
 $(addprefix kdtree/, $(SRC_AABB)) \
 $(addprefix hash/, $(SRC_HASH)) \
 monolis_utils.f90
@@ -110,7 +110,7 @@ SRC_HASH_TEST = \
 hash_test.f90
 
 SRC_TEST_ALL = \
-$(addprefix alloc/, $(SRC_ALLOC_TEST)) \
+$(addprefix sys/, $(SRC_ALLOC_TEST)) \
 $(addprefix std/, $(SRC_STD_TEST)) \
 $(addprefix kdtree/, $(SRC_AABB_TEST)) \
 $(addprefix hash/, $(SRC_HASH_TEST)) \

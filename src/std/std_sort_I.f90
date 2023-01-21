@@ -1,6 +1,7 @@
 !> std ソートモジュール（整数型）
 module mod_monolis_utils_std_sort_I
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_alloc
   implicit none
 
 contains
@@ -174,4 +175,27 @@ contains
     end do
     newlen = len - ndup
   end subroutine monolis_get_uniq_array_I
+
+  !> @ingroup std
+  !> 整数配列の置換
+  subroutine monolis_perm_array_I(array, perm, n)
+    implicit none
+    !> [in,out] 整数配列
+    integer(kint), intent(inout) :: array(:)
+    !> [in] 置換ベクトル
+    integer(kint), intent(in) :: perm(:)
+    !> [in] ベクトルサイズ
+    integer(kint), intent(in) :: n
+    integer(kint) :: i, in
+    integer(kint), allocatable :: temp(:)
+
+    call monolis_alloc_I_1d(temp, n)
+
+    temp = array
+
+    do i = 1, n
+      in = perm(i)
+      array(i) = temp(in)
+    enddo
+  end subroutine monolis_perm_array_I
 end module mod_monolis_utils_std_sort_I

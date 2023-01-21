@@ -1,7 +1,7 @@
 !> std ソートテストモジュール
 module mod_monolis_utils_std_sort_R_test
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std_error
+  use mod_monolis_utils_error
   use mod_monolis_utils_std_test
   use mod_monolis_utils_std_sort_R
   implicit none
@@ -17,6 +17,7 @@ contains
     call monolis_qsort_R_2d_test()
     call monolis_bsearch_R_test()
     call monolis_get_sequence_array_R_test()
+    call monolis_perm_array_R_test()
   end subroutine monolis_utils_std_sort_R_test
 
   !> unit test
@@ -256,4 +257,34 @@ contains
 
     call monolis_test_check_eq_R("monolis_get_sequence_array_R_test case 2", a, b)
   end subroutine monolis_get_sequence_array_R_test
+
+  subroutine monolis_perm_array_R_test()
+    implicit none
+    integer(kint) :: perm(5)
+    real(kdouble) :: a(5), b(5)
+
+    call monolis_std_log_string("monolis_perm_array_R_test")
+
+    a(1) = 1.0d0
+    a(2) = 2.0d0
+    a(3) = 3.0d0
+    a(4) = 4.0d0
+    a(5) = 5.0d0
+
+    perm(1) = 5
+    perm(2) = 4
+    perm(3) = 3
+    perm(4) = 2
+    perm(5) = 1
+
+    call monolis_perm_array_R(a, perm, 5)
+
+    b(1) = 5.0d0
+    b(2) = 4.0d0
+    b(3) = 3.0d0
+    b(4) = 2.0d0
+    b(5) = 1.0d0
+
+    call monolis_test_check_eq_R("monolis_perm_array_R_test case 1", a, b)
+  end subroutine monolis_perm_array_R_test
 end module mod_monolis_utils_std_sort_R_test
