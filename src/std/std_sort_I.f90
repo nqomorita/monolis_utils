@@ -1,4 +1,4 @@
-!> std sort モジュール
+!> std ソートモジュール
 module mod_monolis_utils_std_sort_I
   use mod_monolis_utils_define_prm
   implicit none

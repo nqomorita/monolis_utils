@@ -12,7 +12,7 @@ module mod_monolis_utils_define_prm
   !> monolis ライブラリにおける異常処理フラグ
   integer(kint), parameter :: monolis_fail = 1
   !> monolis ライブラリにおける文字列長さ
-  integer(kint), parameter :: monolis_charlen = 1024
+  integer(kint), parameter :: monolis_charlen = 256
 
   !> monolis ライブラリにおけるテスト機能の一致判定閾値
   real(kdouble), parameter :: monolis_test_ths = 1.0d-8

@@ -1,4 +1,4 @@
-!> std algebra test モジュール
+!> std algebra テストモジュール
 module mod_monolis_utils_std_algebra_test
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_error

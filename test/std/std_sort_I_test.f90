@@ -1,4 +1,4 @@
-!> std sort test モジュール
+!> std sort テストモジュール
 module mod_monolis_utils_std_sort_I_test
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_error
