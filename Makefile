@@ -79,7 +79,7 @@ SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix alloc/, $(SRC_ALLOC)) \
-$(addprefix aabb/, $(SRC_AABB)) \
+$(addprefix kdtree/, $(SRC_AABB)) \
 $(addprefix hash/, $(SRC_HASH)) \
 monolis_utils.f90
 
@@ -110,7 +110,7 @@ hash_test.f90
 SRC_TEST_ALL = \
 $(addprefix alloc/, $(SRC_ALLOC_TEST)) \
 $(addprefix std/, $(SRC_STD_TEST)) \
-$(addprefix aabb/, $(SRC_AABB_TEST)) \
+$(addprefix kdtree/, $(SRC_AABB_TEST)) \
 $(addprefix hash/, $(SRC_HASH_TEST)) \
 test.f90
 
