@@ -1,4 +1,4 @@
-!> parameter モジュール
+!> パラメータモジュール
 module mod_monolis_utils_define_prm
   implicit none
 

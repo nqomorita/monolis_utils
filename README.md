@@ -4,7 +4,7 @@
 
 ## manual
 
-- TBA
+- [doxygen manual](https://morita.gitlab.io/monolis_utils/)
 
 ## license
 

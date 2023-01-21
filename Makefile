@@ -66,6 +66,9 @@ std_sort_I.f90 \
 std_algebra.f90 \
 std.f90
 
+SRC_AABB = \
+aabb.f90
+
 SRC_HASH = \
 hash.f90
 
@@ -76,6 +79,7 @@ SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix alloc/, $(SRC_ALLOC)) \
+$(addprefix aabb/, $(SRC_AABB)) \
 $(addprefix hash/, $(SRC_HASH)) \
 monolis_utils.f90
 
@@ -97,12 +101,16 @@ std_test_test.f90 \
 std_sort_I_test.f90 \
 std_algebra_test.f90
 
+SRC_AABB_TEST = \
+aabb_test.f90
+
 SRC_HASH_TEST = \
 hash_test.f90
 
 SRC_TEST_ALL = \
 $(addprefix alloc/, $(SRC_ALLOC_TEST)) \
 $(addprefix std/, $(SRC_STD_TEST)) \
+$(addprefix aabb/, $(SRC_AABB_TEST)) \
 $(addprefix hash/, $(SRC_HASH_TEST)) \
 test.f90
 

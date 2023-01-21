@@ -1,4 +1,4 @@
-!> std error モジュール
+!> std エラーモジュール
 module mod_monolis_utils_std_error
   use mod_monolis_utils_define_prm
   implicit none

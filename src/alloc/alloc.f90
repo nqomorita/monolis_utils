@@ -235,6 +235,7 @@ contains
     endif
   end subroutine monolis_alloc_R_2d
 
+  !> @ingroup alloc
   !> 2 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_R_2d(var)
     implicit none
@@ -329,6 +330,7 @@ contains
     endif
   end subroutine monolis_alloc_C_2d
 
+  !> @ingroup alloc
   !> 2 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_C_2d(var)
     implicit none

@@ -19,6 +19,9 @@ end module mod_monolis_utils
 !> @defgroup alloc メモリ確保関数群
 !> メモリ確保・メモリ開放に関連する関数グループ
 
+!> @defgroup aabb バウンディングボックス関数群
+!> バウンディングボックスに関連する関数グループ
+
 !> @defgroup hash ハッシュ関数群
 !> ハッシュに関連する関数グループ
 
@@ -27,6 +30,9 @@ end module mod_monolis_utils
 
 !> @defgroup dev_test 開発者用：テスト関数群
 !> テストに関連する関数グループ（開発者用）
+
+!> @defgroup dev_aabb 開発者用：バウンディングボックス関数群
+!> バウンディングボックスに関連する関数グループ（開発者用）
 
 !> @defgroup dev_hash 開発者用：ハッシュ関数群
 !> ハッシュに関連する関数グループ（開発者用）

@@ -1,4 +1,4 @@
-!> std test モジュール
+!> std テストモジュール
 module mod_monolis_utils_std_test
   use mod_monolis_utils_define_prm
   implicit none
