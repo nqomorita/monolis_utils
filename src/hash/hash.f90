@@ -1,0 +1,339 @@
+!> ハッシュモジュール
+module mod_monolis_utils_hash
+  use mod_monolis_utils_define_prm
+  use mod_monolis_utils_std_error
+  implicit none
+
+  private
+
+  public :: monolis_hash_structure
+  public :: monolis_hash_init
+  public :: monolis_hash_finalize
+  public :: monolis_hash_get
+  public :: monolis_hash_push
+  public :: monolis_hash_get_key_I
+
+  !> デフォルトハッシュサイズ id
+  integer(kint), parameter :: monolis_init_hash_size_id = 5
+
+  !> ハッシュサイズの定義
+  integer(kint), parameter :: monolis_hash_size(22) = (/&
+  &       1021,       2039,      4093,      8191,     16381, &
+  &      32749,      65521,    131071,    262139,    524287, &
+  &    1048573,    2097143,   4194301,   8388593,  16777213, &
+  &   33554393,   67108859, 134217689, 268435399, 536870909, &
+  & 1073741789, 2147483647/)
+
+  !> リスト構造体
+  type type_monolis_hash_list
+    !> ハッシュ
+    integer(kint) :: hash = 0
+    !> 登録値
+    integer(kint) :: val  = 0
+    !> キー
+    character(:), allocatable :: key
+  end type type_monolis_hash_list
+
+  !> ビン構造体
+  type type_monolis_hash_bin
+    !> リストサイズ
+    integer(kint) :: n = 0
+    !> リスト配列
+    type(type_monolis_hash_list), pointer :: list(:)
+  end type type_monolis_hash_bin
+
+  !> ハッシュ構造体
+  type monolis_hash_structure
+    !> ハッシュサイズ id
+    integer(kint) :: hash_size_id = 1
+    !> キーサイズ
+    integer(kint) :: key_size = 1
+    !> 登録データ数
+    integer(kint) :: n_put = 0
+    !> ビン配列
+    type(type_monolis_hash_bin), pointer :: bin(:)
+  end type monolis_hash_structure
+
+contains
+
+  !> @ingroup hash
+  !> ハッシュ構造体の初期化関数
+  subroutine monolis_hash_init(monolis_hash, key_size)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    !> キーサイズ
+    integer(kint) :: key_size
+    type(type_monolis_hash_bin), pointer :: bin(:)
+    integer(kint) :: hash_size
+
+    monolis_hash%n_put = 0
+    monolis_hash%key_size = key_size
+    monolis_hash%hash_size_id = monolis_init_hash_size_id
+
+    hash_size = monolis_hash_size(monolis_hash%hash_size_id)
+    allocate(bin(hash_size))
+    monolis_hash%bin => bin
+
+    nullify(bin)
+  end subroutine monolis_hash_init
+
+  !> @ingroup hash
+  !> ハッシュ構造体の終了関数
+  subroutine monolis_hash_finalize(monolis_hash)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    type(type_monolis_hash_list), pointer :: list(:)
+    integer(kint) :: i, j, hash_size
+
+    hash_size = monolis_hash_size(monolis_hash%hash_size_id)
+    do i = 1, hash_size
+      if(0 < monolis_hash%bin(i)%n)then
+        list => monolis_hash%bin(i)%list
+        do j = 1, monolis_hash%bin(i)%n
+          deallocate(list(j)%key)
+        enddo
+        deallocate(monolis_hash%bin(i)%list)
+      endif
+    enddo
+
+    deallocate(monolis_hash%bin)
+    nullify(list)
+  end subroutine monolis_hash_finalize
+
+  !> @ingroup hash
+  !> 整数値からキーを取得
+  subroutine monolis_hash_get_key_I(key_size, i, key)
+    implicit none
+    !> キーサイズ
+    integer(kint) :: key_size
+    !> メモリ確保モジュール
+    integer(kint) :: i
+    !> キー
+    character(*) :: key
+    character(monolis_charlen) :: ctmp
+    character(monolis_charlen) :: cstyle
+
+    if(key_size < len(key))then
+      call monolis_std_error_string("monolis_hash_get_key_I")
+      call monolis_std_error_string("input key_size is larger than actural key length")
+      call monolis_std_error_stop()
+    endif
+
+    write(cstyle,"(a,i0,a,i0,a)")'(i', key_size, ".", key_size, ')'
+    write(ctmp,trim(cstyle)) i
+    key = ctmp(1:key_size)
+  end subroutine monolis_hash_get_key_I
+
+  !> @ingroup hash
+  !> キーから登録値の取得
+  subroutine monolis_hash_get(monolis_hash, key, val, is_exist)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    !> キー
+    character(*) :: key
+    !> 取得値
+    integer(kint) :: val
+    !> データ取得フラグ
+    logical :: is_exist
+    integer(kint) :: hash
+
+    val = 0
+    is_exist = .false.
+    call monolis_hash_key(key, monolis_hash%key_size, hash)
+    call monolis_hash_list_get(monolis_hash, key, hash, val, is_exist)
+  end subroutine monolis_hash_get
+
+  !> @ingroup hash
+  !> ハッシュ構造体へ値の登録
+  subroutine monolis_hash_push(monolis_hash, key, val, is_pushed, is_exist)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    !> キー
+    character(*) :: key
+    !> 入力値
+    integer(kint) :: val
+    !> キーの登録フラグ（キーを登録可能：.true.、キーの存在）
+    logical :: is_pushed
+    !> キーの存在フラグ（キーを登録可能：.true.、キーの存在）
+    logical :: is_exist
+    integer(kint) :: hash, tmp
+
+    is_pushed = .false.
+    is_exist  = .false.
+
+    if(0.75d0*dble(monolis_hash_size(monolis_hash%hash_size_id)) < dble(monolis_hash%n_put))then
+      call monolis_hash_resize(monolis_hash)
+    endif
+
+    call monolis_hash_key(key, monolis_hash%key_size, hash)
+    call monolis_hash_list_get(monolis_hash, key, hash, tmp, is_exist)
+
+    if(.not. is_exist)then
+      call monolis_hash_list_push(monolis_hash, key, hash, val)
+      monolis_hash%n_put = monolis_hash%n_put + 1
+      is_pushed = .true.
+    else
+      call monolis_hash_list_update(monolis_hash, key, hash, val)
+      is_pushed = .true.
+    endif
+  end subroutine monolis_hash_push
+
+  !> @ingroup dev_hash
+  !> ハッシュのリサイズ
+  subroutine monolis_hash_resize(monolis_hash)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    integer(kint) :: i, j, hash, val
+    integer(kint) :: new_size, old_size
+    type(type_monolis_hash_bin), pointer :: new_bin(:), old_bin(:), temp_bin
+    type(type_monolis_hash_list), pointer :: list(:)
+    character(:), allocatable :: key
+
+    old_size = monolis_hash_size(monolis_hash%hash_size_id)
+    if(monolis_hash%hash_size_id < 22)then
+      monolis_hash%hash_size_id = monolis_hash%hash_size_id + 1
+    endif
+    new_size = monolis_hash_size(monolis_hash%hash_size_id)
+
+    allocate(new_bin(new_size))
+    old_bin => monolis_hash%bin
+    monolis_hash%bin => new_bin
+
+    do i = 1, old_size
+      temp_bin => old_bin(i)
+      temp_bin%list => old_bin(i)%list
+      do j = 1, old_bin(i)%n
+        hash = temp_bin%list(j)%hash
+        key  = temp_bin%list(j)%key
+        val  = temp_bin%list(j)%val
+        call monolis_hash_list_push(monolis_hash, key, hash, val)
+      enddo
+    enddo
+
+    do i = 1, old_size
+      list => old_bin(i)%list
+      if(associated(list)) deallocate(list)
+    enddo
+
+    deallocate(old_bin)
+    nullify(temp_bin)
+    nullify(old_bin)
+    nullify(new_bin)
+  end subroutine monolis_hash_resize
+
+  !> @ingroup dev_hash
+  !> キーから登録値の取得（メイン関数）
+  subroutine monolis_hash_list_get(monolis_hash, key, hash, val, is_exist)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    integer(kint) :: n, i
+    integer(kint) :: idx, hash, val, hash_size
+    character(*) :: key
+    logical :: is_exist
+
+    is_exist = .false.
+    hash_size = monolis_hash_size(monolis_hash%hash_size_id)
+    call monolis_index_key(hash, hash_size, idx)
+    n = monolis_hash%bin(idx)%n
+    do i = 1, n
+      if(monolis_hash%bin(idx)%list(i)%key == key)then
+        val = monolis_hash%bin(idx)%list(i)%val
+        is_exist = .true.
+        return
+      endif
+    enddo
+  end subroutine monolis_hash_list_get
+
+  !> @ingroup dev_hash
+  !> ハッシュ構造体へ値の登録（メイン関数）
+  subroutine monolis_hash_list_push(monolis_hash, key, hash, val)
+    implicit none
+    !> ハッシュ構造体
+    type(monolis_hash_structure) :: monolis_hash
+    integer(kint) :: i, iold, inew
+    integer(kint) :: index, hash, val, hash_size
+    character(*) :: key
+    type(type_monolis_hash_list), pointer :: old_list(:), new_list(:)
+
+    hash_size = monolis_hash_size(monolis_hash%hash_size_id)
+    call monolis_index_key(hash, hash_size, index)
+    iold = monolis_hash%bin(index)%n
+    old_list => monolis_hash%bin(index)%list
+
+    inew = iold + 1
+    allocate(new_list(inew))
+    do i = 1, iold
+      new_list(i)%hash = old_list(i)%hash
+      new_list(i)%key  = old_list(i)%key
+      new_list(i)%val  = old_list(i)%val
+    enddo
+
+    new_list(inew)%hash = hash
+    new_list(inew)%key  = key
+    new_list(inew)%val  = val
+
+    monolis_hash%bin(index)%n = inew
+    monolis_hash%bin(index)%list => new_list
+    if(associated(old_list)) deallocate(old_list)
+    nullify(old_list)
+    nullify(new_list)
+  end subroutine monolis_hash_list_push
+
+  !> @ingroup dev_hash
+  !> ハッシュの登録値の更新
+  subroutine monolis_hash_list_update(monolis_hash, key, hash, val)
+    implicit none
+    !> メモリ確保モジュール
+    type(monolis_hash_structure) :: monolis_hash
+    !> メモリ確保モジュール
+    character(*) :: key
+    !> メモリ確保モジュール
+    integer(kint) :: hash
+    !> 戻り値
+    integer(kint) :: val
+    integer(kint) :: i, n
+    integer(kint) :: index, hash_size
+
+    hash_size = monolis_hash_size(monolis_hash%hash_size_id)
+    call monolis_index_key(hash, hash_size, index)
+
+    n = monolis_hash%bin(index)%n
+    do i = 1, n
+      if(monolis_hash%bin(index)%list(i)%key == key)then
+        monolis_hash%bin(index)%list(i)%val = val
+      endif
+    enddo
+  end subroutine monolis_hash_list_update
+
+  !> @ingroup dev_hash
+  !> BJD2 hash function
+  subroutine monolis_hash_key(key, key_size, hash)
+    implicit none
+    !> キー
+    character(*) :: key
+    !> キーサイズ
+    integer(kint) :: key_size
+    !> ハッシュ
+    integer(kint) :: hash, i, t
+    hash = 5381
+    do i = 1, key_size
+      t = mod(hash*33, 65536_4)
+      hash = mod(t + iachar(key(i:i)), 65536_4)
+    enddo
+  end subroutine monolis_hash_key
+
+  !> @ingroup dev_hash
+  !> ハッシュインデックス取得
+  subroutine monolis_index_key(hash, hash_size, index)
+    implicit none
+    !> メモリ確保モジュール
+    integer(kint) :: hash, index, hash_size
+    index = mod(hash, hash_size) + 1
+  end subroutine monolis_index_key
+end module mod_monolis_utils_hash
