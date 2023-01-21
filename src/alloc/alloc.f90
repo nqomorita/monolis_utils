@@ -11,10 +11,10 @@ contains
   !> @details 初期値 0 でメモリ確保がなされる。
   subroutine monolis_alloc_I_1d(var, i)
     implicit none
-    !> [in] メモリ確保する配列
-    integer(kint), allocatable :: var(:)
+    !> [out] メモリ確保する配列
+    integer(kint), intent(out), allocatable :: var(:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -58,10 +58,10 @@ contains
   !> @details 再確保で増えた配列部分は初期値 0 でメモリ確保がなされる。
   subroutine monolis_realloc_I_1d(var, i)
     implicit none
-    !> [in] メモリ確保する配列
+    !> [in,out] メモリ確保する配列
     integer(kint), allocatable :: var(:)
     !> [in] 再確保後の配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     integer(kint), allocatable :: temp(:)
     integer(kint) :: j, iold
 
@@ -92,9 +92,9 @@ contains
     !> [in,out] 元の配列
     integer(kint), allocatable :: var(:)
     !> [in] 追加する配列サイズ
-    integer(kint) :: n_add
+    integer(kint), intent(in) :: n_add
     !> [in] 追加する配列
-    integer(kint) :: var_add(:)
+    integer(kint), intent(in) :: var_add(:)
     integer(kint) :: n_all, n_old, i
 
     if(.not. allocated(var))then
@@ -114,15 +114,15 @@ contains
 
   !> @ingroup alloc
   !> 2 次元整数配列のメモリ確保
-  !> @details 配列サイズは var(i,j) として確保される。
+  !> @details 配列サイズは var(i, j) として確保される。
   subroutine monolis_alloc_I_2d(var, i, j)
     implicit none
-    !> [in] メモリ確保する配列
-    integer(kint), allocatable :: var(:,:)
+    !> [out] メモリ確保する配列（サイズ [i, j]）
+    integer(kint), intent(out), allocatable :: var(:,:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     !> [in] 配列サイズ
-    integer(kint) :: j
+    integer(kint), intent(in) :: j
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -165,10 +165,10 @@ contains
   !> 1 次元浮動小数点配列のメモリ確保
   subroutine monolis_alloc_R_1d(var, i)
     implicit none
-    !> [in] メモリ確保する配列
-    real(kdouble), allocatable :: var(:)
+    !> [out] メモリ確保する配列
+    real(kdouble), intent(out), allocatable :: var(:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -209,15 +209,15 @@ contains
 
   !> @ingroup alloc
   !> 2 次元浮動小数点配列のメモリ確保
-  !> @details 配列サイズは var(i,j) として確保される。
+  !> @details 配列サイズは var(i, j) として確保される。
   subroutine monolis_alloc_R_2d(var, i, j)
     implicit none
-    !> [in] メモリ確保する配列
-    real(kdouble), allocatable :: var(:,:)
+    !> [out] メモリ確保する配列（サイズ [i, j]）
+    real(kdouble), intent(out), allocatable :: var(:,:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     !> [in] 配列サイズ
-    integer(kint) :: j
+    integer(kint), intent(in) :: j
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -259,10 +259,10 @@ contains
   !> 1 次元複素数型配列のメモリ確保
   subroutine monolis_alloc_C_1d(var, i)
     implicit none
-    !> [in] メモリ確保する配列
-    complex(kdouble), allocatable :: var(:)
+    !> [out] メモリ確保する配列
+    complex(kdouble), intent(out), allocatable :: var(:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -303,15 +303,15 @@ contains
 
   !> @ingroup alloc
   !> 2 次元浮動小数点配列のメモリ確保
-  !> @details 配列サイズは var(i,j) として確保される。
+  !> @details 配列サイズは var(i, j) として確保される。
   subroutine monolis_alloc_C_2d(var, i, j)
     implicit none
-    !> [in] メモリ確保する配列
-    complex(kdouble), allocatable :: var(:,:)
+    !> [out] メモリ確保する配列（サイズ [i, j]）
+    complex(kdouble), intent(out), allocatable :: var(:,:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     !> [in] 配列サイズ
-    integer(kint) :: j
+    integer(kint), intent(in) :: j
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -353,10 +353,10 @@ contains
   !> 1 次元論理型配列のメモリ確保
   subroutine monolis_alloc_L_1d(var, i)
     implicit none
-    !> [in] メモリ確保する配列
-    logical, allocatable :: var(:)
+    !> [out] メモリ確保する配列
+    logical, intent(out), allocatable :: var(:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     integer(kint) :: ierr
 
     if(allocated(var))then
@@ -397,15 +397,15 @@ contains
 
   !> @ingroup alloc
   !> 2 次元論理型配列のメモリ確保
-  !> @details 配列サイズは var(i,j) として確保される。
+  !> @details 配列サイズは var(i, j) として確保される。
   subroutine monolis_alloc_L_2d(var, i, j)
     implicit none
-    !> [in] メモリ確保する配列
-    logical, allocatable :: var(:,:)
+    !> [out] メモリ確保する配列（サイズ [i, j]）
+    logical, intent(out), allocatable :: var(:,:)
     !> [in] 配列サイズ
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     !> [in] 配列サイズ
-    integer(kint) :: j
+    integer(kint), intent(in) :: j
     integer(kint) :: ierr
 
     if(allocated(var))then

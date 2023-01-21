@@ -13,7 +13,7 @@ contains
     integer(kint), intent(in) :: a
     !> [in] 入力配列 b
     integer(kint), intent(in) :: b
-    !> [out] 一致判定
+    !> [out] 一致判定（一致していれば .ture.）
     logical :: is_eq
 
     if(a - b /= 0)then
@@ -31,7 +31,7 @@ contains
     real(kdouble), intent(in) :: a
     !> [in] 入力配列 b
     real(kdouble), intent(in) :: b
-    !> [out] 一致判定
+    !> [out] 一致判定（一致していれば .ture.）
     logical :: is_eq
 
     if(abs(a) < 1.0d-20)then
@@ -55,7 +55,7 @@ contains
     complex(kdouble), intent(in) :: a
     !> [in] 入力配列 b
     complex(kdouble), intent(in) :: b
-    !> [out] 一致判定
+    !> [out] 一致判定（一致していれば .ture.）
     logical :: is_eq
 
     if(abs(real(a)) < 1.0d-20 .or. abs(dimag(a)) < 1.0d-20)then
@@ -80,7 +80,7 @@ contains
     logical, intent(in) :: a
     !> [in] 入力配列 b
     logical, intent(in) :: b
-    !> [out] 一致判定
+    !> [out] 一致判定（一致していれば .ture.）
     logical :: is_eq
 
     if(a .eqv. b)then

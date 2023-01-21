@@ -143,11 +143,11 @@ contains
   subroutine monolis_normalize_cross_product_R_3d(v1, v2, v3)
     implicit none
     !> [in] 入力ベクトル v1（サイズ [3]）
-    real(kdouble) :: v1(3)
+    real(kdouble), intent(in) :: v1(3)
     !> [in] 入力ベクトル v2（サイズ [3]）
-    real(kdouble) :: v2(3)
+    real(kdouble), intent(in) :: v2(3)
     !> [out] 出力ベクトル v3 = v1 x v2（サイズ [3]）
-    real(kdouble) :: v3(3)
+    real(kdouble), intent(out) :: v3(3)
     real(kdouble) :: s(3), vec(3)
 
     s = v1
@@ -163,11 +163,11 @@ contains
   subroutine monolis_cross_product_R_3d(v1, v2, v3)
     implicit none
     !> [in] 入力ベクトル v1（サイズ [3]）
-    real(kdouble) :: v1(3)
+    real(kdouble), intent(in) :: v1(3)
     !> [in] 入力ベクトル v2（サイズ [3]）
-    real(kdouble) :: v2(3)
+    real(kdouble), intent(in) :: v2(3)
     !> [out] 出力ベクトル v3 = v1 x v2（サイズ [3]）
-    real(kdouble) :: v3(3)
+    real(kdouble), intent(out) :: v3(3)
     real(kdouble) :: s(3)
 
     s = v1
@@ -181,11 +181,11 @@ contains
   subroutine monolis_normalize_vector_R(n, v1, v2)
     implicit none
     !> [in] ベクトルのサイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 入力ベクトル（サイズ [n]）
-    real(kdouble) :: v1(n)
-    !> [in] 出力ベクトル（サイズ [n]）
-    real(kdouble) :: v2(n)
+    real(kdouble), intent(in) :: v1(n)
+    !> [out] 出力ベクトル（サイズ [n]）
+    real(kdouble), intent(out) :: v2(n)
     real(kdouble) :: norm
 
     call monolis_get_l2_norm_R(n, v1, norm)
@@ -203,11 +203,11 @@ contains
   subroutine monolis_get_l2_norm_R(n, v1, norm)
     implicit none
     !> [in] ベクトルのサイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 入力ベクトル（サイズ [n]）
-    real(kdouble) :: v1(n)
-    !> [in] 出力ノルム
-    real(kdouble) :: norm
+    real(kdouble), intent(in) :: v1(n)
+    !> [out] 出力ノルム
+    real(kdouble), intent(out) :: norm
     integer(kint) :: i
     real(kdouble) :: l2
 

@@ -62,8 +62,8 @@ contains
     implicit none
     !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
-    !> キーサイズ
-    integer(kint) :: key_size
+    !> [in] キーサイズ
+    integer(kint), intent(in) :: key_size
     type(type_monolis_hash_bin), pointer :: bin(:)
     integer(kint) :: hash_size
 
@@ -106,12 +106,12 @@ contains
   !> 整数値からキーを取得
   subroutine monolis_hash_get_key_I(key_size, i, key)
     implicit none
-    !> キーサイズ
-    integer(kint) :: key_size
-    !> メモリ確保モジュール
-    integer(kint) :: i
-    !> キー
-    character(*) :: key
+    !> [in] キーサイズ
+    integer(kint), intent(in) :: key_size
+    !> [in] 入力整数値
+    integer(kint), intent(in) :: i
+    !> [out] キー
+    character(*), intent(out) :: key
     character(monolis_charlen) :: ctmp
     character(monolis_charlen) :: cstyle
 
@@ -132,12 +132,12 @@ contains
     implicit none
     !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
-    !> キー
-    character(*) :: key
-    !> 取得値
-    integer(kint) :: val
-    !> データ取得フラグ
-    logical :: is_exist
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [out] 取得値
+    integer(kint), intent(out) :: val
+    !> [out] データ取得フラグ（正常にデータ取得：.true.）
+    logical, intent(out) :: is_exist
     integer(kint) :: hash
 
     val = 0
@@ -152,14 +152,14 @@ contains
     implicit none
     !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
-    !> キー
-    character(*) :: key
-    !> 入力値
-    integer(kint) :: val
-    !> キーの登録フラグ（キーを登録可能：.true.、キーの存在）
-    logical :: is_pushed
-    !> キーの存在フラグ（キーを登録可能：.true.、キーの存在）
-    logical :: is_exist
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [in] 入力値
+    integer(kint), intent(in) :: val
+    !> [out] キーの登録フラグ（正常に登録した場合：.true.）
+    logical, intent(out) :: is_pushed
+    !> [out] キーの存在フラグ（既に同じキーで登録済の場合：.true.）
+    logical, intent(out) :: is_exist
     integer(kint) :: hash, tmp
 
     is_pushed = .false.
@@ -232,10 +232,16 @@ contains
     implicit none
     !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [in] ハッシュ
+    integer(kint), intent(in) :: hash
+    !> [out] 取得値
+    integer(kint), intent(out) :: val
+    !> [out] データ取得フラグ（正常にデータ取得：.true.）
+    logical, intent(out) :: is_exist
     integer(kint) :: n, i
-    integer(kint) :: idx, hash, val, hash_size
-    character(*) :: key
-    logical :: is_exist
+    integer(kint) :: idx, hash_size
 
     is_exist = .false.
     hash_size = monolis_hash_size(monolis_hash%hash_size_id)
@@ -256,9 +262,14 @@ contains
     implicit none
     !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [in] ハッシュ
+    integer(kint), intent(in) :: hash
+    !> [in] 入力値
+    integer(kint), intent(in) :: val
     integer(kint) :: i, iold, inew
-    integer(kint) :: index, hash, val, hash_size
-    character(*) :: key
+    integer(kint) :: index, hash_size
     type(type_monolis_hash_list), pointer :: old_list(:), new_list(:)
 
     hash_size = monolis_hash_size(monolis_hash%hash_size_id)
@@ -289,14 +300,14 @@ contains
   !> ハッシュの登録値の更新
   subroutine monolis_hash_list_update(monolis_hash, key, hash, val)
     implicit none
-    !> メモリ確保モジュール
+    !> ハッシュ構造体
     type(monolis_hash_structure) :: monolis_hash
-    !> メモリ確保モジュール
-    character(*) :: key
-    !> メモリ確保モジュール
-    integer(kint) :: hash
-    !> 戻り値
-    integer(kint) :: val
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [in] ハッシュ
+    integer(kint), intent(in) :: hash
+    !> [in] 入力値
+    integer(kint), intent(in) :: val
     integer(kint) :: i, n
     integer(kint) :: index, hash_size
 
@@ -315,12 +326,14 @@ contains
   !> BJD2 hash function
   subroutine monolis_hash_key(key, key_size, hash)
     implicit none
-    !> キー
-    character(*) :: key
-    !> キーサイズ
-    integer(kint) :: key_size
-    !> ハッシュ
-    integer(kint) :: hash, i, t
+    !> [in] キー
+    character(*), intent(in) :: key
+    !> [in] キーサイズ
+    integer(kint), intent(in) :: key_size
+    !> [out] ハッシュ
+    integer(kint), intent(out) :: hash
+    integer(kint) :: i, t
+
     hash = 5381
     do i = 1, key_size
       t = mod(hash*33, 65536_4)
@@ -332,8 +345,13 @@ contains
   !> ハッシュインデックス取得
   subroutine monolis_index_key(hash, hash_size, index)
     implicit none
-    !> メモリ確保モジュール
-    integer(kint) :: hash, index, hash_size
+    !> [in] ハッシュ
+    integer(kint), intent(in) :: hash
+    !> [in] ハッシュサイズ
+    integer(kint), intent(in) :: hash_size
+    !> [out] インデックス
+    integer(kint), intent(out) :: index
+
     index = mod(hash, hash_size) + 1
   end subroutine monolis_index_key
 end module mod_monolis_utils_hash
