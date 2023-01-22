@@ -1,7 +1,7 @@
 !> monolis utils モジュール
 module mod_monolis_utils
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std
+  use mod_monolis_utils_stdlib
 end module mod_monolis_utils
 
 !> @defgroup io ファイル入出力関数群
@@ -36,6 +36,9 @@ end module mod_monolis_utils
 
 !> @defgroup dev_aabb 開発者用：バウンディングボックス関数群
 !> バウンディングボックスに関連する関数グループ（開発者用）
+
+!> @defgroup dev_kdtree 開発者用：k-d ツリー関数群
+!> k-d ツリーに関連する関数グループ（開発者用）
 
 !> @defgroup dev_hash 開発者用：ハッシュ関数群
 !> ハッシュに関連する関数グループ（開発者用）

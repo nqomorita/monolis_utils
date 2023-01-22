@@ -9,7 +9,7 @@ contains
 
   !> @ingroup aabb
   !> 座標の集合からバウンディングボックスを作成
-  subroutine monolis_get_aabb(coord, BB)
+  subroutine monolis_get_aabb_from_coodinates(coord, BB)
     implicit none
     !> [in] 座標の集合（[1,:] に x 座標、[2,:] に y 座標、[3,:] に z 座標を格納）
     real(kdouble), intent(in) :: coord(:,:)
@@ -22,7 +22,24 @@ contains
     BB(4) = maxval(coord(2,:))
     BB(5) = minval(coord(3,:))
     BB(6) = maxval(coord(3,:))
-  end subroutine monolis_get_aabb
+  end subroutine monolis_get_aabb_from_coodinates
+
+  !> @ingroup aabb
+  !> バウンディングボックスの集合からバウンディングボックスを作成
+  subroutine monolis_get_aabb_from_BB(BB_in, BB)
+    implicit none
+    !> [in] バウンディングボックスの集合（x_min, x_max, y_min, y_max, z_min, z_max の順に格納）
+    real(kdouble), intent(in) :: BB_in(:,:)
+    !> [out] バウンディングボックス（x_min, x_max, y_min, y_max, z_min, z_max の順に格納）
+    real(kdouble), intent(out) :: BB(6)
+
+    BB(1) = minval(BB_in(1,:))
+    BB(2) = maxval(BB_in(2,:))
+    BB(3) = minval(BB_in(3,:))
+    BB(4) = maxval(BB_in(4,:))
+    BB(5) = minval(BB_in(5,:))
+    BB(6) = maxval(BB_in(6,:))
+  end subroutine monolis_get_aabb_from_BB
 
   !> @ingroup aabb
   !> 座標がバウンディングボックスに含まれているか判定
