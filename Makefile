@@ -58,17 +58,19 @@ def_prm.f90
 
 SRC_ALLOC = \
 error.f90 \
-alloc.f90
+alloc.f90 \
+sys.f90
 
 SRC_STD = \
 std_test.f90 \
 std_sort_I.f90 \
 std_sort_R.f90 \
 std_algebra.f90 \
-std.f90
+stdlib.f90
 
-SRC_AABB = \
-aabb.f90
+SRC_KDTREE = \
+aabb.f90 \
+kdtree.f90
 
 SRC_HASH = \
 hash.f90
@@ -80,7 +82,7 @@ SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
-$(addprefix kdtree/, $(SRC_AABB)) \
+$(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
 monolis_utils.f90
 
@@ -93,33 +95,10 @@ LIB_OBJS    = $(LIB_OBJSt:.c=.o)
 ##> target (2)
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
-##> test file define
-SRC_ALLOC_TEST = \
-alloc_test.f90
-
-SRC_STD_TEST = \
-std_test_test.f90 \
-std_sort_I_test.f90 \
-std_sort_R_test.f90 \
-std_algebra_test.f90
-
-SRC_AABB_TEST = \
-aabb_test.f90
-
-SRC_HASH_TEST = \
-hash_test.f90
-
-SRC_TEST_ALL = \
-$(addprefix sys/, $(SRC_ALLOC_TEST)) \
-$(addprefix std/, $(SRC_STD_TEST)) \
-$(addprefix kdtree/, $(SRC_AABB_TEST)) \
-$(addprefix hash/, $(SRC_HASH_TEST)) \
-test.f90
-
 ##> lib objs
-TST_SOURCES = $(addprefix $(TST_DIR)/, $(SRC_TEST_ALL))
-TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=.o))
-TST_OBJS    = $(TST_OBJSt:.c=.o)
+TST_SOURCES = $(addprefix $(TST_DIR)/, $(SRC_ALL))
+TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
+TST_OBJS    = $(TST_OBJSt:.c=_test.o)
 
 ##> target
 all: $(LIB_TARGET) $(TEST_TARGET)
