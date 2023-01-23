@@ -78,12 +78,17 @@ hash.f90
 SRC_SHAPE = \
 shape_C2D3.f90
 
+SRC_MPI = \
+mpi_util.f90 \
+mpi.f90
+
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
+$(addprefix mpi/, $(SRC_MPI)) \
 monolis_utils.f90
 
 ##> lib objs
