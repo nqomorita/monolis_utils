@@ -1,11 +1,30 @@
-image: hrektts/doxygen:latest
+image: nqoki709/monolis_build:latest
 
 stages:
-  - build
+  - lib_build
+  - test
+  - doxy_build
   - deploy
 
-build_doxygen:
-  stage: build
+build_monolis:
+  stage: lib_build
+  script:
+    - make
+  artifacts:
+    paths:
+      - test
+
+test_monolis:
+  stage: test
+  script:
+    - cd test
+    - ./monolis_utils_test
+    - mpirun -np 2 ./monolis_utils_test
+  dependencies:
+    - build_monolis
+
+doxygen_monolis:
+  stage: doxy_build
   script:
     - cd manual
     - doxygen
@@ -16,7 +35,7 @@ build_doxygen:
 pages:
   stage: deploy
   dependencies:
-    - build_doxygen
+    - doxygen_monolis
   script:
     - mv manual/html public
   artifacts:

@@ -15,6 +15,8 @@ contains
     call monolis_allreduce_x1_test()
     call monolis_allreduce_x_test()
     call monolis_gather_test()
+    call monolis_allgather_test()
+    call monolis_send_recv_test()
   end subroutine monolis_mpi_test
 
   !> unit test
@@ -128,4 +130,25 @@ contains
     c_ans(2) = (6.0d0, 6.0d0)
     call monolis_test_check_eq_C("monolis_allreduce_C case 1", c, c_ans)
   end subroutine monolis_allreduce_x_test
+
+  subroutine monolis_gather_test()
+    implicit none
+    integer(kint) :: i(2), i_ans(2), comm
+    real(kdouble) :: r(2), r_ans(2)
+    complex(kdouble) :: c(2), c_ans(2)
+  end subroutine monolis_gather_test
+
+  subroutine monolis_allgather_test()
+    implicit none
+    integer(kint) :: i(2), i_ans(2), comm
+    real(kdouble) :: r(2), r_ans(2)
+    complex(kdouble) :: c(2), c_ans(2)
+  end subroutine monolis_allgather_test
+
+  subroutine monolis_send_recv_test()
+    implicit none
+    integer(kint) :: i(2), i_ans(2), comm
+    real(kdouble) :: r(2), r_ans(2)
+    complex(kdouble) :: c(2), c_ans(2)
+  end subroutine monolis_send_recv_test
 end module mod_monolis_mpi_test
