@@ -2,6 +2,7 @@
 module mod_monolis_mpi
   use mod_monolis_utils_define_prm
   use mod_monolis_mpi_util
+  use mod_monolis_utils_alloc
   implicit none
 
   !> MPI 演算タグ（和）
@@ -36,6 +37,7 @@ contains
     elseif(tag == monolis_mpi_min)then
       call MPI_allreduce(in, out, n, MPI_INTEGER, MPI_MIN, comm, ierr)
     endif
+    val = out(1)
 #endif
   end subroutine monolis_allreduce_I1
 
@@ -127,7 +129,7 @@ contains
   subroutine monolis_allreduce_C1(val, tag, comm)
     implicit none
     !> [in,out] 入出力値（浮動小数点型）
-    real(kdouble) :: val
+    complex(kdouble) :: val
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
