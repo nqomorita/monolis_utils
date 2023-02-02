@@ -495,9 +495,9 @@ contains
     integer(kint) :: sval(:)
     !> [out] 受信データ
     integer(kint) :: rbuf(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ長さ
     integer(kint) :: counts(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ開始位置
     integer(kint) :: displs(:)
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -539,9 +539,9 @@ contains
     real(kdouble) :: sval(:)
     !> [out] 受信データ
     real(kdouble) :: rbuf(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ長さ
     integer(kint) :: counts(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ開始位置
     integer(kint) :: displs(:)
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -583,9 +583,9 @@ contains
     complex(kdouble) :: sval(:)
     !> [out] 受信データ
     complex(kdouble) :: rbuf(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ長さ
     integer(kint) :: counts(:)
-    !> [in] 送信データ
+    !> [in] プロセスごとの送信データ開始位置
     integer(kint) :: displs(:)
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -638,8 +638,8 @@ contains
     ns = send_index(send_n_neib + 1)
     nr = recv_index(recv_n_neib + 1)
 
-    allocate(ws(ndof*ns))
-    allocate(wr(ndof*nr))
+    call monolis_alloc_R_1d(ws, ndof*ns)
+    call monolis_alloc_R_1d(wr, ndof*nr)
 
     do i = 1, send_n_neib
       iS = send_index(i)
@@ -716,8 +716,8 @@ contains
     ns = send_index(send_n_neib + 1)
     nr = recv_index(recv_n_neib + 1)
 
-    allocate(ws(ndof*ns))
-    allocate(wr(ndof*nr))
+    call monolis_alloc_I_1d(ws, ndof*ns)
+    call monolis_alloc_I_1d(wr, ndof*nr)
 
     do i = 1, send_n_neib
       iS = send_index(i)
@@ -777,7 +777,7 @@ contains
     !> [in] recv の item 配列（受信する節点番号データ）
     integer(kint) :: recv_item (:)
     !> [in] 送信データ配列
-    real(kdouble) :: val(:)
+    complex(kdouble) :: val(:)
     !> [in] 節点番号の自由度数
     integer(kint) :: ndof
     !> [in] MPI コミュニケータ
@@ -787,15 +787,15 @@ contains
     integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
     integer(kint) :: req1(send_n_neib)
     integer(kint) :: req2(recv_n_neib)
-    real(kdouble), allocatable :: ws(:)
-    real(kdouble), allocatable :: wr(:)
+    complex(kdouble), allocatable :: ws(:)
+    complex(kdouble), allocatable :: wr(:)
 
 #ifndef NO_MPI
     ns = send_index(send_n_neib + 1)
     nr = recv_index(recv_n_neib + 1)
 
-    allocate(ws(ndof*ns))
-    allocate(wr(ndof*nr))
+    call monolis_alloc_C_1d(ws, ndof*ns)
+    call monolis_alloc_C_1d(wr, ndof*nr)
 
     do i = 1, send_n_neib
       iS = send_index(i)
@@ -806,14 +806,14 @@ contains
           ws(ndof*(j - 1) + k) = val(ndof*(send_item(j) - 1) + k)
         enddo
       enddo
-      call monolis_Isend_R(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
+      call monolis_Isend_C(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
     enddo
 
     do i = 1, recv_n_neib
       iS = recv_index(i)
       in = recv_index(i + 1) - iS
       if(in == 0) cycle
-      call monolis_Irecv_R(ndof*in, wr(ndof*iS + 1:ndof*iS + ndof*in), recv_neib_pe(i), comm, req2(i))
+      call monolis_Irecv_C(ndof*in, wr(ndof*iS + 1:ndof*iS + ndof*in), recv_neib_pe(i), comm, req2(i))
     enddo
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
