@@ -340,14 +340,14 @@ contains
     !> [in] 送信データ配列
     integer(kint) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
     integer(kint) :: disp(:)
     !> [out] 受信データ配列
     integer(kint) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
-    !> [in] データを格納する MPI ランク
+    integer(kint) :: rc
+    !> [in] データを送信する MPI ランク
     integer(kint) :: root
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -394,14 +394,14 @@ contains
     !> [in] 送信データ配列
     real(kdouble) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
     integer(kint) :: disp(:)
     !> [out] 受信データ配列
     real(kdouble) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
-    !> [in] データを格納する MPI ランク
+    integer(kint) :: rc
+    !> [in] データを送信する MPI ランク
     integer(kint) :: root
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -448,14 +448,14 @@ contains
     !> [in] 送信データ配列
     complex(kdouble) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
     integer(kint) :: disp(:)
     !> [out] 受信データ配列
     complex(kdouble) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
-    !> [in] データを格納する MPI ランク
+    integer(kint) :: rc
+    !> [in] データを送信する MPI ランク
     integer(kint) :: root
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -508,7 +508,7 @@ contains
 #ifndef NO_MPI
     call mpi_allgatherv(sval, n, MPI_INTEGER, rbuf, counts, displs, MPI_INTEGER, comm, ierr)
 #else
-    rbuf(1) = sval
+    rbuf = sval
 #endif
   end subroutine monolis_allgatherv_I
 
@@ -525,7 +525,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_allgather(sval, 1, MPI_INTEGER, rbuf, 1, MPI_INTEGER, comm, ierr)
+    call MPI_allgather(sval, 1, MPI_REAL8, rbuf, 1, MPI_REAL8, comm, ierr)
 #else
     rbuf(1) = sval
 #endif
@@ -550,9 +550,9 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call mpi_allgatherv(sval, n, MPI_INTEGER, rbuf, counts, displs, MPI_INTEGER, comm, ierr)
+    call mpi_allgatherv(sval, n, MPI_REAL8, rbuf, counts, displs, MPI_REAL8, comm, ierr)
 #else
-    rbuf(1) = sval
+    rbuf = sval
 #endif
   end subroutine monolis_allgatherv_R
 
@@ -596,7 +596,7 @@ contains
 #ifndef NO_MPI
     call mpi_allgatherv(sval, n, MPI_DOUBLE_COMPLEX, rbuf, counts, displs, MPI_DOUBLE_COMPLEX, comm, ierr)
 #else
-    rbuf(1) = sval
+    rbuf = sval
 #endif
   end subroutine monolis_allgatherv_C
 

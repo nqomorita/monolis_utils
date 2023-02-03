@@ -15,7 +15,9 @@ contains
     call monolis_allreduce_x1_test()
     call monolis_allreduce_x_test()
     call monolis_gather_test()
+    call monolis_scatterv_test()
     call monolis_allgather_test()
+    call monolis_allgather_1_test()
     call monolis_send_recv_test()
   end subroutine monolis_mpi_test
 
@@ -182,9 +184,6 @@ contains
     endif
 
     !> case 2
-    !call monolis_scatterv_I(sbuf, sc, disp, rbuf, rc, root, comm)
-
-    !> case 3
     root = 0
     sc = 2
     rc(1) = 2
@@ -225,10 +224,7 @@ contains
       call monolis_test_check_eq_R("monolis_gatherv_R case 2", r_rbuf, r_ans)
     endif
 
-    !> case 4
-    !call monolis_scatterv_R(sbuf, sc, disp, rbuf, rc, root, comm)
-
-    !> case 5
+    !> case 3
     root = 0
     sc = 2
     rc(1) = 2
@@ -272,34 +268,182 @@ contains
     if(monolis_mpi_global_my_rank() == 1)then
       call monolis_test_check_eq_C("monolis_gatherv_C case 2", c_rbuf, c_ans)
     endif
-
-    !> case 6
-    !call monolis_scatterv_C(sbuf, sc, disp, rbuf, rc, root, comm)
   end subroutine monolis_gather_test
+
+  subroutine monolis_scatterv_test()
+    implicit none
+    integer(kint) :: sc(2), rc, disp(2), root, comm
+    integer(kint) :: i_sbuf(4), i_rbuf(2), i_ans(2)
+    real(kdouble) :: r_sbuf(4), r_rbuf(2), r_ans(2)
+    complex(kdouble) :: c_sbuf(4), c_rbuf(2), c_ans(2)
+
+    comm = monolis_mpi_global_comm()
+
+    !> case 1
+    root = 0
+    sc(1) = 2
+    sc(2) = 2
+    rc = 2
+    i_sbuf(1) = 1
+    i_sbuf(2) = 2
+    i_sbuf(3) = 3
+    i_sbuf(4) = 4
+    disp(1) = 0
+    disp(2) = 2
+
+    call monolis_scatterv_I(i_sbuf, sc, disp, i_rbuf, rc, root, comm)
+
+    i_ans(1) = 2*monolis_mpi_global_my_rank() + 1
+    i_ans(2) = 2*monolis_mpi_global_my_rank() + 2
+
+    call monolis_test_check_eq_I("monolis_scatterv_I case 1", i_rbuf, i_ans)
+
+    !> case 2
+    root = 0
+    sc(1) = 2
+    sc(2) = 2
+    rc = 2
+    r_sbuf(1) = 1
+    r_sbuf(2) = 2
+    r_sbuf(3) = 3
+    r_sbuf(4) = 4
+    disp(1) = 0
+    disp(2) = 2
+
+    call monolis_scatterv_R(r_sbuf, sc, disp, r_rbuf, rc, root, comm)
+
+    r_ans(1) = 2.0d0*monolis_mpi_global_my_rank() + 1.0d0
+    r_ans(2) = 2.0d0*monolis_mpi_global_my_rank() + 2.0d0
+
+    call monolis_test_check_eq_R("monolis_scatterv_R case 1", r_rbuf, r_ans)
+
+    !> case 3
+    root = 0
+    sc(1) = 2
+    sc(2) = 2
+    rc = 2
+    c_sbuf(1) = (1.0d0, 1.0d0)
+    c_sbuf(2) = (2.0d0, 2.0d0)
+    c_sbuf(3) = (3.0d0, 3.0d0)
+    c_sbuf(4) = (4.0d0, 4.0d0)
+    disp(1) = 0
+    disp(2) = 2
+
+    call monolis_scatterv_C(c_sbuf, sc, disp, c_rbuf, rc, root, comm)
+
+    r_ans(1) = 2.0d0*monolis_mpi_global_my_rank() + 1.0d0
+    r_ans(2) = 2.0d0*monolis_mpi_global_my_rank() + 2.0d0
+    c_ans(1) = complex(r_ans(1), r_ans(1))
+    c_ans(2) = complex(r_ans(2), r_ans(2))
+
+    call monolis_test_check_eq_C("monolis_scatterv_C case 1", c_rbuf, c_ans)
+  end subroutine monolis_scatterv_test
+
+  subroutine monolis_allgather_1_test()
+    implicit none
+    integer(kint) :: comm
+    integer(kint) :: i_sbuf, i_rbuf(2), i_ans(2)
+    real(kdouble) :: r_sbuf, r_rbuf(2), r_ans(2)
+    complex(kdouble) :: c_sbuf, c_rbuf(2), c_ans(2)
+
+    comm = monolis_mpi_global_comm()
+
+    !> case 1
+    i_sbuf = monolis_mpi_global_my_rank() + 1
+
+    call monolis_allgather_I1(i_sbuf, i_rbuf, comm)
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+
+    call monolis_test_check_eq_I("monolis_allgather_I1 case 1", i_rbuf, i_ans)
+
+    !> case 2
+    r_sbuf = monolis_mpi_global_my_rank() + 1
+
+    call monolis_allgather_R1(r_sbuf, r_rbuf, comm)
+
+    r_ans(1) = 1.0d0
+    r_ans(2) = 2.0d0
+
+    call monolis_test_check_eq_R("monolis_allgather_R1 case 1", r_rbuf, r_ans)
+
+    !> case 3
+    r_sbuf = monolis_mpi_global_my_rank() + 1
+    c_sbuf = complex(r_sbuf, r_sbuf)
+
+    call monolis_allgather_C1(c_sbuf, c_rbuf, comm)
+
+    c_ans(1) = (1.0d0, 1.0d0)
+    c_ans(2) = (2.0d0, 2.0d0)
+
+    call monolis_test_check_eq_C("monolis_allgather_C1 case 1", c_rbuf, c_ans)
+  end subroutine monolis_allgather_1_test
 
   subroutine monolis_allgather_test()
     implicit none
-    integer(kint) :: i(2), i_ans(2), comm
-    real(kdouble) :: r(2), r_ans(2)
-    complex(kdouble) :: c(2), c_ans(2)
+    integer(kint) :: sc, rc(2), disp(2), comm
+    integer(kint) :: i_sbuf(2), i_rbuf(4), i_ans(4)
+    real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
+    complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
+
+    comm = monolis_mpi_global_comm()
 
     !> case 1
-    !call monolis_allgather_I1(sval, rbuf, comm)
+    sc = 2
+    rc(1) = 2
+    rc(2) = 2
+    i_sbuf(1) = 2*monolis_mpi_global_my_rank() + 1
+    i_sbuf(2) = 2*monolis_mpi_global_my_rank() + 2
+    disp(1) = 0
+    disp(2) = 2
+
+    call monolis_allgatherv_I(sc, i_sbuf, i_rbuf, rc, disp, comm)
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+    i_ans(3) = 3
+    i_ans(4) = 4
+
+    call monolis_test_check_eq_I("monolis_allgatherv_I case 1", i_rbuf, i_ans)
 
     !> case 2
-    !call monolis_allgatherv_I(n, sval, rbuf, counts, displs, comm)
+    sc = 2
+    rc(1) = 2
+    rc(2) = 2
+    r_sbuf(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
+    r_sbuf(2) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 2.0d0
+    disp(1) = 0
+    disp(2) = 2
+
+    call monolis_allgatherv_R(sc, r_sbuf, r_rbuf, rc, disp, comm)
+
+    r_ans(1) = 1.0d0
+    r_ans(2) = 2.0d0
+    r_ans(3) = 3.0d0
+    r_ans(4) = 4.0d0
+
+    call monolis_test_check_eq_R("monolis_allgatherv_R case 1", r_rbuf, r_ans)
 
     !> case 3
-    !call monolis_allgather_R1(sval, rbuf, comm)
+    sc = 2
+    rc(1) = 2
+    rc(2) = 2
+    r_sbuf(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
+    r_sbuf(2) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 2.0d0
+    c_sbuf(1) = complex(r_sbuf(1), r_sbuf(1))
+    c_sbuf(2) = complex(r_sbuf(2), r_sbuf(2))
+    disp(1) = 0
+    disp(2) = 2
 
-    !> case 4
-    !call monolis_allgatherv_R(n, sval, rbuf, counts, displs, comm)
+    call monolis_allgatherv_C(sc, c_sbuf, c_rbuf, rc, disp, comm)
 
-    !> case 5
-    !call monolis_allgather_C1(sval, rbuf, comm)
+    c_ans(1) = (1.0d0, 1.0d0)
+    c_ans(2) = (2.0d0, 2.0d0)
+    c_ans(3) = (3.0d0, 3.0d0)
+    c_ans(4) = (4.0d0, 4.0d0)
 
-    !> case 6
-    !call monolis_allgatherv_C(sval, rbuf, comm)
+    call monolis_test_check_eq_C("monolis_allgatherv_C case 1", c_rbuf, c_ans)
   end subroutine monolis_allgather_test
 
   subroutine monolis_send_recv_test()

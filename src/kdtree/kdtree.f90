@@ -29,9 +29,9 @@ module mod_monolis_utils_kdtree
     !> BB の中間座標
     real(kdouble) :: mid_coord(3)
     !> 中間点より座標が小さい集合の k-d ツリー構造体
-    type(monolis_kdtree_structure_main), pointer :: left
+    type(monolis_kdtree_structure_main), pointer :: left => null()
     !> 中間点より座標が大きい集合の k-d ツリー構造体
-    type(monolis_kdtree_structure_main), pointer :: right
+    type(monolis_kdtree_structure_main), pointer :: right => null()
   end type monolis_kdtree_structure_main
 
   !> k-d ツリー構造体
