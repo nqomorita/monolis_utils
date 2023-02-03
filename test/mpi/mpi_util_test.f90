@@ -3,6 +3,7 @@ module mod_monolis_mpi_util_test
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_test
   use mod_monolis_mpi_util
+  use mod_monolis_utils_error
   implicit none
 
 contains
@@ -18,6 +19,8 @@ contains
   subroutine monolis_mpi_util_test_main()
     implicit none
     integer(kint) :: n
+
+    call monolis_std_log_string("monolis_mpi_util_test_main")
 
     if(monolis_mpi_global_comm() == MPI_COMM_WORLD)then
       call monolis_test_assert_pass("monolis_mpi_global_comm")

@@ -4,6 +4,7 @@ module mod_monolis_mpi_test
   use mod_monolis_utils_std_test
   use mod_monolis_mpi
   use mod_monolis_mpi_util
+  use mod_monolis_utils_error
   implicit none
 
 contains
@@ -27,6 +28,8 @@ contains
     integer(kint) :: i, comm
     real(kdouble) :: r
     complex(kdouble) :: c
+
+    call monolis_std_log_string("monolis_allreduce_x1_test")
 
     comm = monolis_mpi_global_comm()
 
@@ -68,6 +71,8 @@ contains
     integer(kint) :: i(2), i_ans(2), comm
     real(kdouble) :: r(2), r_ans(2)
     complex(kdouble) :: c(2), c_ans(2)
+
+    call monolis_std_log_string("monolis_allreduce_x_test")
 
     comm = monolis_mpi_global_comm()
 
@@ -139,6 +144,8 @@ contains
     integer(kint) :: i_sbuf(2), i_rbuf(4), i_ans(4)
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
+
+    call monolis_std_log_string("monolis_gather_test")
 
     comm = monolis_mpi_global_comm()
 
@@ -277,6 +284,8 @@ contains
     real(kdouble) :: r_sbuf(4), r_rbuf(2), r_ans(2)
     complex(kdouble) :: c_sbuf(4), c_rbuf(2), c_ans(2)
 
+    call monolis_std_log_string("monolis_scatterv_test")
+
     comm = monolis_mpi_global_comm()
 
     !> case 1
@@ -346,6 +355,8 @@ contains
     real(kdouble) :: r_sbuf, r_rbuf(2), r_ans(2)
     complex(kdouble) :: c_sbuf, c_rbuf(2), c_ans(2)
 
+    call monolis_std_log_string("monolis_allgather_1_test")
+
     comm = monolis_mpi_global_comm()
 
     !> case 1
@@ -386,6 +397,8 @@ contains
     integer(kint) :: i_sbuf(2), i_rbuf(4), i_ans(4)
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
+
+    call monolis_std_log_string("monolis_allgather_test")
 
     comm = monolis_mpi_global_comm()
 
@@ -453,6 +466,8 @@ contains
     integer(kint) :: i(8), i_ans(8)
     real(kdouble) :: r(8), r_ans(8)
     complex(kdouble) :: c(8), c_ans(8)
+
+    call monolis_std_log_string("monolis_send_recv_test")
 
     send_n_neib = 1
     recv_n_neib = 1
