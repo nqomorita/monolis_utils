@@ -2,8 +2,8 @@
 
 ##> compiler setting
 FC     = mpif90
-#FFLAGS = -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
-FFLAGS  = -fPIC -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
+#FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
+FFLAGS = -fPIC -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
 CC     = mpicc
 CFLAGS = -fPIC -O2
 
@@ -26,19 +26,15 @@ ifdef FLAGS
 	DFLAGS = $(subst $(comma), $(space), $(FLAGS))
 
 	ifeq ($(findstring DEBUG, $(DFLAGS)), DEBUG)
-		FFLAGS  = -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
+		FFLAGS  = -fPIC -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
 	endif
 
 	ifeq ($(findstring INTEL, $(DFLAGS)), INTEL)
 		FC      = mpiifort
-		FFLAGS  = -O2 -align array64byte
+		FFLAGS  = -fPIC -O2 -align array64byte
 		CC      = mpiicc 
-		CFLAGS  = -O2 -no-multibyte-chars
+		CFLAGS  = -fPIC -O2 -no-multibyte-chars
 		MOD_DIR = -module ./include
-	endif
-
-	ifeq ($(findstring OPENMP, $(DFLAGS)), OPENMP)
-		FC += -fopenmp
 	endif
 endif
 
@@ -60,6 +56,9 @@ SRC_ALLOC = \
 error.f90 \
 alloc.f90 \
 sys.f90
+
+SRC_COM = \
+def_com.f90
 
 SRC_STD = \
 std_test.f90 \
@@ -87,13 +86,22 @@ SRC_MPI = \
 mpi_util.f90 \
 mpi.f90
 
+SRC_IO = \
+io_arg.f90 \
+io_file_name.f90 \
+io_mtx.f90 \
+io_com.f90
+#io.f90
+
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
+$(addprefix com/, $(SRC_COM)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
 $(addprefix mpi/, $(SRC_MPI)) \
+$(addprefix io/, $(SRC_IO)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
 monolis_utils.f90
 

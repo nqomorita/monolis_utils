@@ -19,6 +19,9 @@ end module mod_monolis_utils
 !> @defgroup mpi MPI 関数群
 !> MPI に関連する関数グループ
 
+!> @defgroup com 通信テーブルデータ関数群
+!> 通信テーブルデータに関連する関数グループ
+
 !> @defgroup aabb バウンディングボックス関数群
 !> バウンディングボックスに関連する関数グループ
 
@@ -28,8 +31,14 @@ end module mod_monolis_utils
 !> @defgroup hash ハッシュ関数群
 !> ハッシュに関連する関数グループ
 
+!> @defgroup dev_io 開発者用：ファイル入出力関数群
+!> ファイル入出力に関連する関数グループ（開発者用）
+
 !> @defgroup dev_error 開発者用：エラー出力関数群
 !> エラー出力に関連する関数グループ（開発者用）
+
+!> @defgroup dev_com 開発者用：通信テーブルデータ関数群
+!> 通信テーブルデータに関連する関数グループ（開発者用）
 
 !> @defgroup dev_test 開発者用：テスト関数群
 !> テストに関連する関数グループ（開発者用）
