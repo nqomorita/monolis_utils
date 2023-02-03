@@ -31,7 +31,7 @@ contains
 
   !> @ingroup com
   !> COM 構造体の初期化関数
-  subroutine monolis_comm_initialize(COM)
+  subroutine monolis_com_initialize(COM)
     implicit none
     !> [in] COM 構造体
     type(monolis_COM) :: COM
@@ -47,11 +47,11 @@ contains
     call monolis_dealloc_I_1d(COM%send_neib_pe)
     call monolis_dealloc_I_1d(COM%send_index)
     call monolis_dealloc_I_1d(COM%send_item)
-  end subroutine monolis_comm_initialize
+  end subroutine monolis_com_initialize
 
   !> @ingroup com
   !> COM 構造体の初期化関数
-  subroutine monolis_comm_finalize(COM)
+  subroutine monolis_com_finalize(COM)
     implicit none
     !> [in] COM 構造体
     type(monolis_COM) :: COM
@@ -67,7 +67,7 @@ contains
     call monolis_dealloc_I_1d(COM%send_neib_pe)
     call monolis_dealloc_I_1d(COM%send_index)
     call monolis_dealloc_I_1d(COM%send_item)
-  end subroutine monolis_comm_finalize
+  end subroutine monolis_com_finalize
 
   !> @ingroup dev_com
   !> COM 構造体のデバッグ用データ書き出し

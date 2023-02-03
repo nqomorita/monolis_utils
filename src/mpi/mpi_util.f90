@@ -108,8 +108,20 @@ contains
   end function monolis_mpi_local_my_rank
 
   !> @ingroup mpi
-  !> MPI バリア関数
-  subroutine monolis_mpi_barrier(comm)
+  !> MPI バリア関数（グローバルコミュニケータ）
+  subroutine monolis_mpi_global_barrier()
+    implicit none
+    integer(kint) :: comm
+    integer(kint) :: ierr
+#ifndef NO_MPI
+    comm = monolis_mpi_global_comm()
+    call MPI_barrier(comm, ierr)
+#endif
+  end subroutine monolis_mpi_global_barrier
+
+  !> @ingroup mpi
+  !> MPI バリア関数（ローカルコミュニケータ）
+  subroutine monolis_mpi_local_barrier(comm)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -117,5 +129,5 @@ contains
 #ifndef NO_MPI
     call MPI_barrier(comm, ierr)
 #endif
-  end subroutine monolis_mpi_barrier
+  end subroutine monolis_mpi_local_barrier
 end module mod_monolis_mpi_util

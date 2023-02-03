@@ -9,33 +9,33 @@ contains
 
   !> @ingroup io
   !> monolis 通信テーブル send の出力
-  subroutine monolis_output_send_comm_table(fname, COM)
+  subroutine monolis_output_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
     character(monolis_charlen) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
-    call monolis_output_comm_table_main(fname, &
+    call monolis_output_com_table_main(fname, &
       & COM%send_n_neib, COM%send_neib_pe, COM%send_index, COM%send_item)
-  end subroutine monolis_output_send_comm_table
+  end subroutine monolis_output_send_com_table
 
   !> @ingroup io
   !> monolis 通信テーブル recv の出力
-  subroutine monolis_output_recv_comm_table(fname, COM)
+  subroutine monolis_output_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
     character(monolis_charlen) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
-    call monolis_output_comm_table_main(fname, &
+    call monolis_output_com_table_main(fname, &
       & COM%recv_n_neib, COM%recv_neib_pe, COM%recv_index, COM%recv_item)
-  end subroutine monolis_output_recv_comm_table
+  end subroutine monolis_output_recv_com_table
 
   !> @ingroup dev_io
   !> monolis 通信テーブルの出力（メイン関数）
-  subroutine monolis_output_comm_table_main(fname, n_neib, neib_pe, index, item)
+  subroutine monolis_output_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 出力ファイル名
     character(monolis_charlen) :: fname
@@ -64,37 +64,37 @@ contains
         write(20,"(i0)")item(i)
       enddo
     close(20)
-  end subroutine monolis_output_comm_table_main
+  end subroutine monolis_output_com_table_main
 
   !> @ingroup io
   !> monolis 通信テーブル send の入力
-  subroutine monolis_input_send_comm_table(fname, COM)
+  subroutine monolis_input_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
     character(monolis_charlen) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
-    call monolis_input_comm_table_main(fname, &
+    call monolis_input_com_table_main(fname, &
       & COM%send_n_neib, COM%send_neib_pe, COM%send_index, COM%send_item)
-  end subroutine monolis_input_send_comm_table
+  end subroutine monolis_input_send_com_table
 
   !> @ingroup io
   !> monolis 通信テーブル recv の入力
-  subroutine monolis_input_recv_comm_table(fname, COM)
+  subroutine monolis_input_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
     character(monolis_charlen) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
-    call monolis_input_comm_table_main(fname, &
+    call monolis_input_com_table_main(fname, &
       & COM%recv_n_neib, COM%recv_neib_pe, COM%recv_index, COM%recv_item)
-  end subroutine monolis_input_recv_comm_table
+  end subroutine monolis_input_recv_com_table
 
   !> @ingroup dev_io
   !> monolis 通信テーブルの入力（汎用関数）
-  subroutine monolis_input_comm_table_main(fname, n_neib, neib_pe, index, item)
+  subroutine monolis_input_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 入力ファイル名
     character(monolis_charlen) :: fname
@@ -127,5 +127,5 @@ contains
         read(20,*)item(i)
       enddo
     close(20)
-  end subroutine monolis_input_comm_table_main
+  end subroutine monolis_input_com_table_main
 end module mod_monolis_io_com
