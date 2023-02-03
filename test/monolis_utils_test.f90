@@ -11,6 +11,7 @@ program monolis_utils_test
   use mod_monolis_mpi_test
   use mod_monolis_mpi_util_test
   use mod_monolis_mpi_util
+  use mod_monolis_io_arg_test
   implicit none
 
   call monolis_mpi_initialize()
@@ -25,9 +26,9 @@ program monolis_utils_test
     call monolis_utils_hash_test()
     call monolis_utils_aabb_test()
     call monolis_utils_kdtree_test()
+    call monolis_io_arg_test()
   elseif(monolis_mpi_global_comm_size() == 2)then
     !> std test for paralell
-    call check_mpi_num_process()
     call monolis_mpi_test()
     call monolis_mpi_util_test()
   else
@@ -35,10 +36,4 @@ program monolis_utils_test
   endif
 
   call monolis_mpi_finalize()
-
-contains
-
-  subroutine check_mpi_num_process()
-    implicit none
-  end subroutine check_mpi_num_process
 end program monolis_utils_test
