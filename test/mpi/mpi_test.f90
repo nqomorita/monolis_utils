@@ -448,23 +448,148 @@ contains
 
   subroutine monolis_send_recv_test()
     implicit none
-    integer(kint) :: i(2), i_ans(2), comm
-    real(kdouble) :: r(2), r_ans(2)
-    complex(kdouble) :: c(2), c_ans(2)
+    integer(kint) :: comm, send_n_neib, send_neib_pe(1), recv_n_neib, recv_neib_pe(1)
+    integer(kint) :: send_index(0:1), send_item(2), recv_index(0:1), recv_item(2), ndof
+    integer(kint) :: i(8), i_ans(8)
+    real(kdouble) :: r(8), r_ans(8)
+    complex(kdouble) :: c(8), c_ans(8)
+
+    send_n_neib = 1
+    recv_n_neib = 1
+    send_index(0) = 0
+    send_index(1) = 2
+    recv_index(0) = 0
+    recv_index(1) = 2
+    send_item(1) = 1
+    send_item(2) = 2
+    recv_item(1) = 3
+    recv_item(2) = 4
+    ndof = 2
+    comm = monolis_mpi_global_comm()
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      send_neib_pe(1) = 1
+      recv_neib_pe(1) = 1
+    else
+      send_neib_pe(1) = 0
+      recv_neib_pe(1) = 0
+    endif
 
     !> case 1
-    !call monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
-    !    & send_index, send_item, recv_index, recv_item, &
-    !    & val, ndof, comm)
+    if(monolis_mpi_global_my_rank() == 0)then
+      i(1) = 1
+      i(2) = 2
+      i(3) = 3
+      i(4) = 4
+    else
+      i(1) = 5
+      i(2) = 6
+      i(3) = 7
+      i(4) = 8
+    endif
+
+    call monolis_SendRecv_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+        & send_index, send_item, recv_index, recv_item, &
+        & i, ndof, comm)
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      i_ans(1) = 1
+      i_ans(2) = 2
+      i_ans(3) = 3
+      i_ans(4) = 4
+      i_ans(5) = 5
+      i_ans(6) = 6
+      i_ans(7) = 7
+      i_ans(8) = 8
+    else
+      i_ans(1) = 5
+      i_ans(2) = 6
+      i_ans(3) = 7
+      i_ans(4) = 8
+      i_ans(5) = 1
+      i_ans(6) = 2
+      i_ans(7) = 3
+      i_ans(8) = 4
+    endif
+
+    call monolis_test_check_eq_I("monolis_SendRecv_I case 1", i, i_ans)
 
     !> case 2
-    !call monolis_SendRecv_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
-    !    & send_index, send_item, recv_index, recv_item, &
-    !    & val, ndof, comm)
+    if(monolis_mpi_global_my_rank() == 0)then
+      r(1) = 1.0d0
+      r(2) = 2.0d0
+      r(3) = 3.0d0
+      r(4) = 4.0d0
+    else
+      r(1) = 5.0d0
+      r(2) = 6.0d0
+      r(3) = 7.0d0
+      r(4) = 8.0d0
+    endif
+
+    call monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+        & send_index, send_item, recv_index, recv_item, &
+        & r, ndof, comm)
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      r_ans(1) = 1.0d0
+      r_ans(2) = 2.0d0
+      r_ans(3) = 3.0d0
+      r_ans(4) = 4.0d0
+      r_ans(5) = 5.0d0
+      r_ans(6) = 6.0d0
+      r_ans(7) = 7.0d0
+      r_ans(8) = 8.0d0
+    else
+      r_ans(1) = 5.0d0
+      r_ans(2) = 6.0d0
+      r_ans(3) = 7.0d0
+      r_ans(4) = 8.0d0
+      r_ans(5) = 1.0d0
+      r_ans(6) = 2.0d0
+      r_ans(7) = 3.0d0
+      r_ans(8) = 4.0d0
+    endif
+
+    call monolis_test_check_eq_R("monolis_SendRecv_R case 1", r, r_ans)
 
     !> case 3
-    !call monolis_SendRecv_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
-    !    & send_index, send_item, recv_index, recv_item, &
-    !    & val, ndof, comm)
+    if(monolis_mpi_global_my_rank() == 0)then
+      c(1) = (1.0d0, 1.0d0)
+      c(2) = (2.0d0, 2.0d0)
+      c(3) = (3.0d0, 3.0d0)
+      c(4) = (4.0d0, 4.0d0)
+    else
+      c(1) = (5.0d0, 5.0d0)
+      c(2) = (6.0d0, 6.0d0)
+      c(3) = (7.0d0, 7.0d0)
+      c(4) = (8.0d0, 8.0d0)
+    endif
+
+    call monolis_SendRecv_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+        & send_index, send_item, recv_index, recv_item, &
+        & c, ndof, comm)
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      c_ans(1) = (1.0d0, 1.0d0)
+      c_ans(2) = (2.0d0, 2.0d0)
+      c_ans(3) = (3.0d0, 3.0d0)
+      c_ans(4) = (4.0d0, 4.0d0)
+      c_ans(5) = (5.0d0, 5.0d0)
+      c_ans(6) = (6.0d0, 6.0d0)
+      c_ans(7) = (7.0d0, 7.0d0)
+      c_ans(8) = (8.0d0, 8.0d0)
+    else
+      c_ans(1) = (5.0d0, 5.0d0)
+      c_ans(2) = (6.0d0, 6.0d0)
+      c_ans(3) = (7.0d0, 7.0d0)
+      c_ans(4) = (8.0d0, 8.0d0)
+      c_ans(5) = (1.0d0, 1.0d0)
+      c_ans(6) = (2.0d0, 2.0d0)
+      c_ans(7) = (3.0d0, 3.0d0)
+      c_ans(8) = (4.0d0, 4.0d0)
+    endif
+
+    call monolis_test_check_eq_C("monolis_SendRecv_C case 1", c, c_ans)
   end subroutine monolis_send_recv_test
 end module mod_monolis_mpi_test
