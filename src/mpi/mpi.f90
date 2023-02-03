@@ -1,4 +1,4 @@
-!> MPI util モジュール
+!> MPI モジュール
 module mod_monolis_mpi
   use mod_monolis_utils_define_prm
   use mod_monolis_mpi_util

@@ -90,8 +90,8 @@ SRC_IO = \
 io_arg.f90 \
 io_file_name.f90 \
 io_mtx.f90 \
-io_com.f90
-#io.f90
+io_com.f90 \
+io.f90
 
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE)) \

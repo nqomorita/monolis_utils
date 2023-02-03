@@ -1,5 +1,5 @@
-!> IO 引数モジュール
-module mod_monolis_io_comm
+!> IO 通信テーブルデータモジュール
+module mod_monolis_io_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_define_com
   use mod_monolis_utils_alloc
@@ -128,4 +128,4 @@ contains
       enddo
     close(20)
   end subroutine monolis_input_comm_table_main
-end module mod_monolis_io_comm
+end module mod_monolis_io_com
