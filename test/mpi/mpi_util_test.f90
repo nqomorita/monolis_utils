@@ -12,6 +12,8 @@ contains
   subroutine monolis_mpi_util_test()
     implicit none
 
+    if(monolis_mpi_global_comm_size() == 1) return
+
     call monolis_mpi_util_test_main()
   end subroutine monolis_mpi_util_test
 
