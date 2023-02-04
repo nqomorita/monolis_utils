@@ -12,7 +12,7 @@ contains
   subroutine monolis_output_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
@@ -25,7 +25,7 @@ contains
   subroutine monolis_output_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
@@ -38,7 +38,7 @@ contains
   subroutine monolis_output_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] 隣接領域数
     integer(kint) :: n_neib
     !> [in] 隣接領域 id
@@ -50,7 +50,13 @@ contains
     integer(kint) :: i
 
     open(20, file = fname, status = "replace")
-      write(20,"(i0,x,i0)")n_neib, index(n_neib + 1)
+      if(n_neib == 0)then
+        write(20,"(i0,x,i0)")n_neib, 0
+        close(20)
+        return
+      else
+        write(20,"(i0,x,i0)")n_neib, index(n_neib + 1)
+      endif
 
       do i = 1, n_neib
         write(20,"(i0)")neib_pe(i) - 1
@@ -71,7 +77,7 @@ contains
   subroutine monolis_input_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
@@ -84,7 +90,7 @@ contains
   subroutine monolis_input_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> 分割領域に対応する COM 構造体
     type(monolis_COM) :: COM
 
@@ -97,7 +103,7 @@ contains
   subroutine monolis_input_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 入力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] 隣接領域数
     integer(kint) :: n_neib
     !> [out] 隣接領域 id
@@ -111,9 +117,17 @@ contains
     open(20, file = fname, status = "old")
       read(20,*)n_neib, nz
 
-      call monolis_alloc_I_1d(neib_pe, n_neib)
-      call monolis_alloc_I_1d(index, n_neib + 1)
-      call monolis_alloc_I_1d(item, nz)
+      if(n_neib == 0)then
+        nz = 0
+        call monolis_alloc_I_1d(neib_pe, 1)
+        call monolis_alloc_I_1d(index, 1)
+        call monolis_alloc_I_1d(item, 1)
+        close(20)
+      else
+        call monolis_alloc_I_1d(neib_pe, n_neib)
+        call monolis_alloc_I_1d(index, n_neib + 1)
+        call monolis_alloc_I_1d(item, nz)
+      endif
 
       do i = 1, n_neib
         read(20,*)neib_pe(i)

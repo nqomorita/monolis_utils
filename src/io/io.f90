@@ -13,7 +13,7 @@ contains
   subroutine monolis_input_graph(fname, n_vertex, vertex_id, index, item)
     implicit none
     !> [in] 入力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] グラフノード数
     integer(kint) :: n_vertex
     !> [out] グラフノード id
@@ -54,7 +54,7 @@ contains
   subroutine monolis_output_graph(fname, n_vertex, vertex_id, index, item)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] グラフノード数
     integer(kint) :: n_vertex
     !> [in] グラフノード id
@@ -85,7 +85,7 @@ contains
   subroutine monolis_input_node(fname, n_node, node)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] 節点数
     integer(kint) :: n_node
     !> [out] 節点座標
@@ -106,7 +106,7 @@ contains
   subroutine monolis_output_node(fname, n_node, node)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] 節点数
     integer(kint) :: n_node
     !> [in] 節点座標
@@ -126,7 +126,7 @@ contains
   subroutine monolis_input_elem(fname, n_elem, n_base, elem)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] 要素数
     integer(kint) :: n_elem
     !> [out] 基底の数
@@ -149,7 +149,7 @@ contains
   subroutine monolis_output_elem(fname, n_elem, n_base, elem)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] 要素数
     integer(kint) :: n_elem
     !> [in] 基底の数
@@ -174,7 +174,7 @@ contains
   subroutine monolis_input_internal_vertex_number(fname, n_internal_vertex)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] 内部自由度の数
     integer(kint) :: n_internal_vertex
     character(monolis_charlen) :: label
@@ -190,7 +190,7 @@ contains
   subroutine monolis_output_internal_vertex_number(fname, n_internal_vertex)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] 内部自由度の数
     integer(kint) :: n_internal_vertex
 
@@ -205,7 +205,7 @@ contains
   subroutine monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] 境界条件の数
     integer(kint) :: n_bc
     !> [out] 自由度数
@@ -233,7 +233,7 @@ contains
   subroutine monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] 境界条件の数
     integer(kint) :: n_bc
     !> [in] 自由度数
@@ -257,7 +257,7 @@ contains
   subroutine monolis_input_distval_i(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] ラベル名
     character(monolis_charlen) :: label
     !> [out] 節点数
@@ -285,9 +285,9 @@ contains
   subroutine monolis_output_distval_i(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] ラベル名
-    character(monolis_charlen) :: label
+    character(*) :: label
     !> [in] 節点数
     integer(kint) :: n_node
     !> [in] 節点あたりのデータ数
@@ -314,7 +314,7 @@ contains
   subroutine monolis_input_distval_r(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [out] ラベル名
     character(monolis_charlen) :: label
     !> [out] 節点数
@@ -342,9 +342,9 @@ contains
   subroutine monolis_output_distval_r(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(monolis_charlen) :: fname
+    character(*) :: fname
     !> [in] ラベル名
-    character(monolis_charlen) :: label
+    character(*) :: label
     !> [in] 節点数
     integer(kint) :: n_node
     !> [in] 節点あたりのデータ数
