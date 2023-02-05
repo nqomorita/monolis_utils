@@ -29,6 +29,7 @@ contains
   subroutine monolis_input_graph_test()
     implicit none
     integer(kint) :: n_vertex
+    integer(kint) :: i_ans(6)
     integer(kint), allocatable :: vertex_id(:)
     integer(kint), allocatable :: index(:)
     integer(kint), allocatable :: item(:)
@@ -36,6 +37,27 @@ contains
     call monolis_std_log_string("monolis_input_graph_test")
 
     call monolis_input_graph("io/input/graph.txt", n_vertex, vertex_id, index, item)
+
+    call monolis_test_check_eq_I1("monolis_input_graph_test 1", n_vertex, 3)
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+    i_ans(3) = 3
+    call monolis_test_check_eq_I ("monolis_input_graph_test 2", vertex_id, i_ans(1:3))
+
+    i_ans(1) = 0
+    i_ans(2) = 2
+    i_ans(3) = 4
+    i_ans(4) = 6
+    call monolis_test_check_eq_I ("monolis_input_graph_test 3", index, i_ans(1:4))
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+    i_ans(3) = 2
+    i_ans(4) = 3
+    i_ans(5) = 3
+    i_ans(6) = 4
+    call monolis_test_check_eq_I ("monolis_input_graph_test 4", item, i_ans(1:6))
   end subroutine monolis_input_graph_test
 
   subroutine monolis_output_graph_test()
