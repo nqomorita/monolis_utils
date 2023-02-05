@@ -16,26 +16,6 @@ contains
     call monolis_output_recv_com_table_test()
   end subroutine monolis_io_com_test
 
-  subroutine monolis_output_send_com_table_test()
-    implicit none
-    type(monolis_COM) :: COM
-
-    call monolis_std_log_string("monolis_output_send_com_table_test")
-
-    COM%send_n_neib = 0
-    call monolis_output_send_com_table("io/input/com.output.1.txt", COM)
-  end subroutine monolis_output_send_com_table_test
-
-  subroutine monolis_output_recv_com_table_test()
-    implicit none
-    type(monolis_COM) :: COM
-
-    call monolis_std_log_string("monolis_output_recv_com_table_test")
-
-    COM%recv_n_neib = 0
-    call monolis_output_recv_com_table("io/input/com.output.2.txt", COM)
-  end subroutine monolis_output_recv_com_table_test
-
   subroutine monolis_input_send_com_table_test()
     implicit none
     type(monolis_COM) :: COM
@@ -89,4 +69,56 @@ contains
     i_ans(4) = 40
     call monolis_test_check_eq_I ("monolis_input_recv_com_table_test 4", COM%recv_item, i_ans)
   end subroutine monolis_input_recv_com_table_test
+
+  subroutine monolis_output_send_com_table_test()
+    implicit none
+    type(monolis_COM) :: COM
+
+    call monolis_std_log_string("monolis_output_send_com_table_test")
+
+    COM%send_n_neib = 2
+
+    call monolis_alloc_I_1d(COM%send_neib_pe, 2)
+    COM%send_neib_pe(1) = 0
+    COM%send_neib_pe(2) = 1
+
+    call monolis_alloc_I_1d(COM%send_index, 3)
+    COM%send_index(1) = 0
+    COM%send_index(2) = 2
+    COM%send_index(3) = 4
+
+    call monolis_alloc_I_1d(COM%send_item, 4)
+    COM%send_item(1) = 10
+    COM%send_item(2) = 20
+    COM%send_item(3) = 30
+    COM%send_item(4) = 40
+
+    call monolis_output_send_com_table("io/input/com.txt.1.out", COM)
+  end subroutine monolis_output_send_com_table_test
+
+  subroutine monolis_output_recv_com_table_test()
+    implicit none
+    type(monolis_COM) :: COM
+
+    call monolis_std_log_string("monolis_output_recv_com_table_test")
+
+    COM%recv_n_neib = 2
+
+    call monolis_alloc_I_1d(COM%recv_neib_pe, 2)
+    COM%recv_neib_pe(1) = 0
+    COM%recv_neib_pe(2) = 1
+
+    call monolis_alloc_I_1d(COM%recv_index, 3)
+    COM%recv_index(1) = 0
+    COM%recv_index(2) = 2
+    COM%recv_index(3) = 4
+
+    call monolis_alloc_I_1d(COM%recv_item, 4)
+    COM%recv_item(1) = 10
+    COM%recv_item(2) = 20
+    COM%recv_item(3) = 30
+    COM%recv_item(4) = 40
+
+    call monolis_output_recv_com_table("io/input/com.txt.2.out", COM)
+  end subroutine monolis_output_recv_com_table_test
 end module mod_monolis_io_com_test
