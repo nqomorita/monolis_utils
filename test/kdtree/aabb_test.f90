@@ -1,9 +1,6 @@
 !> バウンディングボックステストモジュール
 module mod_monolis_utils_aabb_test
-  use mod_monolis_utils_define_prm
-  use mod_monolis_utils_error
-  use mod_monolis_utils_std_test
-  use mod_monolis_utils_aabb
+  use mod_monolis_utils
   implicit none
 
 contains

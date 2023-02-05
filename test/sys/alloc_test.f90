@@ -1,8 +1,6 @@
 !> alloc テストモジュール
 module mod_monolis_utils_alloc_test
-  use mod_monolis_utils_define_prm
-  use mod_monolis_utils_alloc
-  use mod_monolis_utils_std_test
+  use mod_monolis_utils
   implicit none
 
 contains

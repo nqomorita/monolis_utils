@@ -1,10 +1,6 @@
 !> MPI テストモジュール
 module mod_monolis_mpi_test
-  use mod_monolis_utils_define_prm
-  use mod_monolis_utils_std_test
-  use mod_monolis_mpi
-  use mod_monolis_mpi_util
-  use mod_monolis_utils_error
+  use mod_monolis_utils
   implicit none
 
 contains

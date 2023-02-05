@@ -1,8 +1,6 @@
 !> IO 行列モジュール
 module mod_monolis_io_mtx_test
-  use mod_monolis_utils_error
-  use mod_monolis_utils_std_test
-  use mod_monolis_io_mtx
+  use mod_monolis_utils
   implicit none
 
 contains

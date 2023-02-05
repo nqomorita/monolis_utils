@@ -1,8 +1,6 @@
 !> IO 引数モジュール
 module mod_monolis_io_com_test
-  use mod_monolis_utils_error
-  use mod_monolis_utils_std_test
-  use mod_monolis_io_com
+  use mod_monolis_utils
   implicit none
 
 contains

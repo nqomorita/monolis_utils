@@ -1,8 +1,6 @@
 !> IO ファイル名モジュール
 module mod_monolis_io_file_name_test
-  use mod_monolis_utils_error
-  use mod_monolis_utils_std_test
-  use mod_monolis_io_file_name
+  use mod_monolis_utils
   implicit none
 
 contains

@@ -1,7 +1,19 @@
 !> monolis utils モジュール
 module mod_monolis_utils
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_define_com
+  use mod_monolis_utils_sys
   use mod_monolis_utils_stdlib
+  use mod_monolis_utils_hash
+  use mod_monolis_mpi
+  use mod_monolis_mpi_util
+  use mod_monolis_utils_aabb
+  use mod_monolis_utils_kdtree
+  use mod_monolis_io
+  use mod_monolis_io_arg
+  use mod_monolis_io_mtx
+  use mod_monolis_io_com
+  use mod_monolis_io_file_name
 end module mod_monolis_utils
 
 !> @defgroup io ファイル入出力関数群
