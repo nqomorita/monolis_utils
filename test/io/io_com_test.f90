@@ -72,7 +72,7 @@ contains
 
   subroutine monolis_output_send_com_table_test()
     implicit none
-    type(monolis_COM) :: COM
+    type(monolis_COM) :: COM, COM_ans
 
     call monolis_std_log_string("monolis_output_send_com_table_test")
 
@@ -94,11 +94,25 @@ contains
     COM%send_item(4) = 40
 
     call monolis_output_send_com_table("io/input/com.txt.1.out", COM)
+
+    call monolis_input_send_com_table("io/input/com.txt.1.out", COM_ans)
+
+    call monolis_test_check_eq_I1("monolis_output_send_com_table_test 1", &
+      & COM%send_n_neib, COM_ans%send_n_neib)
+
+    call monolis_test_check_eq_I ("monolis_output_send_com_table_test 2", &
+      & COM%send_neib_pe, COM_ans%send_neib_pe)
+
+    call monolis_test_check_eq_I ("monolis_output_send_com_table_test 3", &
+      & COM%send_index, COM_ans%send_index)
+
+    call monolis_test_check_eq_I ("monolis_output_send_com_table_test 4", &
+      & COM%send_item, COM_ans%send_item)
   end subroutine monolis_output_send_com_table_test
 
   subroutine monolis_output_recv_com_table_test()
     implicit none
-    type(monolis_COM) :: COM
+    type(monolis_COM) :: COM, COM_ans
 
     call monolis_std_log_string("monolis_output_recv_com_table_test")
 
@@ -120,5 +134,19 @@ contains
     COM%recv_item(4) = 40
 
     call monolis_output_recv_com_table("io/input/com.txt.2.out", COM)
+
+    call monolis_input_recv_com_table("io/input/com.txt.2.out", COM_ans)
+
+    call monolis_test_check_eq_I1("monolis_output_recv_com_table_test 1", &
+      & COM%recv_n_neib, COM_ans%recv_n_neib)
+
+    call monolis_test_check_eq_I ("monolis_output_recv_com_table_test 2", &
+      & COM%recv_neib_pe, COM_ans%recv_neib_pe)
+
+    call monolis_test_check_eq_I ("monolis_output_recv_com_table_test 3", &
+      & COM%recv_index, COM_ans%recv_index)
+
+    call monolis_test_check_eq_I ("monolis_output_recv_com_table_test 4", &
+      & COM%recv_item, COM_ans%recv_item)
   end subroutine monolis_output_recv_com_table_test
 end module mod_monolis_io_com_test

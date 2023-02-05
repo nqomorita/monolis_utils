@@ -59,7 +59,7 @@ contains
       endif
 
       do i = 1, n_neib
-        write(20,"(i0)")neib_pe(i) - 1
+        write(20,"(i0)")neib_pe(i)
       enddo
 
       do i = 1, n_neib + 1
