@@ -62,10 +62,28 @@ contains
 
   subroutine monolis_output_graph_test()
     implicit none
+    integer(kint) :: n_vertex
+    integer(kint) :: vertex_id(3)
+    integer(kint) :: index(4)
+    integer(kint) :: item(6)
 
     call monolis_std_log_string("monolis_output_graph_test")
 
-    !call monolis_output_graph(fname, n_vertex, vertex_id, index, item)
+    n_vertex = 3
+    vertex_id(1) = 1
+    vertex_id(2) = 2
+    vertex_id(3) = 3
+    index(1) = 0
+    index(2) = 2
+    index(3) = 4
+    index(4) = 6
+    item(1) = 1
+    item(2) = 2
+    item(3) = 2
+    item(4) = 3
+    item(5) = 3
+    item(6) = 4
+    call monolis_output_graph("io/input/graph.txt.out", n_vertex, vertex_id, index, item)
   end subroutine monolis_output_graph_test
 
   subroutine monolis_input_node_test()
@@ -98,10 +116,16 @@ contains
 
   subroutine monolis_output_node_test()
     implicit none
+    integer(kint) :: n_node
+    real(kdouble) :: node(3,3)
 
     call monolis_std_log_string("monolis_output_node_test")
 
-    !call monolis_output_node(fname, n_node, node)
+    n_node = 3
+    node(1,1) = 1.0d0; node(2,1) = 2.0d0; node(3,1) = 3.0d0
+    node(1,2) = 4.0d0; node(2,2) = 5.0d0; node(3,2) = 6.0d0
+    node(1,3) = 7.0d0; node(2,3) = 8.0d0; node(3,3) = 9.0d0
+    call monolis_output_node("io/input/node.txt.out", n_node, node)
   end subroutine monolis_output_node_test
 
   subroutine monolis_input_elem_test()
@@ -134,10 +158,18 @@ contains
 
   subroutine monolis_output_elem_test()
     implicit none
+    integer(kint) :: n_elem
+    integer(kint) :: n_base
+    integer(kint) :: elem(2,3)
 
     call monolis_std_log_string("monolis_output_elem_test")
 
-    !call monolis_output_elem(fname, n_elem, n_base, elem)
+    n_elem = 3
+    n_base = 2
+    elem(1,1) = 1; elem(2,1) = 2;
+    elem(1,2) = 2; elem(2,2) = 3;
+    elem(1,3) = 3; elem(2,3) = 4;
+    call monolis_output_elem("io/input/elem.txt.out", n_elem, n_base, elem)
   end subroutine monolis_output_elem_test
 
   subroutine monolis_input_internal_vertex_number_test()
@@ -157,7 +189,8 @@ contains
 
     call monolis_std_log_string("monolis_output_internal_vertex_number_test")
 
-    !call monolis_output_internal_vertex_number(fname, n_internal_vertex)
+    n_internal_vertex = 5
+    call monolis_output_internal_vertex_number("io/input/n_internal.txt.out", n_internal_vertex)
   end subroutine monolis_output_internal_vertex_number_test
 
   subroutine monolis_input_bc_test()
@@ -175,7 +208,7 @@ contains
 
     call monolis_test_check_eq_I1("monolis_input_bc_test 1", n_bc, 3)
 
-    call monolis_test_check_eq_I1("monolis_input_bc_test 2", n_dof, 3)
+    call monolis_test_check_eq_I1("monolis_input_bc_test 2", n_dof, 2)
 
     i_ans(1) = 1
     i_ans(2) = 2
@@ -195,10 +228,22 @@ contains
 
   subroutine monolis_output_bc_test()
     implicit none
+    integer(kint) :: n_bc
+    integer(kint) :: n_dof
+    integer(kint) :: i_bc(2,3)
+    real(kdouble) :: r_bc(3)
 
     call monolis_std_log_string("monolis_output_bc_test")
 
-    !call monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
+    n_bc = 3
+    n_dof = 2
+    i_bc(1,1) = 1; i_bc(2,1) = 2
+    i_bc(1,2) = 2; i_bc(2,2) = 3
+    i_bc(1,3) = 3; i_bc(2,3) = 4
+    r_bc(1) = 3.0d0
+    r_bc(2) = 4.0d0
+    r_bc(3) = 5.0d0
+    call monolis_output_bc("io/input/bc.txt.out", n_bc, n_dof, i_bc, r_bc)
   end subroutine monolis_output_bc_test
 
   subroutine monolis_input_distval_i_test()
@@ -231,10 +276,20 @@ contains
 
   subroutine monolis_output_distval_i_test()
     implicit none
+    character(monolis_charlen) :: label
+    integer(kint) :: n_node
+    integer(kint) :: n_dof
+    integer(kint) :: val(1,3)
 
     call monolis_std_log_string("monolis_output_distval_i_test")
 
-    !call monolis_output_distval_i(fname, label, n_node, n_dof, val)
+    label = "#val"
+    n_node = 3
+    n_dof = 1
+    val(1,1) = 3
+    val(1,2) = 4
+    val(1,3) = 5
+    call monolis_output_distval_i("io/input/distval_i.txt.out", label, n_node, n_dof, val)
   end subroutine monolis_output_distval_i_test
 
   subroutine monolis_input_distval_r_test()
@@ -267,9 +322,19 @@ contains
 
   subroutine monolis_output_distval_r_test()
     implicit none
+    character(monolis_charlen) :: label
+    integer(kint) :: n_node
+    integer(kint) :: n_dof
+    real(kdouble) :: val(1,3)
 
     call monolis_std_log_string("monolis_output_distval_r_test")
 
-    !call monolis_output_distval_r(fname, label, n_node, n_dof, val)
+    label = "#val"
+    n_node = 3
+    n_dof = 1
+    val(1,1) = 3.0d0
+    val(1,2) = 4.0d0
+    val(1,3) = 5.0d0
+    call monolis_output_distval_r("io/input/distval_r.txt.out", label, n_node, n_dof, val)
   end subroutine monolis_output_distval_r_test
 end module mod_monolis_io_test

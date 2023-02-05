@@ -58,11 +58,11 @@ contains
     !> [in] グラフノード数
     integer(kint) :: n_vertex
     !> [in] グラフノード id
-    integer(kint), allocatable :: vertex_id(:)
+    integer(kint) :: vertex_id(:)
     !> [in] グラフの CSR 圧縮形式の index 配列
-    integer(kint), allocatable :: index(:)
+    integer(kint) :: index(:)
     !> [in] グラフの CSR 圧縮形式の index 配列
-    integer(kint), allocatable :: item(:)
+    integer(kint) :: item(:)
     integer(kint) :: i, in, j, jS, jE
 
     open(20, file = trim(fname), status = "replace")
@@ -71,7 +71,7 @@ contains
         jS = index(i) + 1
         jE = index(i+1)
         in = jE - jS + 1
-        write(20,"(i0,x,i0,$)") i, in
+        write(20,"(i0,x,i0,$)") vertex_id(i), in
         do j = jS, jE
           write(20,"(x,i0,$)") item(j)
         enddo
@@ -110,7 +110,7 @@ contains
     !> [in] 節点数
     integer(kint) :: n_node
     !> [in] 節点座標
-    integer(kint) :: node(:,:)
+    real(kdouble) :: node(:,:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "replace")
