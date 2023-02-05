@@ -34,9 +34,9 @@ contains
       enddo
     close(20)
 
-    call monolis_alloc_int_1d(vertex_id, n_vertex)
-    call monolis_alloc_int_1d(index, n_vertex+1)
-    call monolis_alloc_int_1d(item, nz)
+    call monolis_alloc_I_1d(vertex_id, n_vertex)
+    call monolis_alloc_I_1d(index, n_vertex+1)
+    call monolis_alloc_I_1d(item, nz)
 
     nz = 0
     open(20, file = fname, status = "old", iostat = ierr)
@@ -89,12 +89,12 @@ contains
     !> [out] 節点数
     integer(kint) :: n_node
     !> [out] 節点座標
-    integer(kint), allocatable :: node(:,:)
+    real(kdouble), allocatable :: node(:,:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "old")
       read(20,*) n_node
-      call monolis_alloc_int_2d(node, 3, n_node)
+      call monolis_alloc_R_2d(node, 3, n_node)
       do i = 1, n_node
         read(20,*) node(1,i), node(2,i), node(3,i)
       enddo
@@ -137,7 +137,7 @@ contains
 
     open(20, file = trim(fname), status = "old")
       read(20,*) n_elem, n_base
-      call monolis_alloc_int_2d(elem, n_base, n_elem)
+      call monolis_alloc_I_2d(elem, n_base, n_elem)
       do i = 1, n_elem
         read(20,*) (elem(j,i), j = 1, n_base)
       enddo
