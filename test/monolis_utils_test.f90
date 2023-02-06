@@ -32,14 +32,16 @@ program monolis_utils_test
   call monolis_utils_aabb_test()
   call monolis_utils_kdtree_test()
 
-  call monolis_io_arg_test()
-  call monolis_io_file_name_test()
-  call monolis_io_com_test()
-  call monolis_io_mtx_test()
-  call monolis_io_test()
-
   call monolis_mpi_test()
   call monolis_mpi_util_test()
+
+  if(monolis_mpi_global_comm_size() == 1)then
+    call monolis_io_arg_test()
+    call monolis_io_file_name_test()
+    call monolis_io_com_test()
+    call monolis_io_mtx_test()
+    call monolis_io_test()
+  endif
 
   call monolis_mpi_finalize()
 end program monolis_utils_test

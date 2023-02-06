@@ -100,8 +100,8 @@ $(addprefix sys/, $(SRC_ALLOC)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
-$(addprefix mpi/, $(SRC_MPI)) \
 $(addprefix com/, $(SRC_COM)) \
+$(addprefix mpi/, $(SRC_MPI)) \
 $(addprefix io/, $(SRC_IO)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
 monolis_utils.f90

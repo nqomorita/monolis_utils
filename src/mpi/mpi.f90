@@ -3,6 +3,7 @@ module mod_monolis_mpi
   use mod_monolis_utils_define_prm
   use mod_monolis_mpi_util
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_define_com
   implicit none
 
   !> MPI 演算タグ（和）
@@ -833,4 +834,92 @@ contains
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
   end subroutine monolis_SendRecv_C
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（実数型）
+  subroutine monolis_update_R(monoCOM, ndof, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com) :: monoCOM
+    !> [in] 節点あたりの自由度
+    integer(kint) :: ndof
+    !> [inout] 入出力ベクトル
+    real(kdouble) :: X(:)
+    !> [inout] 入出力ベクトル
+    real(kdouble), optional :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    !t1 = monolis_get_time()
+    call monolis_SendRecv_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, ndof, monoCOM%comm)
+    !t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_update_R
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（整数型）
+  subroutine monolis_update_I(monoCOM, ndof, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com) :: monoCOM
+    !> [in] 節点あたりの自由度
+    integer(kint) :: ndof
+    !> [inout] 入出力ベクトル
+    integer(kint) :: X(:)
+    !> [inout] 入出力ベクトル
+    real(kdouble), optional :: tcomm
+    integer(kint) :: ns, nr
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    !t1 = monolis_get_time()
+    call monolis_SendRecv_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, ndof, monoCOM%comm)
+    !t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_update_I
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（複素数型）
+  subroutine monolis_update_C(monoCOM, ndof, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com) :: monoCOM
+    !> [in] 節点あたりの自由度
+    integer(kint) :: ndof
+    !> [inout] 入出力ベクトル
+    complex(kdouble) :: X(:)
+    !> [inout] 入出力ベクトル
+    real(kdouble), optional :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    !t1 = monolis_get_time()
+    call monolis_SendRecv_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, ndof, monoCOM%comm)
+    !t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_update_C
 end module mod_monolis_mpi
