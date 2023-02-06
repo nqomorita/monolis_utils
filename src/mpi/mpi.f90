@@ -843,9 +843,9 @@ contains
     type(monolis_com) :: monoCOM
     !> [in] 節点あたりの自由度
     integer(kint) :: ndof
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     real(kdouble) :: X(:)
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     real(kdouble), optional :: tcomm
     real(kdouble) :: t1, t2
 
@@ -872,9 +872,9 @@ contains
     type(monolis_com) :: monoCOM
     !> [in] 節点あたりの自由度
     integer(kint) :: ndof
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     integer(kint) :: X(:)
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     real(kdouble), optional :: tcomm
     integer(kint) :: ns, nr
     real(kdouble) :: t1, t2
@@ -902,9 +902,9 @@ contains
     type(monolis_com) :: monoCOM
     !> [in] 節点あたりの自由度
     integer(kint) :: ndof
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     complex(kdouble) :: X(:)
-    !> [inout] 入出力ベクトル
+    !> [in,out] 入出力ベクトル
     real(kdouble), optional :: tcomm
     real(kdouble) :: t1, t2
 

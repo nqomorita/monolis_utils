@@ -4,7 +4,6 @@ module mod_monolis_utils_define_com
   use mod_monolis_utils_alloc
   implicit none
 
-  !> @ingroup dev_com
   !> COM 構造体
   type monolis_COM
     !> MPI コミュニケータ
