@@ -16,4 +16,7 @@ module mod_monolis_utils_define_prm
 
   !> monolis ライブラリにおけるテスト機能の一致判定閾値
   real(kdouble), parameter :: monolis_test_ths = 1.0d-8
+
+  !> monolis ライブラリにおけるデバッグ出力フラグ
+  logical, save :: monolis_debug_log_write = .false.
 end module mod_monolis_utils_define_prm
