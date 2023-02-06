@@ -80,7 +80,8 @@ shape_C2D4.f90 \
 shape_C2D6.f90 \
 shape_C3D10.f90 \
 shape_C3D4.f90 \
-shape_C3D8.f90
+shape_C3D8.f90 \
+shape_util.f90
 
 SRC_MPI = \
 mpi_util.f90 \

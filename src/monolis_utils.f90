@@ -14,6 +14,8 @@ module mod_monolis_utils
   use mod_monolis_io_mtx
   use mod_monolis_io_com
   use mod_monolis_io_file_name
+  use mod_monolis_shape_util
+  use mod_monolis_shape_c3d8
 end module mod_monolis_utils
 
 !> @defgroup io ファイル入出力関数群
