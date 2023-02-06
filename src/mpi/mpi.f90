@@ -851,13 +851,13 @@ contains
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
 
-    !t1 = monolis_get_time()
+    t1 = monolis_get_time()
     call monolis_SendRecv_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
        & X, ndof, monoCOM%comm)
-    !t2 = monolis_get_time()
+    t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
@@ -881,13 +881,13 @@ contains
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
 
-    !t1 = monolis_get_time()
+    t1 = monolis_get_time()
     call monolis_SendRecv_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
        & X, ndof, monoCOM%comm)
-    !t2 = monolis_get_time()
+    t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
@@ -910,13 +910,13 @@ contains
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
 
-    !t1 = monolis_get_time()
+    t1 = monolis_get_time()
     call monolis_SendRecv_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
        & X, ndof, monoCOM%comm)
-    !t2 = monolis_get_time()
+    t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1

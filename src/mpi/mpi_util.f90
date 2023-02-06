@@ -130,4 +130,50 @@ contains
     call MPI_barrier(comm, ierr)
 #endif
   end subroutine monolis_mpi_local_barrier
+
+  !> @ingroup mpi
+  !> MPI 時間計測関数
+  function monolis_get_time()
+    implicit none
+    !> [out] 時刻
+    real(kdouble) :: monolis_get_time
+
+#ifndef NO_MPI
+    monolis_get_time = MPI_Wtime()
+#else
+    monolis_get_time = 0.0d0
+#endif
+  end function monolis_get_time
+
+  !> @ingroup mpi
+  !> MPI 時間計測関数（グローバルコミュニケータ）
+  function monolis_get_time_global_sync()
+    implicit none
+    !> [out] 時刻
+    real(kdouble) :: monolis_get_time_global_sync
+
+#ifndef NO_MPI
+    call monolis_mpi_global_barrier()
+    monolis_get_time_global_sync = MPI_Wtime()
+#else
+    monolis_get_time_global_sync = 0.0d0
+#endif
+  end function monolis_get_time_global_sync
+
+  !> @ingroup mpi
+  !> MPI 時間計測関数（ローカルコミュニケータ）
+  function monolis_get_time_local_sync(comm)
+    implicit none
+    !> [out] 時刻
+    real(kdouble) :: monolis_get_time_local_sync
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+
+#ifndef NO_MPI
+    call monolis_mpi_local_barrier(comm)
+    monolis_get_time_local_sync = MPI_Wtime()
+#else
+    monolis_get_time_local_sync = 0.0d0
+#endif
+  end function monolis_get_time_local_sync
 end module mod_monolis_mpi_util
