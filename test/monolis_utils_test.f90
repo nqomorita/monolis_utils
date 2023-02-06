@@ -8,6 +8,7 @@ program monolis_utils_test
   use mod_monolis_utils_hash_test
   use mod_monolis_utils_aabb_test
   use mod_monolis_utils_kdtree_test
+  use mod_monolis_utils_define_com_test
   use mod_monolis_mpi_test
   use mod_monolis_mpi_util_test
   use mod_monolis_mpi_util
@@ -20,23 +21,25 @@ program monolis_utils_test
 
   call monolis_mpi_initialize()
 
-  !call monolis_utils_alloc_test()
-  !call monolis_utils_std_test_test()
-  !call monolis_utils_std_sort_I_test()
-  !call monolis_utils_std_sort_R_test()
-  !call monolis_utils_std_algebra_test()
-  !call monolis_utils_hash_test()
-  !call monolis_utils_aabb_test()
-  !call monolis_utils_kdtree_test()
+  call monolis_utils_std_test_test()
+  call monolis_utils_std_sort_I_test()
+  call monolis_utils_std_sort_R_test()
+  call monolis_utils_std_algebra_test()
 
-  !call monolis_io_arg_test()
-  !call monolis_io_file_name_test()
+  call monolis_utils_define_com_test()
+  call monolis_utils_alloc_test()
+  call monolis_utils_hash_test()
+  call monolis_utils_aabb_test()
+  call monolis_utils_kdtree_test()
+
+  call monolis_io_arg_test()
+  call monolis_io_file_name_test()
   call monolis_io_com_test()
   call monolis_io_mtx_test()
   call monolis_io_test()
 
-  !call monolis_mpi_test()
-  !call monolis_mpi_util_test()
+  call monolis_mpi_test()
+  call monolis_mpi_util_test()
 
   call monolis_mpi_finalize()
 end program monolis_utils_test
