@@ -15,6 +15,17 @@ contains
   end subroutine monolis_std_log_string
 
   !> @ingroup dev_error
+  !> 通常ログ出力関数
+  subroutine monolis_std_log_string2(header, string)
+    implicit none
+    !> [in] 出力ログ
+    character(*) :: header
+    !> [in] 出力ログ
+    character(*) :: string
+    write(*,"(a,a,x,a)")"** MONOLIS: ", trim(header), trim(string)
+  end subroutine monolis_std_log_string2
+
+  !> @ingroup dev_error
   !> デバッグ出力関数フラグの設定
   subroutine monolis_std_debug_log_flag(flag)
     implicit none
@@ -35,42 +46,50 @@ contains
 
   !> @ingroup dev_error
   !> デバッグログ出力（整数型）
-  subroutine monolis_std_debug_log_I1(n)
+  subroutine monolis_std_debug_log_I1(header, n)
     implicit none
+    !> [in] 出力ログ
+    character(*) :: header
     !> [in] 出力ログ
     integer(kint) :: n
     if(.not. monolis_debug_log_write) return
-    write(*,"(a,i12)")"** MONOLIS DEBUG: ", n
+    write(*,"(a,a,x,i12)")"** MONOLIS DEBUG: ", trim(header), n
   end subroutine monolis_std_debug_log_I1
 
   !> @ingroup dev_error
   !> デバッグログ出力（実数型）
-  subroutine monolis_std_debug_log_R1(var)
+  subroutine monolis_std_debug_log_R1(header, var)
     implicit none
+    !> [in] 出力ログ
+    character(*) :: header
     !> [in] 出力ログ
     real(kdouble) :: var
     if(.not. monolis_debug_log_write) return
-    write(*,"(a,1pe12.4)")"** MONOLIS DEBUG: ", var
+    write(*,"(a,a,x,1pe12.4)")"** MONOLIS DEBUG: ", trim(header), var
   end subroutine monolis_std_debug_log_R1
 
   !> @ingroup dev_error
   !> デバッグログ出力（文字列型）
-  subroutine monolis_std_debug_log_C(char)
+  subroutine monolis_std_debug_log_C(header, char)
     implicit none
+    !> [in] 出力ログ
+    character(*) :: header
     !> [in] 出力ログ
     character(*) :: char
     if(.not. monolis_debug_log_write) return
-    write(*,"(a,a)")"** MONOLIS DEBUG: ", char
+    write(*,"(a,a,x,a)")"** MONOLIS DEBUG: ", trim(header), char
   end subroutine monolis_std_debug_log_C
 
   !> @ingroup dev_error
   !> デバッグログ出力（論理型）
-  subroutine monolis_std_debug_log_L1(l)
+  subroutine monolis_std_debug_log_L1(header, l)
     implicit none
+    !> [in] 出力ログ
+    character(*) :: header
     !> [in] 出力ログ
     logical :: l
     if(.not. monolis_debug_log_write) return
-    write(*,"(a,l)")"** MONOLIS DEBUG: ", l
+    write(*,"(a,a,x,l)")"** MONOLIS DEBUG: ", trim(header), l
   end subroutine monolis_std_debug_log_L1
 
   !> @ingroup dev_error

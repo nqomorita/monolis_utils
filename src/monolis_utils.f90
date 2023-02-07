@@ -16,6 +16,7 @@ module mod_monolis_utils
   use mod_monolis_io_file_name
   use mod_monolis_shape_util
   use mod_monolis_shape_c3d8
+  use mod_monolis_shape_c3d4
 end module mod_monolis_utils
 
 !> @defgroup io ファイル入出力関数群
