@@ -119,8 +119,9 @@ contains
     do i = 1, count/2
       call getarg(2*i-1, argc1)
       call getarg(2*i  , argc2)
+
       if(trim(argc1) == trim(tag))then
-        read(argc2,*) var
+        read(argc2,"(a)") var
         is_get = .true.
       endif
     enddo

@@ -57,7 +57,7 @@ program monolis_dbc_all_surf_tet
 
   call monolis_get_surf(n_elem, n_base, elem, 4, 3, n_surf_elem, surf)
 
-  call monolis_get_surf_node(n_base, n_surf_elem, surf, n_surf_node, node_id)
+  call monolis_get_surf_node(3, n_surf_elem, surf, n_surf_node, node_id)
 
   call monolis_alloc_I_2d(i_bc, 2, n_dof*n_surf_node)
 
@@ -65,14 +65,14 @@ program monolis_dbc_all_surf_tet
 
   do i = 1, n_surf_node
     do j = 1, n_dof
-      in = n_surf_node*(i-1) + j
+      in = n_dof*(i-1) + j
       i_bc(1,in) = node_id(i)
       i_bc(2,in) = j
       r_bc(in) = val(j)
     enddo
   enddo
 
-  call monolis_output_bc(foname, n_surf_node, n_dof, i_bc, r_bc)
+  call monolis_output_bc(foname, n_dof*n_surf_node, n_dof, i_bc, r_bc)
 
   call monolis_mpi_finalize()
 end program monolis_dbc_all_surf_tet

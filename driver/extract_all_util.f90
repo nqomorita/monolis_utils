@@ -42,7 +42,7 @@ contains
             elseif(n_base == 8)then
               in = conn(monolis_C3D8_surf(i,j))
             endif
-            out(i,j) = in
+            out(i,n_elem_out) = in
           enddo
         endif
       enddo
@@ -63,7 +63,7 @@ contains
 
     do i = 1, n_surf
       do j = 1, n_base
-        tmp(n_surf*(i-1) + j) = surf(j,i)
+        tmp(n_base*(i-1) + j) = surf(j,i)
       enddo
     enddo
 
