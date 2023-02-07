@@ -4,22 +4,17 @@ program monolis_extract_all_surf_tet
   use mod_monolis_driver_util
   use mod_monolis_extract_all_util
   implicit none
-  !> 入力節点ファイル名
-  character(monolis_charlen) :: fnname
   !> 入力要素ファイル名
-  character(monolis_charlen) :: fename
+  character(monolis_charlen) :: finame
   !> 出力ファイル名
   character(monolis_charlen) :: foname
   !> 境界条件を設定する自由度数
   integer(kint) :: n_dof
   !> 境界条件の設定値
   real(kdouble), allocatable :: val(:)
-  integer(kint) :: n_node, n_elem, n_base, n_surf_node, n_surf_elem
+  integer(kint) :: n_elem, n_base, n_surf_elem
   logical :: is_get
   integer(kint), allocatable :: elem(:,:), surf(:,:)
-  integer(kint), allocatable :: i_bc(:,:)
-  real(kdouble), allocatable :: node(:,:)
-  real(kdouble), allocatable :: r_bc(:)
 
   call monolis_mpi_initialize()
 
@@ -35,30 +30,27 @@ program monolis_extract_all_surf_tet
     write(*,"(a)")"options:"
     write(*,"(a)")"-in {input node filename}: (defualt) node.dat"
     write(*,"(a)")"-ie {input elem filename}: (defualt) elem.dat"
-    write(*,"(a)")"-o  {output filename}: (defualt) D_bc.dat"
+    write(*,"(a)")"-o  {output filename}: (defualt) surf.dat"
     write(*,"(a)")"-h  : help"
     stop monolis_success
   endif
 
-  call monolis_driver_get_arg_in(fnname)
+  finame = "elem.dat"
+  call monolis_get_arg_input_i_tag(finame)
 
-  call monolis_driver_get_arg_ie(fename)
+  foname = "surf.dat"
+  call monolis_get_arg_input_o_tag(foname)
 
-  foname = "D_bc.dat"
-  call monolis_driver_get_arg_o(foname)
-
-  call monolis_input_node(fnname, n_node, node)
-
-  call monolis_input_elem(fename, n_elem, n_base, elem)
+  call monolis_input_elem(finame, n_elem, n_base, elem)
 
   if(n_base /= 4)then
     call monolis_std_error_string("please input 1st order tet mesh")
     call monolis_std_error_stop()
   endif
 
-  call monolis_get_surf(n_node, n_elem, n_base, elem, 4, 3, n_surf_elem, surf)
+  call monolis_get_surf(n_elem, n_base, elem, 4, 3, n_surf_elem, surf)
 
-  !call monolis_output_bc(foname, n_surf_node, n_dof, i_bc, r_bc)
+  call monolis_output_elem(foname, n_surf_elem, 3, surf)
 
   call monolis_mpi_finalize()
 end program monolis_extract_all_surf_tet

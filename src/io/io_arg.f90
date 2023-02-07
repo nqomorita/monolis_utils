@@ -125,4 +125,50 @@ contains
       endif
     enddo
   end subroutine monolis_get_arg_input_S
+
+  !> @ingroup io
+  !> 入力節点ファイル名を取得
+  subroutine monolis_get_arg_input_in_tag(fnname)
+    implicit none
+    !> 入力節点ファイル名
+    character(monolis_charlen) :: fnname
+    logical :: is_get
+    fnname = "node.dat"
+    call monolis_get_arg_input_S("-in", fnname, is_get)
+    call monolis_std_log_string2("[input node file]", fnname)
+  end subroutine monolis_get_arg_input_in_tag
+
+  !> @ingroup io
+  !> 入力要素ファイル名を取得
+  subroutine monolis_get_arg_input_ie_tag(fename)
+    implicit none
+    !> 入力要素ファイル名
+    character(monolis_charlen) :: fename
+    logical :: is_get
+    fename = "elem.dat"
+    call monolis_get_arg_input_S("-ie", fename, is_get)
+    call monolis_std_log_string2("[input elem file]", fename)
+  end subroutine monolis_get_arg_input_ie_tag
+
+  !> @ingroup io
+  !> 入力ファイル名を取得
+  subroutine monolis_get_arg_input_i_tag(finame)
+    implicit none
+    !> 出力ファイル名
+    character(monolis_charlen) :: finame
+    logical :: is_get
+    call monolis_get_arg_input_S("-i", finame, is_get)
+    call monolis_std_log_string2("[input file]", finame)
+  end subroutine monolis_get_arg_input_i_tag
+
+  !> @ingroup io
+  !> 出力ファイル名を取得
+  subroutine monolis_get_arg_input_o_tag(foname)
+    implicit none
+    !> 出力ファイル名
+    character(monolis_charlen) :: foname
+    logical :: is_get
+    call monolis_get_arg_input_S("-o", foname, is_get)
+    call monolis_std_log_string2("[output file]", foname)
+  end subroutine monolis_get_arg_input_o_tag
 end module mod_monolis_io_arg

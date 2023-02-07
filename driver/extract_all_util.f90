@@ -8,10 +8,10 @@ contains
 
   !> @ingroup dev_driver
   !> 表面要素を抽出
-  subroutine monolis_get_surf(n_node, n_elem, n_base, elem, n_surf, &
+  subroutine monolis_get_surf(n_elem, n_base, elem, n_surf, &
     & n_base_out, n_elem_out, out)
     implicit none
-    integer(kint) :: n_node, n_elem, n_base, conn(n_base)
+    integer(kint) :: n_elem, n_base, conn(n_base)
     integer(kint) :: n_surf, n_node_out, n_elem_out, n_base_out
     integer(kint) :: elem(:,:)
     integer(kint) :: i, j, in, eid
@@ -48,6 +48,34 @@ contains
       enddo
     enddo
   end subroutine monolis_get_surf
+
+  !> @ingroup dev_driver
+  !> 表面要素を構成する説店番号を抽出
+  subroutine monolis_get_surf_node(n_base, n_surf, surf, n_node, node_id)
+    implicit none
+    integer(kint) :: n_node, n_base, n_surf
+    integer(kint) :: surf(:,:)
+    integer(kint) :: i, j
+    integer(kint), allocatable :: tmp(:)
+    integer(kint), allocatable :: node_id(:)
+
+    call monolis_alloc_I_1d(tmp, n_base*n_surf)
+
+    do i = 1, n_surf
+      do j = 1, n_base
+        tmp(n_surf*(i-1) + j) = surf(j,i)
+      enddo
+    enddo
+
+    call monolis_qsort_I_1d(tmp, 1, n_base*n_surf)
+    call monolis_get_uniq_array_I(tmp, n_base*n_surf, n_node)
+
+    call monolis_alloc_I_1d(node_id, n_node)
+
+    do i = 1, n_node
+      node_id(i) = tmp(i)
+    enddo
+  end subroutine monolis_get_surf_node
 
   !> @ingroup dev_driver
   !> 表面要素を抽出（メイン関数）

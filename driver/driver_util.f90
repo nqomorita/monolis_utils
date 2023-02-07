@@ -5,48 +5,37 @@ module mod_monolis_driver_util
 contains
 
   !> @ingroup dev_driver
-  !> 入力節点ファイル名を取得
-  subroutine monolis_driver_get_arg_in(fnname)
-    implicit none
-    !> 入力節点ファイル名
-    character(monolis_charlen) :: fnname
-    logical :: is_get
-    fnname = "node.dat"
-    call monolis_get_arg_input_S("-in", fnname, is_get)
-    call monolis_std_log_string2("[input node file]", fnname)
-  end subroutine monolis_driver_get_arg_in
-
-  !> @ingroup dev_driver
-  !> 入力要素ファイル名を取得
-  subroutine monolis_driver_get_arg_ie(fename)
-    implicit none
-    !> 入力要素ファイル名
-    character(monolis_charlen) :: fename
-    logical :: is_get
-    fename = "elem.dat"
-    call monolis_get_arg_input_S("-ie", fename, is_get)
-    call monolis_std_log_string2("[input elem file]", fename)
-  end subroutine monolis_driver_get_arg_ie
-
-  !> @ingroup dev_driver
-  !> 出力ファイル名を取得
-  subroutine monolis_driver_get_arg_o(foname)
-    implicit none
-    !> 出力ファイル名
-    character(monolis_charlen) :: foname
-    logical :: is_get
-    call monolis_get_arg_input_S("-o", foname, is_get)
-    call monolis_std_log_string2("[output file]", foname)
-  end subroutine monolis_driver_get_arg_o
-
-  !> @ingroup dev_driver
   !> 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all(n_dof, val)
     implicit none
     !> 出力ファイル名
     integer(kint) :: n_dof
+    integer(kint) :: i, j, count
+    character(monolis_charlen) :: argc1
     real(kdouble), allocatable :: val(:)
-    !call monolis_get_arg_input_S("-o", foname, is_get)
-    !call monolis_std_log_string2("[output file]", foname)
+
+    j = 0
+    count = iargc()
+    do i = 1, count/2
+      j = i
+      call getarg(2*i-1, argc1)
+      if(    trim(argc1) == "-in")then
+      elseif(trim(argc1) == "-ie")then
+      elseif(trim(argc1) == "-i")then
+      elseif(trim(argc1) == "-o" )then
+      else
+        exit
+      endif
+    enddo
+
+    call getarg(2*j-1, argc1)
+    read(argc1,*) n_dof
+
+    call monolis_alloc_R_1d(val, n_dof)
+
+    do i = 1, n_dof
+      call getarg(2*j-1 + i, argc1)
+      read(argc1,*) val(i)
+    enddo
   end subroutine monolis_driver_get_arg_dbc_all
 end module mod_monolis_driver_util
