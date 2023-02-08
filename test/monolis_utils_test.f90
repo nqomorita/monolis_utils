@@ -34,6 +34,8 @@ program monolis_utils_test
 
   call monolis_mpi_test()
   call monolis_mpi_util_test()
+  call monolis_comm_table_test()
+  call monolis_comm_par_util_test()
 
   if(monolis_mpi_global_comm_size() == 1)then
     call monolis_io_arg_test()
