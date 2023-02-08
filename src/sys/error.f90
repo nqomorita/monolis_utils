@@ -31,7 +31,7 @@ contains
     implicit none
     !> [in] フラグ設定
     logical :: flag
-    monolis_debug_log_write = .true.
+    monolis_debug_log_write = flag
   end subroutine monolis_std_debug_log_flag
 
   !> @ingroup dev_error

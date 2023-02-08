@@ -17,7 +17,6 @@ contains
   !> unit test
   subroutine monolis_mpi_util_test_main()
     implicit none
-    integer(kint) :: n
 
     call monolis_std_log_string("monolis_mpi_util_test_main")
 

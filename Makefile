@@ -50,8 +50,11 @@ AR   = - ar ruv
 LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 
 ##> source file define
-SRC_DEFINE = \
+SRC_DEFINE1 = \
 def_prm.f90
+
+SRC_DEFINE2 = \
+def_com.f90
 
 SRC_ALLOC = \
 error.f90 \
@@ -59,7 +62,6 @@ alloc.f90 \
 sys.f90
 
 SRC_COM = \
-def_com.f90 \
 comm_par_util.f90 \
 comm_table.f90
 
@@ -98,13 +100,14 @@ io_com.f90 \
 io.f90
 
 SRC_ALL = \
-$(addprefix define/, $(SRC_DEFINE)) \
+$(addprefix define/, $(SRC_DEFINE1)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
+$(addprefix define/, $(SRC_DEFINE2)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
-$(addprefix com/, $(SRC_COM)) \
 $(addprefix mpi/, $(SRC_MPI)) \
+$(addprefix com/, $(SRC_COM)) \
 $(addprefix io/, $(SRC_IO)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
 monolis_utils.f90

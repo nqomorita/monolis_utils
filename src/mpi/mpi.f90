@@ -603,9 +603,23 @@ contains
 
   !> @ingroup mpi
   !> alltoall 関数（整数型）
-  subroutine monolis_alltoall_I()
+  subroutine monolis_alltoall_I1(n, sbuf, comm)
     implicit none
-  end subroutine monolis_alltoall_I
+    !> [in] データ送信個数
+    integer(kint) :: n
+    !> [in] 送信データ
+    integer(kint) :: sbuf(n)
+    !> [out] 受信データ
+    integer(kint) :: rbuf(n)
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    integer(kint) :: ierr
+
+#ifndef NO_MPI
+    call mpi_alltoall(sbuf, 1, MPI_INTEGER, rbuf, 1, MPI_INTEGER, comm, ierr)
+    sbuf = rbuf
+#endif
+  end subroutine monolis_alltoall_I1
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
@@ -882,7 +896,6 @@ contains
     integer(kint) :: X(:)
     !> [in,out] 入出力ベクトル
     real(kdouble), optional :: tcomm
-    integer(kint) :: ns, nr
     real(kdouble) :: t1, t2
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return

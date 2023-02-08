@@ -12,7 +12,7 @@ contains
     & n_base_out, n_elem_out, out)
     implicit none
     integer(kint) :: n_elem, n_base, conn(n_base)
-    integer(kint) :: n_surf, n_node_out, n_elem_out, n_base_out
+    integer(kint) :: n_surf, n_elem_out, n_base_out
     integer(kint) :: elem(:,:)
     integer(kint) :: i, j, in, eid
     integer(kint), allocatable :: out(:,:)
