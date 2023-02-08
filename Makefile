@@ -59,7 +59,9 @@ alloc.f90 \
 sys.f90
 
 SRC_COM = \
-def_com.f90
+def_com.f90 \
+comm_par_util.f90 \
+comm_table.f90
 
 SRC_STD = \
 std_test.f90 \

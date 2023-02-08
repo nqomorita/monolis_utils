@@ -32,6 +32,13 @@ module mod_monolis_utils_define_com
     integer(kint), allocatable :: send_item(:)
   end type monolis_COM
 
+  !> 通信テーブル作成用ノードリスト構造体
+  type monolis_comm_node_list
+    integer(kint) :: n_node = 0
+    integer(kint), allocatable :: domid(:)
+    integer(kint), allocatable :: global_id(:)
+  end type monolis_comm_node_list
+
 contains
 
   !> @ingroup com

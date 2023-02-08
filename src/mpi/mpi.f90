@@ -602,6 +602,12 @@ contains
   end subroutine monolis_allgatherv_C
 
   !> @ingroup mpi
+  !> alltoall 関数（整数型）
+  subroutine monolis_alltoall_I()
+    implicit none
+  end subroutine monolis_alltoall_I
+
+  !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
   subroutine monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
