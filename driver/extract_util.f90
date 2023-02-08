@@ -1,4 +1,4 @@
-module mod_monolis_extract_all_util
+module mod_monolis_extract_util
   use mod_monolis_utils
   implicit none
 
@@ -156,4 +156,4 @@ contains
     write(c3,"(i9.9)")array(3)
     get_key_surf = c1//c2//c3
   end function get_key_surf
-end module mod_monolis_extract_all_util
+end module mod_monolis_extract_util

@@ -2,7 +2,7 @@
 program monolis_extract_all_surf_hex
   use mod_monolis_utils
   use mod_monolis_driver_util
-  use mod_monolis_extract_all_util
+  use mod_monolis_extract_util
   implicit none
   !> 入力要素ファイル名
   character(monolis_charlen) :: finame

@@ -127,10 +127,15 @@ DRIVE1 = $(BIN_DIR)/monolis_dbc_all_surf_hex
 DRIVE2 = $(BIN_DIR)/monolis_dbc_all_surf_tet
 DRIVE3 = $(BIN_DIR)/monolis_extract_all_surf_hex
 DRIVE4 = $(BIN_DIR)/monolis_extract_all_surf_tet
+DRIVE5 = $(BIN_DIR)/monolis_h_refiner_hex
+DRIVE6 = $(BIN_DIR)/monolis_h_refiner_tet
+DRIVE7 = $(BIN_DIR)/monolis_p_refiner_hex
+DRIVE8 = $(BIN_DIR)/monolis_p_refiner_tet
 
 SRC_DRIVE = \
 driver_util.f90 \
-extract_all_util.f90
+extract_util.f90 \
+refiner_util.f90
 
 DRV_SOURCES = $(addprefix $(DRV_DIR)/, $(SRC_DRIVE))
 DRV_OBJSt   = $(subst $(DRV_DIR), $(OBJ_DIR), $(DRV_SOURCES:.f90=.o))
@@ -139,6 +144,10 @@ DRV_OBJS1   = $(DRV_OBJSt:.c=.o) ./obj/dbc_all_surf_hex.o
 DRV_OBJS2   = $(DRV_OBJSt:.c=.o) ./obj/dbc_all_surf_tet.o
 DRV_OBJS3   = $(DRV_OBJSt:.c=.o) ./obj/extract_all_surf_hex.o
 DRV_OBJS4   = $(DRV_OBJSt:.c=.o) ./obj/extract_all_surf_tet.o
+DRV_OBJS5   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_hex.o
+DRV_OBJS6   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_tet.o
+DRV_OBJS7   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_hex.o
+DRV_OBJS8   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_tet.o
 
 ##> target
 all: \
@@ -147,7 +156,11 @@ all: \
 	$(DRIVE1) \
 	$(DRIVE2) \
 	$(DRIVE3) \
-	$(DRIVE4)
+	$(DRIVE4) \
+	$(DRIVE5) \
+	$(DRIVE6) \
+	$(DRIVE7) \
+	$(DRIVE8)
 
 lib: \
 	$(LIB_TARGET)
@@ -188,6 +201,18 @@ $(DRIVE3): $(DRV_OBJS3)
 $(DRIVE4): $(DRV_OBJS4)
 	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS4) -L./lib -lmonolis_utils
 
+$(DRIVE5): $(DRV_OBJS5)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS5) -L./lib -lmonolis_utils
+
+$(DRIVE6): $(DRV_OBJS6)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS6) -L./lib -lmonolis_utils
+
+$(DRIVE7): $(DRV_OBJS7)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
+
+$(DRIVE8): $(DRV_OBJS8)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS8) -L./lib -lmonolis_utils
+
 clean:
 	$(RM) \
 	$(LIB_OBJS) \
@@ -199,6 +224,10 @@ clean:
 	$(DRIVE2) \
 	$(DRIVE3) \
 	$(DRIVE4) \
+	$(DRIVE5) \
+	$(DRIVE6) \
+	$(DRIVE7) \
+	$(DRIVE8) \
 	./include/*.mod \
 	./bin/*
 
