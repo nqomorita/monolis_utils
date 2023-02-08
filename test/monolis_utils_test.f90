@@ -17,6 +17,8 @@ program monolis_utils_test
   use mod_monolis_io_com_test
   use mod_monolis_io_mtx_test
   use mod_monolis_io_test
+  use mod_monolis_comm_table_test
+  use mod_monolis_comm_par_util_test
   implicit none
 
   call monolis_mpi_initialize()
