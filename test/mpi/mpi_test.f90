@@ -15,6 +15,7 @@ contains
     call monolis_scatterv_test()
     call monolis_allgather_test()
     call monolis_allgather_1_test()
+    call monolis_alltoall_1_test()
     call monolis_send_recv_test()
     call monolis_update_test()
   end subroutine monolis_mpi_test
@@ -586,6 +587,27 @@ contains
 
     call monolis_test_check_eq_C("monolis_allgatherv_C case 1", c_rbuf, c_ans)
   end subroutine monolis_allgather_test
+
+  subroutine monolis_alltoall_1_test()
+    implicit none
+    integer(kint) :: comm, comm_size, sbuf(2), i_ans(2)
+
+    call monolis_std_log_string("monolis_alltoall_1_test")
+
+    if(monolis_mpi_global_comm_size() == 1) return
+
+    comm = monolis_mpi_global_comm()
+    comm_size = monolis_mpi_global_comm_size()
+
+    sbuf = monolis_mpi_global_my_rank() + 1
+
+    call monolis_alltoall_I1(comm_size, sbuf, comm)
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+
+    call monolis_test_check_eq_I("monolis_alltoall_1_test case 1", sbuf, i_ans)
+  end subroutine monolis_alltoall_1_test
 
   subroutine monolis_send_recv_test()
     implicit none
