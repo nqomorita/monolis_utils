@@ -3,7 +3,9 @@ module mod_monolis_comm_table
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
   use mod_monolis_utils_define_com
+  use mod_monolis_mpi
   use mod_monolis_mpi_util
+  use mod_monolis_comm_par_util
   implicit none
 
 contains
@@ -22,7 +24,7 @@ contains
 
     n_size = monolis_mpi_local_comm_size(comm)
 
-    call monolis_alloc_int_1d(vtxdist, n_size + 1)
+    call monolis_alloc_I_1d(vtxdist, n_size + 1)
 
     call monolis_allgather_I1(n_internal_vertex, vtxdist(2:n_size + 1), comm)
 
@@ -50,6 +52,10 @@ contains
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint), allocatable :: displs(:)
     type(monolis_comm_node_list), allocatable :: recv_list(:)
+
+    com%my_rank = monolis_mpi_local_my_rank(com%comm)
+    com%comm_size = monolis_mpi_local_comm_size(com%comm)
+    com%n_internal_vertex = n_internal_vertex
 
     call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, com, &
       & outer_node_id_all, displs)

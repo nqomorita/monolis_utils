@@ -5,6 +5,7 @@ module mod_monolis_comm_par_util
   use mod_monolis_utils_define_com
   use mod_monolis_mpi
   use mod_monolis_mpi_util
+  use mod_monolis_utils_std_sort_I
   implicit none
 
 contains
@@ -23,7 +24,7 @@ contains
     type(monolis_COM) :: com
     integer(kint) :: my_rank, i, origin
 
-    my_rank = monolis_mpi_global_my_rank()
+    my_rank = monolis_mpi_local_my_rank(com%comm)
     origin = vtxdist(my_rank + 1)
 
     do i = 1, n_vertex
@@ -32,7 +33,7 @@ contains
 
     call monolis_SendRecv_I(com%send_n_neib, com%send_neib_pe, com%recv_n_neib, com%recv_neib_pe, &
     & com%send_index, com%send_item, com%recv_index, com%recv_item, &
-    & vertex_id, 1, monolis_mpi_global_comm())
+    & vertex_id, 1, com%comm)
   end subroutine monolis_generate_global_vertex_id
 
   !> @ingroup com
@@ -46,7 +47,7 @@ contains
 
     call monolis_SendRecv_I(com%send_n_neib, com%send_neib_pe, com%recv_n_neib, com%recv_neib_pe, &
     & com%send_index, com%send_item, com%recv_index, com%recv_item, &
-    & vertex_domain_id, 1, monolis_mpi_global_comm())
+    & vertex_domain_id, 1, com%comm)
   end subroutine monolis_update_vertex_domain_id
 
   !> @ingroup dev_com
@@ -117,7 +118,7 @@ contains
     integer(kint) :: i, j, jS, jE, id, idx
     integer(kint), allocatable :: internal_node_id(:)
 
-    my_rank = monolis_mpi_global_my_rank()
+    my_rank = monolis_mpi_local_my_rank(com%comm)
     comm_size = monolis_mpi_local_comm_size(com%comm)
     n_outer = displs(comm_size + 1)
 
@@ -178,7 +179,7 @@ contains
     integer(kint), allocatable :: temp(:)
 
     !> 隣接領域の取得
-    my_rank = monolis_mpi_global_my_rank()
+    my_rank = monolis_mpi_local_my_rank(com%comm)
     comm_size = monolis_mpi_local_comm_size(com%comm)
 
     call monolis_alloc_I_1d(is_neib, comm_size)
@@ -244,7 +245,7 @@ contains
         if(recv_rank == id)then
           n_data = n_data + 1
           global_id = outer_node_id_all(j)
-          call monolis_bsearch_int(temp, 1, n_vertex, global_id, idx)
+          call monolis_bsearch_I(temp, 1, n_vertex, global_id, idx)
           recv_list(i)%global_id(n_data) = local_nid(idx)
         endif
       enddo
@@ -401,11 +402,11 @@ contains
       local_nid(i) = i
     enddo
 
-    call monolis_qsort_int_1d_with_perm(temp, 1, n_vertex, local_nid)
+    call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
 
     in = com%send_index(n_neib_send + 1)
     do i = 1, in
-      call monolis_bsearch_int(temp, 1, n_vertex, wr(i), id)
+      call monolis_bsearch_I(temp, 1, n_vertex, wr(i), id)
       com%send_item(i) = local_nid(id)
     enddo
   end subroutine monolis_comm_get_send_parallel

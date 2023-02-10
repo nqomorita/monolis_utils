@@ -20,6 +20,8 @@ contains
     integer(kint) :: comm_size, comm_size_ans
     integer(kint) :: n_internal_vertex, n_internal_vertex_ans
 
+    call monolis_std_log_string("monolis_com_set_test")
+
     !> case 1
     comm = 10
     call monolis_com_set_communicator(COM, comm)
