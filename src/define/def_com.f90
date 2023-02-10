@@ -10,7 +10,6 @@
 !# subroutine monolis_com_set_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_get_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_debug_write(COM)
-
 module mod_monolis_utils_define_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc

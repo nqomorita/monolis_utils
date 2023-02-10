@@ -11,29 +11,6 @@ module mod_monolis_comm_table
 contains
 
   !> @ingroup com
-  !> 各領域の内部節点数リスト vtxdist を作成
-  subroutine monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
-    implicit none
-    !> [in] 分割領域の内部節点数
-    integer(kint) :: n_internal_vertex
-    !> [in] MPI コミュニケータ
-    integer(kint) :: comm
-    !> [out] 各領域の内部節点数リスト
-    integer(kint), allocatable :: vtxdist(:)
-    integer(kint) :: n_size, i
-
-    n_size = monolis_mpi_local_comm_size(comm)
-
-    call monolis_alloc_I_1d(vtxdist, n_size + 1)
-
-    call monolis_allgather_I1(n_internal_vertex, vtxdist(2:n_size + 1), comm)
-
-    do i = 1, n_size
-      vtxdist(i + 1) = vtxdist(i + 1) + vtxdist(i)
-    enddo
-  end subroutine monolis_com_n_vertex_list
-
-  !> @ingroup com
   !> 通信テーブルを作成（並列実行版）
   subroutine monolis_com_get_comm_table_parallel(n_internal_vertex, n_vertex, vertex_id, com)
     implicit none

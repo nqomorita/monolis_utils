@@ -10,34 +10,8 @@ contains
   subroutine monolis_comm_table_test()
     implicit none
 
-    call monolis_com_n_vertex_list_test()
     call monolis_com_get_comm_table_parallel_test()
   end subroutine monolis_comm_table_test
-
-  subroutine monolis_com_n_vertex_list_test()
-    implicit none
-    integer(kint) :: n_internal_vertex
-    integer(kint) :: comm, i_ans(3)
-    integer(kint), allocatable :: vtxdist(:)
-
-    call monolis_std_log_string("monolis_com_n_vertex_list_test")
-
-    comm = monolis_mpi_global_comm()
-
-    n_internal_vertex = monolis_mpi_global_my_rank() + 1
-
-    call monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
-
-    i_ans(1) = 0
-    i_ans(2) = 1
-    i_ans(3) = 3
-
-    if(monolis_mpi_global_comm_size() == 2)then
-      call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans)
-    else
-      call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans(1:2))
-    endif
-  end subroutine monolis_com_n_vertex_list_test
 
   subroutine monolis_com_get_comm_table_parallel_test()
     implicit none

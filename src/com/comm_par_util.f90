@@ -11,13 +11,38 @@ module mod_monolis_comm_par_util
 contains
 
   !> @ingroup com
-  !> グローバル節点番号を新たに生成
-  subroutine monolis_generate_global_vertex_id(n_vertex, vtxdist, vertex_id, com)
+  !> 各領域の内部節点数リスト vtxdist を作成
+  subroutine monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
     implicit none
+    !> [in] 分割領域の内部節点数
+    integer(kint) :: n_internal_vertex
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [out] 各領域の内部節点数リスト
+    integer(kint), allocatable :: vtxdist(:)
+    integer(kint) :: n_size, i
+
+    n_size = monolis_mpi_local_comm_size(comm)
+
+    call monolis_alloc_I_1d(vtxdist, n_size + 1)
+
+    call monolis_allgather_I1(n_internal_vertex, vtxdist(2:n_size + 1), comm)
+
+    do i = 1, n_size
+      vtxdist(i + 1) = vtxdist(i + 1) + vtxdist(i)
+    enddo
+  end subroutine monolis_com_n_vertex_list
+
+  !> @ingroup com
+  !> グローバル節点番号を新たに生成
+  subroutine monolis_generate_global_vertex_id(n_internal_vertex, n_vertex, vertex_id, com)
+    implicit none
+    !> [in] 内部ノード数
+    integer(kint), intent(in) :: n_internal_vertex
     !> [in] ノード数
     integer(kint), intent(in) :: n_vertex
     !> [in] 領域ごとのノード数を示す配列
-    integer(kint) :: vtxdist(:)
+    integer(kint), allocatable :: vtxdist(:)
     !> [out] グローバルノード番号配列
     integer(kint) :: vertex_id(:)
     !> [in] com 構造体
@@ -25,6 +50,9 @@ contains
     integer(kint) :: my_rank, i, origin
 
     my_rank = monolis_mpi_local_my_rank(com%comm)
+
+    call monolis_com_n_vertex_list(n_internal_vertex, com%comm, vtxdist)
+
     origin = vtxdist(my_rank + 1)
 
     do i = 1, n_vertex
