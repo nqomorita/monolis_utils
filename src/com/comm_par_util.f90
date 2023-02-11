@@ -350,8 +350,7 @@ contains
       send_n_list(id + 1) = in
     enddo
 
-    call mpi_alltoall(send_n_list, 1, MPI_INTEGER, &
-      send_n_list, 1, MPI_INTEGER, com%comm, ierr)
+    call monolis_alltoall_I1(comm_size, send_n_list, com%comm)
 
     !> send 個数の確保
     n_neib_send = 0
@@ -374,7 +373,7 @@ contains
       endif
     enddo
 
-    !> send
+    !> send の構築
     com%send_n_neib = n_neib_send
     call monolis_alloc_I_1d(com%send_neib_pe, n_neib_send)
     do i = 1, n_neib_send

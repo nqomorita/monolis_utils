@@ -13,6 +13,8 @@ contains
 
     call monolis_generate_global_vertex_id_test()
     call monolis_com_n_vertex_list_test()
+    call monolis_comm_get_all_external_node_test()
+    call monolis_comm_get_all_external_node_domain_id_test()
   end subroutine monolis_comm_par_util_test
 
   subroutine monolis_generate_global_vertex_id_test()
@@ -94,4 +96,95 @@ contains
       call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans(1:2))
     endif
   end subroutine monolis_com_n_vertex_list_test
+
+  subroutine monolis_comm_get_all_external_node_test()
+    implicit none
+    type(monolis_COM) :: com
+    integer(kint) :: n_internal_vertex, n_vertex
+    integer(kint) :: vertex_id(5), i_ans(4)
+    integer(kint), allocatable :: displs(:)
+    integer(kint), allocatable :: outer_node_id_all(:)
+
+    if(monolis_mpi_global_comm_size() == 1) return
+
+    call monolis_std_log_string("monolis_comm_get_all_external_node_test")
+
+    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+
+    n_internal_vertex = 3
+
+    n_vertex = 5
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      vertex_id(1) = 10
+      vertex_id(2) = 20
+      vertex_id(3) = 30
+      vertex_id(4) = 40
+      vertex_id(5) = 50
+    else
+      vertex_id(1) = 40
+      vertex_id(2) = 50
+      vertex_id(3) = 60
+      vertex_id(4) = 20
+      vertex_id(5) = 30
+    endif
+
+    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, &
+      & com, outer_node_id_all, displs)
+
+    i_ans(1) = 40
+    i_ans(2) = 50
+    i_ans(3) = 20
+    i_ans(4) = 30
+
+    call monolis_test_check_eq_I("monolis_comm_get_all_external_node_test 1", outer_node_id_all, i_ans)
+  end subroutine monolis_comm_get_all_external_node_test
+
+  subroutine monolis_comm_get_all_external_node_domain_id_test()
+    implicit none
+    type(monolis_COM) :: com
+    integer(kint) :: n_internal_vertex, n_vertex
+    integer(kint) :: vertex_id(5), i_ans(4)
+    integer(kint), allocatable :: displs(:)
+    integer(kint), allocatable :: outer_node_id_all(:)
+    integer(kint), allocatable :: outer_domain_id_all(:)
+
+    if(monolis_mpi_global_comm_size() == 1) return
+
+    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_test")
+
+    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+
+    n_internal_vertex = 3
+
+    n_vertex = 5
+
+    if(monolis_mpi_global_my_rank() == 0)then
+      vertex_id(1) = 10
+      vertex_id(2) = 20
+      vertex_id(3) = 30
+      vertex_id(4) = 40
+      vertex_id(5) = 50
+    else
+      vertex_id(1) = 40
+      vertex_id(2) = 50
+      vertex_id(3) = 60
+      vertex_id(4) = 20
+      vertex_id(5) = 30
+    endif
+
+    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, &
+      & com, outer_node_id_all, displs)
+
+    call monolis_comm_get_all_external_node_domain_id(n_internal_vertex, vertex_id, com, &
+    & outer_node_id_all, outer_domain_id_all, displs)
+
+    i_ans(1) = 1
+    i_ans(2) = 1
+    i_ans(3) = 0
+    i_ans(4) = 0
+
+    call monolis_test_check_eq_I("monolis_comm_get_all_external_node_domain_id_test 1", outer_domain_id_all, i_ans)
+  end subroutine monolis_comm_get_all_external_node_domain_id_test
+
 end module mod_monolis_comm_par_util_test
