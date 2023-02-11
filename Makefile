@@ -118,16 +118,7 @@ LIB_OBJSt   = $(subst $(SRC_DIR), $(OBJ_DIR), $(LIB_SOURCES:.f90=.o))
 LIB_OBJS    = $(LIB_OBJSt:.c=.o)
 
 ##> **********
-##> target (2)
-TEST_TARGET = $(TST_DIR)/monolis_utils_test
-
-##> lib objs
-TST_SOURCES = $(addprefix $(TST_DIR)/, $(SRC_ALL))
-TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
-TST_OBJS    = $(TST_OBJSt:.c=_test.o)
-
-##> **********
-##> target (3)
+##> driver target (2)
 DRIVE1 = $(BIN_DIR)/monolis_dbc_all_surf_hex
 DRIVE2 = $(BIN_DIR)/monolis_dbc_all_surf_tet
 DRIVE3 = $(BIN_DIR)/monolis_extract_all_surf_hex
@@ -153,6 +144,15 @@ DRV_OBJS5   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_hex.o
 DRV_OBJS6   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_tet.o
 DRV_OBJS7   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_hex.o
 DRV_OBJS8   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_tet.o
+
+##> **********
+##> test target (3)
+TEST_TARGET = $(TST_DIR)/monolis_utils_test
+
+##> lib objs
+TST_SOURCES = $(addprefix $(TST_DIR)/, $(DRV_SOURCES)) $(addprefix $(TST_DIR)/, $(SRC_ALL))
+TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
+TST_OBJS    = $(TST_OBJSt:.c=_test.o)
 
 ##> target
 all: \
