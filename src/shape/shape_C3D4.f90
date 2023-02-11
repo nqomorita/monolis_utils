@@ -22,6 +22,14 @@ module mod_monolis_shape_c3d4
      2, 3, 4, &
      3, 1, 4  ], [3,4])
 
+  integer(kint), parameter :: monolis_C3D4_edge(2,6) = reshape([ &
+     1, 2, &
+     2, 3, &
+     3, 1, &
+     1, 4, &
+     2, 4, &
+     3, 4  ], [2,6])
+
     public :: monolis_C3D4_num_gauss_point
     public :: monolis_C3D4_weight
     public :: monolis_C3D4_integral_point
@@ -29,6 +37,7 @@ module mod_monolis_shape_c3d4
     public :: monolis_C3D4_shapefunc
     public :: monolis_C3D4_shapefunc_deriv
     public :: monolis_C3D4_surf
+    public :: monolis_C3D4_edge
     !public :: monolis_C3D4_get_global_position
     !public :: monolis_C3D4_get_global_deriv
 

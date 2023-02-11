@@ -131,8 +131,7 @@ DRIVE3 = $(BIN_DIR)/monolis_extract_all_surf_hex
 DRIVE4 = $(BIN_DIR)/monolis_extract_all_surf_tet
 DRIVE5 = $(BIN_DIR)/monolis_h_refiner_hex
 DRIVE6 = $(BIN_DIR)/monolis_h_refiner_tet
-DRIVE7 = $(BIN_DIR)/monolis_p_refiner_hex
-DRIVE8 = $(BIN_DIR)/monolis_p_refiner_tet
+DRIVE7 = $(BIN_DIR)/monolis_p_refiner_tet
 
 DRV_OBJS1 = ./obj/dbc_all_surf_hex.o
 DRV_OBJS2 = ./obj/dbc_all_surf_tet.o
@@ -140,8 +139,7 @@ DRV_OBJS3 = ./obj/extract_all_surf_hex.o
 DRV_OBJS4 = ./obj/extract_all_surf_tet.o
 DRV_OBJS5 = ./obj/h_refiner_hex.o
 DRV_OBJS6 = ./obj/h_refiner_tet.o
-DRV_OBJS7 = ./obj/p_refiner_hex.o
-DRV_OBJS8 = ./obj/p_refiner_tet.o
+DRV_OBJS7 = ./obj/p_refiner_tet.o
 
 ##> **********
 ##> test target (3)
@@ -212,9 +210,6 @@ $(DRIVE6): $(DRV_OBJS6)
 
 $(DRIVE7): $(DRV_OBJS7)
 	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
-
-$(DRIVE8): $(DRV_OBJS8)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS8) -L./lib -lmonolis_utils
 
 clean:
 	$(RM) \
