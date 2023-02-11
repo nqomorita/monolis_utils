@@ -15,13 +15,17 @@ contains
     integer(kint) :: n_node, n_elem, elem(:,:)
     integer(kint) :: tmp, nid(6), n_node_ref
     integer(kint) :: i, i1, i2, eid, newid, conn(4)
-    real(kdouble) :: node(:,:), pos(3)
+    real(kdouble) :: node(:,:), pos(3,1)
     character :: ckey*18, ckey1*9, ckey2*9
     logical :: is_exist, is_pushed
     integer(kint), allocatable :: elem_ref(:,:)
     real(kdouble), allocatable :: node_ref(:,:)
 
     call monolis_hash_init(hash_tree, 18)
+
+    call monolis_alloc_I_2d(elem_ref, 10, n_elem)
+    call monolis_alloc_R_2d(node_ref, 3, n_node)
+    node_ref = node
 
     newid = 0
     do eid = 1, n_elem
@@ -42,8 +46,8 @@ contains
           newid = newid + 1
           nid(i) = n_node + newid
           call monolis_hash_push(hash_tree, ckey, nid(i), is_pushed, is_exist)
-
-          pos = 0.5d0*(node(:,i1) + node(:,i2))
+          pos(:,1) = 0.5d0*(node(:,i1) + node(:,i2))
+          call monolis_append_R_2d(node_ref, 1, pos)
         endif
       enddo
       elem_ref( 1,eid) = conn(1)
@@ -57,6 +61,8 @@ contains
       elem_ref( 9,eid) = nid(5)
       elem_ref(10,eid) = nid(6)
     enddo
+
+    n_node_ref = n_node + newid
 
     call monolis_hash_finalize(hash_tree)
   end subroutine monolis_p_refine_tet

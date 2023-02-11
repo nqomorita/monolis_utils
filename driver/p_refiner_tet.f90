@@ -12,10 +12,10 @@ program monolis_p_refiner_tet
   character(monolis_charlen) :: fonname
   !> 出力要素ファイル名
   character(monolis_charlen) :: foename
-  integer(kint) :: n_node, n_elem, n_base
+  integer(kint) :: n_node, n_elem, n_base, n_node_ref
   logical :: is_get
-  integer(kint), allocatable :: elem(:,:)
-  real(kdouble), allocatable :: node(:,:)
+  integer(kint), allocatable :: elem(:,:), elem_ref(:,:)
+  real(kdouble), allocatable :: node(:,:), node_ref(:,:)
 
   call monolis_mpi_initialize()
 
@@ -59,7 +59,11 @@ program monolis_p_refiner_tet
     call monolis_std_error_stop()
   endif
 
-  !call monolis_output_elem(foname, n_surf_elem, 3, surf)
+  call monolis_p_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, elem_ref)
+
+  call monolis_output_node(fonname, n_node_ref, node_ref)
+
+  call monolis_output_elem(foename, n_elem, 10, elem_ref)
 
   call monolis_mpi_finalize()
 end program monolis_p_refiner_tet

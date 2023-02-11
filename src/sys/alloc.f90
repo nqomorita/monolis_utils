@@ -1,4 +1,32 @@
 !> メモリ確保モジュール
+!# subroutine monolis_alloc_I_1d(var, i)
+!# subroutine monolis_dealloc_I_1d(var)
+!# subroutine monolis_realloc_I_1d(var, i)
+!# subroutine monolis_append_I_1d(var, n_add, var_add)
+!#
+!# subroutine monolis_alloc_I_2d(var, i, j)
+!# subroutine monolis_dealloc_I_2d(var)
+!#
+!# subroutine monolis_alloc_R_1d(var, i)
+!# subroutine monolis_dealloc_R_1d(var)
+!#
+!# subroutine monolis_alloc_R_2d(var, i, j)
+!# subroutine monolis_dealloc_R_2d(var)
+!# subroutine monolis_realloc_R_2d(var, m, n)
+!# subroutine monolis_append_R_2d(var, n_add, var_add)
+!#
+!# subroutine monolis_alloc_C_1d(var, i)
+!# subroutine monolis_dealloc_C_1d(var)
+!#
+!# subroutine monolis_alloc_C_2d(var, i, j)
+!# subroutine monolis_dealloc_C_2d(var)
+!#
+!# subroutine monolis_alloc_L_1d(var, i)
+!# subroutine monolis_dealloc_L_1d(var)
+!#
+!# subroutine monolis_alloc_L_2d(var, i, j)
+!# subroutine monolis_dealloc_L_2d(var)
+
 module mod_monolis_utils_alloc
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_error
@@ -255,6 +283,71 @@ contains
       call monolis_std_error_stop()
     endif
   end subroutine monolis_dealloc_R_2d
+
+  !> @ingroup alloc
+  !> 2 次元実数配列のメモリ再確保
+  !> @details 再確保で増えた配列部分は初期値 0 でメモリ確保がなされる。
+  subroutine monolis_realloc_R_2d(var, m, n)
+    implicit none
+    !> [in,out] メモリ確保する配列
+    real(kdouble), allocatable :: var(:,:)
+    !> [in] 再確保後の配列サイズ（1 次元目）
+    integer(kint), intent(in) :: m
+    !> [in] 再確保後の配列サイズ（2 次元目）
+    integer(kint), intent(in) :: n
+    real(kdouble), allocatable :: temp(:,:)
+    integer(kint) :: i, j, nold, mold
+
+    if(.not. allocated(var))then
+      call monolis_alloc_R_2d(var, m, n)
+      return
+    endif
+
+    mold = size(var, 1)
+    nold = size(var, 2)
+
+    call monolis_alloc_R_2d(temp, mold, nold)
+
+    temp = var
+
+    call monolis_dealloc_R_2d(var)
+
+    call monolis_alloc_R_2d(var, m, n)
+
+    do j = 1, min(nold, n)
+      do i = 1, min(mold, m)
+        var(i,j) = temp(i,j)
+      enddo
+    enddo
+  end subroutine monolis_realloc_R_2d
+
+  !> @ingroup alloc
+  !> 2 次元実数配列の末尾にデータ配列を追加
+  subroutine monolis_append_R_2d(var, n_add, var_add)
+    implicit none
+    !> [in,out] 元の配列
+    real(kdouble), allocatable :: var(:,:)
+    !> [in] 追加する配列サイズ
+    integer(kint), intent(in) :: n_add
+    !> [in] 追加する配列
+    real(kdouble), intent(in) :: var_add(:,:)
+    integer(kint) :: n_all, n_old, i, m
+
+    if(.not. allocated(var))then
+      n_old = 0
+    else
+      n_old = size(var, 2)
+    endif
+
+    m = size(var, 1)
+    n_all = n_old + n_add
+
+    call monolis_realloc_R_2d(var, m, n_all)
+
+    do i = n_old + 1, n_all
+      var(:,i) = var_add(:,i - n_old)
+    enddo
+  end subroutine monolis_append_R_2d
 
   !> @ingroup alloc
   !> 1 次元複素数型配列のメモリ確保

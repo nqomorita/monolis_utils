@@ -18,6 +18,8 @@ contains
     call monolis_dealloc_R_1d_test()
     call monolis_alloc_R_2d_test()
     call monolis_dealloc_R_2d_test()
+    call monolis_realloc_R_2d_test()
+    call monolis_append_R_2d_test()
     call monolis_alloc_C_1d_test()
     call monolis_dealloc_C_1d_test()
     call monolis_alloc_C_2d_test()
@@ -232,6 +234,59 @@ contains
       call monolis_test_assert_pass("monolis_dealloc_R_2d_test")
     endif
   end subroutine monolis_dealloc_R_2d_test
+
+  subroutine monolis_realloc_R_2d_test()
+    implicit none
+    real(kdouble) :: b(3,4)
+    real(kdouble), allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_realloc_R_2d_test")
+
+
+    call monolis_alloc_R_2d(a, 2, 3)
+
+    a(1,1) = 1; a(2,1) = 1;
+    a(1,2) = 2; a(2,2) = 2;
+    a(1,3) = 3; a(2,3) = 3;
+
+    call monolis_realloc_R_2d(a, 3, 4)
+
+    b(1,1) = 1; b(2,1) = 1; b(3,1) = 0;
+    b(1,2) = 2; b(2,2) = 2; b(3,2) = 0;
+    b(1,3) = 3; b(2,3) = 3; b(3,3) = 0;
+    b(1,4) = 0; b(2,4) = 0; b(3,4) = 0;
+
+    call monolis_test_check_eq_R("monolis_realloc_R_2d_test 1", a(1,:), b(1,:))
+    call monolis_test_check_eq_R("monolis_realloc_R_2d_test 2", a(2,:), b(2,:))
+    call monolis_test_check_eq_R("monolis_realloc_R_2d_test 3", a(3,:), b(3,:))
+  end subroutine monolis_realloc_R_2d_test
+
+  subroutine monolis_append_R_2d_test()
+    implicit none
+    real(kdouble) :: b(2,5), c(2,2)
+    real(kdouble), allocatable :: a(:,:)
+
+    call monolis_std_log_string("monolis_append_R_2d_test")
+
+    call monolis_alloc_R_2d(a, 2, 3)
+
+    a(1,1) = 1; a(2,1) = 1;
+    a(1,2) = 2; a(2,2) = 2;
+    a(1,3) = 3; a(2,3) = 3;
+    c(1,1) = 5; c(2,1) = 5;
+    c(1,2) = 6; c(2,2) = 6;
+
+    call monolis_append_R_2d(a, 2, c)
+
+    b(1,1) = 1; b(2,1) = 1;
+    b(1,2) = 2; b(2,2) = 2;
+    b(1,3) = 3; b(2,3) = 3;
+    b(1,4) = 5; b(2,4) = 5;
+    b(1,5) = 6; b(2,5) = 6;
+
+    call monolis_test_check_eq_R("monolis_append_R_2d_test 1", a(1,:), b(1,:))
+    call monolis_test_check_eq_R("monolis_append_R_2d_test 2", a(2,:), b(2,:))
+  end subroutine monolis_append_R_2d_test
 
   subroutine monolis_alloc_C_1d_test()
     implicit none
