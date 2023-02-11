@@ -19,6 +19,9 @@ program monolis_utils_test
   use mod_monolis_io_test
   use mod_monolis_comm_table_test
   use mod_monolis_comm_par_util_test
+  use mod_monolis_driver_util_test
+  use mod_monolis_extract_util_test
+  use mod_monolis_refiner_util_test
   implicit none
 
   call monolis_mpi_initialize()
@@ -38,6 +41,10 @@ program monolis_utils_test
   call monolis_mpi_util_test()
   call monolis_comm_table_test()
   call monolis_comm_par_util_test()
+
+  call monolis_driver_util_test()
+  call monolis_extract_util_test()
+  call monolis_refiner_util_test()
 
   if(monolis_mpi_global_comm_size() == 1)then
     call monolis_io_arg_test()

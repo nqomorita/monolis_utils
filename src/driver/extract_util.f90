@@ -1,5 +1,9 @@
 module mod_monolis_extract_util
-  use mod_monolis_utils
+  use mod_monolis_utils_std_sort_I
+  use mod_monolis_utils_alloc
+  use mod_monolis_utils_hash
+  use mod_monolis_shape_c3d4
+  use mod_monolis_shape_c3d8
   implicit none
 
   type(monolis_hash_structure) :: hash_tree
@@ -50,7 +54,7 @@ contains
   end subroutine monolis_get_surf
 
   !> @ingroup dev_driver
-  !> 表面要素を構成する説店番号を抽出
+  !> 表面要素を構成する節点番号を抽出
   subroutine monolis_get_surf_node(n_base, n_surf, surf, n_node, node_id)
     implicit none
     integer(kint) :: n_node, n_base, n_surf
@@ -125,6 +129,7 @@ contains
   end subroutine monolis_get_surf_main
 
   !> @ingroup dev_driver
+  !> ハッシュキーの生成
   function get_key_surf(n_base, i, conn)
     implicit none
     integer(kint) :: n_base, i, conn(:), array(4)

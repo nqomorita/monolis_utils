@@ -1,5 +1,5 @@
 module mod_monolis_refiner_util
-  use mod_monolis_utils
+  use mod_monolis_utils_hash
   implicit none
 
   type(monolis_hash_structure) :: hash_tree

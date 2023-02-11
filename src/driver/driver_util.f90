@@ -1,5 +1,5 @@
 module mod_monolis_driver_util
-  use mod_monolis_utils
+  use mod_monolis_utils_alloc
   implicit none
 
 contains
@@ -8,21 +8,19 @@ contains
   !> 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all(n_dof, val)
     implicit none
-    !> 出力ファイル名
+    !> 入力自由度数
     integer(kint) :: n_dof
+    !> 入力値
+    real(kdouble), allocatable :: val(:)
     integer(kint) :: i, j, count
     character(monolis_charlen) :: argc1
-    real(kdouble), allocatable :: val(:)
 
     j = 0
     count = iargc()
     do i = 1, count/2
       j = i
       call getarg(2*i-1, argc1)
-      if(    trim(argc1) == "-in")then
-      elseif(trim(argc1) == "-ie")then
-      elseif(trim(argc1) == "-i")then
-      elseif(trim(argc1) == "-o" )then
+      if(trim(argc1(1:1)) == "-i")then
       else
         exit
       endif

@@ -99,6 +99,11 @@ io_mtx.f90 \
 io_com.f90 \
 io.f90
 
+SRC_DRIVE = \
+driver_util.f90 \
+extract_util.f90 \
+refiner_util.f90
+
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE1)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
@@ -110,6 +115,7 @@ $(addprefix mpi/, $(SRC_MPI)) \
 $(addprefix com/, $(SRC_COM)) \
 $(addprefix io/, $(SRC_IO)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
+$(addprefix driver/, $(SRC_DRIVE)) \
 monolis_utils.f90
 
 ##> lib objs
@@ -128,36 +134,27 @@ DRIVE6 = $(BIN_DIR)/monolis_h_refiner_tet
 DRIVE7 = $(BIN_DIR)/monolis_p_refiner_hex
 DRIVE8 = $(BIN_DIR)/monolis_p_refiner_tet
 
-SRC_DRIVE = \
-driver_util.f90 \
-extract_util.f90 \
-refiner_util.f90
-
-DRV_SOURCES = $(addprefix $(DRV_DIR)/, $(SRC_DRIVE))
-DRV_OBJSt   = $(subst $(DRV_DIR), $(OBJ_DIR), $(DRV_SOURCES:.f90=.o))
-
-DRV_OBJS1   = $(DRV_OBJSt:.c=.o) ./obj/dbc_all_surf_hex.o
-DRV_OBJS2   = $(DRV_OBJSt:.c=.o) ./obj/dbc_all_surf_tet.o
-DRV_OBJS3   = $(DRV_OBJSt:.c=.o) ./obj/extract_all_surf_hex.o
-DRV_OBJS4   = $(DRV_OBJSt:.c=.o) ./obj/extract_all_surf_tet.o
-DRV_OBJS5   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_hex.o
-DRV_OBJS6   = $(DRV_OBJSt:.c=.o) ./obj/h_refiner_tet.o
-DRV_OBJS7   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_hex.o
-DRV_OBJS8   = $(DRV_OBJSt:.c=.o) ./obj/p_refiner_tet.o
+DRV_OBJS1 = ./obj/dbc_all_surf_hex.o
+DRV_OBJS2 = ./obj/dbc_all_surf_tet.o
+DRV_OBJS3 = ./obj/extract_all_surf_hex.o
+DRV_OBJS4 = ./obj/extract_all_surf_tet.o
+DRV_OBJS5 = ./obj/h_refiner_hex.o
+DRV_OBJS6 = ./obj/h_refiner_tet.o
+DRV_OBJS7 = ./obj/p_refiner_hex.o
+DRV_OBJS8 = ./obj/p_refiner_tet.o
 
 ##> **********
 ##> test target (3)
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> lib objs
-TST_SOURCES = $(addprefix $(TST_DIR)/, $(DRV_SOURCES)) $(addprefix $(TST_DIR)/, $(SRC_ALL))
+TST_SOURCES = $(addprefix $(TST_DIR)/, $(SRC_ALL))
 TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
 TST_OBJS    = $(TST_OBJSt:.c=_test.o)
 
 ##> target
 all: \
 	$(LIB_TARGET) \
-	$(TEST_TARGET) \
 	$(DRIVE1) \
 	$(DRIVE2) \
 	$(DRIVE3) \
@@ -165,7 +162,8 @@ all: \
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
-	$(DRIVE8)
+	$(DRIVE8) \
+	$(TEST_TARGET)
 
 lib: \
 	$(LIB_TARGET)
