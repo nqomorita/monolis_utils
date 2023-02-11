@@ -6,8 +6,6 @@ module mod_monolis_extract_util
   use mod_monolis_shape_c3d8
   implicit none
 
-  type(monolis_hash_structure) :: hash_tree
-
 contains
 
   !> @ingroup dev_driver
@@ -15,7 +13,7 @@ contains
   subroutine monolis_get_surf(n_elem, n_base, elem, n_surf, &
     & n_base_out, n_elem_out, out)
     implicit none
-    !> [in]  要素数
+    !> [in] 要素数
     integer(kint) :: n_elem
     !> [in] 基底の数
     integer(kint) :: n_base
@@ -113,6 +111,7 @@ contains
     integer(kint) :: n_surf
     !> [out] 要素の表面判定フラグ
     integer(kint), allocatable :: is_inner(:,:)
+    type(monolis_hash_structure) :: hash_tree
     integer(kint) :: conn(n_base)
     integer(kint) :: i, in, eid
     character :: ckey*27

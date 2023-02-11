@@ -6,20 +6,30 @@ module mod_monolis_refiner_util
   use mod_monolis_shape_c3d8
   implicit none
 
-  type(monolis_hash_structure) :: hash_tree
-
 contains
 
   subroutine monolis_p_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, elem_ref)
     implicit none
-    integer(kint) :: n_node, n_elem, elem(:,:)
-    integer(kint) :: tmp, nid(6), n_node_ref
+    !> [in] 節点数
+    integer(kint) :: n_node
+    !> [in] 節点座標
+    real(kdouble) :: node(:,:)
+    !> [in] 要素の数
+    integer(kint) :: n_elem
+    !> [in] 要素
+    integer(kint) :: elem(:,:)
+    !> [out] リファイン後の節点数
+    integer(kint) :: n_node_ref
+    !> [out] リファイン後の節点
+    real(kdouble), allocatable :: node_ref(:,:)
+    !> [inout] リファイン後の要素
+    integer(kint), allocatable :: elem_ref(:,:)
+    type(monolis_hash_structure) :: hash_tree
+    integer(kint) :: tmp, nid(6)
     integer(kint) :: i, i1, i2, eid, newid, conn(4)
-    real(kdouble) :: node(:,:), pos(3,1)
+    real(kdouble) :: pos(3,1)
     character :: ckey*18, ckey1*9, ckey2*9
     logical :: is_exist, is_pushed
-    integer(kint), allocatable :: elem_ref(:,:)
-    real(kdouble), allocatable :: node_ref(:,:)
 
     call monolis_hash_init(hash_tree, 18)
 
