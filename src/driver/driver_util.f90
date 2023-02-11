@@ -20,7 +20,7 @@ contains
     do i = 1, count/2
       j = i
       call getarg(2*i-1, argc1)
-      if(trim(argc1(1:1)) == "-i")then
+      if(trim(argc1(1:1)) == "-")then
       else
         exit
       endif

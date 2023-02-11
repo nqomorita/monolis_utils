@@ -15,11 +15,22 @@ contains
   subroutine monolis_get_surf(n_elem, n_base, elem, n_surf, &
     & n_base_out, n_elem_out, out)
     implicit none
-    integer(kint) :: n_elem, n_base, conn(n_base)
-    integer(kint) :: n_surf, n_elem_out, n_base_out
+    !> [in]  要素数
+    integer(kint) :: n_elem
+    !> [in] 基底の数
+    integer(kint) :: n_base
+    !> [in] 要素
     integer(kint) :: elem(:,:)
-    integer(kint) :: i, j, in, eid
+    !> [in] 入力要素の面の数
+    integer(kint) :: n_surf
+    !> [in] 入力要素の面の基底の数
+    integer(kint) :: n_base_out
+    !> [out] 抽出された要素の要素数
+    integer(kint) :: n_elem_out
+    !> [out] 抽出された要素
     integer(kint), allocatable :: out(:,:)
+    integer(kint) :: conn(n_base)
+    integer(kint) :: i, j, in, eid
     integer(kint), allocatable :: is_inner(:,:)
 
     call monolis_get_surf_main(n_elem, n_base, elem, n_surf, is_inner)
@@ -57,11 +68,18 @@ contains
   !> 表面要素を構成する節点番号を抽出
   subroutine monolis_get_surf_node(n_base, n_surf, surf, n_node, node_id)
     implicit none
-    integer(kint) :: n_node, n_base, n_surf
+    !> [in] 入力要素の数
+    integer(kint) :: n_surf
+    !> [in] 入力要素の基底の数
+    integer(kint) :: n_base
+    !> [in] 抽出された要素
     integer(kint) :: surf(:,:)
+    !> [out] 節点数
+    integer(kint) :: n_node
+    !> [out] 節点番号
+    integer(kint), allocatable :: node_id(:)
     integer(kint) :: i, j
     integer(kint), allocatable :: tmp(:)
-    integer(kint), allocatable :: node_id(:)
 
     call monolis_alloc_I_1d(tmp, n_base*n_surf)
 
@@ -85,13 +103,20 @@ contains
   !> 表面要素を抽出（メイン関数）
   subroutine monolis_get_surf_main(n_elem, n_base, elem, n_surf, is_inner)
     implicit none
-    integer(kint) :: n_elem, n_base, conn(n_base)
-    integer(kint) :: n_surf
+    !> [in]  要素数
+    integer(kint) :: n_elem
+    !> [in] 基底の数
+    integer(kint) :: n_base
+    !> [in] 要素
     integer(kint) :: elem(:,:)
+    !> [in] 入力要素の面の数
+    integer(kint) :: n_surf
+    !> [out] 要素の表面判定フラグ
+    integer(kint), allocatable :: is_inner(:,:)
+    integer(kint) :: conn(n_base)
     integer(kint) :: i, in, eid
     character :: ckey*27
     logical :: is_exist, is_pushed
-    integer(kint), allocatable :: is_inner(:,:)
 
     call monolis_hash_init(hash_tree, 27)
 
@@ -132,9 +157,17 @@ contains
   !> ハッシュキーの生成
   function get_key_surf(n_base, i, conn)
     implicit none
-    integer(kint) :: n_base, i, conn(:), array(4)
+    !> [out]ハッシュキー
+    character :: get_key_surf*27
+    !> [in] 入力要素の基底の数
+    integer(kint) :: n_base
+    !> [in] 入力要素の面番号
+    integer(kint) :: i
+    !> [in] 要素コネクティビティ
+    integer(kint) :: conn(:)
+    integer(kint) :: array(4)
     integer(kint) :: i1, i2, i3, i4
-    character :: c1*9, c2*9, c3*9, get_key_surf*27
+    character :: c1*9, c2*9, c3*9
 
     if(n_base == 4)then
       i1 = conn(monolis_C3D4_surf(1,i))

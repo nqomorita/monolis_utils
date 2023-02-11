@@ -8,7 +8,7 @@ contains
   !> main test subroutine
   subroutine monolis_driver_util_test()
     implicit none
-    !call monolis_driver_get_arg_dbc_all_test()
+    call monolis_driver_get_arg_dbc_all_test()
   end subroutine monolis_driver_util_test
 
   subroutine monolis_driver_get_arg_dbc_all_test()
