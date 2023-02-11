@@ -22,6 +22,7 @@ program monolis_utils_test
   use mod_monolis_driver_util_test
   use mod_monolis_extract_util_test
   use mod_monolis_refiner_util_test
+  use mod_monolis_driver_test
   implicit none
 
   call monolis_mpi_initialize()
@@ -52,6 +53,8 @@ program monolis_utils_test
     call monolis_io_com_test()
     call monolis_io_mtx_test()
     call monolis_io_test()
+
+    call monolis_driver_test()
   endif
 
   call monolis_mpi_finalize()
