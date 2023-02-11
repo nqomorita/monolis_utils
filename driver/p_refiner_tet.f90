@@ -19,7 +19,7 @@ program monolis_p_refiner_tet
 
   call monolis_mpi_initialize()
 
-  call monolis_std_debug_log_header("monolis_p_refiner_tet")
+  call monolis_std_log_string("monolis_p_refiner_tet")
 
   call monolis_check_arg_input("-h", is_get)
 

@@ -20,7 +20,7 @@ program monolis_h_refiner_tet
 
   call monolis_mpi_initialize()
 
-  call monolis_std_debug_log_header("monolis_h_refiner_tet")
+  call monolis_std_log_string("monolis_h_refiner_tet")
 
   call monolis_check_arg_input("-h", is_get)
 
@@ -60,9 +60,9 @@ program monolis_h_refiner_tet
     call monolis_std_error_stop()
   endif
 
-  call monolis_output_node(fonname, n_node_ref, node_ref)
-
   call monolis_h_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
+
+  call monolis_output_node(fonname, n_node_ref, node_ref)
 
   call monolis_output_elem(foename, n_elem_ref, 4, elem_ref)
 

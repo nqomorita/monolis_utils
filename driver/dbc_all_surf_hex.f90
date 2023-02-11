@@ -22,7 +22,7 @@ program monolis_dbc_all_surf_hex
 
   call monolis_mpi_initialize()
 
-  call monolis_std_debug_log_header("monolis_dbc_all_surf_hex")
+  call monolis_std_log_string("monolis_dbc_all_surf_hex")
 
   call monolis_check_arg_input("-h", is_get)
 
@@ -44,7 +44,13 @@ program monolis_dbc_all_surf_hex
   foname = "D_bc.dat"
   call monolis_get_arg_input_o_tag(foname)
 
-  call monolis_driver_get_arg_dbc_all(n_dof, val)
+  call monolis_driver_get_arg_dbc_all(n_dof, val, is_get)
+
+  if(.not. is_get)then
+    call monolis_std_error_string("input parameters are not set")
+    call monolis_std_error_string("./monolis_dbc_all_surf_hex {options} {num of dof} {value}")
+    stop monolis_fail
+  endif
 
   call monolis_std_debug_log_I1("[n_dof]", n_dof)
 
