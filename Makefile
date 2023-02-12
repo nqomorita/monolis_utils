@@ -146,7 +146,7 @@ DRV_OBJS7 = ./obj/p_refiner_tet.o
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> lib objs
-TST_SRC_ALL = $(SRC_ALL) driver/driver.f90
+TST_SRC_ALL = driver/driver.f90 $(SRC_ALL)
 TST_SOURCES = $(addprefix $(TST_DIR)/, $(TST_SRC_ALL))
 TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
 TST_OBJS    = $(TST_OBJSt:.c=_test.o)
