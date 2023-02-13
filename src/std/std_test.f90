@@ -1,4 +1,20 @@
 !> std テストモジュール
+!# monolis_test_check_eq_I1(header, a, b)
+!# monolis_test_check_eq_R1(header, a, b)
+!# monolis_test_check_eq_C1(header, a, b)
+!# monolis_test_check_eq_L1(header, a, b)
+!# monolis_test_check_eq_I(header, a, b)
+!# monolis_test_check_eq_R(header, a, b)
+!# monolis_test_check_eq_C(header, a, b)
+!# monolis_test_check_eq_L(header, a, b)
+!# monolis_test_assert_pass(header)
+!# monolis_test_assert_fail(header, reason)
+!#
+!# !> develop use
+!# monolis_test_check_eq_I_main(a, b, is_eq)
+!# monolis_test_check_eq_R_main(a, b, is_eq)
+!# monolis_test_check_eq_C_main(a, b, is_eq)
+!# monolis_test_check_eq_L_main(a, b, is_eq)
 module mod_monolis_utils_std_test
   use mod_monolis_utils_define_prm
   implicit none
