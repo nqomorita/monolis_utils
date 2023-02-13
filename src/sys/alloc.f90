@@ -1,32 +1,39 @@
 !> メモリ確保モジュール
+!# I_1d
 !# subroutine monolis_alloc_I_1d(var, i)
 !# subroutine monolis_dealloc_I_1d(var)
 !# subroutine monolis_realloc_I_1d(var, i)
 !# subroutine monolis_append_I_1d(var, n_add, var_add)
 !#
+!# I_2d
 !# subroutine monolis_alloc_I_2d(var, i, j)
 !# subroutine monolis_dealloc_I_2d(var)
 !#
+!# R_1d
 !# subroutine monolis_alloc_R_1d(var, i)
 !# subroutine monolis_dealloc_R_1d(var)
 !#
+!# R_2d
 !# subroutine monolis_alloc_R_2d(var, i, j)
 !# subroutine monolis_dealloc_R_2d(var)
 !# subroutine monolis_realloc_R_2d(var, m, n)
 !# subroutine monolis_append_R_2d(var, n_add, var_add)
 !#
+!# C_1d
 !# subroutine monolis_alloc_C_1d(var, i)
 !# subroutine monolis_dealloc_C_1d(var)
 !#
+!# C_2d
 !# subroutine monolis_alloc_C_2d(var, i, j)
 !# subroutine monolis_dealloc_C_2d(var)
 !#
+!# L_1d
 !# subroutine monolis_alloc_L_1d(var, i)
 !# subroutine monolis_dealloc_L_1d(var)
 !#
+!# L_2d
 !# subroutine monolis_alloc_L_2d(var, i, j)
 !# subroutine monolis_dealloc_L_2d(var)
-
 module mod_monolis_utils_alloc
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_error

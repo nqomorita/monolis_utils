@@ -1,4 +1,19 @@
 !> IO モジュール
+!# monolis_input_graph(fname, n_vertex, vertex_id, index, item)
+!# monolis_output_graph(fname, n_vertex, vertex_id, index, item)
+!# monolis_input_node(fname, n_node, node)
+!# monolis_output_node(fname, n_node, node)
+!# monolis_input_elem(fname, n_elem, n_base, elem)
+!# monolis_output_elem(fname, n_elem, n_base, elem)
+!# monolis_input_internal_vertex_number(fname, n_internal_vertex)
+!# monolis_output_internal_vertex_number(fname, n_internal_vertex)
+!# monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_input_distval_i(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_i(fname, label, n_node, n_dof, val)
+!# monolis_input_distval_r(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_r(fname, label, n_node, n_dof, val)
+!# monolis_input_file_error_check(ierr)
 module mod_monolis_io
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
