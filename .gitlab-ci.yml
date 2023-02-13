@@ -19,7 +19,7 @@ test_monolis:
   stage: test
   script:
     - cd test
-    - ./run.sh
+    - ./run.CI.sh
   dependencies:
     - build_monolis
 
