@@ -132,6 +132,24 @@ contains
   end subroutine monolis_mpi_local_barrier
 
   !> @ingroup mpi
+  !> ローカルコミュニケータの分割
+  subroutine monolis_mpi_split_comm(comm, group_id, comm_split)
+    implicit none
+    !> [in] 分割前の MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] コミュニケータのグループ id
+    integer(kint) :: group_id
+    !> [out] 分割後の MPI コミュニケータ
+    integer(kint) :: comm_split
+    integer(kint) :: key
+    integer(kint) :: ierr
+#ifndef NO_MPI
+    key = 0
+    call MPI_COMM_SPLIT(comm, group_id, key, comm_split, ierr)
+#endif
+  end subroutine monolis_mpi_split_comm
+
+  !> @ingroup mpi
   !> MPI 時間計測関数
   function monolis_get_time()
     implicit none

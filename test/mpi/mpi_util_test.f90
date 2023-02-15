@@ -12,6 +12,7 @@ contains
     if(monolis_mpi_global_comm_size() == 1) return
 
     call monolis_mpi_util_test_main()
+    call monolis_mpi_split_comm_test()
   end subroutine monolis_mpi_util_test
 
   !> unit test
@@ -38,4 +39,23 @@ contains
       call monolis_test_assert_fail("monolis_mpi_local_comm_size", "")
     endif
   end subroutine monolis_mpi_util_test_main
+
+  subroutine monolis_mpi_split_comm_test
+    implicit none
+    integer(kint) :: comm
+    integer(kint) :: group_id
+    integer(kint) :: comm_split
+
+    call monolis_std_log_string("monolis_mpi_split_comm_test")
+
+    comm = monolis_mpi_global_comm()
+
+    group_id = monolis_mpi_global_my_rank()
+
+    call monolis_mpi_split_comm(comm, group_id, comm_split)
+
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test case 1", monolis_mpi_local_comm_size(comm_split), 1)
+
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test case 2s", monolis_mpi_local_my_rank(comm_split), 0)
+  end subroutine monolis_mpi_split_comm_test
 end module mod_monolis_mpi_util_test
