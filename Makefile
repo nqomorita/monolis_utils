@@ -2,8 +2,7 @@
 
 ##> compiler setting
 FC     = mpif90
-#FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
-FFLAGS = -fPIC -O2 -std=legacy -fbounds-check -fbacktrace -Wuninitialized -ffpe-trap=invalid,zero,overflow -Wno-missing-include-dirs
+FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
 CC     = mpicc
 CFLAGS = -fPIC -O2
 
@@ -97,6 +96,7 @@ io_arg.f90 \
 io_file_name.f90 \
 io_mtx.f90 \
 io_com.f90 \
+io_util.f90 \
 io.f90
 
 SRC_DRIVE = \
@@ -161,7 +161,6 @@ all: \
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
-	$(DRIVE8) \
 	$(TEST_TARGET)
 
 lib: \
@@ -226,7 +225,6 @@ clean:
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
-	$(DRIVE8) \
 	./include/*.mod \
 	./bin/*
 

@@ -13,6 +13,7 @@ module mod_monolis_utils
   use mod_monolis_io_arg
   use mod_monolis_io_mtx
   use mod_monolis_io_com
+  use mod_monolis_io_util
   use mod_monolis_io_file_name
   use mod_monolis_shape_util
   use mod_monolis_shape_c3d8

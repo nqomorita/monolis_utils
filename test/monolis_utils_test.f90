@@ -16,6 +16,7 @@ program monolis_utils_test
   use mod_monolis_io_file_name_test
   use mod_monolis_io_com_test
   use mod_monolis_io_mtx_test
+  use mod_monolis_io_util_test
   use mod_monolis_io_test
   use mod_monolis_comm_table_test
   use mod_monolis_comm_par_util_test
@@ -52,6 +53,7 @@ program monolis_utils_test
     call monolis_io_file_name_test()
     call monolis_io_com_test()
     call monolis_io_mtx_test()
+    call monolis_io_util_test()
     call monolis_io_test()
 
     call monolis_driver_test()

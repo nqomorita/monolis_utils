@@ -1,4 +1,12 @@
 !> IO 引数モジュール
+!# subroutine monolis_check_arg_input(tag, is_get)
+!# subroutine monolis_get_arg_input_I(tag, var, is_get)
+!# subroutine monolis_get_arg_input_R(tag, var, is_get)
+!# subroutine monolis_get_arg_input_S(tag, var, is_get)
+!# subroutine monolis_get_arg_input_in_tag(fnname)
+!# subroutine monolis_get_arg_input_ie_tag(fename)
+!# subroutine monolis_get_arg_input_i_tag(finame)
+!# subroutine monolis_get_arg_input_o_tag(foname)
 module mod_monolis_io_arg
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc

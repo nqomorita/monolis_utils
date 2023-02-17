@@ -1,4 +1,10 @@
 !> IO 通信テーブルデータモジュール
+!# monolis_output_send_com_table(fname, COM)
+!# monolis_output_recv_com_table(fname, COM)
+!# monolis_output_com_table_main(fname, n_neib, neib_pe, index, item)
+!# monolis_input_send_com_table(fname, COM)
+!# monolis_input_recv_com_table(fname, COM)
+!# monolis_input_com_table_main(fname, n_neib, neib_pe, index, item)
 module mod_monolis_io_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_define_com
