@@ -72,11 +72,11 @@ contains
 
   subroutine monolis_dbc_all_surf_tet_test()
     implicit none
-    character(monolis_charlen) :: fname
-    integer(kint) :: n_bc, n_dof, i
-    integer(kint) :: i_bc_ans(26)
-    integer(kint), allocatable :: i_bc(:,:)
-    real(kdouble), allocatable :: r_bc(:)
+    !character(monolis_charlen) :: fname
+    !integer(kint) :: n_bc, n_dof, i
+    !integer(kint) :: i_bc_ans(26)
+    !integer(kint), allocatable :: i_bc(:,:)
+    !real(kdouble), allocatable :: r_bc(:)
 
     call monolis_std_log_string("monolis_dbc_all_surf_tet_test")
   end subroutine monolis_dbc_all_surf_tet_test
