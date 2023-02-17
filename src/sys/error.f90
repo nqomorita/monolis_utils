@@ -6,6 +6,17 @@ module mod_monolis_utils_error
 contains
 
   !> @ingroup dev_error
+  !> 通常ログ出力関数（整数型）
+  subroutine monolis_std_log_I1(header, n)
+    implicit none
+    !> [in] 出力ログ
+    character(*) :: header
+    !> [in] 出力ログ
+    integer(kint) :: n
+    write(*,"(a,a,x,i12)")"** MONOLIS: ", trim(header), n
+  end subroutine monolis_std_log_I1
+
+  !> @ingroup dev_error
   !> 通常ログ出力関数
   subroutine monolis_std_log_string(string)
     implicit none
