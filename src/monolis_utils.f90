@@ -3,6 +3,8 @@ module mod_monolis_utils
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_define_com
   use mod_monolis_utils_sys
+  use mod_monolis_utils_alloc
+  use mod_monolis_utils_error
   use mod_monolis_utils_stdlib
   use mod_monolis_utils_hash
   use mod_monolis_mpi
