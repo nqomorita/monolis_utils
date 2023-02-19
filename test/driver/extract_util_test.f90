@@ -66,49 +66,49 @@ contains
     key = get_key_surf(n_base, 1, conn)
 
     if(trim(key) == "000000011000000022000000033")then
-      call monolis_test_assert_pass("get_key_surf_test case 1")
+      call monolis_test_assert_pass("get_key_surf_test 1")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 1", "")
+      call monolis_test_assert_fail("get_key_surf_test 1", "")
     endif
 
     key = get_key_surf(n_base, 2, conn)
 
     if(trim(key) == "000000055000000066000000077")then
-      call monolis_test_assert_pass("get_key_surf_test case 2")
+      call monolis_test_assert_pass("get_key_surf_test 2")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 2", "")
+      call monolis_test_assert_fail("get_key_surf_test 2", "")
     endif
 
     key = get_key_surf(n_base, 3, conn)
 
     if(trim(key) == "000000011000000022000000055")then
-      call monolis_test_assert_pass("get_key_surf_test case 3")
+      call monolis_test_assert_pass("get_key_surf_test 3")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 3", "")
+      call monolis_test_assert_fail("get_key_surf_test 3", "")
     endif
 
     key = get_key_surf(n_base, 4, conn)
 
     if(trim(key) == "000000022000000033000000066")then
-      call monolis_test_assert_pass("get_key_surf_test case 4")
+      call monolis_test_assert_pass("get_key_surf_test 4")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 4", "")
+      call monolis_test_assert_fail("get_key_surf_test 4", "")
     endif
 
     key = get_key_surf(n_base, 5, conn)
 
     if(trim(key) == "000000033000000044000000077")then
-      call monolis_test_assert_pass("get_key_surf_test case 5")
+      call monolis_test_assert_pass("get_key_surf_test 5")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 5", "")
+      call monolis_test_assert_fail("get_key_surf_test 5", "")
     endif
 
     key = get_key_surf(n_base, 6, conn)
 
     if(trim(key) == "000000011000000044000000055")then
-      call monolis_test_assert_pass("get_key_surf_test case 6")
+      call monolis_test_assert_pass("get_key_surf_test 6")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 6", "")
+      call monolis_test_assert_fail("get_key_surf_test 6", "")
     endif
 
     !> tet mesh
@@ -118,33 +118,33 @@ contains
     key = get_key_surf(n_base, 1, conn)
 
     if(trim(key) == "000000011000000022000000033")then
-      call monolis_test_assert_pass("get_key_surf_test case 7")
+      call monolis_test_assert_pass("get_key_surf_test 7")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 7", "")
+      call monolis_test_assert_fail("get_key_surf_test 7", "")
     endif
 
     key = get_key_surf(n_base, 2, conn)
 
     if(trim(key) == "000000011000000022000000044")then
-      call monolis_test_assert_pass("get_key_surf_test case 8")
+      call monolis_test_assert_pass("get_key_surf_test 8")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 8", "")
+      call monolis_test_assert_fail("get_key_surf_test 8", "")
     endif
 
     key = get_key_surf(n_base, 3, conn)
 
     if(trim(key) == "000000022000000033000000044")then
-      call monolis_test_assert_pass("get_key_surf_test case 9")
+      call monolis_test_assert_pass("get_key_surf_test 9")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 9", "")
+      call monolis_test_assert_fail("get_key_surf_test 9", "")
     endif
 
     key = get_key_surf(n_base, 4, conn)
 
     if(trim(key) == "000000011000000033000000044")then
-      call monolis_test_assert_pass("get_key_surf_test case 10")
+      call monolis_test_assert_pass("get_key_surf_test 10")
     else
-      call monolis_test_assert_fail("get_key_surf_test case 10", "")
+      call monolis_test_assert_fail("get_key_surf_test 10", "")
     endif
   end subroutine get_key_surf_test
 end module mod_monolis_extract_util_test

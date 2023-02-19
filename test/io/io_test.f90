@@ -16,6 +16,8 @@ contains
     call monolis_output_elem_test()
     call monolis_input_internal_vertex_number_test()
     call monolis_output_internal_vertex_number_test()
+    call monolis_input_global_id_test()
+    call monolis_output_global_id_test()
     call monolis_input_bc_test()
     call monolis_output_bc_test()
     call monolis_input_distval_i_test()
@@ -233,6 +235,45 @@ contains
     call monolis_test_check_eq_I1("monolis_output_internal_vertex_number_test 1", &
       & n_internal_vertex, n_internal_vertex_ans)
   end subroutine monolis_output_internal_vertex_number_test
+
+  subroutine monolis_input_global_id_test()
+    implicit none
+    integer(kint) :: n_vertex
+    integer(kint), allocatable :: vertex_id(:)
+
+    call monolis_std_log_string("monolis_input_global_id_test")
+
+    call monolis_input_global_id("io/input/id.txt", n_vertex, vertex_id)
+
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 1", n_vertex, 5)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 2", vertex_id(1), 10)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 3", vertex_id(2), 20)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 4", vertex_id(3), 30)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 5", vertex_id(4), 40)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 6", vertex_id(5), 50)
+  end subroutine monolis_input_global_id_test
+
+  subroutine monolis_output_global_id_test()
+    implicit none
+    integer(kint) :: n_vertex
+    integer(kint) :: vertex_id_ans(5)
+    integer(kint), allocatable :: vertex_id(:)
+
+    call monolis_std_log_string("monolis_output_global_id_test")
+
+    n_vertex = 5
+    vertex_id_ans(1) = 10
+    vertex_id_ans(2) = 20
+    vertex_id_ans(3) = 30
+    vertex_id_ans(4) = 40
+    vertex_id_ans(5) = 50
+
+    call monolis_output_global_id("io/input/id.txt.out", n_vertex, vertex_id_ans)
+
+    call monolis_input_global_id("io/input/id.txt.out", n_vertex, vertex_id)
+
+    call monolis_test_check_eq_I("monolis_output_global_id_test 1", vertex_id, vertex_id_ans)
+  end subroutine monolis_output_global_id_test
 
   subroutine monolis_input_bc_test()
     implicit none

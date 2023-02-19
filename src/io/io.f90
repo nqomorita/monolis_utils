@@ -5,8 +5,10 @@
 !# monolis_output_node(fname, n_node, node)
 !# monolis_input_elem(fname, n_elem, n_base, elem)
 !# monolis_output_elem(fname, n_elem, n_base, elem)
-!# monolis_input_internal_vertex_number(fname, n_internal_vertex)
-!# monolis_output_internal_vertex_number(fname, n_internal_vertex)
+!# monolis_input_internal_vertex_number(fname, n_internal)
+!# monolis_output_internal_vertex_number(fname, n_internal)
+!# monolis_input_global_id(fname, n_vertex, vertex_id)
+!# monolis_output_global_id(fname, n_vertex, vertex_id)
 !# monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
 !# monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
 !# monolis_input_distval_i(fname, label, n_node, n_dof, val)
@@ -186,34 +188,81 @@ contains
 
   !> @ingroup io
   !> monolis 内部節点自由度数の入力
-  subroutine monolis_input_internal_vertex_number(fname, n_internal_vertex)
+  subroutine monolis_input_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
     !> [out] 内部自由度の数
-    integer(kint) :: n_internal_vertex
+    integer(kint) :: n_internal
     character(monolis_charlen) :: label
 
     open(20, file = trim(fname), status = "old")
       read(20,*) label
-      read(20,*) n_internal_vertex
+      read(20,*) n_internal
     close(20)
   end subroutine monolis_input_internal_vertex_number
 
   !> @ingroup io
   !> monolis 内部節点自由度数の出力
-  subroutine monolis_output_internal_vertex_number(fname, n_internal_vertex)
+  subroutine monolis_output_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
     !> [in] 内部自由度の数
-    integer(kint) :: n_internal_vertex
+    integer(kint) :: n_internal
 
     open(20, file = trim(fname), status = "replace")
-      write(20,"(a)") "#n_internal_vertex"
-      write(20,"(i0)") n_internal_vertex
+      write(20,"(a)") "#n_internal"
+      write(20,"(i0)") n_internal
     close(20)
   end subroutine monolis_output_internal_vertex_number
+
+  !> @ingroup io
+  !> monolis グローバル id の入力
+  subroutine monolis_input_global_id(fname, n_vertex, vertex_id)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [out] 節点数
+    integer(kint) :: n_vertex
+    !> [out] グローバル id
+    integer(kint), allocatable :: vertex_id(:)
+    integer(kint) :: i, n_dof
+    character(monolis_charlen) :: label
+
+    open(20, file = trim(fname), status = "old")
+      read(20,*) label
+      read(20,*) n_vertex, n_dof
+
+      call monolis_alloc_I_1d(vertex_id, n_vertex)
+
+      do i = 1, n_vertex
+        read(20,*) vertex_id(i)
+      enddo
+    close(20)
+  end subroutine monolis_input_global_id
+
+  !> @ingroup io
+  !> monolis  グローバル id の出力
+  subroutine monolis_output_global_id(fname, n_vertex, vertex_id)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] 節点数
+    integer(kint) :: n_vertex
+    !> [in] グローバル id
+    integer(kint) :: vertex_id(:)
+    integer(kint) :: i
+
+    open(20, file = trim(fname), status = "replace")
+      write(20,"(a)") "#id"
+      write(20,"(i0,x,i0)") n_vertex, 1
+
+      do i = 1, n_vertex
+        write(20,"(i0)") vertex_id(i)
+      enddo
+    close(20)
+  end subroutine monolis_output_global_id
 
   !> @ingroup io
   !> bc フォーマットの入力
