@@ -62,6 +62,7 @@ sys.f90
 
 SRC_COM = \
 comm_par_util.f90 \
+comm_ser_util.f90 \
 comm_table.f90
 
 SRC_STD = \

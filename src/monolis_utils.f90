@@ -23,6 +23,9 @@ module mod_monolis_utils
   use mod_monolis_driver_util
   use mod_monolis_extract_util
   use mod_monolis_refiner_util
+  use mod_monolis_comm_par_util
+  use mod_monolis_comm_ser_util
+  use mod_monolis_comm_table
 end module mod_monolis_utils
 
 !> @defgroup io ファイル入出力関数群
