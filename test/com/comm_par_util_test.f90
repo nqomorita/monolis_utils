@@ -11,8 +11,8 @@ contains
   subroutine monolis_comm_par_util_test()
     implicit none
 
-    call monolis_generate_global_vertex_id_test()
     call monolis_com_n_vertex_list_test()
+    call monolis_generate_global_vertex_id_test()
     call monolis_comm_get_all_external_node_test()
     call monolis_comm_get_all_external_node_domain_id_test()
   end subroutine monolis_comm_par_util_test
