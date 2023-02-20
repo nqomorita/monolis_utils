@@ -34,10 +34,10 @@ contains
     com%comm_size = monolis_mpi_local_comm_size(com%comm)
     com%n_internal_vertex = n_internal_vertex
 
-    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, com, &
+    call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com, &
       & outer_node_id_all, displs)
 
-    call monolis_comm_get_all_external_node_domain_id(n_internal_vertex, vertex_id, com, &
+    call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
       & outer_node_id_all, outer_domain_id_all, displs)
 
     call monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
