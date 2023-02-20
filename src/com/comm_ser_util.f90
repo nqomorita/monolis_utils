@@ -206,8 +206,6 @@ contains
 
     call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
 
-write(*,*)"recv_list%global_id", recv_list%global_id
-
     do i = 1, recv_list%n_node
       call monolis_bsearch_I(temp, 1, n_vertex, recv_list%global_id(i), id)
       if(id == -1) cycle
