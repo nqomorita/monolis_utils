@@ -180,4 +180,16 @@ contains
     call monolis_get_arg_input_S("-o", foname, is_get)
     call monolis_std_log_string2("[output file]", foname)
   end subroutine monolis_get_arg_input_o_tag
+
+  !> @ingroup io
+  !> 分割数を取得
+  subroutine monolis_get_arg_input_n_tag(n_domain)
+    implicit none
+    !> 出力ファイル名
+    integer(kint) :: n_domain
+    logical :: is_get
+    n_domain = 1
+    call monolis_get_arg_input_I("-n", n_domain, is_get)
+    call monolis_std_log_I1("[number of domains]", n_domain)
+  end subroutine monolis_get_arg_input_n_tag
 end module mod_monolis_io_arg
