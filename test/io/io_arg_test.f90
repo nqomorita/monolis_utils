@@ -104,11 +104,12 @@ contains
   subroutine monolis_get_arg_input_i_tag_test()
     implicit none
     character(monolis_charlen) :: var
+    logical :: is_get
 
     call monolis_std_log_string("monolis_get_arg_input_i_tag_test")
 
     !> case 1
-    call monolis_get_arg_input_i_tag(var)
+    call monolis_get_arg_input_i_tag(var, is_get)
 
     if(trim(var) == "a.txt")then
       call monolis_test_assert_pass("monolis_get_arg_input_i_tag_test 1")
@@ -120,11 +121,12 @@ contains
   subroutine monolis_get_arg_input_in_tag_test()
     implicit none
     character(monolis_charlen) :: var
+    logical :: is_get
 
     call monolis_std_log_string("monolis_get_arg_input_in_tag_test")
 
     !> case 2
-    call monolis_get_arg_input_in_tag(var)
+    call monolis_get_arg_input_in_tag(var, is_get)
 
     if(trim(var) == "c.txt")then
       call monolis_test_assert_pass("monolis_get_arg_input_in_tag_test 1")
@@ -136,11 +138,12 @@ contains
   subroutine monolis_get_arg_input_ie_tag_test()
     implicit none
     character(monolis_charlen) :: var
+    logical :: is_get
 
     call monolis_std_log_string("monolis_get_arg_input_ie_tag_test")
 
     !> case 1
-    call monolis_get_arg_input_ie_tag(var)
+    call monolis_get_arg_input_ie_tag(var, is_get)
 
     if(trim(var) == "d.txt")then
       call monolis_test_assert_pass("monolis_get_arg_input_ie_tag_test 1")
@@ -152,11 +155,12 @@ contains
   subroutine monolis_get_arg_input_o_tag_test()
     implicit none
     character(monolis_charlen) :: var
+    logical :: is_get
 
     call monolis_std_log_string("monolis_get_arg_input_o_tag_test")
 
     !> case 1
-    call monolis_get_arg_input_o_tag(var)
+    call monolis_get_arg_input_o_tag(var, is_get)
 
     if(trim(var) == "b.txt")then
       call monolis_test_assert_pass("monolis_get_arg_input_o_tag_test 2")
@@ -168,11 +172,12 @@ contains
   subroutine monolis_get_arg_input_n_tag_test()
     implicit none
     integer(kint) :: n_domain
+    logical :: is_get
 
     call monolis_std_log_string("monolis_get_arg_input_n_tag_test")
 
     !> case 1
-    call monolis_get_arg_input_n_tag(n_domain)
+    call monolis_get_arg_input_n_tag(n_domain, is_get)
 
     call monolis_test_check_eq_I1("monolis_get_arg_input_n_tag_test 1", n_domain, 2)
   end subroutine monolis_get_arg_input_n_tag_test

@@ -137,7 +137,7 @@ contains
 
   !> @ingroup io
   !> 入力節点ファイル名を取得
-  subroutine monolis_get_arg_input_in_tag(fnname)
+  subroutine monolis_get_arg_input_in_tag(fnname, is_get)
     implicit none
     !> 入力節点ファイル名
     character(monolis_charlen) :: fnname
@@ -149,7 +149,7 @@ contains
 
   !> @ingroup io
   !> 入力要素ファイル名を取得
-  subroutine monolis_get_arg_input_ie_tag(fename)
+  subroutine monolis_get_arg_input_ie_tag(fename, is_get)
     implicit none
     !> 入力要素ファイル名
     character(monolis_charlen) :: fename
@@ -161,7 +161,7 @@ contains
 
   !> @ingroup io
   !> 入力ファイル名を取得
-  subroutine monolis_get_arg_input_i_tag(finame)
+  subroutine monolis_get_arg_input_i_tag(finame, is_get)
     implicit none
     !> 出力ファイル名
     character(monolis_charlen) :: finame
@@ -172,7 +172,7 @@ contains
 
   !> @ingroup io
   !> 出力ファイル名を取得
-  subroutine monolis_get_arg_input_o_tag(foname)
+  subroutine monolis_get_arg_input_o_tag(foname, is_get)
     implicit none
     !> 出力ファイル名
     character(monolis_charlen) :: foname
@@ -183,7 +183,7 @@ contains
 
   !> @ingroup io
   !> 分割数を取得
-  subroutine monolis_get_arg_input_n_tag(n_domain)
+  subroutine monolis_get_arg_input_n_tag(n_domain, is_get)
     implicit none
     !> 出力ファイル名
     integer(kint) :: n_domain

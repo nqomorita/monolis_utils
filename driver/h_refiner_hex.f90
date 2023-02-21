@@ -38,10 +38,10 @@ program monolis_h_refiner_hex
   endif
 
   finname = "node.dat"
-  call monolis_get_arg_input_in_tag(finname)
+  call monolis_get_arg_input_in_tag(finname, is_get)
 
   fiename = "elem.dat"
-  call monolis_get_arg_input_ie_tag(fiename)
+  call monolis_get_arg_input_ie_tag(fiename, is_get)
 
   fonname = "node.ref.dat"
   call monolis_get_arg_input_S("-on", fonname, is_get)
