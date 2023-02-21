@@ -15,6 +15,8 @@
 !# monolis_output_distval_i(fname, label, n_node, n_dof, val)
 !# monolis_input_distval_r(fname, label, n_node, n_dof, val)
 !# monolis_output_distval_r(fname, label, n_node, n_dof, val)
+!# monolis_input_distval_c(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_c(fname, label, n_node, n_dof, val)
 !# monolis_input_file_error_check(ierr)
 module mod_monolis_io
   use mod_monolis_utils_define_prm
@@ -429,6 +431,68 @@ contains
       enddo
     close(20)
   end subroutine monolis_output_distval_r
+
+  !> @ingroup io
+  !> distval フォーマットの入力（複素数型）
+  subroutine monolis_input_distval_c(fname, label, n_node, n_dof, val)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [out] ラベル名
+    character(monolis_charlen) :: label
+    !> [out] 節点数
+    integer(kint) :: n_node
+    !> [out] 節点あたりのデータ数
+    integer(kint) :: n_dof
+    !> [out] データ
+    complex(kdouble), allocatable :: val(:,:)
+    real(kdouble), allocatable :: tmp(:)
+    integer(kint) :: i, j
+
+    open(20, file = trim(fname), status = "old")
+      read(20,*) label
+      read(20,*) n_node, n_dof
+
+      call monolis_alloc_C_2d(val, n_dof, n_node)
+      call monolis_alloc_R_1d(tmp, 2*n_dof)
+
+      do i = 1, n_node
+        read(20,*) (tmp(j), j = 1, 2*n_dof)
+        do j = 1, n_dof
+          val(j,i) = complex(tmp(2*j-1), tmp(2*j))
+        enddo
+      enddo
+    close(20)
+  end subroutine monolis_input_distval_c
+
+  !> @ingroup io
+  !> distval フォーマットの出力（複素数型）
+  subroutine monolis_output_distval_c(fname, label, n_node, n_dof, val)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] ラベル名
+    character(*) :: label
+    !> [in] 節点数
+    integer(kint) :: n_node
+    !> [in] 節点あたりのデータ数
+    integer(kint) :: n_dof
+    !> [in] データ
+    complex(kdouble) :: val(:,:)
+    integer(kint) :: i, j
+
+    open(20, file = trim(fname), status = "replace")
+      write(20,"(a)") trim(label)
+      write(20,"(i0,x,i0)") n_node, n_dof
+
+      do i = 1, n_node
+        do j = 1, n_dof
+          write(20,"(1pe22.14,x,1pe22.14,x,$)") real(val(j,i)), imag(val(j,i))
+        enddo
+        write(20,*)""
+      enddo
+    close(20)
+  end subroutine monolis_output_distval_c
 
   !> @ingroup dev_io
   !> Fortran open 文のエラー処理
