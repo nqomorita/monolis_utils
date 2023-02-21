@@ -1,15 +1,17 @@
 !> IO 引数モジュール
-!# subroutine monolis_check_arg_input(tag, is_get)
-!# subroutine monolis_get_arg_input_I(tag, var, is_get)
-!# subroutine monolis_get_arg_input_R(tag, var, is_get)
-!# subroutine monolis_get_arg_input_S(tag, var, is_get)
-!# subroutine monolis_get_arg_input_in_tag(fnname)
-!# subroutine monolis_get_arg_input_ie_tag(fename)
-!# subroutine monolis_get_arg_input_i_tag(finame)
-!# subroutine monolis_get_arg_input_o_tag(foname)
+!# monolis_check_arg_input(tag, is_get)
+!# monolis_get_arg_input_I(tag, var, is_get)
+!# monolis_get_arg_input_R(tag, var, is_get)
+!# monolis_get_arg_input_S(tag, var, is_get)
+!# monolis_get_arg_input_in_tag(fnname)
+!# monolis_get_arg_input_ie_tag(fename)
+!# monolis_get_arg_input_i_tag(finame)
+!# monolis_get_arg_input_o_tag(foname)
+!# monolis_get_arg_input_d_tag(fdname, is_get)
 module mod_monolis_io_arg
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_sys
   implicit none
 
 contains
@@ -185,11 +187,25 @@ contains
   !> 分割数を取得
   subroutine monolis_get_arg_input_n_tag(n_domain, is_get)
     implicit none
-    !> 出力ファイル名
+    !> 分割数
     integer(kint) :: n_domain
     logical :: is_get
     n_domain = 1
     call monolis_get_arg_input_I("-n", n_domain, is_get)
     call monolis_std_log_I1("[number of domains]", n_domain)
   end subroutine monolis_get_arg_input_n_tag
+
+  !> @ingroup io
+  !> 分割数を取得
+  subroutine monolis_get_arg_input_d_tag(fdname, is_get)
+    implicit none
+    !> 出力ファイル名
+    character(monolis_charlen) :: fdname
+    logical :: is_get
+    fdname = "./parted.0"
+    call monolis_get_arg_input_S("-d", fdname, is_get)
+    call monolis_std_log_string2("[output directory]", fdname)
+    call monolis_std_make_dir(fdname)
+  end subroutine monolis_get_arg_input_d_tag
+
 end module mod_monolis_io_arg
