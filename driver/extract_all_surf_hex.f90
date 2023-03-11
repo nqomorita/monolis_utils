@@ -35,10 +35,10 @@ program monolis_extract_all_surf_hex
   endif
 
   finame = "elem.dat"
-  call monolis_get_arg_input_i_tag(finame)
+  call monolis_get_arg_input_i_tag(finame, is_get)
 
   foname = "surf.dat"
-  call monolis_get_arg_input_o_tag(foname)
+  call monolis_get_arg_input_o_tag(foname, is_get)
 
   call monolis_input_elem(finame, n_elem, n_base, elem)
 

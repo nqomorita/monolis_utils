@@ -36,46 +36,46 @@ contains
     call monolis_allreduce_I1(i, monolis_mpi_sum, comm)
 
     if(monolis_mpi_global_comm_size() == 1)then
-      call monolis_test_check_eq_I1("monolis_allreduce_I1 case 1", i, 1)
+      call monolis_test_check_eq_I1("monolis_allreduce_I1  1", i, 1)
     else
-      call monolis_test_check_eq_I1("monolis_allreduce_I1 case 1", i, 3)
+      call monolis_test_check_eq_I1("monolis_allreduce_I1  1", i, 3)
     endif
 
     i = monolis_mpi_global_my_rank() + 1
     call monolis_allreduce_I1(i, monolis_mpi_max, comm)
 
     if(monolis_mpi_global_comm_size() == 1)then
-      call monolis_test_check_eq_I1("monolis_allreduce_I1 case 1", i, 1)
+      call monolis_test_check_eq_I1("monolis_allreduce_I1  1", i, 1)
     else
-      call monolis_test_check_eq_I1("monolis_allreduce_I1 case 2", i, 2)
+      call monolis_test_check_eq_I1("monolis_allreduce_I1  2", i, 2)
     endif
 
     i = monolis_mpi_global_my_rank() + 1
     call monolis_allreduce_I1(i, monolis_mpi_min, comm)
-    call monolis_test_check_eq_I1("monolis_allreduce_I1 case 3", i, 1)
+    call monolis_test_check_eq_I1("monolis_allreduce_I1  3", i, 1)
 
     !> case 2
     r = dble(monolis_mpi_global_my_rank() + 1.0d0)
     call monolis_allreduce_R1(r, monolis_mpi_sum, comm)
 
     if(monolis_mpi_global_comm_size() == 1)then
-      call monolis_test_check_eq_R1("monolis_allreduce_R1 case 1", r, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1  1", r, 1.0d0)
     else
-      call monolis_test_check_eq_R1("monolis_allreduce_R1 case 1", r, 3.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1  1", r, 3.0d0)
     endif
 
     r = dble(monolis_mpi_global_my_rank() + 1.0d0)
     call monolis_allreduce_R1(r, monolis_mpi_max, comm)
 
     if(monolis_mpi_global_comm_size() == 1)then
-      call monolis_test_check_eq_R1("monolis_allreduce_R1 case 1", r, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1  1", r, 1.0d0)
     else
-      call monolis_test_check_eq_R1("monolis_allreduce_R1 case 2", r, 2.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1  2", r, 2.0d0)
     endif
 
     r = dble(monolis_mpi_global_my_rank() + 1.0d0)
     call monolis_allreduce_R1(r, monolis_mpi_min, comm)
-    call monolis_test_check_eq_R1("monolis_allreduce_R1 case 3", r, 1.0d0)
+    call monolis_test_check_eq_R1("monolis_allreduce_R1  3", r, 1.0d0)
 
     !> case 3
     r = dble(monolis_mpi_global_my_rank() + 1.0d0)
@@ -83,9 +83,9 @@ contains
     call monolis_allreduce_C1(c, monolis_mpi_sum, comm)
 
     if(monolis_mpi_global_comm_size() == 1)then
-      call monolis_test_check_eq_C1("monolis_allreduce_C1 case 1", c, (1.0d0, 1.0d0))
+      call monolis_test_check_eq_C1("monolis_allreduce_C1  1", c, (1.0d0, 1.0d0))
     else
-      call monolis_test_check_eq_C1("monolis_allreduce_C1 case 1", c, (3.0d0, 3.0d0))
+      call monolis_test_check_eq_C1("monolis_allreduce_C1  1", c, (3.0d0, 3.0d0))
     endif
   end subroutine monolis_allreduce_x1_test
 
@@ -112,7 +112,7 @@ contains
       i_ans(2) = 6
     endif
 
-    call monolis_test_check_eq_I("monolis_allreduce_I case 1", i, i_ans)
+    call monolis_test_check_eq_I("monolis_allreduce_I  1", i, i_ans)
 
     i(1) = 2*monolis_mpi_global_my_rank() + 1
     i(2) = 2*monolis_mpi_global_my_rank() + 2
@@ -126,7 +126,7 @@ contains
       i_ans(2) = 4
     endif
 
-    call monolis_test_check_eq_I("monolis_allreduce_I case 2", i, i_ans)
+    call monolis_test_check_eq_I("monolis_allreduce_I  2", i, i_ans)
 
     i(1) = 2*monolis_mpi_global_my_rank() + 1
     i(2) = 2*monolis_mpi_global_my_rank() + 2
@@ -134,7 +134,7 @@ contains
 
     i_ans(1) = 1
     i_ans(2) = 2
-    call monolis_test_check_eq_I("monolis_allreduce_I case 3", i, i_ans)
+    call monolis_test_check_eq_I("monolis_allreduce_I  3", i, i_ans)
 
     !> case 2
     r(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
@@ -150,7 +150,7 @@ contains
       r_ans(2) = 6.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_allreduce_R case 1", r, r_ans)
+    call monolis_test_check_eq_R("monolis_allreduce_R  1", r, r_ans)
 
     r(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
     r(2) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 2.0d0
@@ -164,7 +164,7 @@ contains
       r_ans(2) = 4.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_allreduce_R case 2", r, r_ans)
+    call monolis_test_check_eq_R("monolis_allreduce_R  2", r, r_ans)
 
     r(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
     r(2) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 2.0d0
@@ -172,7 +172,7 @@ contains
 
     r_ans(1) = 1.0d0
     r_ans(2) = 2.0d0
-    call monolis_test_check_eq_R("monolis_allreduce_R case 3", r, r_ans)
+    call monolis_test_check_eq_R("monolis_allreduce_R  3", r, r_ans)
 
     !> case 3
     r(1) = 2.0d0*dble(monolis_mpi_global_my_rank()) + 1.0d0
@@ -189,7 +189,7 @@ contains
       c_ans(2) = (6.0d0, 6.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_allreduce_C case 1", c, c_ans)
+    call monolis_test_check_eq_C("monolis_allreduce_C  1", c, c_ans)
   end subroutine monolis_allreduce_x_test
 
   subroutine monolis_gather_test()
@@ -229,7 +229,7 @@ contains
     endif
 
     if(monolis_mpi_global_my_rank() == 0)then
-      call monolis_test_check_eq_I("monolis_gatherv_I case 1", i_rbuf, i_ans)
+      call monolis_test_check_eq_I("monolis_gatherv_I  1", i_rbuf, i_ans)
     endif
 
     if(monolis_mpi_global_comm_size() == 2)then
@@ -251,7 +251,7 @@ contains
       i_ans(4) = 4
 
       if(monolis_mpi_global_my_rank() == 1)then
-        call monolis_test_check_eq_I("monolis_gatherv_I case 2", i_rbuf, i_ans)
+        call monolis_test_check_eq_I("monolis_gatherv_I  2", i_rbuf, i_ans)
       endif
     endif
 
@@ -281,7 +281,7 @@ contains
     endif
 
     if(monolis_mpi_global_my_rank() == 0)then
-      call monolis_test_check_eq_R("monolis_gatherv_R case 1", r_rbuf, r_ans)
+      call monolis_test_check_eq_R("monolis_gatherv_R  1", r_rbuf, r_ans)
     endif
 
     if(monolis_mpi_global_comm_size() == 2)then
@@ -303,7 +303,7 @@ contains
       r_ans(4) = 4.0d0
 
       if(monolis_mpi_global_my_rank() == 1)then
-        call monolis_test_check_eq_R("monolis_gatherv_R case 2", r_rbuf, r_ans)
+        call monolis_test_check_eq_R("monolis_gatherv_R  2", r_rbuf, r_ans)
       endif
     endif
 
@@ -335,7 +335,7 @@ contains
     endif
 
     if(monolis_mpi_global_my_rank() == 0)then
-      call monolis_test_check_eq_C("monolis_gatherv_C case 1", c_rbuf, c_ans)
+      call monolis_test_check_eq_C("monolis_gatherv_C  1", c_rbuf, c_ans)
     endif
 
     if(monolis_mpi_global_comm_size() == 2)then
@@ -359,7 +359,7 @@ contains
       c_ans(4) = (4.0d0, 4.0d0)
 
       if(monolis_mpi_global_my_rank() == 1)then
-        call monolis_test_check_eq_C("monolis_gatherv_C case 2", c_rbuf, c_ans)
+        call monolis_test_check_eq_C("monolis_gatherv_C  2", c_rbuf, c_ans)
       endif
     endif
   end subroutine monolis_gather_test
@@ -392,7 +392,7 @@ contains
     i_ans(1) = 2*monolis_mpi_global_my_rank() + 1
     i_ans(2) = 2*monolis_mpi_global_my_rank() + 2
 
-    call monolis_test_check_eq_I("monolis_scatterv_I case 1", i_rbuf, i_ans)
+    call monolis_test_check_eq_I("monolis_scatterv_I  1", i_rbuf, i_ans)
 
     !> case 2
     root = 0
@@ -411,7 +411,7 @@ contains
     r_ans(1) = 2.0d0*monolis_mpi_global_my_rank() + 1.0d0
     r_ans(2) = 2.0d0*monolis_mpi_global_my_rank() + 2.0d0
 
-    call monolis_test_check_eq_R("monolis_scatterv_R case 1", r_rbuf, r_ans)
+    call monolis_test_check_eq_R("monolis_scatterv_R  1", r_rbuf, r_ans)
 
     !> case 3
     root = 0
@@ -432,7 +432,7 @@ contains
     c_ans(1) = complex(r_ans(1), r_ans(1))
     c_ans(2) = complex(r_ans(2), r_ans(2))
 
-    call monolis_test_check_eq_C("monolis_scatterv_C case 1", c_rbuf, c_ans)
+    call monolis_test_check_eq_C("monolis_scatterv_C  1", c_rbuf, c_ans)
   end subroutine monolis_scatterv_test
 
   subroutine monolis_allgather_1_test()
@@ -460,7 +460,7 @@ contains
       i_ans(2) = 2
     endif
 
-    call monolis_test_check_eq_I("monolis_allgather_I1 case 1", i_rbuf, i_ans)
+    call monolis_test_check_eq_I("monolis_allgather_I1  1", i_rbuf, i_ans)
 
     !> case 2
     r_sbuf = monolis_mpi_global_my_rank() + 1
@@ -476,7 +476,7 @@ contains
       r_ans(2) = 2.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_allgather_R1 case 1", r_rbuf, r_ans)
+    call monolis_test_check_eq_R("monolis_allgather_R1  1", r_rbuf, r_ans)
 
     !> case 3
     r_sbuf = monolis_mpi_global_my_rank() + 1
@@ -493,7 +493,7 @@ contains
       c_ans(2) = (2.0d0, 2.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_allgather_C1 case 1", c_rbuf, c_ans)
+    call monolis_test_check_eq_C("monolis_allgather_C1  1", c_rbuf, c_ans)
   end subroutine monolis_allgather_1_test
 
   subroutine monolis_allgather_test()
@@ -531,7 +531,7 @@ contains
       i_ans(4) = 4
     endif
 
-    call monolis_test_check_eq_I("monolis_allgatherv_I case 1", i_rbuf, i_ans)
+    call monolis_test_check_eq_I("monolis_allgatherv_I  1", i_rbuf, i_ans)
 
     !> case 2
     sc = 2
@@ -557,9 +557,9 @@ contains
       r_ans(4) = 4.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_allgatherv_R case 1", r_rbuf, r_ans)
+    call monolis_test_check_eq_R("monolis_allgatherv_R  1", r_rbuf, r_ans)
 
-    !> case 3
+    !>  3
     sc = 2
     rc(1) = 2
     rc(2) = 2
@@ -585,7 +585,7 @@ contains
       c_ans(4) = (4.0d0, 4.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_allgatherv_C case 1", c_rbuf, c_ans)
+    call monolis_test_check_eq_C("monolis_allgatherv_C  1", c_rbuf, c_ans)
   end subroutine monolis_allgather_test
 
   subroutine monolis_alltoall_1_test()
@@ -606,7 +606,7 @@ contains
     i_ans(1) = 1
     i_ans(2) = 2
 
-    call monolis_test_check_eq_I("monolis_alltoall_1_test case 1", sbuf, i_ans)
+    call monolis_test_check_eq_I("monolis_alltoall_1_test  1", sbuf, i_ans)
   end subroutine monolis_alltoall_1_test
 
   subroutine monolis_send_recv_test()
@@ -679,7 +679,7 @@ contains
       i_ans(8) = 4
     endif
 
-    call monolis_test_check_eq_I("monolis_SendRecv_I case 1", i, i_ans)
+    call monolis_test_check_eq_I("monolis_SendRecv_I  1", i, i_ans)
 
     !> case 2
     if(monolis_mpi_global_my_rank() == 0)then
@@ -718,7 +718,7 @@ contains
       r_ans(8) = 4.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_SendRecv_R case 1", r, r_ans)
+    call monolis_test_check_eq_R("monolis_SendRecv_R  1", r, r_ans)
 
     !> case 3
     if(monolis_mpi_global_my_rank() == 0)then
@@ -757,7 +757,7 @@ contains
       c_ans(8) = (4.0d0, 4.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_SendRecv_C case 1", c, c_ans)
+    call monolis_test_check_eq_C("monolis_SendRecv_C  1", c, c_ans)
   end subroutine monolis_send_recv_test
 
   subroutine monolis_update_test()
@@ -838,7 +838,7 @@ contains
       i_ans(8) = 4
     endif
 
-    call monolis_test_check_eq_I("monolis_update_I case 1", i, i_ans)
+    call monolis_test_check_eq_I("monolis_update_I  1", i, i_ans)
 
     !> case 2
     if(monolis_mpi_global_my_rank() == 0)then
@@ -875,7 +875,7 @@ contains
       r_ans(8) = 4.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_update_R case 1", r, r_ans)
+    call monolis_test_check_eq_R("monolis_update_R  1", r, r_ans)
 
     !> case 3
     if(monolis_mpi_global_my_rank() == 0)then
@@ -912,6 +912,6 @@ contains
       c_ans(8) = (4.0d0, 4.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_update_C case 1", c, c_ans)
+    call monolis_test_check_eq_C("monolis_update_C  1", c, c_ans)
   end subroutine monolis_update_test
 end module mod_monolis_mpi_test

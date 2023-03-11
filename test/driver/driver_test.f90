@@ -30,8 +30,8 @@ contains
     fname = "driver/output/dbc.hex.dat"
     call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 1", n_bc, 52)
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 2", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2", n_dof, 2)
 
     i_bc_ans(1) = 1
     i_bc_ans(2) = 2
@@ -61,12 +61,12 @@ contains
     i_bc_ans(26) = 27
 
     do i = 1, 26
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 3", i_bc(1,2*i-1), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 4", i_bc(2,2*i-1), 1)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test case 5", r_bc(2*i-1), 1.0d0)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 3", i_bc(1,2*i  ), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test case 4", i_bc(2,2*i  ), 2)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test case 5", r_bc(2*i  ), 2.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3", i_bc(1,2*i-1), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3", i_bc(1,2*i  ), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5", r_bc(2*i  ), 2.0d0)
     enddo
   end subroutine monolis_dbc_all_surf_hex_test
 

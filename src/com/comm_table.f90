@@ -22,8 +22,8 @@ contains
     integer(kint) :: vertex_id(:)
     !> [out] 分割領域に対応する com 構造体
     type(monolis_COM) :: com
-    !> 全ての外部節点番号
-    integer(kint), allocatable :: outer_node_id_all(:)
+    !> 全ての外部節点番号（グローバル番号）
+    integer(kint), allocatable :: outer_node_id_all_global(:)
     !> 全ての外部節点が属する領域番号
     integer(kint), allocatable :: outer_domain_id_all(:)
     !> 全ての外部節点配列の各領域に属する節点数
@@ -34,14 +34,14 @@ contains
     com%comm_size = monolis_mpi_local_comm_size(com%comm)
     com%n_internal_vertex = n_internal_vertex
 
-    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, com, &
-      & outer_node_id_all, displs)
+    call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com, &
+      & outer_node_id_all_global, displs)
 
-    call monolis_comm_get_all_external_node_domain_id(n_internal_vertex, vertex_id, com, &
-      & outer_node_id_all, outer_domain_id_all, displs)
+    call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
+      & outer_node_id_all_global, outer_domain_id_all, displs)
 
     call monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
-      & outer_node_id_all, outer_domain_id_all, displs, recv_list)
+      & outer_node_id_all_global, outer_domain_id_all, displs, recv_list)
 
     call monolis_comm_get_send_parallel(n_vertex, vertex_id, com, recv_list)
   end subroutine monolis_com_get_comm_table_parallel

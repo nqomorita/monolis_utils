@@ -5,14 +5,18 @@
 !# monolis_output_node(fname, n_node, node)
 !# monolis_input_elem(fname, n_elem, n_base, elem)
 !# monolis_output_elem(fname, n_elem, n_base, elem)
-!# monolis_input_internal_vertex_number(fname, n_internal_vertex)
-!# monolis_output_internal_vertex_number(fname, n_internal_vertex)
+!# monolis_input_internal_vertex_number(fname, n_internal)
+!# monolis_output_internal_vertex_number(fname, n_internal)
+!# monolis_input_global_id(fname, n_vertex, vertex_id)
+!# monolis_output_global_id(fname, n_vertex, vertex_id)
 !# monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
 !# monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
 !# monolis_input_distval_i(fname, label, n_node, n_dof, val)
 !# monolis_output_distval_i(fname, label, n_node, n_dof, val)
 !# monolis_input_distval_r(fname, label, n_node, n_dof, val)
 !# monolis_output_distval_r(fname, label, n_node, n_dof, val)
+!# monolis_input_distval_c(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_c(fname, label, n_node, n_dof, val)
 !# monolis_input_file_error_check(ierr)
 module mod_monolis_io
   use mod_monolis_utils_define_prm
@@ -186,34 +190,81 @@ contains
 
   !> @ingroup io
   !> monolis 内部節点自由度数の入力
-  subroutine monolis_input_internal_vertex_number(fname, n_internal_vertex)
+  subroutine monolis_input_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
     !> [out] 内部自由度の数
-    integer(kint) :: n_internal_vertex
+    integer(kint) :: n_internal
     character(monolis_charlen) :: label
 
     open(20, file = trim(fname), status = "old")
       read(20,*) label
-      read(20,*) n_internal_vertex
+      read(20,*) n_internal
     close(20)
   end subroutine monolis_input_internal_vertex_number
 
   !> @ingroup io
   !> monolis 内部節点自由度数の出力
-  subroutine monolis_output_internal_vertex_number(fname, n_internal_vertex)
+  subroutine monolis_output_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
     !> [in] 内部自由度の数
-    integer(kint) :: n_internal_vertex
+    integer(kint) :: n_internal
 
     open(20, file = trim(fname), status = "replace")
-      write(20,"(a)") "#n_internal_vertex"
-      write(20,"(i0)") n_internal_vertex
+      write(20,"(a)") "#n_internal"
+      write(20,"(i0)") n_internal
     close(20)
   end subroutine monolis_output_internal_vertex_number
+
+  !> @ingroup io
+  !> monolis グローバル id の入力
+  subroutine monolis_input_global_id(fname, n_vertex, vertex_id)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [out] 節点数
+    integer(kint) :: n_vertex
+    !> [out] グローバル id
+    integer(kint), allocatable :: vertex_id(:)
+    integer(kint) :: i, n_dof
+    character(monolis_charlen) :: label
+
+    open(20, file = trim(fname), status = "old")
+      read(20,*) label
+      read(20,*) n_vertex, n_dof
+
+      call monolis_alloc_I_1d(vertex_id, n_vertex)
+
+      do i = 1, n_vertex
+        read(20,*) vertex_id(i)
+      enddo
+    close(20)
+  end subroutine monolis_input_global_id
+
+  !> @ingroup io
+  !> monolis  グローバル id の出力
+  subroutine monolis_output_global_id(fname, n_vertex, vertex_id)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] 節点数
+    integer(kint) :: n_vertex
+    !> [in] グローバル id
+    integer(kint) :: vertex_id(:)
+    integer(kint) :: i
+
+    open(20, file = trim(fname), status = "replace")
+      write(20,"(a)") "#id"
+      write(20,"(i0,x,i0)") n_vertex, 1
+
+      do i = 1, n_vertex
+        write(20,"(i0)") vertex_id(i)
+      enddo
+    close(20)
+  end subroutine monolis_output_global_id
 
   !> @ingroup io
   !> bc フォーマットの入力
@@ -380,6 +431,68 @@ contains
       enddo
     close(20)
   end subroutine monolis_output_distval_r
+
+  !> @ingroup io
+  !> distval フォーマットの入力（複素数型）
+  subroutine monolis_input_distval_c(fname, label, n_node, n_dof, val)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [out] ラベル名
+    character(monolis_charlen) :: label
+    !> [out] 節点数
+    integer(kint) :: n_node
+    !> [out] 節点あたりのデータ数
+    integer(kint) :: n_dof
+    !> [out] データ
+    complex(kdouble), allocatable :: val(:,:)
+    real(kdouble), allocatable :: tmp(:)
+    integer(kint) :: i, j
+
+    open(20, file = trim(fname), status = "old")
+      read(20,*) label
+      read(20,*) n_node, n_dof
+
+      call monolis_alloc_C_2d(val, n_dof, n_node)
+      call monolis_alloc_R_1d(tmp, 2*n_dof)
+
+      do i = 1, n_node
+        read(20,*) (tmp(j), j = 1, 2*n_dof)
+        do j = 1, n_dof
+          val(j,i) = complex(tmp(2*j-1), tmp(2*j))
+        enddo
+      enddo
+    close(20)
+  end subroutine monolis_input_distval_c
+
+  !> @ingroup io
+  !> distval フォーマットの出力（複素数型）
+  subroutine monolis_output_distval_c(fname, label, n_node, n_dof, val)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] ラベル名
+    character(*) :: label
+    !> [in] 節点数
+    integer(kint) :: n_node
+    !> [in] 節点あたりのデータ数
+    integer(kint) :: n_dof
+    !> [in] データ
+    complex(kdouble) :: val(:,:)
+    integer(kint) :: i, j
+
+    open(20, file = trim(fname), status = "replace")
+      write(20,"(a)") trim(label)
+      write(20,"(i0,x,i0)") n_node, n_dof
+
+      do i = 1, n_node
+        do j = 1, n_dof
+          write(20,"(1pe22.14,x,1pe22.14,x,$)") real(val(j,i)), imag(val(j,i))
+        enddo
+        write(20,*)""
+      enddo
+    close(20)
+  end subroutine monolis_output_distval_c
 
   !> @ingroup dev_io
   !> Fortran open 文のエラー処理

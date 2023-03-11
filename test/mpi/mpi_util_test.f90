@@ -54,8 +54,8 @@ contains
 
     call monolis_mpi_split_comm(comm, group_id, comm_split)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test case 1", monolis_mpi_local_comm_size(comm_split), 1)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 1", monolis_mpi_local_comm_size(comm_split), 1)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test case 2s", monolis_mpi_local_my_rank(comm_split), 0)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 2", monolis_mpi_local_my_rank(comm_split), 0)
   end subroutine monolis_mpi_split_comm_test
 end module mod_monolis_mpi_util_test

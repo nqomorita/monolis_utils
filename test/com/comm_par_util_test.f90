@@ -11,8 +11,8 @@ contains
   subroutine monolis_comm_par_util_test()
     implicit none
 
-    call monolis_generate_global_vertex_id_test()
     call monolis_com_n_vertex_list_test()
+    call monolis_generate_global_vertex_id_test()
     call monolis_comm_get_all_external_node_test()
     call monolis_comm_get_all_external_node_domain_id_test()
   end subroutine monolis_comm_par_util_test
@@ -129,7 +129,7 @@ contains
       vertex_id(5) = 30
     endif
 
-    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, &
+    call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
       & com, outer_node_id_all, displs)
 
     i_ans(1) = 40
@@ -173,10 +173,10 @@ contains
       vertex_id(5) = 30
     endif
 
-    call monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, &
+    call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
       & com, outer_node_id_all, displs)
 
-    call monolis_comm_get_all_external_node_domain_id(n_internal_vertex, vertex_id, com, &
+    call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
     & outer_node_id_all, outer_domain_id_all, displs)
 
     i_ans(1) = 1

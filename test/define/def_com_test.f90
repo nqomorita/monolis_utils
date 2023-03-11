@@ -28,7 +28,7 @@ contains
 
     call monolis_com_get_communicator(COM, comm_ans)
 
-    call monolis_test_check_eq_I1("monolis_com_set_test case 1", comm, comm_ans)
+    call monolis_test_check_eq_I1("monolis_com_set_test 1", comm, comm_ans)
 
     !> case 2
     my_rank = 20
@@ -36,7 +36,7 @@ contains
 
     call monolis_com_get_my_rank(COM, my_rank_ans)
 
-    call monolis_test_check_eq_I1("monolis_com_set_test case 2", my_rank, my_rank_ans)
+    call monolis_test_check_eq_I1("monolis_com_set_test 2", my_rank, my_rank_ans)
 
     !> case 3
     comm_size = 30
@@ -44,7 +44,7 @@ contains
 
     call monolis_com_get_comm_size(COM, comm_size_ans)
 
-    call monolis_test_check_eq_I1("monolis_com_set_test case 3", comm_size, comm_size_ans)
+    call monolis_test_check_eq_I1("monolis_com_set_test 3", comm_size, comm_size_ans)
 
     !> case 4
     n_internal_vertex = 40
@@ -52,7 +52,7 @@ contains
 
     call monolis_com_get_n_internal_vertex(COM, n_internal_vertex_ans)
 
-    call monolis_test_check_eq_I1("monolis_com_set_test case 4", &
+    call monolis_test_check_eq_I1("monolis_com_set_test 4", &
       & n_internal_vertex, n_internal_vertex_ans)
   end subroutine monolis_com_set_test
 end module mod_monolis_utils_define_com_test

@@ -16,12 +16,16 @@ contains
     call monolis_output_elem_test()
     call monolis_input_internal_vertex_number_test()
     call monolis_output_internal_vertex_number_test()
+    call monolis_input_global_id_test()
+    call monolis_output_global_id_test()
     call monolis_input_bc_test()
     call monolis_output_bc_test()
     call monolis_input_distval_i_test()
     call monolis_output_distval_i_test()
     call monolis_input_distval_r_test()
     call monolis_output_distval_r_test()
+    call monolis_input_distval_c_test()
+    call monolis_output_distval_c_test()
   end subroutine monolis_io_test
 
   subroutine monolis_input_graph_test()
@@ -234,6 +238,45 @@ contains
       & n_internal_vertex, n_internal_vertex_ans)
   end subroutine monolis_output_internal_vertex_number_test
 
+  subroutine monolis_input_global_id_test()
+    implicit none
+    integer(kint) :: n_vertex
+    integer(kint), allocatable :: vertex_id(:)
+
+    call monolis_std_log_string("monolis_input_global_id_test")
+
+    call monolis_input_global_id("io/input/id.txt", n_vertex, vertex_id)
+
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 1", n_vertex, 5)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 2", vertex_id(1), 10)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 3", vertex_id(2), 20)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 4", vertex_id(3), 30)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 5", vertex_id(4), 40)
+    call monolis_test_check_eq_I1("monolis_input_global_id_test 6", vertex_id(5), 50)
+  end subroutine monolis_input_global_id_test
+
+  subroutine monolis_output_global_id_test()
+    implicit none
+    integer(kint) :: n_vertex
+    integer(kint) :: vertex_id_ans(5)
+    integer(kint), allocatable :: vertex_id(:)
+
+    call monolis_std_log_string("monolis_output_global_id_test")
+
+    n_vertex = 5
+    vertex_id_ans(1) = 10
+    vertex_id_ans(2) = 20
+    vertex_id_ans(3) = 30
+    vertex_id_ans(4) = 40
+    vertex_id_ans(5) = 50
+
+    call monolis_output_global_id("io/input/id.txt.out", n_vertex, vertex_id_ans)
+
+    call monolis_input_global_id("io/input/id.txt.out", n_vertex, vertex_id)
+
+    call monolis_test_check_eq_I("monolis_output_global_id_test 1", vertex_id, vertex_id_ans)
+  end subroutine monolis_output_global_id_test
+
   subroutine monolis_input_bc_test()
     implicit none
     integer(kint) :: n_bc
@@ -425,4 +468,66 @@ contains
 
     call monolis_test_check_eq_R ("monolis_output_distval_r_test 4", val(1,:), val_ans(1,:))
   end subroutine monolis_output_distval_r_test
+
+  subroutine monolis_input_distval_c_test()
+    implicit none
+    character(monolis_charlen) :: label
+    integer(kint) :: n_node
+    integer(kint) :: n_dof
+    complex(kdouble) :: r_ans(3)
+    complex(kdouble), allocatable :: val(:,:)
+
+    call monolis_std_log_string("monolis_input_distval_c_test")
+
+    call monolis_input_distval_c("io/input/distval_c.txt", label, n_node, n_dof, val)
+
+    if(trim(label) == "#val")then
+      call monolis_test_assert_pass("monolis_input_distval_c_test 1")
+    else
+      call monolis_test_assert_fail("monolis_input_distval_c_test 1", "")
+    endif
+
+    call monolis_test_check_eq_I1("monolis_input_distval_c_test 2", n_node, 3)
+
+    call monolis_test_check_eq_I1("monolis_input_distval_c_test 3", n_dof, 1)
+
+    r_ans(1) = (3.0d0, 13.0d0)
+    r_ans(2) = (4.0d0, 14.0d0)
+    r_ans(3) = (5.0d0, 15.0d0)
+    call monolis_test_check_eq_C ("monolis_input_distval_c_test 4", val(1,:), r_ans)
+  end subroutine monolis_input_distval_c_test
+
+  subroutine monolis_output_distval_c_test()
+    implicit none
+    character(monolis_charlen) :: label, label_ans
+    integer(kint) :: n_node, n_node_ans
+    integer(kint) :: n_dof, n_dof_ans
+    complex(kdouble) :: val(1,3)
+    complex(kdouble), allocatable :: val_ans(:,:)
+
+    call monolis_std_log_string("monolis_output_distval_c_test")
+
+    label = "#val"
+    n_node = 3
+    n_dof = 1
+    val(1,1) = (3.0d0, 13.0d0)
+    val(1,2) = (4.0d0, 14.0d0)
+    val(1,3) = (5.0d0, 15.0d0)
+
+    call monolis_output_distval_c("io/input/distval_c.txt.out", label, n_node, n_dof, val)
+
+    call monolis_input_distval_c("io/input/distval_c.txt.out", label_ans, n_node_ans, n_dof_ans, val_ans)
+
+    if(trim(label) == trim(label_ans))then
+      call monolis_test_assert_pass("monolis_output_distval_c_test 1")
+    else
+      call monolis_test_assert_fail("monolis_output_distval_c_test 1", "")
+    endif
+
+    call monolis_test_check_eq_I1("monolis_output_distval_c_test 2", n_node, n_node_ans)
+
+    call monolis_test_check_eq_I1("monolis_output_distval_c_test 3", n_dof, n_dof_ans)
+
+    call monolis_test_check_eq_C ("monolis_output_distval_c_test 4", val(1,:), val_ans(1,:))
+  end subroutine monolis_output_distval_c_test
 end module mod_monolis_io_test

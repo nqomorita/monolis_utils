@@ -39,10 +39,10 @@ program monolis_dbc_all_surf_hex
   endif
 
   finame = "elem.dat"
-  call monolis_get_arg_input_i_tag(finame)
+  call monolis_get_arg_input_i_tag(finame, is_get)
 
   foname = "D_bc.dat"
-  call monolis_get_arg_input_o_tag(foname)
+  call monolis_get_arg_input_o_tag(foname, is_get)
 
   call monolis_driver_get_arg_dbc_all(n_dof, val, is_get)
 

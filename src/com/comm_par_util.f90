@@ -80,7 +80,7 @@ contains
 
   !> @ingroup dev_com
   !> 全ての外部節点を取得
-  subroutine monolis_comm_get_all_external_node(n_internal_vertex, n_vertex, vertex_id, &
+  subroutine monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
     & com, outer_node_id_all, displs)
     implicit none
     !> [in] 内部節点数
@@ -123,11 +123,11 @@ contains
     call monolis_alloc_I_1d(outer_node_id_all, n_outer)
 
     call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, com%comm)
-  end subroutine monolis_comm_get_all_external_node
+  end subroutine monolis_comm_get_all_external_node_parallel
 
   !> @ingroup dev_com
   !> 全ての外部節点が所属する領域番号を取得
-  subroutine monolis_comm_get_all_external_node_domain_id(n_internal_vertex, vertex_id, com, &
+  subroutine monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
     !> [in] 内部節点数
@@ -178,7 +178,7 @@ contains
     enddo aa
 
     call monolis_allreduce_I(n_outer, outer_domain_id_all, monolis_mpi_min, com%comm)
-  end subroutine monolis_comm_get_all_external_node_domain_id
+  end subroutine monolis_comm_get_all_external_node_domain_id_parallel
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
