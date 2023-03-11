@@ -61,7 +61,7 @@ contains
 
     COM%comm = 0
     COM%my_rank = 0
-    COM%comm_size = 0
+    COM%comm_size = 1
     COM%n_internal_vertex = 0
 
     COM%recv_n_neib = 0
@@ -84,7 +84,7 @@ contains
 
     COM%comm = 0
     COM%my_rank = 0
-    COM%comm_size = 0
+    COM%comm_size = 1
     COM%n_internal_vertex = 0
 
     COM%recv_n_neib = 0

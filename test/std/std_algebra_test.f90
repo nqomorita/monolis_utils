@@ -16,6 +16,7 @@ contains
     call monolis_cross_product_R_3d_test()
     call monolis_normalize_vector_R_test()
     call monolis_get_l2_norm_R_test()
+    call monolis_get_rundom_number_R_test()
   end subroutine monolis_utils_std_algebra_test
 
   !> unit test
@@ -236,4 +237,17 @@ contains
 
     call monolis_test_check_eq_R1 ("monolis_cross_product_R_3d_test 3", norm, sqrt(38.0d0))
   end subroutine monolis_get_l2_norm_R_test
+
+  subroutine monolis_get_rundom_number_R_test()
+    implicit none
+    real(kdouble) :: v1(3), norm
+
+    call monolis_std_log_string("monolis_get_rundom_number_R_test")
+
+    call monolis_get_rundom_number_R(3, v1, 1)
+
+    call monolis_test_check_eq_R1 ("monolis_get_rundom_number_R_test 1", v1(1), 0.92925207013993982d0)
+    call monolis_test_check_eq_R1 ("monolis_get_rundom_number_R_test 2", v1(2), 0.26211879716503622d0)
+    call monolis_test_check_eq_R1 ("monolis_get_rundom_number_R_test 3", v1(3), 0.35532631100852446d0)
+  end subroutine monolis_get_rundom_number_R_test
 end module mod_monolis_utils_std_algebra_test

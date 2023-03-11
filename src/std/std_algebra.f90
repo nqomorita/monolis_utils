@@ -7,7 +7,7 @@ module mod_monolis_utils_std_algebra
 contains
 
   !> @ingroup std_algebra
-  !> 逆行列の取得（n x n 行列）
+  !> 逆行列の取得（n x n 行列、実数型）
   !> @details ピボットが 0 であればエラーストップ
   subroutine monolis_get_inverse_matrix_R(n, a, inv)
     implicit none
@@ -54,7 +54,7 @@ contains
   end subroutine monolis_get_inverse_matrix_R
 
   !> @ingroup std_algebra
-  !> 逆行列の取得（2 x 2 行列）
+  !> 逆行列の取得（2 x 2 行列、実数型）
   !> @details 行列式が 0 以下であればエラーストップ
   !> @details `is_fail` 引数が渡されている場合、行列式が 0 以下であれば `true` が戻る
   subroutine monolis_get_inverse_matrix_R_2d(a, inv, det, is_fail)
@@ -92,7 +92,7 @@ contains
   end subroutine monolis_get_inverse_matrix_R_2d
 
   !> @ingroup std_algebra
-  !> 逆行列の取得（3 x 3 行列）
+  !> 逆行列の取得（3 x 3 行列、実数型）
   !> @details 行列式が 0 以下であればエラーストップ
   !> @details `is_fail` 引数が渡されている場合、行列式が 0 以下であれば `true` が戻る
   subroutine monolis_get_inverse_matrix_R_3d(a, inv, det, is_fail)
@@ -139,7 +139,7 @@ contains
   end subroutine monolis_get_inverse_matrix_R_3d
 
   !> @ingroup std_algebra
-  !> 3 次元の外積計算（正規化あり）
+  !> 3 次元の外積計算（正規化あり、実数型）
   subroutine monolis_normalize_cross_product_R_3d(v1, v2, v3)
     implicit none
     !> [in] 入力ベクトル v1（サイズ [3]）
@@ -159,7 +159,7 @@ contains
   end subroutine monolis_normalize_cross_product_R_3d
 
   !> @ingroup std_algebra
-  !> 3 次元の外積計算（正規化なし）
+  !> 3 次元の外積計算（正規化なし、実数型）
   subroutine monolis_cross_product_R_3d(v1, v2, v3)
     implicit none
     !> [in] 入力ベクトル v1（サイズ [3]）
@@ -177,7 +177,7 @@ contains
   end subroutine monolis_cross_product_R_3d
 
   !> @ingroup std_algebra
-  !> ベクトルの正規化
+  !> ベクトルの正規化（実数型）
   subroutine monolis_normalize_vector_R(n, v1, v2)
     implicit none
     !> [in] ベクトルのサイズ
@@ -199,7 +199,7 @@ contains
   end subroutine monolis_normalize_vector_R
 
   !> @ingroup std_algebra
-  !> ベクトルのノルム計算
+  !> ベクトルのノルム計算（実数型）
   subroutine monolis_get_l2_norm_R(n, v1, norm)
     implicit none
     !> [in] ベクトルのサイズ
@@ -217,4 +217,32 @@ contains
     enddo
     norm = dsqrt(l2)
   end subroutine monolis_get_l2_norm_R
+
+  !> @ingroup std_algebra
+  !> ランダムベクトルの取得（実数型）
+  subroutine monolis_get_rundom_number_R(n, x, seed)
+    implicit none
+    !> ベクトルサイズ
+    integer(kint) :: n
+    !> ベクトル
+    real(kdouble) :: x(n)
+    !> シフト量
+    integer(kint) :: seed
+    integer(kint), parameter :: m = 1664501
+    integer(kint), parameter :: lambda = 1229
+    integer(kint), parameter :: u = 351750
+    integer(kint) :: i, t
+    real(kdouble) :: inv
+
+    t = 0
+    inv = 1.0d0/m
+    do i = 1, seed
+      t = mod(lambda*t + u, m)
+    enddo
+    do i = seed + 1, seed + n
+      t = mod(lambda*t + u, m)
+      x(i - seed) = inv*t
+    enddo
+  end subroutine monolis_get_rundom_number_R
+
 end module mod_monolis_utils_std_algebra
