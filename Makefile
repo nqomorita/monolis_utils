@@ -13,6 +13,7 @@ BIN_DIR = ./bin
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 LIB_DIR = ./lib
+WRAP_DIR= ./wrapper
 TST_DIR = ./test
 DRV_DIR = ./driver
 LIBRARY = libmonolis_utils.a
@@ -52,8 +53,14 @@ LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 SRC_DEFINE1 = \
 def_prm.f90
 
+SRC_MPI1 = \
+mpi_util.f90
+
 SRC_DEFINE2 = \
 def_com.f90
+
+SRC_MPI2 = \
+mpi.f90
 
 SRC_ALLOC = \
 error.f90 \
@@ -88,10 +95,6 @@ shape_C3D4.f90 \
 shape_C3D8.f90 \
 shape_util.f90
 
-SRC_MPI = \
-mpi_util.f90 \
-mpi.f90
-
 SRC_IO = \
 io_arg.f90 \
 io_file_name.f90 \
@@ -105,24 +108,35 @@ driver_util.f90 \
 extract_util.f90 \
 refiner_util.f90
 
+##> C wrapper section
+SRC_DEFINE_C = \
+def_com_c.c
+
+SRC_ALL_C = \
+$(addprefix define/, $(SRC_DEFINE_C))
+
+##> all targes
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE1)) \
 $(addprefix sys/, $(SRC_ALLOC)) \
+$(addprefix mpi/, $(SRC_MPI1)) \
 $(addprefix define/, $(SRC_DEFINE2)) \
+$(addprefix mpi/, $(SRC_MPI2)) \
 $(addprefix std/, $(SRC_STD)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
-$(addprefix mpi/, $(SRC_MPI)) \
 $(addprefix com/, $(SRC_COM)) \
 $(addprefix io/, $(SRC_IO)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
-$(addprefix driver/, $(SRC_DRIVE)) \
-monolis_utils.f90
+$(addprefix driver/, $(SRC_DRIVE))
 
 ##> lib objs
-LIB_SOURCES = $(addprefix $(SRC_DIR)/, $(SRC_ALL))
+LIB_SOURCES = \
+$(addprefix $(SRC_DIR)/,  $(SRC_ALL)) \
+$(addprefix $(WRAP_DIR)/, $(SRC_ALL_C)) \
+./src/monolis_utils.f90
 LIB_OBJSt   = $(subst $(SRC_DIR), $(OBJ_DIR), $(LIB_SOURCES:.f90=.o))
-LIB_OBJS    = $(LIB_OBJSt:.c=.o)
+LIB_OBJS    = $(subst $(WRAP_DIR), $(OBJ_DIR), $(LIB_OBJSt:.c=.o))
 
 ##> **********
 ##> driver target (2)
@@ -147,10 +161,9 @@ DRV_OBJS7 = ./obj/p_refiner_tet.o
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> lib objs
-TST_SRC_ALL = driver/driver.f90 $(SRC_ALL)
+TST_SRC_ALL = driver/driver.f90 $(SRC_ALL) monolis_utils.f90
 TST_SOURCES = $(addprefix $(TST_DIR)/, $(TST_SRC_ALL))
-TST_OBJSt   = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
-TST_OBJS    = $(TST_OBJSt:.c=_test.o)
+TST_OBJS    = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
 
 ##> target
 all: \
@@ -176,20 +189,14 @@ $(TEST_TARGET): $(TST_OBJS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(CPP) $(INCLUDE) -o $@ -c $<
-
 $(OBJ_DIR)/%.o: $(TST_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
-
-$(OBJ_DIR)/%.o: $(TST_DIR)/%.c
-	$(CC) $(CFLAGS) $(CPP) $(INCLUDE) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: $(DRV_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
 
-$(OBJ_DIR)/%.o: $(DRV_DIR)/%.c
-	$(CC) $(CFLAGS) $(CPP) $(INCLUDE) -o $@ -c $<
+$(OBJ_DIR)/%.o: $(WRAP_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(DRIVE1): $(DRV_OBJS1)
 	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS1) -L./lib -lmonolis_utils
@@ -217,6 +224,12 @@ clean:
 	$(LIB_OBJS) \
 	$(TST_OBJS) \
 	$(DRV_OBJS1) \
+	$(DRV_OBJS2) \
+	$(DRV_OBJS3) \
+	$(DRV_OBJS4) \
+	$(DRV_OBJS5) \
+	$(DRV_OBJS6) \
+	$(DRV_OBJS7) \
 	$(LIB_TARGET) \
 	$(TEST_TARGET) \
 	$(DRIVE1) \
