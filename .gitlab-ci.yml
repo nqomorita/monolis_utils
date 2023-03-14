@@ -26,7 +26,9 @@ test_monolis:
 doxygen_monolis:
   stage: doxy_build
   script:
-    - cd manual
+    - cd manual/fortran
+    - doxygen
+    - cd ../c
     - doxygen
   artifacts:
     paths:
@@ -37,7 +39,8 @@ pages:
   dependencies:
     - doxygen_monolis
   script:
-    - mv manual/html public
+    - mv manual/fortran/html public/fortran
+    - mv manual/c/html public/c
   artifacts:
     paths:
       - public
