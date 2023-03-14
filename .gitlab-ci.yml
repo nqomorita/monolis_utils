@@ -39,6 +39,7 @@ pages:
   dependencies:
     - doxygen_monolis
   script:
+    - mkdir public
     - mv manual/fortran/html public/fortran
     - mv manual/c/html public/c
   artifacts:
