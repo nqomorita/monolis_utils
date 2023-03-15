@@ -1,4 +1,4 @@
-/* mpi_util_c.h */
+/* monolis_mpi_util_c.h */
 #ifndef MONOLIS_MPI_UTIL_C_H
 #define MONOLIS_MPI_UTIL_C_H
 

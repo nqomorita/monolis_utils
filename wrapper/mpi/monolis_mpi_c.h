@@ -1,12 +1,12 @@
-/* alloc_c.h */
-#ifndef MONOLIS_ALLOC_C_H
-#define MONOLIS_ALLOC_C_H
+/* monolis_mpi_c.h */
+#ifndef MONOLIS_MPI_C_H
+#define MONOLIS_MPI_C_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../define/def_com_c.h"
+#include "../define/monolis_def_com_c.h"
 
 void monolis_allreduce_I_c(
   int  n,

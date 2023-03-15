@@ -110,15 +110,15 @@ refiner_util.f90
 
 ##> C wrapper section
 SRC_DEFINE_C = \
-def_com_c.c
+monolis_def_com_c.c
 
 SRC_SYS_C = \
-alloc_c.c
+monolis_alloc_c.c
 
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
 mpi_wrap.f90 \
-mpi_c.c
+monolis_mpi_c.c
 
 SRC_ALL_C = \
 $(addprefix define/, $(SRC_DEFINE_C)) \

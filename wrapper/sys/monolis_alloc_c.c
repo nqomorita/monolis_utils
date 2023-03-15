@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <complex.h>
-#include "alloc_c.h"
+#include "monolis_alloc_c.h"
 
 /** 1 次元整数配列のメモリ確保 */
 int* monolis_alloc_I_1d(

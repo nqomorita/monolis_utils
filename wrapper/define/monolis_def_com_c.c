@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <complex.h>
-#include "def_com_c.h"
-#include "../sys/alloc_c.h"
+#include "monolis_def_com_c.h"
+#include "../sys/monolis_alloc_c.h"
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize(
