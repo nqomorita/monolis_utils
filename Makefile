@@ -117,7 +117,8 @@ alloc_c.c
 
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
-mpi_wrap.f90
+mpi_wrap.f90 \
+mpi_c.c
 
 SRC_ALL_C = \
 $(addprefix define/, $(SRC_DEFINE_C)) \
