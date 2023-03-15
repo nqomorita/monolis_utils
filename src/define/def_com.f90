@@ -76,7 +76,7 @@ contains
   end subroutine monolis_com_initialize
 
   !> @ingroup com
-  !> COM 構造体の初期化関数
+  !> COM 構造体の終了処理関数
   subroutine monolis_com_finalize(COM)
     implicit none
     !> [in] COM 構造体

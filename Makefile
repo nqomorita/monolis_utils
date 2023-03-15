@@ -62,7 +62,7 @@ def_com.f90
 SRC_MPI2 = \
 mpi.f90
 
-SRC_ALLOC = \
+SRC_SYS = \
 error.f90 \
 alloc.f90 \
 sys.f90
@@ -112,13 +112,17 @@ refiner_util.f90
 SRC_DEFINE_C = \
 def_com_c.c
 
+SRC_SYS_C = \
+alloc_c.c
+
 SRC_ALL_C = \
-$(addprefix define/, $(SRC_DEFINE_C))
+$(addprefix define/, $(SRC_DEFINE_C)) \
+$(addprefix sys/, $(SRC_SYS_C))
 
 ##> all targes
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE1)) \
-$(addprefix sys/, $(SRC_ALLOC)) \
+$(addprefix sys/, $(SRC_SYS)) \
 $(addprefix mpi/, $(SRC_MPI1)) \
 $(addprefix define/, $(SRC_DEFINE2)) \
 $(addprefix mpi/, $(SRC_MPI2)) \

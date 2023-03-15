@@ -3,7 +3,7 @@
 #include <string.h>
 #include "def_com_c.h"
 
-/** 構造体の説明 */
+/** COM 構造体の初期化関数 */
 void monolis_com_initialize(
   MONOLIS_COM* com)
 {
@@ -22,7 +22,7 @@ void monolis_com_initialize(
     //call monolis_dealloc_I_1d(COM%send_item)
 }
 
-/** 構造体の説明 */
+/** COM 構造体の終了処理関数 */
 void monolis_com_finalize(
   MONOLIS_COM* com)
 {
@@ -41,66 +41,66 @@ void monolis_com_finalize(
     //call monolis_dealloc_I_1d(COM%send_item)
 }
 
-/** 構造体の説明 */
+/** COM 構造体に MPI コミュニケータを設定 */
 void monolis_com_set_communicator(
   MONOLIS_COM* com,
-  int*         comm)
+  int          comm)
 {
-
+  com->comm = comm;
 }
 
-/** 構造体の説明 */
+/** COM 構造体から MPI コミュニケータを取得 */
 void monolis_com_get_communicator(
   MONOLIS_COM* com,
   int*         comm)
 {
-
+  *comm = com->comm;
 }
 
-/** 構造体の説明 */
+/** COM 構造体に MPI ランク番号を設定 */
 void monolis_com_set_my_rank(
   MONOLIS_COM* com,
-  int*         my_rank)
+  int          my_rank)
 {
-
+  com->my_rank = my_rank;
 }
 
-/** 構造体の説明 */
+/** COM 構造体に MPI ランク番号を取得 */
 void monolis_com_get_my_rank(
   MONOLIS_COM* com,
   int*         my_rank)
 {
-
+  *my_rank = com->my_rank;
 }
 
-/** 構造体の説明 */
+/** COM 構造体に MPI コミュニケータサイズを設定 */
 void monolis_com_set_comm_size(
   MONOLIS_COM* com,
-  int*         comm_size)
+  int          comm_size)
 {
-
+  com->comm_size = comm_size;
 }
 
-/** 構造体の説明 */
+/** COM 構造体に MPI コミュニケータサイズを取得 */
 void monolis_com_get_comm_size(
   MONOLIS_COM* com,
   int*         comm_size)
 {
-
+  *comm_size = com->comm_size;
 }
 
-/** 構造体の説明 */
+/** COM 構造体から内部領域に属する自由度数を設定 */
 void monolis_com_set_n_internal_vertex(
   MONOLIS_COM* com,
-  int*         n_internal_vertex)
+  int          n_internal_vertex)
 {
-
+  com->n_internal_vertex = n_internal_vertex;
 }
 
-/** 構造体の説明 */
+/** COM 構造体から内部領域に属する自由度数を取得 */
 void monolis_com_get_n_internal_vertex(
   MONOLIS_COM* com,
   int*         n_internal_vertex)
 {
-
+  *n_internal_vertex = com->n_internal_vertex;
 }
