@@ -857,7 +857,7 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型）
-  subroutine monolis_update_R(monoCOM, ndof, X, tcomm)
+  subroutine monolis_mpi_update_R(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com) :: monoCOM
@@ -882,11 +882,11 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_update_R
+  end subroutine monolis_mpi_update_R
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
-  subroutine monolis_update_I(monoCOM, ndof, X, tcomm)
+  subroutine monolis_mpi_update_I(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com) :: monoCOM
@@ -911,11 +911,11 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_update_I
+  end subroutine monolis_mpi_update_I
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）
-  subroutine monolis_update_C(monoCOM, ndof, X, tcomm)
+  subroutine monolis_mpi_update_C(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com) :: monoCOM
@@ -940,5 +940,5 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_update_C
+  end subroutine monolis_mpi_update_C
 end module mod_monolis_mpi

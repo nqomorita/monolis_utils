@@ -132,7 +132,7 @@ contains
   end subroutine monolis_mpi_local_barrier
 
   !> @ingroup mpi
-  !> ローカルコミュニケータの分割
+  !> MPI コミュニケータの分割
   subroutine monolis_mpi_split_comm(comm, group_id, comm_split)
     implicit none
     !> [in] 分割前の MPI コミュニケータ
@@ -164,7 +164,7 @@ contains
   end function monolis_get_time
 
   !> @ingroup mpi
-  !> MPI 時間計測関数（グローバルコミュニケータ）
+  !> MPI 時間計測関数（グローバルコミュニケータでの動機）
   function monolis_get_time_global_sync()
     implicit none
     !> [out] 時刻

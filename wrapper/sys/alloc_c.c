@@ -15,8 +15,7 @@ int* monolis_alloc_I_1d(
 
 /** 1 次元実数配列のメモリ解放 */
 void monolis_dealloc_I_1d(
-  int*      var,
-  const int size)
+  int*      var)
 {
   free(var);
   var = NULL;
@@ -62,8 +61,7 @@ double* monolis_alloc_R_1d(
 
 /** 1 次元実数配列のメモリ解放 */
 void monolis_dealloc_R_1d(
-  double*   var,
-  const int size)
+  double*   var)
 {
   free(var);
   var = NULL;
@@ -109,8 +107,7 @@ complex double* monolis_alloc_C_1d(
 
 /** 1 次元複素数配列のメモリ解放 */
 void monolis_dealloc_C_1d(
-  complex double* var,
-  const int       size)
+  complex double* var)
 {
   free(var);
   var = NULL;

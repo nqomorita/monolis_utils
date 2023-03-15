@@ -816,7 +816,7 @@ contains
       i(4) = 8
     endif
 
-    call monolis_update_I(monoCOM, ndof, i)
+    call monolis_mpi_update_I(monoCOM, ndof, i)
 
     if(monolis_mpi_global_my_rank() == 0)then
       i_ans(1) = 1
@@ -838,7 +838,7 @@ contains
       i_ans(8) = 4
     endif
 
-    call monolis_test_check_eq_I("monolis_update_I  1", i, i_ans)
+    call monolis_test_check_eq_I("monolis_mpi_update_I  1", i, i_ans)
 
     !> case 2
     if(monolis_mpi_global_my_rank() == 0)then
@@ -853,7 +853,7 @@ contains
       r(4) = 8.0d0
     endif
 
-    call monolis_update_R(monoCOM, ndof, r)
+    call monolis_mpi_update_R(monoCOM, ndof, r)
 
     if(monolis_mpi_global_my_rank() == 0)then
       r_ans(1) = 1.0d0
@@ -875,7 +875,7 @@ contains
       r_ans(8) = 4.0d0
     endif
 
-    call monolis_test_check_eq_R("monolis_update_R  1", r, r_ans)
+    call monolis_test_check_eq_R("monolis_mpi_update_R  1", r, r_ans)
 
     !> case 3
     if(monolis_mpi_global_my_rank() == 0)then
@@ -890,7 +890,7 @@ contains
       c(4) = (8.0d0, 8.0d0)
     endif
 
-    call monolis_update_C(monoCOM, ndof, c)
+    call monolis_mpi_update_C(monoCOM, ndof, c)
 
     if(monolis_mpi_global_my_rank() == 0)then
       c_ans(1) = (1.0d0, 1.0d0)
@@ -912,6 +912,6 @@ contains
       c_ans(8) = (4.0d0, 4.0d0)
     endif
 
-    call monolis_test_check_eq_C("monolis_update_C  1", c, c_ans)
+    call monolis_test_check_eq_C("monolis_mpi_update_C  1", c, c_ans)
   end subroutine monolis_update_test
 end module mod_monolis_mpi_test

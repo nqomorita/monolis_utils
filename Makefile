@@ -3,7 +3,7 @@
 ##> compiler setting
 FC     = mpif90
 FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
-CC     = mpicc
+CC     = mpicc -std=c99
 CFLAGS = -fPIC -O2
 
 ##> directory setting
@@ -115,9 +115,14 @@ def_com_c.c
 SRC_SYS_C = \
 alloc_c.c
 
+SRC_MPI_C = \
+mpi_util_wrap.f90 \
+mpi_wrap.f90
+
 SRC_ALL_C = \
 $(addprefix define/, $(SRC_DEFINE_C)) \
-$(addprefix sys/, $(SRC_SYS_C))
+$(addprefix sys/, $(SRC_SYS_C)) \
+$(addprefix mpi/, $(SRC_MPI_C))
 
 ##> all targes
 SRC_ALL = \
@@ -197,6 +202,9 @@ $(OBJ_DIR)/%.o: $(TST_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: $(DRV_DIR)/%.f90
+	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: $(WRAP_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: $(WRAP_DIR)/%.c
