@@ -1,6 +1,6 @@
-/* monolis_struct.h */
-#ifndef MONOLIS_STRUCT_H
-#define MONOLIS_STRUCT_H
+/* monolis_def_com_C.h */
+#ifndef MONOLIS_DEF_COM_C_H
+#define MONOLIS_DEF_COM_C_H
 
 #ifdef __cplusplus
 extern "C" {
