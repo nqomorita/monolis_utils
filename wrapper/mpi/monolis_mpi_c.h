@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include "monolis_def_com_c.h"
+#include <complex.h>
 
 void monolis_allreduce_I_c(
   int  n,
