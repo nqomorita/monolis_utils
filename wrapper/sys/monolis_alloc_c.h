@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include <complex.h>
+
 /** 1 次元整数配列のメモリ確保 */
 int* monolis_alloc_I_1d(
   int*      var,
