@@ -3,7 +3,7 @@
 #include <string.h>
 #include <complex.h>
 #include "monolis_mpi_c.h"
-#include "../define/monolis_def_com_c.h"
+#include "monolis_def_com_c.h"
 
 void monolis_mpi_update_R(
   MONOLIS_COM* com,

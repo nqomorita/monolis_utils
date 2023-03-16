@@ -1,4 +1,4 @@
-/* monolis_def_com_C.h */
+/* monolis_def_com_c.h */
 #ifndef MONOLIS_DEF_COM_C_H
 #define MONOLIS_DEF_COM_C_H
 

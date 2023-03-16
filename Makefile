@@ -42,6 +42,7 @@ endif
 ##> other commands
 MAKE = make
 CD   = cd
+CP   = cp
 RM   = rm -rf
 AR   = - ar ruv
 
@@ -115,6 +116,9 @@ monolis_def_com_c.c
 SRC_SYS_C = \
 monolis_alloc_c.c
 
+SRC_STD_C = \
+std_sort_I_wrap.f90
+
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
 mpi_wrap.f90 \
@@ -123,6 +127,7 @@ monolis_mpi_c.c
 SRC_ALL_C = \
 $(addprefix define/, $(SRC_DEFINE_C)) \
 $(addprefix sys/, $(SRC_SYS_C)) \
+$(addprefix std/, $(SRC_STD_C)) \
 $(addprefix mpi/, $(SRC_MPI_C))
 
 ##> all targes
@@ -177,6 +182,7 @@ TST_OBJS    = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
 
 ##> target
 all: \
+	cp_header \
 	$(LIB_TARGET) \
 	$(DRIVE1) \
 	$(DRIVE2) \
@@ -232,6 +238,17 @@ $(DRIVE6): $(DRV_OBJS6)
 $(DRIVE7): $(DRV_OBJS7)
 	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
 
+cp_header:
+	$(CP) ./wrapper/mpi/monolis_mpi_util_c.h ./include/
+	$(CP) ./wrapper/mpi/monolis_mpi_c.h ./include/
+	$(CP) ./wrapper/define/monolis_def_prm_c.h ./include/
+	$(CP) ./wrapper/define/monolis_def_com_c.h ./include/
+	$(CP) ./wrapper/io/monolis_io_file_name_c.h ./include/
+	$(CP) ./wrapper/monolis_utils.h ./include/
+	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
+	$(CP) ./wrapper/sys/monolis_alloc_c.h ./include/
+	$(CP) ./wrapper/monolis_utils.h ./include/
+
 clean:
 	$(RM) \
 	$(LIB_OBJS) \
@@ -252,6 +269,7 @@ clean:
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
+	./include/*.h \
 	./include/*.mod \
 	./bin/*
 
