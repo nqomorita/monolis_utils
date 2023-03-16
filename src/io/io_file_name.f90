@@ -116,7 +116,7 @@ contains
   function monolis_get_output_file_name_by_domain_id(dirname, fname, domain_id)
     implicit none
     !> [out] 戻り値
-    character(monolis_charlen) :: monolis_get_local_output_file_name
+    character(monolis_charlen) :: monolis_get_output_file_name_by_domain_id
     !> [in] 出力ディレクトリ名
     character(*) :: dirname
     !> [in] 出力ファイル名
@@ -126,6 +126,6 @@ contains
     character(monolis_charlen) :: cid
 
     write(cid,"(i0)") domain_id
-    monolis_get_local_output_file_name = trim(dirname)//"/"//trim(fname)//"."//trim(cid)
+    monolis_get_output_file_name_by_domain_id = trim(dirname)//"/"//trim(fname)//"."//trim(cid)
   end function monolis_get_output_file_name_by_domain_id
 end module mod_monolis_io_file_name
