@@ -110,4 +110,22 @@ contains
       monolis_get_local_output_file_name = trim(fname)
     endif
   end function monolis_get_local_output_file_name
+
+  !> @ingroup io
+  !> 並列計算用書き出しファイル名の取得（領域番号から指定）
+  function monolis_get_output_file_name_by_domain_id(dirname, fname, domain_id)
+    implicit none
+    !> [out] 戻り値
+    character(monolis_charlen) :: monolis_get_local_output_file_name
+    !> [in] 出力ディレクトリ名
+    character(*) :: dirname
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] 領域番号
+    integer(kint) :: domain_id
+    character(monolis_charlen) :: cid
+
+    write(cid,"(i0)") domain_id
+    monolis_get_local_output_file_name = trim(dirname)//"/"//trim(fname)//"."//trim(cid)
+  end function monolis_get_output_file_name_by_domain_id
 end module mod_monolis_io_file_name
