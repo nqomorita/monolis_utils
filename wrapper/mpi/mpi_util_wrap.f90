@@ -9,7 +9,7 @@ contains
   !> @ingroup mpi
   !> monolis ライブラリで利用する MPI の初期化関数
   subroutine monolis_mpi_initialize_c()&
-    & bind(c, name = "monolis_global_initialize")
+    & bind(c, name = "monolis_mpi_initialize")
     implicit none
     call monolis_mpi_initialize()
   end subroutine monolis_mpi_initialize_c

@@ -15,6 +15,7 @@ OBJ_DIR = ./obj
 LIB_DIR = ./lib
 WRAP_DIR= ./wrapper
 TST_DIR = ./test
+TST_WRAP_DIR = ./wrapper_test
 DRV_DIR = ./driver
 LIBRARY = libmonolis_utils.a
 CPP     = -cpp $(FLAG_DEBUG)
@@ -172,13 +173,40 @@ DRV_OBJS6 = ./obj/h_refiner_tet.o
 DRV_OBJS7 = ./obj/p_refiner_tet.o
 
 ##> **********
-##> test target (3)
+##> test target for fortran (3)
 TEST_TARGET = $(TST_DIR)/monolis_utils_test
 
 ##> lib objs
 TST_SRC_ALL = driver/driver.f90 $(SRC_ALL) monolis_utils.f90
 TST_SOURCES = $(addprefix $(TST_DIR)/, $(TST_SRC_ALL))
 TST_OBJS    = $(subst $(TST_DIR), $(OBJ_DIR), $(TST_SOURCES:.f90=_test.o))
+
+##> **********
+##> test target for C (4)
+TEST_C_TARGET = $(TST_WRAP_DIR)/monolis_utils_c_test
+
+##> lib objs
+SRC_DEFINE_C_TEST = \
+monolis_def_com_c_test.c
+
+SRC_SYS_C_TEST = \
+monolis_alloc_c_test.c
+
+SRC_STD_C_TEST = \
+std_sort_I_wrap_test.c
+
+SRC_MPI_C_TEST = \
+monolis_mpi_c_test.c
+
+SRC_ALL_C_TEST = \
+$(addprefix define/, $(SRC_DEFINE_C_TEST)) \
+$(addprefix sys/, $(SRC_SYS_C_TEST)) \
+$(addprefix std/, $(SRC_STD_C_TEST)) \
+$(addprefix mpi/, $(SRC_MPI_C_TEST))
+
+TST_SRC_C_ALL = $(SRC_ALL_C_TEST) monolis_utils_c_test.c
+TST_C_SOURCES = $(addprefix $(TST_WRAP_DIR)/, $(TST_SRC_C_ALL))
+TST_C_OBJS    = $(subst $(TST_WRAP_DIR), $(OBJ_DIR), $(TST_C_SOURCES:.c=.o))
 
 ##> target
 all: \
@@ -191,9 +219,11 @@ all: \
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
-	$(TEST_TARGET)
+	$(TEST_TARGET) \
+	$(TEST_C_TARGET)
 
 lib: \
+	cp_header \
 	$(LIB_TARGET)
 
 $(LIB_TARGET): $(LIB_OBJS)
@@ -201,6 +231,9 @@ $(LIB_TARGET): $(LIB_OBJS)
 
 $(TEST_TARGET): $(TST_OBJS)
 	$(FC) $(FFLAGS) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
+
+$(TEST_C_TARGET): $(TST_C_OBJS)
+	$(FC) $(FFLAGS) -o $@ $(TST_C_OBJS) -L./lib -lmonolis_utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
@@ -215,6 +248,9 @@ $(OBJ_DIR)/%.o: $(WRAP_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: $(WRAP_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: $(TST_WRAP_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(DRIVE1): $(DRV_OBJS1)
@@ -244,7 +280,6 @@ cp_header:
 	$(CP) ./wrapper/define/monolis_def_prm_c.h ./include/
 	$(CP) ./wrapper/define/monolis_def_com_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_file_name_c.h ./include/
-	$(CP) ./wrapper/monolis_utils.h ./include/
 	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
 	$(CP) ./wrapper/sys/monolis_alloc_c.h ./include/
 	$(CP) ./wrapper/monolis_utils.h ./include/
@@ -253,6 +288,7 @@ clean:
 	$(RM) \
 	$(LIB_OBJS) \
 	$(TST_OBJS) \
+	$(TST_C_OBJS) \
 	$(DRV_OBJS1) \
 	$(DRV_OBJS2) \
 	$(DRV_OBJS3) \
@@ -262,6 +298,7 @@ clean:
 	$(DRV_OBJS7) \
 	$(LIB_TARGET) \
 	$(TEST_TARGET) \
+	$(TEST_C_TARGET) \
 	$(DRIVE1) \
 	$(DRIVE2) \
 	$(DRIVE3) \

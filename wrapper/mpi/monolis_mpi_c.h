@@ -99,4 +99,8 @@ void monolis_mpi_update_C_c_main(
   int*            send_index,
   int*            send_item);
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif
