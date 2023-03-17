@@ -12,6 +12,7 @@ extern "C" {
 #include "monolis_mpi_c.h"
 #include "monolis_mpi_util_c.h"
 #include "monolis_std_sort_I_c.h"
+#include "monolis_std_test_c.h"
 #include "monolis_alloc_c.h"
 
 #ifdef __cplusplus

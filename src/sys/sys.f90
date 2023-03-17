@@ -22,6 +22,8 @@ contains
     integer(kint) :: val
     logical :: monolis_conv_I2L
 
+    monolis_conv_I2L = .false.
+
     if(val == 0)then
       monolis_conv_I2L = .false.
     elseif(val == 1)then
