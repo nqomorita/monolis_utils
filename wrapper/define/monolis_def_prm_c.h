@@ -6,15 +6,15 @@
 extern "C" {
 #endif
 
-//const int monolis_success = 0;
+static const int MONOLIS_SUCCESS = 0;
 
-//const int monolis_fail = 1;
+static const int MONOLIS_FAIL = 1;
 
-//const int monolis_charlen = 256;
+static const int MONOLIS_CHARLEN = 256;
 
-//const int monolis_I_true = 1;
+static const int MONOLIS_I_TRUE = 1;
 
-//const int monolis_I_false = 0;
+static const int MONOLIS_I_FALSE = 0;
 
 #ifdef __cplusplus
 }

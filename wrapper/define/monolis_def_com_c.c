@@ -16,12 +16,12 @@ void monolis_com_initialize(
     com->comm = 0;
     com->comm_size = 0;
 
-    monolis_dealloc_I_1d(com->recv_neib_pe);
-    monolis_dealloc_I_1d(com->recv_index);
-    monolis_dealloc_I_1d(com->recv_item);
-    monolis_dealloc_I_1d(com->send_neib_pe);
-    monolis_dealloc_I_1d(com->send_index);
-    monolis_dealloc_I_1d(com->send_item);
+    monolis_dealloc_I_1d(&com->recv_neib_pe);
+    monolis_dealloc_I_1d(&com->recv_index);
+    monolis_dealloc_I_1d(&com->recv_item);
+    monolis_dealloc_I_1d(&com->send_neib_pe);
+    monolis_dealloc_I_1d(&com->send_index);
+    monolis_dealloc_I_1d(&com->send_item);
 }
 
 /** COM 構造体の終了処理関数 */
@@ -35,12 +35,12 @@ void monolis_com_finalize(
     com->comm = 0;
     com->comm_size = 0;
 
-    monolis_dealloc_I_1d(com->recv_neib_pe);
-    monolis_dealloc_I_1d(com->recv_index);
-    monolis_dealloc_I_1d(com->recv_item);
-    monolis_dealloc_I_1d(com->send_neib_pe);
-    monolis_dealloc_I_1d(com->send_index);
-    monolis_dealloc_I_1d(com->send_item);
+    monolis_dealloc_I_1d(&com->recv_neib_pe);
+    monolis_dealloc_I_1d(&com->recv_index);
+    monolis_dealloc_I_1d(&com->recv_item);
+    monolis_dealloc_I_1d(&com->send_neib_pe);
+    monolis_dealloc_I_1d(&com->send_index);
+    monolis_dealloc_I_1d(&com->send_item);
 }
 
 /** COM 構造体に MPI コミュニケータを設定 */

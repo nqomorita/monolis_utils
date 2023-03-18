@@ -9,6 +9,12 @@ extern "C" {
 #include "monolis_def_com_c.h"
 #include <complex.h>
 
+static const int MONOLIS_MPI_SUM = 1;
+
+static const int MONOLIS_MPI_MAX = 2;
+
+static const int MONOLIS_MPI_MIN = 3;
+
 void monolis_allreduce_I(
   int  n,
   int* val,
