@@ -15,7 +15,7 @@ int* monolis_alloc_I_1d(
 
 /** 1 次元実数配列のメモリ解放 */
 void monolis_dealloc_I_1d(
-  int*      var);
+  int**     var);
 
 /** 2 次元整数配列のメモリ確保 */
 int** monolis_alloc_I_2d(
@@ -25,7 +25,7 @@ int** monolis_alloc_I_2d(
 
 /** 2 次元実数配列のメモリ解放 */
 void monolis_dealloc_I_2d(
-  int**     var,
+  int***    var,
   const int size1,
   const int size2);
 
@@ -36,7 +36,7 @@ double* monolis_alloc_R_1d(
 
 /** 1 次元実数配列のメモリ解放 */
 void monolis_dealloc_R_1d(
-  double*   var);
+  double**  var);
 
 /** 2 次元実数配列のメモリ確保 */
 double** monolis_alloc_R_2d(
@@ -46,7 +46,7 @@ double** monolis_alloc_R_2d(
 
 /** 2 次元実数配列のメモリ解放 */
 void monolis_dealloc_R_2d(
-  double**  var,
+  double*** var,
   const int size1,
   const int size2);
 
@@ -57,7 +57,7 @@ complex double* monolis_alloc_C_1d(
 
 /** 1 次元複素数配列のメモリ解放 */
 void monolis_dealloc_C_1d(
-  complex double* var);
+  complex double** var);
 
 /** 2 次元複素数配列のメモリ確保 */
 complex double** monolis_alloc_C_2d(
@@ -67,9 +67,9 @@ complex double** monolis_alloc_C_2d(
 
 /** 2 次元複素数配列のメモリ解放 */
 void monolis_dealloc_C_2d(
-  complex double** var,
-  const int        size1,
-  const int        size2);
+  complex double*** var,
+  const int         size1,
+  const int         size2);
 
 #ifdef __cplusplus
 }
