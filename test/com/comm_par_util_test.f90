@@ -24,7 +24,7 @@ contains
     integer(kint) :: n_vertex, comm_size
     integer(kint) :: vertex_id(5), vertex_id_new(5), i_ans(5)
 
-    if(monolis_mpi_global_comm_size() == 1) return
+    if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_std_log_string("monolis_generate_global_vertex_id_test")
 
@@ -32,9 +32,9 @@ contains
 
     n_vertex = 5
 
-    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+    call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       vertex_id(1) = 10
       vertex_id(2) = 20
       vertex_id(3) = 30
@@ -51,11 +51,11 @@ contains
     call monolis_com_get_comm_table_parallel &
       & (n_internal_vertex, n_vertex, vertex_id, com)
 
-    comm_size = monolis_mpi_global_comm_size() + 1
+    comm_size = monolis_mpi_get_global_comm_size() + 1
 
     call monolis_generate_global_vertex_id(n_internal_vertex, n_vertex, vertex_id_new, com)
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       i_ans(1) = 1
       i_ans(2) = 2
       i_ans(3) = 3
@@ -80,9 +80,9 @@ contains
 
     call monolis_std_log_string("monolis_com_n_vertex_list_test")
 
-    comm = monolis_mpi_global_comm()
+    comm = monolis_mpi_get_global_comm()
 
-    n_internal_vertex = monolis_mpi_global_my_rank() + 1
+    n_internal_vertex = monolis_mpi_get_global_my_rank() + 1
 
     call monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
 
@@ -90,7 +90,7 @@ contains
     i_ans(2) = 1
     i_ans(3) = 3
 
-    if(monolis_mpi_global_comm_size() == 2)then
+    if(monolis_mpi_get_global_comm_size() == 2)then
       call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans)
     else
       call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans(1:2))
@@ -105,17 +105,17 @@ contains
     integer(kint), allocatable :: displs(:)
     integer(kint), allocatable :: outer_node_id_all(:)
 
-    if(monolis_mpi_global_comm_size() == 1) return
+    if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_std_log_string("monolis_comm_get_all_external_node_test")
 
-    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+    call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
     n_internal_vertex = 3
 
     n_vertex = 5
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       vertex_id(1) = 10
       vertex_id(2) = 20
       vertex_id(3) = 30
@@ -149,17 +149,17 @@ contains
     integer(kint), allocatable :: outer_node_id_all(:)
     integer(kint), allocatable :: outer_domain_id_all(:)
 
-    if(monolis_mpi_global_comm_size() == 1) return
+    if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_test")
 
-    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+    call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
     n_internal_vertex = 3
 
     n_vertex = 5
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       vertex_id(1) = 10
       vertex_id(2) = 20
       vertex_id(3) = 30

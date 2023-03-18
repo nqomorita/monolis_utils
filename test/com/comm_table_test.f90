@@ -20,7 +20,7 @@ contains
     integer(kint) :: vertex_id(5), i_ans(2)
     type(monolis_COM) :: com
 
-    if(monolis_mpi_global_comm_size() == 1) return
+    if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_std_log_string("monolis_com_get_comm_table_parallel_test")
 
@@ -28,9 +28,9 @@ contains
 
     n_vertex = 5
 
-    call monolis_com_set_communicator(com, monolis_mpi_global_comm())
+    call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       vertex_id(1) = 10
       vertex_id(2) = 20
       vertex_id(3) = 30
@@ -47,7 +47,7 @@ contains
     call monolis_com_get_comm_table_parallel &
       & (n_internal_vertex, n_vertex, vertex_id, com)
 
-    if(monolis_mpi_global_my_rank() == 0)then
+    if(monolis_mpi_get_global_my_rank() == 0)then
       i_ans(1) = 0
       call monolis_test_check_eq_I1("monolis_com_get_comm_table_parallel_test 1", com%my_rank, 0)
       call monolis_test_check_eq_I1("monolis_com_get_comm_table_parallel_test 2", com%comm_size, 2)

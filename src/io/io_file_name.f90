@@ -21,8 +21,8 @@ contains
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
 
-    comm_size = monolis_mpi_global_comm_size()
-    domain_id = monolis_mpi_global_my_rank()
+    comm_size = monolis_mpi_get_global_comm_size()
+    domain_id = monolis_mpi_get_global_my_rank()
 
     if(comm_size > 1)then
       write(cid,"(i0)") domain_id
@@ -48,8 +48,8 @@ contains
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
 
-    comm_size = monolis_mpi_local_comm_size(comm)
-    domain_id = monolis_mpi_local_my_rank(comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+    domain_id = monolis_mpi_get_local_my_rank(comm)
 
     if(comm_size > 1)then
       write(cid,"(i0)") domain_id
@@ -73,8 +73,8 @@ contains
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
 
-    comm_size = monolis_mpi_global_comm_size()
-    domain_id = monolis_mpi_global_my_rank()
+    comm_size = monolis_mpi_get_global_comm_size()
+    domain_id = monolis_mpi_get_global_my_rank()
 
     if(comm_size > 1)then
       write(cid,"(i0)") domain_id
@@ -100,8 +100,8 @@ contains
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
 
-    comm_size = monolis_mpi_local_comm_size(comm)
-    domain_id = monolis_mpi_local_my_rank(comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+    domain_id = monolis_mpi_get_local_my_rank(comm)
 
     if(comm_size > 1)then
       write(cid,"(i0)") domain_id

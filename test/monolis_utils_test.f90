@@ -52,7 +52,7 @@ program monolis_utils_test
   call monolis_extract_util_test()
   call monolis_refiner_util_test()
 
-  if(monolis_mpi_global_comm_size() == 1)then
+  if(monolis_mpi_get_global_comm_size() == 1)then
     call monolis_io_arg_test()
     call monolis_io_file_name_test()
     call monolis_io_com_test()

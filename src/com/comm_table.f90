@@ -30,8 +30,8 @@ contains
     integer(kint), allocatable :: displs(:)
     type(monolis_comm_node_list), allocatable :: recv_list(:)
 
-    com%my_rank = monolis_mpi_local_my_rank(com%comm)
-    com%comm_size = monolis_mpi_local_comm_size(com%comm)
+    com%my_rank = monolis_mpi_get_local_my_rank(com%comm)
+    com%comm_size = monolis_mpi_get_local_comm_size(com%comm)
     com%n_internal_vertex = n_internal_vertex
 
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com, &

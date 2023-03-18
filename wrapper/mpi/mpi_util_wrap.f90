@@ -24,50 +24,50 @@ contains
 
   !> @ingroup mpi
   !> MPI のグローバルコミュニケータを取得する関数
-  function monolis_mpi_global_comm_c()&
-    & bind(c, name = "monolis_mpi_global_comm")
+  function monolis_mpi_get_global_comm_c()&
+    & bind(c, name = "monolis_mpi_get_global_comm")
     implicit none
-    integer(c_int) :: monolis_mpi_global_comm_c
-    monolis_mpi_global_comm_c = monolis_mpi_global_comm()
-  end function monolis_mpi_global_comm_c
+    integer(c_int) :: monolis_mpi_get_global_comm_c
+    monolis_mpi_get_global_comm_c = monolis_mpi_get_global_comm()
+  end function monolis_mpi_get_global_comm_c
 
   !> @ingroup mpi
   !> MPI のグローバルランクサイズを取得する関数
-  function monolis_mpi_global_comm_size_c()&
-    & bind(c, name = "monolis_mpi_global_comm_size")
+  function monolis_mpi_get_global_comm_size_c()&
+    & bind(c, name = "monolis_mpi_get_global_comm_size")
     implicit none
-    integer(c_int) :: monolis_mpi_global_comm_size_c
-    monolis_mpi_global_comm_size_c = monolis_mpi_global_comm_size()
-  end function monolis_mpi_global_comm_size_c
+    integer(c_int) :: monolis_mpi_get_global_comm_size_c
+    monolis_mpi_get_global_comm_size_c = monolis_mpi_get_global_comm_size()
+  end function monolis_mpi_get_global_comm_size_c
 
   !> @ingroup mpi
   !> MPI のグローバルランクを取得する関数
-  function monolis_mpi_global_my_rank_c()&
-    & bind(c, name = "monolis_mpi_global_my_rank")
+  function monolis_mpi_get_global_my_rank_c()&
+    & bind(c, name = "monolis_mpi_get_global_my_rank")
     implicit none
-    integer(c_int) :: monolis_mpi_global_my_rank_c
-    monolis_mpi_global_my_rank_c = monolis_mpi_global_my_rank()
-  end function monolis_mpi_global_my_rank_c
+    integer(c_int) :: monolis_mpi_get_global_my_rank_c
+    monolis_mpi_get_global_my_rank_c = monolis_mpi_get_global_my_rank()
+  end function monolis_mpi_get_global_my_rank_c
 
   !> @ingroup mpi
   !> MPI のローカルコミュニケータのランクサイズを取得する関数
-  function monolis_mpi_local_comm_size_c(comm)&
-    & bind(c, name = "monolis_mpi_local_comm_size")
+  function monolis_mpi_get_local_comm_size_c(comm)&
+    & bind(c, name = "monolis_mpi_get_local_comm_size")
     implicit none
     integer(c_int), intent(in), value :: comm
-    integer(c_int) :: monolis_mpi_local_comm_size_c
-    monolis_mpi_local_comm_size_c = monolis_mpi_local_comm_size(comm)
-  end function monolis_mpi_local_comm_size_c
+    integer(c_int) :: monolis_mpi_get_local_comm_size_c
+    monolis_mpi_get_local_comm_size_c = monolis_mpi_get_local_comm_size(comm)
+  end function monolis_mpi_get_local_comm_size_c
 
   !> @ingroup mpi
   !> MPI のローカルコミュニケータのランクサイズを取得する関数
-  function monolis_mpi_local_my_rank_c(comm)&
-    & bind(c, name = "monolis_mpi_local_my_rank")
+  function monolis_mpi_get_local_my_rank_c(comm)&
+    & bind(c, name = "monolis_mpi_get_local_my_rank")
     implicit none
     integer(c_int), intent(in), value :: comm
-    integer(c_int) :: monolis_mpi_local_my_rank_c
-    monolis_mpi_local_my_rank_c = monolis_mpi_local_my_rank(comm)
-  end function monolis_mpi_local_my_rank_c
+    integer(c_int) :: monolis_mpi_get_local_my_rank_c
+    monolis_mpi_get_local_my_rank_c = monolis_mpi_get_local_my_rank(comm)
+  end function monolis_mpi_get_local_my_rank_c
 
   !> @ingroup mpi
   !> MPI バリア関数（グローバルコミュニケータ）

@@ -9,7 +9,7 @@ contains
   subroutine monolis_mpi_util_test()
     implicit none
 
-    if(monolis_mpi_global_comm_size() == 1) return
+    if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_mpi_util_test_main()
     call monolis_mpi_split_comm_test()
@@ -21,19 +21,19 @@ contains
 
     call monolis_std_log_string("monolis_mpi_util_test_main")
 
-    if(monolis_mpi_global_comm() == MPI_COMM_WORLD)then
+    if(monolis_mpi_get_global_comm() == MPI_COMM_WORLD)then
       call monolis_test_assert_pass("monolis_mpi_global_comm")
     else
       call monolis_test_assert_fail("monolis_mpi_global_comm", "")
     endif
 
-    if(monolis_mpi_global_comm_size() == 2)then
+    if(monolis_mpi_get_global_comm_size() == 2)then
       call monolis_test_assert_pass("monolis_mpi_global_comm_size")
     else
       call monolis_test_assert_fail("monolis_mpi_global_comm_size", "")
     endif
 
-    if(monolis_mpi_local_comm_size(MPI_COMM_WORLD) == 2)then
+    if(monolis_mpi_get_local_comm_size(MPI_COMM_WORLD) == 2)then
       call monolis_test_assert_pass("monolis_mpi_local_comm_size")
     else
       call monolis_test_assert_fail("monolis_mpi_local_comm_size", "")
@@ -48,14 +48,14 @@ contains
 
     call monolis_std_log_string("monolis_mpi_split_comm_test")
 
-    comm = monolis_mpi_global_comm()
+    comm = monolis_mpi_get_global_comm()
 
-    group_id = monolis_mpi_global_my_rank()
+    group_id = monolis_mpi_get_global_my_rank()
 
     call monolis_mpi_split_comm(comm, group_id, comm_split)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 1", monolis_mpi_local_comm_size(comm_split), 1)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 1", monolis_mpi_get_local_comm_size(comm_split), 1)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 2", monolis_mpi_local_my_rank(comm_split), 0)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 2", monolis_mpi_get_local_my_rank(comm_split), 0)
   end subroutine monolis_mpi_split_comm_test
 end module mod_monolis_mpi_util_test

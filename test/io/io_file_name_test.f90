@@ -21,11 +21,11 @@ contains
 
     dirname = "parted"
     fname = "input.txt"
-    domain_id = monolis_mpi_global_my_rank()
+    domain_id = monolis_mpi_get_global_my_rank()
 
     string = monolis_get_global_input_file_name(dirname, fname)
 
-    if(monolis_mpi_global_comm_size() == 1)then
+    if(monolis_mpi_get_global_comm_size() == 1)then
       if(trim(string) /= "input.txt")then
         call monolis_test_assert_fail("monolis_get_global_input_file_name_test", "")
       endif
@@ -51,12 +51,12 @@ contains
 
     dirname = "parted"
     fname = "input.txt"
-    domain_id = monolis_mpi_global_my_rank()
-    comm = monolis_mpi_global_comm()
+    domain_id = monolis_mpi_get_global_my_rank()
+    comm = monolis_mpi_get_global_comm()
 
     string = monolis_get_local_input_file_name(dirname, fname, comm)
 
-    if(monolis_mpi_global_comm_size() == 1)then
+    if(monolis_mpi_get_global_comm_size() == 1)then
       if(trim(string) /= "input.txt")then
         call monolis_test_assert_fail("monolis_get_local_input_file_name_test", "")
       endif
@@ -82,7 +82,7 @@ contains
 
     dirname = "parted"
     fname = "input.txt"
-    domain_id = monolis_mpi_global_my_rank()
+    domain_id = monolis_mpi_get_global_my_rank()
 
     string = monolis_get_global_output_file_name(dirname, fname)
 
@@ -106,8 +106,8 @@ contains
 
     dirname = "parted"
     fname = "input.txt"
-    domain_id = monolis_mpi_global_my_rank()
-    comm = monolis_mpi_global_comm()
+    domain_id = monolis_mpi_get_global_my_rank()
+    comm = monolis_mpi_get_global_comm()
 
     string = monolis_get_local_output_file_name(dirname, fname, comm)
 

@@ -22,7 +22,7 @@ contains
     integer(kint), allocatable :: vtxdist(:)
     integer(kint) :: n_size, i
 
-    n_size = monolis_mpi_local_comm_size(comm)
+    n_size = monolis_mpi_get_local_comm_size(comm)
 
     call monolis_alloc_I_1d(vtxdist, n_size + 1)
 
@@ -49,7 +49,7 @@ contains
     type(monolis_COM) :: com
     integer(kint) :: my_rank, i, origin
 
-    my_rank = monolis_mpi_local_my_rank(com%comm)
+    my_rank = monolis_mpi_get_local_my_rank(com%comm)
 
     call monolis_com_n_vertex_list(n_internal_vertex, com%comm, vtxdist)
 
@@ -100,7 +100,7 @@ contains
     integer(kint), allocatable :: outer_node_id_local(:)
 
     M = n_vertex - n_internal_vertex
-    comm_size = monolis_mpi_local_comm_size(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
 
     !> 個数の共有
     call monolis_alloc_I_1d(counts, comm_size)
@@ -146,8 +146,8 @@ contains
     integer(kint) :: i, j, jS, jE, id, idx
     integer(kint), allocatable :: internal_node_id(:)
 
-    my_rank = monolis_mpi_local_my_rank(com%comm)
-    comm_size = monolis_mpi_local_comm_size(com%comm)
+    my_rank = monolis_mpi_get_local_my_rank(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
     n_outer = displs(comm_size + 1)
 
     !> 外点が属する領域番号を取得
@@ -207,8 +207,8 @@ contains
     integer(kint), allocatable :: temp(:)
 
     !> 隣接領域の取得
-    my_rank = monolis_mpi_local_my_rank(com%comm)
-    comm_size = monolis_mpi_local_comm_size(com%comm)
+    my_rank = monolis_mpi_get_local_my_rank(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
 
     call monolis_alloc_I_1d(is_neib, comm_size)
 
@@ -339,7 +339,7 @@ contains
 
     !> send の作成
     !> slave から master に個数を送信
-    comm_size = monolis_mpi_local_comm_size(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
     call monolis_alloc_I_1d(send_n_list, comm_size)
 
     n_neib_recv = com%recv_n_neib

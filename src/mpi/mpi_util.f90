@@ -36,76 +36,76 @@ contains
 
   !> @ingroup mpi
   !> MPI のグローバルコミュニケータを取得する関数
-  function monolis_mpi_global_comm()
+  function monolis_mpi_get_global_comm()
     implicit none
-    integer(kint) :: monolis_mpi_global_comm
+    integer(kint) :: monolis_mpi_get_global_comm
 
 #ifndef NO_MPI
-    monolis_mpi_global_comm = MPI_COMM_WORLD
+    monolis_mpi_get_global_comm = MPI_COMM_WORLD
 #else
-    monolis_mpi_global_comm = 0
+    monolis_mpi_get_global_comm = 0
 #endif
-  end function monolis_mpi_global_comm
+  end function monolis_mpi_get_global_comm
 
   !> @ingroup mpi
   !> MPI のグローバルランクサイズを取得する関数
-  function monolis_mpi_global_comm_size()
+  function monolis_mpi_get_global_comm_size()
     implicit none
-    integer(kint) :: monolis_mpi_global_comm_size, ierr
+    integer(kint) :: monolis_mpi_get_global_comm_size, ierr
 
 #ifndef NO_MPI
-    call MPI_comm_size(MPI_COMM_WORLD, monolis_mpi_global_comm_size, ierr)
+    call MPI_comm_size(MPI_COMM_WORLD, monolis_mpi_get_global_comm_size, ierr)
 #else
-    monolis_mpi_global_comm_size = 1
+    monolis_mpi_get_global_comm_size = 1
 #endif
-  end function monolis_mpi_global_comm_size
+  end function monolis_mpi_get_global_comm_size
 
   !> @ingroup mpi
   !> MPI のグローバルランクを取得する関数
-  function monolis_mpi_global_my_rank()
+  function monolis_mpi_get_global_my_rank()
     implicit none
-    integer(kint) :: monolis_mpi_global_my_rank, ierr
+    integer(kint) :: monolis_mpi_get_global_my_rank, ierr
 
 #ifndef NO_MPI
-    call MPI_comm_rank(MPI_COMM_WORLD, monolis_mpi_global_my_rank, ierr)
+    call MPI_comm_rank(MPI_COMM_WORLD, monolis_mpi_get_global_my_rank, ierr)
 #else
-    monolis_mpi_global_my_rank = 0
+    monolis_mpi_get_global_my_rank = 0
 #endif
-  end function monolis_mpi_global_my_rank
+  end function monolis_mpi_get_global_my_rank
 
   !> @ingroup mpi
   !> MPI のローカルコミュニケータのランクサイズを取得する関数
-  function monolis_mpi_local_comm_size(comm)
+  function monolis_mpi_get_local_comm_size(comm)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
     !> [out] コミュニケータサイズ
-    integer(kint) :: monolis_mpi_local_comm_size
+    integer(kint) :: monolis_mpi_get_local_comm_size
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_comm_size(comm, monolis_mpi_local_comm_size, ierr)
+    call MPI_comm_size(comm, monolis_mpi_get_local_comm_size, ierr)
 #else
-    monolis_mpi_local_comm_size = 1
+    monolis_mpi_get_local_comm_size = 1
 #endif
-  end function monolis_mpi_local_comm_size
+  end function monolis_mpi_get_local_comm_size
 
   !> @ingroup mpi
   !> MPI のローカルコミュニケータのランクサイズを取得する関数
-  function monolis_mpi_local_my_rank(comm)
+  function monolis_mpi_get_local_my_rank(comm)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
     !> [out] MPI ランク番号
-    integer(kint) :: monolis_mpi_local_my_rank
+    integer(kint) :: monolis_mpi_get_local_my_rank
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_comm_rank(comm, monolis_mpi_local_my_rank, ierr)
+    call MPI_comm_rank(comm, monolis_mpi_get_local_my_rank, ierr)
 #else
-    monolis_mpi_local_my_rank = 0
+    monolis_mpi_get_local_my_rank = 0
 #endif
-  end function monolis_mpi_local_my_rank
+  end function monolis_mpi_get_local_my_rank
 
   !> @ingroup mpi
   !> MPI バリア関数（グローバルコミュニケータ）
@@ -114,7 +114,7 @@ contains
     integer(kint) :: comm
     integer(kint) :: ierr
 #ifndef NO_MPI
-    comm = monolis_mpi_global_comm()
+    comm = monolis_mpi_get_global_comm()
     call MPI_barrier(comm, ierr)
 #endif
   end subroutine monolis_mpi_global_barrier

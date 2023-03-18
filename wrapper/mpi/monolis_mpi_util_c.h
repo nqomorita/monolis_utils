@@ -13,20 +13,20 @@ void monolis_mpi_initialize();
 void monolis_mpi_finalize();
 
 /** MPI のグローバルコミュニケータを取得する関数 */
-int monolis_mpi_global_comm();
+int monolis_mpi_get_global_comm();
 
 /** MPI のグローバルランクサイズを取得する関数 */
-int monolis_mpi_global_comm_size();
+int monolis_mpi_get_global_comm_size();
 
 /** MPI のグローバルランクを取得する関数 */
-int monolis_mpi_global_my_rank();
+int monolis_mpi_get_global_my_rank();
 
 /** MPI のローカルコミュニケータのランクサイズを取得する関数 */
-int monolis_mpi_local_comm_size(
+int monolis_mpi_get_local_comm_size(
   int comm);
 
 /** MPI のローカルコミュニケータのランクサイズを取得する関数 */
-int monolis_mpi_local_my_rank(
+int monolis_mpi_get_local_my_rank(
   int comm);
 
 /** MPI 時間計測関数 */
