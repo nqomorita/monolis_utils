@@ -43,6 +43,53 @@ void monolis_dealloc_I_1d_test()
   }
 }
 
+void monolis_alloc_I_2d_test()
+{
+  int** var;
+  int   size1;
+  int   size2;
+
+  monolis_std_log_string("monolis_alloc_I_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_I_2d(var, size1, size2);
+
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[0][0], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[1][0], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[2][0], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[3][0], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[4][0], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[0][1], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[1][1], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[2][1], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[3][1], 0);
+  monolis_test_check_eq_I1("monolis_alloc_I_2d_test", var[4][1], 0);
+}
+
+void monolis_dealloc_I_2d_test()
+{
+  int** var;
+  int   size1;
+  int   size2;
+
+  monolis_std_log_string("monolis_dealloc_I_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_I_2d(var, size1, size2);
+
+  monolis_dealloc_I_2d(&var, size1, size2);
+
+  if(var == NULL){
+    monolis_test_assert_pass("monolis_dealloc_I_2d_test");
+  } else {
+    monolis_test_assert_fail("monolis_dealloc_I_2d_test", "not NULL");
+  }
+}
+
 void monolis_alloc_R_1d_test()
 {
   double* var;
@@ -84,6 +131,53 @@ void monolis_dealloc_R_1d_test()
   }
 }
 
+void monolis_alloc_R_2d_test()
+{
+  double** var;
+  int      size1;
+  int      size2;
+
+  monolis_std_log_string("monolis_alloc_R_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_R_2d(var, size1, size2);
+
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[0][0], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[1][0], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[2][0], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[3][0], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[4][0], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[0][1], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[1][1], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[2][1], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[3][1], 0);
+  monolis_test_check_eq_R1("monolis_alloc_R_2d_test", var[4][1], 0);
+}
+
+void monolis_dealloc_R_2d_test()
+{
+  double** var;
+  int      size1;
+  int      size2;
+
+  monolis_std_log_string("monolis_dealloc_R_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_R_2d(var, size1, size2);
+
+  monolis_dealloc_R_2d(&var, size1, size2);
+
+  if(var == NULL){
+    monolis_test_assert_pass("monolis_dealloc_R_2d_test");
+  } else {
+    monolis_test_assert_fail("monolis_dealloc_R_2d_test", "not NULL");
+  }
+}
+
 void monolis_alloc_C_1d_test()
 {
   double complex* var;
@@ -120,6 +214,53 @@ void monolis_dealloc_C_1d_test()
     monolis_test_assert_pass("monolis_dealloc_C_1d_test");
   } else {
     monolis_test_assert_fail("monolis_dealloc_C_1d_test", "not NULL");
+  }
+}
+
+void monolis_alloc_C_2d_test()
+{
+  double complex** var;
+  int              size1;
+  int              size2;
+
+  monolis_std_log_string("monolis_alloc_C_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_C_2d(var, size1, size2);
+
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[0][0], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[1][0], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[2][0], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[3][0], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[4][0], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[0][1], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[1][1], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[2][1], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[3][1], 0);
+  monolis_test_check_eq_C1("monolis_alloc_C_2d_test", var[4][1], 0);
+}
+
+void monolis_dealloc_C_2d_test()
+{
+  double complex** var;
+  int              size1;
+  int              size2;
+
+  monolis_std_log_string("monolis_dealloc_C_2d_test");
+
+  size1 = 5;
+  size2 = 2;
+
+  var = monolis_alloc_C_2d(var, size1, size2);
+
+  monolis_dealloc_C_2d(&var, size1, size2);
+
+  if(var == NULL){
+    monolis_test_assert_pass("monolis_dealloc_C_2d_test");
+  } else {
+    monolis_test_assert_fail("monolis_dealloc_C_2d_test", "not NULL");
   }
 }
 

@@ -44,7 +44,6 @@ void monolis_dealloc_I_2d(
   int i;
   for(i = 0; i < size1; i++) {
     free(*var[i]);
-    *var[i] = NULL;
   }
   free(*var);
   *var = NULL;
@@ -90,7 +89,6 @@ void monolis_dealloc_R_2d(
   int i;
   for(i = 0; i < size1; i++) {
     free(*var[i]);
-    *var[i] = NULL;
   }
   free(*var);
   *var = NULL;
@@ -136,7 +134,6 @@ void monolis_dealloc_C_2d(
   int i;
   for(i = 0; i < size1; i++) {
     free(*var[i]);
-    *var[i] = NULL;
   }
   free(*var);
   *var = NULL;
