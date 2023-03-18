@@ -198,6 +198,7 @@ SRC_STD_C_TEST = \
 std_sort_I_wrap_test.c
 
 SRC_MPI_C_TEST = \
+monolis_mpi_util_c_test.c \
 monolis_mpi_c_test.c
 
 SRC_ALL_C_TEST = \

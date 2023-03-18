@@ -6,6 +6,8 @@
 #include "./define/monolis_def_com_c_test.h"
 #include "./std/std_sort_I_wrap_test.h"
 #include "./sys/monolis_alloc_c_test.h"
+#include "./mpi/monolis_mpi_c_test.h"
+#include "./mpi/monolis_mpi_util_c_test.h"
 
 int main()
 {
@@ -18,6 +20,10 @@ int main()
   monolis_sort_I_warp_test();
 
   monolis_alloc_test();
+
+  monolis_mpi_test();
+
+  monolis_mpi_util_test();
 
   monolis_mpi_finalize();
 }

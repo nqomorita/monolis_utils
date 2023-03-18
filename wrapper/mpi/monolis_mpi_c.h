@@ -9,19 +9,19 @@ extern "C" {
 #include "monolis_def_com_c.h"
 #include <complex.h>
 
-void monolis_allreduce_I_c(
+void monolis_allreduce_I(
   int  n,
   int* val,
   int  tag,
   int  comm);
 
-void monolis_allreduce_R_c(
+void monolis_allreduce_R(
   int     n,
   double* val,
   int     tag,
   int     comm);
 
-void monolis_allreduce_C_c(
+void monolis_allreduce_C(
   int             n,
   complex double* val,
   int             tag,
