@@ -6,10 +6,25 @@
 extern "C" {
 #endif
 
-void monolis_test_check_eq_I1();
-  //int         a,
-  //int         b);
-  //const char* array,
+#include <complex.h>
+
+void monolis_std_log_string(
+  const char* array);
+
+void monolis_test_check_eq_I1(
+  const char* array,
+  int         a,
+  int         b);
+
+void monolis_test_check_eq_R1(
+  const char* array,
+  double      a,
+  double      b);
+
+void monolis_test_check_eq_C1(
+  const char*    array,
+  double complex a,
+  double complex b);
 
 #ifdef __cplusplus
 }
