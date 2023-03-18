@@ -17,6 +17,29 @@ contains
     call monolis_std_log_string(header)
   end subroutine monolis_std_log_string_c
 
+  subroutine monolis_test_assert_pass_c(array) &
+    & bind(c, name = "monolis_test_assert_pass")
+    implicit none
+    character :: array(*)
+    character(monolis_charlen) :: header
+
+    header = monolis_string_c2f(array)
+    call monolis_test_assert_pass(header)
+  end subroutine monolis_test_assert_pass_c
+
+  subroutine monolis_test_assert_fail_c(array1, array2) &
+    & bind(c, name = "monolis_test_assert_fail")
+    implicit none
+    character :: array1(*)
+    character :: array2(*)
+    character(monolis_charlen) :: header1
+    character(monolis_charlen) :: header2
+
+    header1 = monolis_string_c2f(array1)
+    header2 = monolis_string_c2f(array2)
+    call monolis_test_assert_fail(header1, header2)
+  end subroutine monolis_test_assert_fail_c
+
   subroutine monolis_test_check_eq_I1_c(array, a, b) &
     & bind(c, name = "monolis_test_check_eq_I1")
     implicit none

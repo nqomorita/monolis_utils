@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+void monolis_sort_I_warp_test();
+
 #ifdef __cplusplus
 }
 #endif

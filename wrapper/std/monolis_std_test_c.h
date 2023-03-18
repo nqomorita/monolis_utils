@@ -11,6 +11,13 @@ extern "C" {
 void monolis_std_log_string(
   const char* array);
 
+void monolis_test_assert_pass(
+  const char* array);
+
+void monolis_test_assert_fail(
+  const char* array1,
+  const char* array2);
+
 void monolis_test_check_eq_I1(
   const char* array,
   int         a,

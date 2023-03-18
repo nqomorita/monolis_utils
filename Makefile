@@ -195,8 +195,7 @@ SRC_SYS_C_TEST = \
 monolis_alloc_c_test.c
 
 SRC_STD_C_TEST = \
-std_sort_I_wrap_test.c \
-std_test_wrap_test.c
+std_sort_I_wrap_test.c
 
 SRC_MPI_C_TEST = \
 monolis_mpi_c_test.c

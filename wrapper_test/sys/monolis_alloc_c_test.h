@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+void monolis_alloc_test();
+
 #ifdef __cplusplus
 }
 #endif
