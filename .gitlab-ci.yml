@@ -14,6 +14,7 @@ build_monolis:
     paths:
       - bin
       - test
+      - wrapper_test
 
 test_monolis:
   stage: test
