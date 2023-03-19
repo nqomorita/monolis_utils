@@ -23,7 +23,7 @@ void monolis_def_com_test()
 
   monolis_com_get_communicator(&com, &comm_ans);
 
-  monolis_test_check_eq_I1("monolis_def_com_test 1", comm, comm_ans);
+  monolis_test_check_eq_I1("monolis_def_com_test 1_c", comm, comm_ans);
 
   my_rank = 20;
 
@@ -31,7 +31,7 @@ void monolis_def_com_test()
 
   monolis_com_get_my_rank(&com, &my_rank_ans);
 
-  monolis_test_check_eq_I1("monolis_def_com_test 2", my_rank, my_rank_ans);
+  monolis_test_check_eq_I1("monolis_def_com_test 2_c", my_rank, my_rank_ans);
 
   comm_size = 30;
 
@@ -39,7 +39,7 @@ void monolis_def_com_test()
 
   monolis_com_get_comm_size(&com, &comm_size_ans);
 
-  monolis_test_check_eq_I1("monolis_def_com_test 3", comm_size, comm_size_ans);
+  monolis_test_check_eq_I1("monolis_def_com_test 3_c", comm_size, comm_size_ans);
 
   n_internal_vertex = 40;
 
@@ -47,5 +47,5 @@ void monolis_def_com_test()
 
   monolis_com_get_n_internal_vertex(&com, &n_internal_vertex_ans);
 
-  monolis_test_check_eq_I1("monolis_def_com_test 4", n_internal_vertex, n_internal_vertex_ans);
+  monolis_test_check_eq_I1("monolis_def_com_test 4_c", n_internal_vertex, n_internal_vertex_ans);
 }

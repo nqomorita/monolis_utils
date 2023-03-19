@@ -30,22 +30,22 @@ void monolis_io_file_name_c_test()
 
   if(comm_size == 1){
     if(strcmp(out1, "input.text") == 0){
-      monolis_test_assert_pass("monolis_io_file_name_c_test 1");
+      monolis_test_assert_pass("monolis_io_file_name_c_test 1_c");
     } else {
-      monolis_test_assert_fail("monolis_io_file_name_c_test 1", "");
+      monolis_test_assert_fail("monolis_io_file_name_c_test 1_c", "");
     }
   } else {
     if(my_rank == 0){
       if(strcmp(out1, "parted/input.text.0") == 0){
-        monolis_test_assert_pass("monolis_io_file_name_c_test 1");
+        monolis_test_assert_pass("monolis_io_file_name_c_test 1_c");
       } else {
-        monolis_test_assert_fail("monolis_io_file_name_c_test 1", "");
+        monolis_test_assert_fail("monolis_io_file_name_c_test 1_c", "");
       }
     } else {
       if(strcmp(out1, "parted/input.text.1") == 0){
-        monolis_test_assert_pass("monolis_io_file_name_c_test 1");
+        monolis_test_assert_pass("monolis_io_file_name_c_test 1_c");
       } else {
-        monolis_test_assert_fail("monolis_io_file_name_c_test 1", "");
+        monolis_test_assert_fail("monolis_io_file_name_c_test 1_c", "");
       }
     }
   }
@@ -54,22 +54,22 @@ void monolis_io_file_name_c_test()
 
   if(comm_size == 1){
     if(strcmp(out2, "input.text") == 0){
-      monolis_test_assert_pass("monolis_io_file_name_c_test 2");
+      monolis_test_assert_pass("monolis_io_file_name_c_test 2_c");
     } else {
-      monolis_test_assert_fail("monolis_io_file_name_c_test 2", "");
+      monolis_test_assert_fail("monolis_io_file_name_c_test 2_c", "");
     }
   } else {
     if(my_rank == 0){
       if(strcmp(out2, "parted/input.text.0") == 0){
-        monolis_test_assert_pass("monolis_io_file_name_c_test 2");
+        monolis_test_assert_pass("monolis_io_file_name_c_test 2_c");
       } else {
-        monolis_test_assert_fail("monolis_io_file_name_c_test 2", "");
+        monolis_test_assert_fail("monolis_io_file_name_c_test 2_c", "");
       }
     } else {
       if(strcmp(out2, "parted/input.text.1") == 0){
-        monolis_test_assert_pass("monolis_io_file_name_c_test 2");
+        monolis_test_assert_pass("monolis_io_file_name_c_test 2_c");
       } else {
-        monolis_test_assert_fail("monolis_io_file_name_c_test 2", "");
+        monolis_test_assert_fail("monolis_io_file_name_c_test 2_c", "");
       }
     }
   }
