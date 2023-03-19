@@ -104,7 +104,7 @@ void monolis_allreduce_C_test()
 void monolis_mpi_update_test()
 {
   MONOLIS_COM monoCOM;
-  int ndof;
+  int ndof, nnode;
   int i[8];
   double r[8];
   double complex c[8];
@@ -113,6 +113,7 @@ void monolis_mpi_update_test()
 
   if(monolis_mpi_get_global_comm_size() == 1) return;
 
+  nnode = 2;
   ndof = 2;
 
   monoCOM.comm = monolis_mpi_get_global_comm();
@@ -158,7 +159,7 @@ void monolis_mpi_update_test()
     i[3] = 8;
   }
 
-  //monolis_mpi_update_I(&monoCOM, 2, ndof, i);
+  monolis_mpi_update_I(&monoCOM, nnode, ndof, i);
 
   if(monolis_mpi_get_global_my_rank() == 0){
     monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[0], 1);
@@ -170,14 +171,14 @@ void monolis_mpi_update_test()
     monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[6], 7);
     monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[7], 8);
   } else {
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[0], 5);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[1], 6);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[2], 7);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[3], 8);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[4], 1);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[5], 2);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[6], 3);
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1", i[7], 4);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[0], 5);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[1], 6);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[2], 7);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[3], 8);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[4], 1);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[5], 2);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[6], 3);
+    monolis_test_check_eq_I1("monolis_allreduce_I_test 2", i[7], 4);
   }
 
   if(monolis_mpi_get_global_my_rank() == 0){
@@ -192,7 +193,7 @@ void monolis_mpi_update_test()
     r[3] = 8.0;
   }
 
-  //monolis_mpi_update_R(&monoCOM, 2, ndof, r);
+  monolis_mpi_update_R(&monoCOM, nnode, ndof, r);
 
   if(monolis_mpi_get_global_my_rank() == 0){
     monolis_test_check_eq_R1("monolis_allreduce_R_test 1", r[0], 1.0);
@@ -226,26 +227,26 @@ void monolis_mpi_update_test()
     c[3] = 8.0 + 8.0*I;
   }
 
-  //monolis_mpi_update_C(&monoCOM, 2, ndof, c);
+  monolis_mpi_update_C(&monoCOM, nnode, ndof, c);
 
   if(monolis_mpi_get_global_my_rank() == 0){
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[0], 1.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[1], 2.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[2], 3.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[3], 4.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[4], 5.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[5], 6.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[6], 7.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[7], 8.0);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[0], 1.0 + 1.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[1], 2.0 + 2.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[2], 3.0 + 3.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[3], 4.0 + 4.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[4], 5.0 + 5.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[5], 6.0 + 6.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[6], 7.0 + 7.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[7], 8.0 + 8.0*I);
   } else {
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[0], 5.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[1], 6.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[2], 7.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[3], 8.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[4], 1.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[5], 2.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[6], 3.0);
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[7], 4.0);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[0], 5.0 + 5.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[1], 6.0 + 6.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[2], 7.0 + 7.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[3], 8.0 + 8.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[4], 1.0 + 1.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[5], 2.0 + 2.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[6], 3.0 + 3.0*I);
+    monolis_test_check_eq_C1("monolis_allreduce_C_test 1", c[7], 4.0 + 4.0*I);
   }
 }
 
