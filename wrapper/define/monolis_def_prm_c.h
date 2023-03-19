@@ -10,7 +10,7 @@ static const int MONOLIS_SUCCESS = 0;
 
 static const int MONOLIS_FAIL = 1;
 
-static const int MONOLIS_CHARLEN = 256;
+static const int MONOLIS_CHARLEN = 1024;
 
 static const int MONOLIS_I_TRUE = 1;
 

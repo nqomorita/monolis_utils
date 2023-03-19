@@ -122,6 +122,9 @@ SRC_STD_C = \
 std_sort_I_wrap.f90 \
 std_test_wrap.f90
 
+SRC_IO_C = \
+monolis_io_file_name_c.c \
+
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
 mpi_wrap.f90 \
@@ -131,6 +134,7 @@ SRC_ALL_C = \
 $(addprefix define/, $(SRC_DEFINE_C)) \
 $(addprefix sys/, $(SRC_SYS_C)) \
 $(addprefix std/, $(SRC_STD_C)) \
+$(addprefix io/, $(SRC_IO_C)) \
 $(addprefix mpi/, $(SRC_MPI_C))
 
 ##> all targes
@@ -197,6 +201,9 @@ monolis_alloc_c_test.c
 SRC_STD_C_TEST = \
 std_sort_I_wrap_test.c
 
+SRC_IO_C_TEST = \
+monolis_io_file_name_c_test.c
+
 SRC_MPI_C_TEST = \
 monolis_mpi_util_c_test.c \
 monolis_mpi_c_test.c
@@ -204,6 +211,7 @@ monolis_mpi_c_test.c
 SRC_ALL_C_TEST = \
 $(addprefix define/, $(SRC_DEFINE_C_TEST)) \
 $(addprefix sys/, $(SRC_SYS_C_TEST)) \
+$(addprefix io/, $(SRC_IO_C_TEST)) \
 $(addprefix std/, $(SRC_STD_C_TEST)) \
 $(addprefix mpi/, $(SRC_MPI_C_TEST))
 
@@ -233,10 +241,10 @@ $(LIB_TARGET): $(LIB_OBJS)
 	$(AR) $@ $(LIB_OBJS)
 
 $(TEST_TARGET): $(TST_OBJS)
-	$(FC) $(FFLAGS) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
+	$(FC) $(FFLAGS) $(INCLUDE) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
 
 $(TEST_C_TARGET): $(TST_C_OBJS)
-	$(FC) $(FFLAGS) -o $@ $(TST_C_OBJS) -L./lib -lmonolis_utils
+	$(FC) $(FFLAGS) $(INCLUDE) -o $@ $(TST_C_OBJS) -L./lib -lmonolis_utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<

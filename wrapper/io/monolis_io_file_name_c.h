@@ -1,4 +1,4 @@
-/* monolis_struct.h */
+/* monolis_io_file_name.h */
 #ifndef MONOLIS_IO_FILE_NAME_H
 #define MONOLIS_IO_FILE_NAME_H
 
@@ -37,6 +37,15 @@ const char* monolis_get_local_output_file_name(
   const char* file_name,
   /**  [in] MPI コミュニケータ */
   int         comm);
+
+/** 並列計算用書き出しファイル名の取得（ローカルコミュニケータから指定） */
+const char* monolis_get_output_file_name_by_domain_id(
+  /**  [in] 出力ディレクトリ名 */
+  const char* dir_name,
+  /**  [in] 出力ディレクトリ名 */
+  const char* file_name,
+  /**  [in] 領域番号 */
+  int         domain_id);
 
 #ifdef __cplusplus
 }
