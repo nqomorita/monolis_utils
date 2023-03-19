@@ -48,9 +48,9 @@ void monolis_mpi_local_barrier(
 
 /** MPI コミュニケータの分割 */
 void monolis_mpi_split_comm(
-  int comm,
-  int group_id,
-  int comm_split);
+  int  comm,
+  int  group_id,
+  int* comm_split);
 
 #ifdef __cplusplus
 }
