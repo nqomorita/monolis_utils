@@ -68,6 +68,7 @@ mpi.f90
 SRC_SYS = \
 error.f90 \
 alloc.f90 \
+palloc.f90 \
 sys.f90
 
 SRC_COM = \
