@@ -16,12 +16,12 @@ void monolis_com_initialize(
     com->comm = 0;
     com->comm_size = 0;
 
-    monolis_dealloc_I_1d(&com->recv_neib_pe);
-    monolis_dealloc_I_1d(&com->recv_index);
-    monolis_dealloc_I_1d(&com->recv_item);
-    monolis_dealloc_I_1d(&com->send_neib_pe);
-    monolis_dealloc_I_1d(&com->send_index);
-    monolis_dealloc_I_1d(&com->send_item);
+    com->recv_neib_pe = NULL;
+    com->recv_index = NULL;
+    com->recv_item = NULL;
+    com->send_neib_pe = NULL;
+    com->send_index = NULL;
+    com->send_item = NULL;
 }
 
 /** COM 構造体の終了処理関数 */
