@@ -1,7 +1,6 @@
 !> グラフ分割モジュール（通信テーブル作成）
 module mod_monolis_comm_table
   use mod_monolis_utils_define_prm
-  use mod_monolis_utils_alloc
   use mod_monolis_utils_define_com
   use mod_monolis_mpi
   use mod_monolis_mpi_util

@@ -2,6 +2,7 @@
 module mod_monolis_comm_ser_util
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_palloc
   use mod_monolis_utils_define_com
   use mod_monolis_utils_std_sort_I
   implicit none
@@ -76,11 +77,11 @@ contains
     com%recv_n_neib = n_neib
 
     if(n_neib == 0)then
-      call monolis_alloc_I_1d(com%recv_neib_pe, 1)
-      call monolis_alloc_I_1d(com%recv_index, 2)
+      call monolis_palloc_I_1d(com%recv_neib_pe, 1)
+      call monolis_palloc_I_1d(com%recv_index, 2)
     else
-      call monolis_alloc_I_1d(com%recv_neib_pe, n_neib)
-      call monolis_alloc_I_1d(com%recv_index, n_neib + 1)
+      call monolis_palloc_I_1d(com%recv_neib_pe, n_neib)
+      call monolis_palloc_I_1d(com%recv_index, n_neib + 1)
     endif
 
     !> recv_neib_pe
@@ -129,7 +130,7 @@ contains
     !> com recv の構築
     in = com%recv_index(n_neib + 1)
 
-    call monolis_alloc_I_1d(com%recv_item, in)
+    call monolis_palloc_I_1d(com%recv_item, in)
 
     in = 0
     do i = 1, n_neib
@@ -176,13 +177,13 @@ contains
     com%send_n_neib = n_neib
 
     if(n_neib == 0)then
-      call monolis_alloc_I_1d(com%send_neib_pe, 1)
-      call monolis_alloc_I_1d(com%send_index, 2)
-      call monolis_alloc_I_1d(com%send_item, 1)
+      call monolis_palloc_I_1d(com%send_neib_pe, 1)
+      call monolis_palloc_I_1d(com%send_index, 2)
+      call monolis_palloc_I_1d(com%send_item, 1)
     else
-      call monolis_alloc_I_1d(com%send_neib_pe, n_neib)
-      call monolis_alloc_I_1d(com%send_index, n_neib + 1)
-      call monolis_alloc_I_1d(com%send_item, recv_list%n_node)
+      call monolis_palloc_I_1d(com%send_neib_pe, n_neib)
+      call monolis_palloc_I_1d(com%send_index, n_neib + 1)
+      call monolis_palloc_I_1d(com%send_item, recv_list%n_node)
     endif
 
     in = 0

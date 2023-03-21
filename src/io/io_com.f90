@@ -9,6 +9,7 @@ module mod_monolis_io_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_define_com
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_palloc
   implicit none
 
 contains
@@ -113,11 +114,11 @@ contains
     !> [out] 隣接領域数
     integer(kint) :: n_neib
     !> [out] 隣接領域 id
-    integer(kint), allocatable :: neib_pe(:)
+    integer(kint), pointer :: neib_pe(:)
     !> [out] 通信テーブルの index 配列
-    integer(kint), allocatable :: index(:)
+    integer(kint), pointer :: index(:)
     !> [out] 通信テーブルの item 配列
-    integer(kint), allocatable :: item(:)
+    integer(kint), pointer :: item(:)
     integer(kint) :: i, nz
 
     open(20, file = fname, status = "old")
@@ -125,14 +126,14 @@ contains
 
       if(n_neib == 0)then
         nz = 0
-        call monolis_alloc_I_1d(neib_pe, 1)
-        call monolis_alloc_I_1d(index, 1)
-        call monolis_alloc_I_1d(item, 1)
+        call monolis_palloc_I_1d(neib_pe, 1)
+        call monolis_palloc_I_1d(index, 1)
+        call monolis_palloc_I_1d(item, 1)
         close(20)
       else
-        call monolis_alloc_I_1d(neib_pe, n_neib)
-        call monolis_alloc_I_1d(index, n_neib + 1)
-        call monolis_alloc_I_1d(item, nz)
+        call monolis_palloc_I_1d(neib_pe, n_neib)
+        call monolis_palloc_I_1d(index, n_neib + 1)
+        call monolis_palloc_I_1d(item, nz)
       endif
 
       do i = 1, n_neib

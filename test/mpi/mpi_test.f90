@@ -777,24 +777,24 @@ contains
     monoCOM%send_n_neib = 1
     monoCOM%recv_n_neib = 1
 
-    call monolis_alloc_I_1d(monoCOM%send_index, 2)
+    call monolis_palloc_I_1d(monoCOM%send_index, 2)
     monoCOM%send_index(1) = 0
     monoCOM%send_index(2) = 2
 
-    call monolis_alloc_I_1d(monoCOM%recv_index, 2)
+    call monolis_palloc_I_1d(monoCOM%recv_index, 2)
     monoCOM%recv_index(1) = 0
     monoCOM%recv_index(2) = 2
 
-    call monolis_alloc_I_1d(monoCOM%send_item, 2)
+    call monolis_palloc_I_1d(monoCOM%send_item, 2)
     monoCOM%send_item(1) = 1
     monoCOM%send_item(2) = 2
 
-    call monolis_alloc_I_1d(monoCOM%recv_item, 2)
+    call monolis_palloc_I_1d(monoCOM%recv_item, 2)
     monoCOM%recv_item(1) = 3
     monoCOM%recv_item(2) = 4
 
-    call monolis_alloc_I_1d(monoCOM%send_neib_pe, 1)
-    call monolis_alloc_I_1d(monoCOM%recv_neib_pe, 1)
+    call monolis_palloc_I_1d(monoCOM%send_neib_pe, 1)
+    call monolis_palloc_I_1d(monoCOM%recv_neib_pe, 1)
     if(monolis_mpi_get_global_my_rank() == 0)then
       monoCOM%send_neib_pe(1) = 1
       monoCOM%recv_neib_pe(1) = 1

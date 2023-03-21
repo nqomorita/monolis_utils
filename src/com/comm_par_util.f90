@@ -2,6 +2,7 @@
 module mod_monolis_comm_par_util
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_palloc
   use mod_monolis_utils_define_com
   use mod_monolis_mpi
   use mod_monolis_mpi_util
@@ -282,13 +283,13 @@ contains
     !> monolis com の構築
     !> recv
     com%recv_n_neib = n_neib_recv
-    call monolis_alloc_I_1d(com%recv_neib_pe, n_neib_recv)
+    call monolis_palloc_I_1d(com%recv_neib_pe, n_neib_recv)
 
     do i = 1, n_neib_recv
       com%recv_neib_pe(i) = recv_list(i)%domid(1)
     enddo
 
-    call monolis_alloc_I_1d(com%recv_index, n_neib_recv + 1)
+    call monolis_palloc_I_1d(com%recv_index, n_neib_recv + 1)
 
     do i = 1, n_neib_recv
       com%recv_index(i + 1) = com%recv_index(i) + recv_list(i)%n_node
@@ -296,7 +297,7 @@ contains
 
     in = com%recv_index(n_neib_recv + 1)
 
-    call monolis_alloc_I_1d(com%recv_item, in)
+    call monolis_palloc_I_1d(com%recv_item, in)
 
     in = 0
     do i = 1, n_neib_recv
@@ -375,16 +376,16 @@ contains
 
     !> send の構築
     com%send_n_neib = n_neib_send
-    call monolis_alloc_I_1d(com%send_neib_pe, n_neib_send)
+    call monolis_palloc_I_1d(com%send_neib_pe, n_neib_send)
     do i = 1, n_neib_send
       com%send_neib_pe(i) = send_list(i)%domid(1)
     enddo
-    call monolis_alloc_I_1d(com%send_index, n_neib_send + 1)
+    call monolis_palloc_I_1d(com%send_index, n_neib_send + 1)
     do i = 1, n_neib_send
       com%send_index(i + 1) = com%send_index(i) + send_list(i)%n_node
     enddo
     in = com%send_index(n_neib_send + 1)
-    call monolis_alloc_I_1d(com%send_item, in)
+    call monolis_palloc_I_1d(com%send_item, in)
 
     !> slave から master に global_nid を送信
     call monolis_alloc_I_2d(sta1, monolis_mpi_status_size, com%recv_n_neib)

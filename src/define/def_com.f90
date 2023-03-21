@@ -13,6 +13,7 @@
 module mod_monolis_utils_define_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
+  use mod_monolis_utils_palloc
   implicit none
 
   !> COM 構造体
@@ -28,19 +29,19 @@ module mod_monolis_utils_define_com
     !> 受信する領域数
     integer(kint) :: recv_n_neib
     !> 受信する領域番号リスト
-    integer(kint), allocatable :: recv_neib_pe(:)
+    integer(kint), pointer :: recv_neib_pe(:) => null()
     !> 受信するノード番号の index 配列
-    integer(kint), allocatable :: recv_index(:)
+    integer(kint), pointer :: recv_index(:) => null()
     !> 受信するノード番号の item 配列
-    integer(kint), allocatable :: recv_item(:)
+    integer(kint), pointer :: recv_item(:) => null()
     !> 送信する領域数
     integer(kint) :: send_n_neib
     !> 送信する領域番号リスト
-    integer(kint), allocatable :: send_neib_pe(:)
+    integer(kint), pointer :: send_neib_pe(:) => null()
     !> 送信するノード番号の index 配列
-    integer(kint), allocatable :: send_index(:)
+    integer(kint), pointer :: send_index(:) => null()
     !> 送信するノード番号の item 配列
-    integer(kint), allocatable :: send_item(:)
+    integer(kint), pointer :: send_item(:) => null()
   end type monolis_COM
 
   !> 通信テーブル作成用ノードリスト構造体
@@ -65,14 +66,14 @@ contains
     COM%n_internal_vertex = 0
 
     COM%recv_n_neib = 0
-    call monolis_dealloc_I_1d(COM%recv_neib_pe)
-    call monolis_dealloc_I_1d(COM%recv_index)
-    call monolis_dealloc_I_1d(COM%recv_item)
+    call monolis_pdealloc_I_1d(COM%recv_neib_pe)
+    call monolis_pdealloc_I_1d(COM%recv_index)
+    call monolis_pdealloc_I_1d(COM%recv_item)
 
     COM%send_n_neib = 0
-    call monolis_dealloc_I_1d(COM%send_neib_pe)
-    call monolis_dealloc_I_1d(COM%send_index)
-    call monolis_dealloc_I_1d(COM%send_item)
+    call monolis_pdealloc_I_1d(COM%send_neib_pe)
+    call monolis_pdealloc_I_1d(COM%send_index)
+    call monolis_pdealloc_I_1d(COM%send_item)
   end subroutine monolis_com_initialize
 
   !> @ingroup com
@@ -88,14 +89,14 @@ contains
     COM%n_internal_vertex = 0
 
     COM%recv_n_neib = 0
-    call monolis_dealloc_I_1d(COM%recv_neib_pe)
-    call monolis_dealloc_I_1d(COM%recv_index)
-    call monolis_dealloc_I_1d(COM%recv_item)
+    call monolis_pdealloc_I_1d(COM%recv_neib_pe)
+    call monolis_pdealloc_I_1d(COM%recv_index)
+    call monolis_pdealloc_I_1d(COM%recv_item)
 
     COM%send_n_neib = 0
-    call monolis_dealloc_I_1d(COM%send_neib_pe)
-    call monolis_dealloc_I_1d(COM%send_index)
-    call monolis_dealloc_I_1d(COM%send_item)
+    call monolis_pdealloc_I_1d(COM%send_neib_pe)
+    call monolis_pdealloc_I_1d(COM%send_index)
+    call monolis_pdealloc_I_1d(COM%send_item)
   end subroutine monolis_com_finalize
 
   !> @ingroup com

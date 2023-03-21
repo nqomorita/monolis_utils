@@ -76,16 +76,16 @@ contains
 
     COM%send_n_neib = 2
 
-    call monolis_alloc_I_1d(COM%send_neib_pe, 2)
+    call monolis_palloc_I_1d(COM%send_neib_pe, 2)
     COM%send_neib_pe(1) = 0
     COM%send_neib_pe(2) = 1
 
-    call monolis_alloc_I_1d(COM%send_index, 3)
+    call monolis_palloc_I_1d(COM%send_index, 3)
     COM%send_index(1) = 0
     COM%send_index(2) = 2
     COM%send_index(3) = 4
 
-    call monolis_alloc_I_1d(COM%send_item, 4)
+    call monolis_palloc_I_1d(COM%send_item, 4)
     COM%send_item(1) = 10
     COM%send_item(2) = 20
     COM%send_item(3) = 30
@@ -116,16 +116,16 @@ contains
 
     COM%recv_n_neib = 2
 
-    call monolis_alloc_I_1d(COM%recv_neib_pe, 2)
+    call monolis_palloc_I_1d(COM%recv_neib_pe, 2)
     COM%recv_neib_pe(1) = 0
     COM%recv_neib_pe(2) = 1
 
-    call monolis_alloc_I_1d(COM%recv_index, 3)
+    call monolis_palloc_I_1d(COM%recv_index, 3)
     COM%recv_index(1) = 0
     COM%recv_index(2) = 2
     COM%recv_index(3) = 4
 
-    call monolis_alloc_I_1d(COM%recv_item, 4)
+    call monolis_palloc_I_1d(COM%recv_item, 4)
     COM%recv_item(1) = 10
     COM%recv_item(2) = 20
     COM%recv_item(3) = 30
