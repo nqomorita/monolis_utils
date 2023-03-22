@@ -27,7 +27,6 @@ contains
     integer(kint), allocatable :: outer_domain_id_all(:)
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint), allocatable :: displs(:)
-    type(monolis_comm_node_list), allocatable :: recv_list(:)
     integer(kint) :: n_outer_node
 
     com%my_rank = monolis_mpi_get_local_my_rank(com%comm)
@@ -48,8 +47,8 @@ contains
       & outer_node_id_all_global, outer_domain_id_all, displs)
 
     call monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
-      & outer_node_id_all_global, outer_domain_id_all, displs, recv_list)
+      & outer_node_id_all_global, outer_domain_id_all, displs)
 
-    call monolis_comm_get_send_parallel(n_vertex, vertex_id, com, recv_list)
+    call monolis_comm_get_send_parallel(n_vertex, vertex_id, com)
   end subroutine monolis_com_get_comm_table_parallel
 end module mod_monolis_comm_table

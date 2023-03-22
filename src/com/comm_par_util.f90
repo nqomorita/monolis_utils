@@ -206,35 +206,23 @@ contains
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
-    & outer_node_id_all, outer_domain_id_all, displs, recv_list)
+  subroutine monolis_comm_get_recv_parallel_n_neib_recv(comm, outer_domain_id_all, displs, n_neib_recv, is_neib)
     implicit none
-    !> [in] 全節点数
-    integer(kint), intent(in) :: n_vertex
-    !> [in] グローバル節点番号
-    integer(kint), intent(in) :: vertex_id(:)
-    !> [in,out] 分割領域に対応する comm 構造体
-    type(monolis_COM) :: com
-    !> [in] 全ての外部節点番号
-    integer(kint) :: outer_node_id_all(:)
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
     !> [in] 全ての外部節点が属する領域番号
     integer(kint) :: outer_domain_id_all(:)
     !> [in] 全ての外部節点配列の各領域に属する節点数
     integer(kint) :: displs(:)
-    !> [out] 分割領域に対応する recv list 構造体
-    type(monolis_comm_node_list), allocatable :: recv_list(:)
+    !> [out] 隣接する領域数
+    integer(kint) :: n_neib_recv
+    !> [out] 隣接する領域フラグ（サイズ：[comm_size]）
+    integer(kint) :: is_neib(:)
     integer(kint) :: i, in, j, jS, jE, id, comm_size, my_rank
-    integer(kint) :: n_neib_recv, recv_rank, n_data, global_id, idx
-    integer(kint), allocatable :: is_neib(:)
-    integer(kint), allocatable :: local_nid(:)
-    integer(kint), allocatable :: neib_id(:)
-    integer(kint), allocatable :: temp(:)
 
     !> 隣接領域の取得
-    my_rank = monolis_mpi_get_local_my_rank(com%comm)
-    comm_size = monolis_mpi_get_local_comm_size(com%comm)
-
-    call monolis_alloc_I_1d(is_neib, comm_size)
+    my_rank = monolis_mpi_get_local_my_rank(comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
 
     in = my_rank + 1
     jS = displs(in) + 1
@@ -249,8 +237,21 @@ contains
     do i = 1, comm_size
       if(is_neib(i) == 1) n_neib_recv = n_neib_recv + 1
     enddo
+  end subroutine monolis_comm_get_recv_parallel_n_neib_recv
 
-    call monolis_alloc_I_1d(neib_id, n_neib_recv)
+  !> @ingroup dev_com
+  !> データ通信する recv 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_recv_parallel_neib_id_recv(comm, is_neib, neib_id)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] 隣接する領域フラグ（サイズ：[comm_size]）
+    integer(kint) :: is_neib(:)
+    !> [out] 隣接領域番号
+    integer(kint) :: neib_id(:)
+    integer(kint) :: i, j, comm_size
+
+    comm_size = monolis_mpi_get_local_comm_size(comm)
 
     j = 0
     do i = 1, comm_size
@@ -259,18 +260,28 @@ contains
         neib_id(j) = i - 1
       endif
     enddo
+  end subroutine monolis_comm_get_recv_parallel_neib_id_recv
 
-    !> recv の作成
-    allocate(recv_list(n_neib_recv))
-    call monolis_alloc_I_1d(local_nid, n_vertex)
-    call monolis_alloc_I_1d(temp, n_vertex)
+  !> @ingroup dev_com
+  !> データ通信する recv 隣接領域の index 配列取得（並列実行版）
+  subroutine monolis_comm_get_recv_parallel_index_recv(comm, displs, outer_domain_id_all, n_neib_recv, neib_id, index)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] 全ての外部節点配列の各領域に属する節点数
+    integer(kint) :: displs(:)
+    !> [in] 全ての外部節点が属する領域番号
+    integer(kint) :: outer_domain_id_all(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: n_neib_recv
+    !> [in] 隣接領域番号
+    integer(kint) :: neib_id(:)
+    !> [out] recv 隣接領域の index 配列
+    integer(kint) :: index(:)
+    integer(kint) :: i, in, j, jS, jE, n_data, id, my_rank, recv_rank
 
-    temp(:) = vertex_id(:)
-    do i = 1, n_vertex
-      local_nid(i) = i
-    enddo
-
-    call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
+    index = 0
+    my_rank = monolis_mpi_get_local_my_rank(comm)
 
     do i = 1, n_neib_recv
       recv_rank = neib_id(i)
@@ -286,56 +297,124 @@ contains
         endif
       enddo
 
-      recv_list(i)%n_node = n_data
-      call monolis_alloc_I_1d(recv_list(i)%domid, 1)
-      call monolis_alloc_I_1d(recv_list(i)%global_id, n_data)
-      recv_list(i)%domid = recv_rank
+      index(i + 1) = n_data
+    enddo
 
+    do i = 1, n_neib_recv
+      index(i + 1) = index(i + 1) + index(i)
+    enddo
+  end subroutine monolis_comm_get_recv_parallel_index_recv
+
+  !> @ingroup dev_com
+  !> データ通信する recv 隣接領域の item 配列取得（並列実行版）
+  subroutine monolis_comm_get_recv_parallel_item_recv(n_vertex, vertex_id, comm, &
+    & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, item)
+    implicit none
+    !> [in] 全節点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] グローバル節点番号
+    integer(kint), intent(in) :: vertex_id(:)
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] 全ての外部節点番号
+    integer(kint) :: outer_node_id_all(:)
+    !> [in] 全ての外部節点が属する領域番号
+    integer(kint) :: outer_domain_id_all(:)
+    !> [in] 全ての外部節点配列の各領域に属する節点数
+    integer(kint) :: displs(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: recv_n_neib
+    !> [in] 隣接領域番号
+    integer(kint) :: neib_id(:)
+    !> [in] recv 隣接領域の index 配列
+    integer(kint) :: index(:)
+    !> [in] recv 隣接領域の item 配列
+    integer(kint) :: item(:)
+    integer(kint) :: i, in, j, jn, jS, jE, n_data, id, my_rank
+    integer(kint) :: recv_rank, global_id, idx
+    integer(kint), allocatable :: local_nid(:)
+    integer(kint), allocatable :: temp(:)
+    integer(kint), allocatable :: count(:)
+
+    my_rank = monolis_mpi_get_local_my_rank(comm)
+
+    call monolis_alloc_I_1d(local_nid, n_vertex)
+    call monolis_get_sequence_array_I(local_nid, n_vertex, 1, 1)
+
+    call monolis_alloc_I_1d(temp, n_vertex)
+    temp(:) = vertex_id(:)
+
+    call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
+
+    call monolis_alloc_I_1d(count, recv_n_neib)
+
+    count = 0
+    do i = 1, recv_n_neib
       n_data = 0
+      recv_rank = neib_id(i)
+      in = my_rank + 1
+      jS = displs(in) + 1
+      jE = displs(in + 1)
       do j = jS, jE
         id = outer_domain_id_all(j)
         if(recv_rank == id)then
           n_data = n_data + 1
           global_id = outer_node_id_all(j)
           call monolis_bsearch_I(temp, 1, n_vertex, global_id, idx)
-          recv_list(i)%global_id(n_data) = local_nid(idx)
+          jn = index(i) + 1 + count(i)
+          item(jn) = local_nid(idx)
+          count(i) = count(i) + 1
         endif
       enddo
     enddo
+  end subroutine monolis_comm_get_recv_parallel_item_recv
 
-    !> monolis com の構築
-    !> recv
-    com%recv_n_neib = n_neib_recv
-    call monolis_palloc_I_1d(com%recv_neib_pe, n_neib_recv)
+  !> @ingroup dev_com
+  !> データ通信する recv 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
+    & outer_node_id_all, outer_domain_id_all, displs)
+    implicit none
+    !> [in] 全節点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] グローバル節点番号
+    integer(kint), intent(in) :: vertex_id(:)
+    !> [in,out] 分割領域に対応する comm 構造体
+    type(monolis_COM) :: com
+    !> [in] 全ての外部節点番号
+    integer(kint) :: outer_node_id_all(:)
+    !> [in] 全ての外部節点が属する領域番号
+    integer(kint) :: outer_domain_id_all(:)
+    !> [in] 全ての外部節点配列の各領域に属する節点数
+    integer(kint) :: displs(:)
+    integer(kint) :: comm_size, my_rank
+    integer(kint), allocatable :: is_neib(:)
 
-    do i = 1, n_neib_recv
-      com%recv_neib_pe(i) = recv_list(i)%domid(1)
-    enddo
+    !> 隣接領域の取得
+    my_rank = monolis_mpi_get_local_my_rank(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
 
-    call monolis_palloc_I_1d(com%recv_index, n_neib_recv + 1)
+    call monolis_alloc_I_1d(is_neib, comm_size)
 
-    do i = 1, n_neib_recv
-      com%recv_index(i + 1) = com%recv_index(i) + recv_list(i)%n_node
-    enddo
+    call monolis_comm_get_recv_parallel_n_neib_recv(com%comm, outer_domain_id_all, displs, com%recv_n_neib, is_neib)
 
-    in = com%recv_index(n_neib_recv + 1)
+    call monolis_palloc_I_1d(com%recv_neib_pe, com%recv_n_neib)
 
-    call monolis_palloc_I_1d(com%recv_item, in)
+    call monolis_comm_get_recv_parallel_neib_id_recv(com%comm, is_neib, com%recv_neib_pe)
 
-    in = 0
-    do i = 1, n_neib_recv
-      jE = recv_list(i)%n_node
-      do j = 1, jE
-        in = in + 1
-        idx = recv_list(i)%global_id(j)
-        com%recv_item(in) = idx
-      enddo
-    enddo
+    call monolis_palloc_I_1d(com%recv_index, com%recv_n_neib + 1)
+
+    call monolis_comm_get_recv_parallel_index_recv(com%comm, displs, outer_domain_id_all, &
+      & com%recv_n_neib, com%recv_neib_pe, com%recv_index)
+
+    call monolis_palloc_I_1d(com%recv_item, com%recv_index(com%recv_n_neib + 1))
+
+    call monolis_comm_get_recv_parallel_item_recv(n_vertex, vertex_id, com%comm, &
+      & outer_node_id_all, outer_domain_id_all, displs, com%recv_n_neib, com%recv_neib_pe, com%recv_index, com%recv_item)
   end subroutine monolis_comm_get_recv_parallel
 
   !> @ingroup dev_com
   !> データ通信する send 隣接領域の取得（並列実行版）
-  subroutine monolis_comm_get_send_parallel(n_vertex, vertex_id, com, recv_list)
+  subroutine monolis_comm_get_send_parallel(n_vertex, vertex_id, com)
     implicit none
     !> [in] 全節点数
     integer(kint), intent(in) :: n_vertex
@@ -343,8 +422,6 @@ contains
     integer(kint), intent(in) :: vertex_id(:)
     !> [in,out] 分割領域に対応する com 構造体
     type(monolis_COM) :: com
-    !> [out] 分割領域に対応する send list 構造体
-    type(monolis_comm_node_list) :: recv_list(:)
     !> 分割領域に対応する send list 構造体
     type(monolis_comm_node_list), allocatable :: send_list(:)
 
@@ -368,10 +445,11 @@ contains
 
     n_neib_recv = com%recv_n_neib
 
-    do i = 1, n_neib_recv
-      id = recv_list(i)%domid(1)
-      in = recv_list(i)%n_node
-      send_n_list(id + 1) = in
+    do i = 1, com%recv_n_neib
+      id = com%recv_neib_pe(i)
+      jS = com%recv_index(i)
+      jE = com%recv_index(i + 1)
+      send_n_list(id + 1) = jE - jS
     enddo
 
     call monolis_alltoall_I1(comm_size, send_n_list, com%comm)
@@ -420,15 +498,14 @@ contains
     allocate(ws(in), source = 0)
 
     do i = 1, com%recv_n_neib
-      id = recv_list(i)%domid(1)
-      in = recv_list(i)%n_node
+      id = com%recv_neib_pe(i)
       jS = com%recv_index(i) + 1
       jE = com%recv_index(i + 1)
       do j = jS, jE
         idx = com%recv_item(j)
         ws(j) = vertex_id(idx)
       enddo
-      call MPI_Isend(ws(jS:jE), in, MPI_INTEGER, id, 0, com%comm, req1(i), ierr)
+      call MPI_Isend(ws(jS:jE), jE - jS + 1, MPI_INTEGER, id, 0, com%comm, req1(i), ierr)
     enddo
 
     in = com%send_index(n_neib_send + 1)
