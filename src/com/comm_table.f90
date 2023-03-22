@@ -28,13 +28,21 @@ contains
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint), allocatable :: displs(:)
     type(monolis_comm_node_list), allocatable :: recv_list(:)
+    integer(kint) :: n_outer_node
 
     com%my_rank = monolis_mpi_get_local_my_rank(com%comm)
     com%comm_size = monolis_mpi_get_local_comm_size(com%comm)
     com%n_internal_vertex = n_internal_vertex
 
+    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer_node)
+
+    call monolis_alloc_I_1d(outer_node_id_all_global, n_outer_node)
+    call monolis_alloc_I_1d(displs, com%comm_size + 1)
+
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com, &
       & outer_node_id_all_global, displs)
+
+    call monolis_alloc_I_1d(outer_domain_id_all, n_outer_node)
 
     call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
       & outer_node_id_all_global, outer_domain_id_all, displs)

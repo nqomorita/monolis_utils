@@ -101,7 +101,7 @@ contains
     implicit none
     type(monolis_COM) :: com
     integer(kint) :: n_internal_vertex, n_vertex
-    integer(kint) :: vertex_id(5), i_ans(4)
+    integer(kint) :: vertex_id(5), i_ans(4), n_outer_node
     integer(kint), allocatable :: displs(:)
     integer(kint), allocatable :: outer_node_id_all(:)
 
@@ -129,6 +129,15 @@ contains
       vertex_id(5) = 30
     endif
 
+    com%comm = monolis_mpi_get_global_comm()
+    com%comm_size = monolis_mpi_get_global_comm_size()
+    com%n_internal_vertex = n_internal_vertex
+
+    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer_node)
+
+    call monolis_alloc_I_1d(outer_node_id_all, n_outer_node)
+    call monolis_alloc_I_1d(displs, monolis_mpi_get_global_comm_size() + 1)
+
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
       & com, outer_node_id_all, displs)
 
@@ -144,7 +153,7 @@ contains
     implicit none
     type(monolis_COM) :: com
     integer(kint) :: n_internal_vertex, n_vertex
-    integer(kint) :: vertex_id(5), i_ans(4)
+    integer(kint) :: vertex_id(5), i_ans(4), n_outer_node
     integer(kint), allocatable :: displs(:)
     integer(kint), allocatable :: outer_node_id_all(:)
     integer(kint), allocatable :: outer_domain_id_all(:)
@@ -172,6 +181,16 @@ contains
       vertex_id(4) = 20
       vertex_id(5) = 30
     endif
+
+    com%comm = monolis_mpi_get_global_comm()
+    com%comm_size = monolis_mpi_get_global_comm_size()
+    com%n_internal_vertex = n_internal_vertex
+
+    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer_node)
+
+    call monolis_alloc_I_1d(outer_node_id_all, n_outer_node)
+    call monolis_alloc_I_1d(outer_domain_id_all, n_outer_node)
+    call monolis_alloc_I_1d(displs, monolis_mpi_get_global_comm_size() + 1)
 
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
       & com, outer_node_id_all, displs)

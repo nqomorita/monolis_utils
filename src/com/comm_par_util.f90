@@ -81,6 +81,34 @@ contains
 
   !> @ingroup dev_com
   !> 全ての外部節点を取得
+  subroutine monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer)
+    implicit none
+    !> [in] 内部節点数
+    integer(kint), intent(in) :: n_internal_vertex
+    !> [in] 全節点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] 分割領域に対応する com 構造体
+    type(monolis_COM) :: com
+    !> [out] 全ての外部節点配列に属する節点数
+    integer(kint) :: n_outer
+    integer(kint) :: M, comm_size, i
+    integer(kint), allocatable :: counts(:)
+
+    M = n_vertex - n_internal_vertex
+    comm_size = monolis_mpi_get_local_comm_size(com%comm)
+
+    !> 個数の共有
+    call monolis_alloc_I_1d(counts, comm_size)
+    call monolis_allgather_I1(M, counts, com%comm)
+
+    n_outer = 0
+    do i = 1, comm_size
+      n_outer = n_outer + counts(i)
+    enddo
+  end subroutine monolis_comm_get_all_external_n_node_parallel
+
+  !> @ingroup dev_com
+  !> 全ての外部節点を取得
   subroutine monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
     & com, outer_node_id_all, displs)
     implicit none
@@ -93,10 +121,10 @@ contains
     !> [in] 分割領域に対応する com 構造体
     type(monolis_COM) :: com
     !> [out] 全ての外部節点番号
-    integer(kint), allocatable :: outer_node_id_all(:)
+    integer(kint) :: outer_node_id_all(:)
     !> 全ての外部節点配列の各領域に属する節点数
-    integer(kint), allocatable :: displs(:)
-    integer(kint) :: M, comm_size, n_outer, i
+    integer(kint) :: displs(:)
+    integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
     integer(kint), allocatable :: outer_node_id_local(:)
 
@@ -108,7 +136,6 @@ contains
     call monolis_allgather_I1(M, counts, com%comm)
 
     !> MPI 通信用 displs 配列の作成
-    call monolis_alloc_I_1d(displs, comm_size + 1)
     call monolis_alloc_I_1d(outer_node_id_local, M)
 
     do i = n_internal_vertex + 1, n_vertex
@@ -120,9 +147,6 @@ contains
     enddo
 
     !> 全ての外部節点を取得
-    n_outer = displs(comm_size + 1)
-    call monolis_alloc_I_1d(outer_node_id_all, n_outer)
-
     call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, com%comm)
   end subroutine monolis_comm_get_all_external_node_parallel
 
@@ -140,7 +164,7 @@ contains
     !> [in] 全ての外部節点番号
     integer(kint) :: outer_node_id_all(:)
     !> [out] 全ての外部節点が属する領域番号
-    integer(kint), allocatable :: outer_domain_id_all(:)
+    integer(kint) :: outer_domain_id_all(:)
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint) :: displs(:)
     integer(kint) :: comm_size, n_outer, my_rank
@@ -160,7 +184,6 @@ contains
 
     call monolis_qsort_I_1d(internal_node_id, 1, n_internal_vertex)
 
-    call monolis_alloc_I_1d(outer_domain_id_all, n_outer)
     outer_domain_id_all(:) = comm_size + 1
 
     aa:do i = 1, comm_size
