@@ -206,7 +206,7 @@ contains
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel_n_neib_recv(comm, outer_domain_id_all, displs, n_neib_recv, is_neib)
+  subroutine monolis_comm_get_recv_parallel_n_neib(comm, outer_domain_id_all, displs, n_neib_recv, is_neib)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -237,11 +237,11 @@ contains
     do i = 1, comm_size
       if(is_neib(i) == 1) n_neib_recv = n_neib_recv + 1
     enddo
-  end subroutine monolis_comm_get_recv_parallel_n_neib_recv
+  end subroutine monolis_comm_get_recv_parallel_n_neib
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel_neib_id_recv(comm, is_neib, neib_id)
+  subroutine monolis_comm_get_recv_parallel_neib_id(comm, is_neib, neib_id)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -260,11 +260,11 @@ contains
         neib_id(j) = i - 1
       endif
     enddo
-  end subroutine monolis_comm_get_recv_parallel_neib_id_recv
+  end subroutine monolis_comm_get_recv_parallel_neib_id
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の index 配列取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel_index_recv(comm, displs, outer_domain_id_all, n_neib_recv, neib_id, index)
+  subroutine monolis_comm_get_recv_parallel_index(comm, displs, outer_domain_id_all, n_neib_recv, neib_id, index)
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
@@ -303,11 +303,11 @@ contains
     do i = 1, n_neib_recv
       index(i + 1) = index(i + 1) + index(i)
     enddo
-  end subroutine monolis_comm_get_recv_parallel_index_recv
+  end subroutine monolis_comm_get_recv_parallel_index
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の item 配列取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel_item_recv(n_vertex, vertex_id, comm, &
+  subroutine monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, item)
     implicit none
     !> [in] 全節点数
@@ -367,7 +367,7 @@ contains
         endif
       enddo
     enddo
-  end subroutine monolis_comm_get_recv_parallel_item_recv
+  end subroutine monolis_comm_get_recv_parallel_item
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
@@ -395,22 +395,209 @@ contains
 
     call monolis_alloc_I_1d(is_neib, comm_size)
 
-    call monolis_comm_get_recv_parallel_n_neib_recv(com%comm, outer_domain_id_all, displs, com%recv_n_neib, is_neib)
+    call monolis_comm_get_recv_parallel_n_neib(com%comm, outer_domain_id_all, displs, com%recv_n_neib, is_neib)
 
     call monolis_palloc_I_1d(com%recv_neib_pe, com%recv_n_neib)
 
-    call monolis_comm_get_recv_parallel_neib_id_recv(com%comm, is_neib, com%recv_neib_pe)
+    call monolis_comm_get_recv_parallel_neib_id(com%comm, is_neib, com%recv_neib_pe)
 
     call monolis_palloc_I_1d(com%recv_index, com%recv_n_neib + 1)
 
-    call monolis_comm_get_recv_parallel_index_recv(com%comm, displs, outer_domain_id_all, &
+    call monolis_comm_get_recv_parallel_index(com%comm, displs, outer_domain_id_all, &
       & com%recv_n_neib, com%recv_neib_pe, com%recv_index)
 
     call monolis_palloc_I_1d(com%recv_item, com%recv_index(com%recv_n_neib + 1))
 
-    call monolis_comm_get_recv_parallel_item_recv(n_vertex, vertex_id, com%comm, &
+    call monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, com%comm, &
       & outer_node_id_all, outer_domain_id_all, displs, com%recv_n_neib, com%recv_neib_pe, com%recv_index, com%recv_item)
   end subroutine monolis_comm_get_recv_parallel
+
+  !> @ingroup dev_com
+  !> データ通信する send 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_send_parallel_n_list(comm, recv_n_neib, recv_neib_pe, recv_index, send_n_list)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] 隣接する領域数
+    integer(kint) :: recv_n_neib
+    !> [in] 隣接領域番号
+    integer(kint) :: recv_neib_pe(:)
+    !> [in] recv 隣接領域の index 配列
+    integer(kint) :: recv_index(:)
+    !> [out] send 節点の個数リスト
+    integer(kint) :: send_n_list(:)
+    integer(kint) :: i, jS, jE, id, comm_size
+
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+
+    do i = 1, recv_n_neib
+      id = recv_neib_pe(i)
+      jS = recv_index(i)
+      jE = recv_index(i + 1)
+      send_n_list(id + 1) = jE - jS
+    enddo
+
+    call monolis_alltoall_I1(comm_size, send_n_list, comm)
+  end subroutine monolis_comm_get_send_parallel_n_list
+
+  !> @ingroup dev_com
+  !> データ通信する send 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_send_parallel_n_neib(comm, send_n_list, n_neib_send)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [out] send 節点の個数リスト
+    integer(kint), intent(in) :: send_n_list(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: n_neib_send
+    integer(kint) :: i, comm_size
+
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+
+    !> send 個数の確保
+    n_neib_send = 0
+    do i = 1, comm_size
+      if(send_n_list(i) > 0) n_neib_send = n_neib_send + 1
+    enddo
+  end subroutine monolis_comm_get_send_parallel_n_neib
+
+  !> @ingroup dev_com
+  !> データ通信する send 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_send_parallel_neib_id(comm, send_n_list, send_neib_pe)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [out] send 節点の個数リスト
+    integer(kint), intent(in):: send_n_list(:)
+    !> [in] 隣接する領域番号
+    integer(kint) :: send_neib_pe(:)
+    integer(kint) :: i, in, comm_size
+
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+
+    in = 0
+    do i = 1, comm_size
+      if(send_n_list(i) > 0)then
+        in = in + 1
+        send_neib_pe(in) = i - 1
+      endif
+    enddo
+  end subroutine monolis_comm_get_send_parallel_neib_id
+
+  !> @ingroup dev_com
+  !> データ通信する send 隣接領域の取得（並列実行版）
+  subroutine monolis_comm_get_send_parallel_index(comm, send_n_list, send_n_neib, send_index)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [out] send 節点の個数リスト
+    integer(kint), intent(in) :: send_n_list(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: send_n_neib
+    !> [in] send 節点の index 配列
+    integer(kint) :: send_index(:)
+    integer(kint) :: i, in, comm_size
+
+    comm_size = monolis_mpi_get_local_comm_size(comm)
+
+    in = 1
+    send_index = 0
+    do i = 1, comm_size
+      if(send_n_list(i) > 0)then
+        in = in + 1
+        send_index(in) = send_n_list(i)
+      endif
+    enddo
+
+    do i = 1, send_n_neib
+      send_index(i + 1) = send_index(i + 1) + send_index(i)
+    enddo
+  end subroutine monolis_comm_get_send_parallel_index
+
+  !> @ingroup dev_com
+  !> データ通信する send の item 配列の取得（並列実行版）
+  subroutine monolis_comm_get_send_parallel_item(comm, n_vertex, vertex_id, &
+    & recv_n_neib, recv_neib_pe, recv_index, recv_item, &
+    & send_n_neib, send_neib_pe, send_index, send_item)
+    implicit none
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
+    !> [in] ノード数
+    integer(kint) :: n_vertex
+    !> [in] 隣接する領域数
+    integer(kint) :: vertex_id(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: recv_n_neib
+    !> [in] 隣接する領域番号
+    integer(kint) :: recv_neib_pe(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: recv_index(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: recv_item(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: send_n_neib
+    !> [in] 隣接する領域番号
+    integer(kint) :: send_neib_pe(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: send_index(:)
+    !> [in] 隣接する領域数
+    integer(kint) :: send_item(:)
+    integer(kint) :: i, id, j, jS, jE, idx, ierr
+    integer(kint), allocatable :: ws(:)
+    integer(kint), allocatable :: wr(:)
+    integer(kint), allocatable :: sta1(:,:)
+    integer(kint), allocatable :: sta2(:,:)
+    integer(kint), allocatable :: req1(:)
+    integer(kint), allocatable :: req2(:)
+    integer(kint), allocatable :: local_nid(:)
+    integer(kint), allocatable :: temp(:)
+    integer(kint), allocatable :: count(:)
+
+    !> slave から master に global_nid を送信
+    call monolis_alloc_I_2d(sta1, monolis_mpi_status_size, recv_n_neib)
+    call monolis_alloc_I_2d(sta2, monolis_mpi_status_size, send_n_neib)
+    call monolis_alloc_I_1d(req1, recv_n_neib)
+    call monolis_alloc_I_1d(req2, send_n_neib)
+
+    call monolis_alloc_I_1d(ws, recv_index(recv_n_neib + 1))
+
+    do i = 1, recv_n_neib
+      id = recv_neib_pe(i)
+      jS = recv_index(i) + 1
+      jE = recv_index(i + 1)
+      do j = jS, jE
+        idx = recv_item(j)
+        ws(j) = vertex_id(idx)
+      enddo
+      call MPI_Isend(ws(jS:jE), jE - jS + 1, MPI_INTEGER, id, 0, comm, req1(i), ierr)
+    enddo
+
+    call monolis_alloc_I_1d(wr, send_index(send_n_neib + 1))
+
+    do i = 1, send_n_neib
+      id = send_neib_pe(i)
+      jS = send_index(i) + 1
+      jE = send_index(i + 1)
+      call MPI_Irecv(wr(jS:jE), jE - jS + 1, MPI_INTEGER, id, 0, comm, req2(i), ierr)
+    enddo
+
+    call MPI_waitall(recv_n_neib, req1, sta1, ierr)
+    call MPI_waitall(send_n_neib, req2, sta2, ierr)
+
+    !> local_nid に変換
+    call monolis_alloc_I_1d(local_nid, n_vertex)
+    call monolis_get_sequence_array_I(local_nid, n_vertex, 1, 1)
+
+    call monolis_alloc_I_1d(temp, n_vertex)
+    temp = vertex_id
+
+    call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
+
+    do i = 1, send_index(send_n_neib + 1)
+      call monolis_bsearch_I(temp, 1, n_vertex, wr(i), id)
+      send_item(i) = local_nid(id)
+    enddo
+  end subroutine monolis_comm_get_send_parallel_item
 
   !> @ingroup dev_com
   !> データ通信する send 隣接領域の取得（並列実行版）
@@ -422,120 +609,30 @@ contains
     integer(kint), intent(in) :: vertex_id(:)
     !> [in,out] 分割領域に対応する com 構造体
     type(monolis_COM) :: com
-    !> 分割領域に対応する send list 構造体
-    type(monolis_comm_node_list), allocatable :: send_list(:)
-
-    integer(kint) :: i, in, j, jS, jE, id, comm_size
-    integer(kint) :: n_neib_recv, n_data, idx, ierr
-    integer(kint) :: n_neib_send
+    integer(kint) :: comm_size
     integer(kint), allocatable :: send_n_list(:)
-    integer(kint), allocatable :: local_nid(:)
-    integer(kint), allocatable :: temp(:)
-    integer(kint), allocatable :: sta1(:,:)
-    integer(kint), allocatable :: sta2(:,:)
-    integer(kint), allocatable :: req1(:)
-    integer(kint), allocatable :: req2(:)
-    integer(kint), allocatable :: wr(:)
-    integer(kint), allocatable :: ws(:)
 
-    !> send の作成
-    !> slave から master に個数を送信
     comm_size = monolis_mpi_get_local_comm_size(com%comm)
+
     call monolis_alloc_I_1d(send_n_list, comm_size)
 
-    n_neib_recv = com%recv_n_neib
+    call monolis_comm_get_send_parallel_n_list(com%comm, &
+      & com%recv_n_neib, com%recv_neib_pe, com%recv_index, send_n_list)
 
-    do i = 1, com%recv_n_neib
-      id = com%recv_neib_pe(i)
-      jS = com%recv_index(i)
-      jE = com%recv_index(i + 1)
-      send_n_list(id + 1) = jE - jS
-    enddo
+    call monolis_comm_get_send_parallel_n_neib(com%comm, send_n_list, com%send_n_neib)
 
-    call monolis_alltoall_I1(comm_size, send_n_list, com%comm)
+    call monolis_palloc_I_1d(com%send_neib_pe, com%send_n_neib)
 
-    !> send 個数の確保
-    n_neib_send = 0
-    do i = 1, comm_size
-      if(send_n_list(i) > 0) n_neib_send = n_neib_send + 1
-    enddo
+    call monolis_comm_get_send_parallel_neib_id(com%comm, send_n_list, com%send_neib_pe)
 
-    allocate(send_list(n_neib_send))
+    call monolis_palloc_I_1d(com%send_index, com%send_n_neib + 1)
 
-    n_neib_send = 0
-    do i = 1, comm_size
-      if(send_n_list(i) > 0)then
-        n_neib_send = n_neib_send + 1
-        call monolis_alloc_I_1d(send_list(n_neib_send)%domid, 1)
-        send_list(n_neib_send)%domid(1) = i - 1
+    call monolis_comm_get_send_parallel_index(com%comm, send_n_list, com%send_n_neib, com%send_index)
 
-        n_data = send_n_list(i)
-        call monolis_alloc_I_1d(send_list(n_neib_send)%global_id, n_data)
-        send_list(n_neib_send)%n_node = n_data
-      endif
-    enddo
+    call monolis_palloc_I_1d(com%send_item, com%send_index(com%send_n_neib + 1))
 
-    !> send の構築
-    com%send_n_neib = n_neib_send
-    call monolis_palloc_I_1d(com%send_neib_pe, n_neib_send)
-    do i = 1, n_neib_send
-      com%send_neib_pe(i) = send_list(i)%domid(1)
-    enddo
-    call monolis_palloc_I_1d(com%send_index, n_neib_send + 1)
-    do i = 1, n_neib_send
-      com%send_index(i + 1) = com%send_index(i) + send_list(i)%n_node
-    enddo
-    in = com%send_index(n_neib_send + 1)
-    call monolis_palloc_I_1d(com%send_item, in)
-
-    !> slave から master に global_nid を送信
-    call monolis_alloc_I_2d(sta1, monolis_mpi_status_size, com%recv_n_neib)
-    call monolis_alloc_I_2d(sta2, monolis_mpi_status_size, com%send_n_neib)
-    call monolis_alloc_I_1d(req1, com%recv_n_neib)
-    call monolis_alloc_I_1d(req2, com%send_n_neib)
-
-    in = com%recv_index(n_neib_recv + 1)
-    allocate(ws(in), source = 0)
-
-    do i = 1, com%recv_n_neib
-      id = com%recv_neib_pe(i)
-      jS = com%recv_index(i) + 1
-      jE = com%recv_index(i + 1)
-      do j = jS, jE
-        idx = com%recv_item(j)
-        ws(j) = vertex_id(idx)
-      enddo
-      call MPI_Isend(ws(jS:jE), jE - jS + 1, MPI_INTEGER, id, 0, com%comm, req1(i), ierr)
-    enddo
-
-    in = com%send_index(n_neib_send + 1)
-    allocate(wr(in), source = 0)
-    do i = 1, com%send_n_neib
-      id = send_list(i)%domid(1)
-      in = send_list(i)%n_node
-      jS = com%send_index(i) + 1
-      jE = com%send_index(i + 1)
-      call MPI_Irecv(wr(jS:jE), in, MPI_INTEGER, id, 0, com%comm, req2(i), ierr)
-    enddo
-
-    call MPI_waitall(com%recv_n_neib, req2, sta2, ierr)
-    call MPI_waitall(com%send_n_neib, req1, sta1, ierr)
-
-    !> local_nid に変換
-    call monolis_alloc_I_1d(local_nid, n_vertex)
-    call monolis_alloc_I_1d(temp, n_vertex)
-
-    do i = 1, n_vertex
-      temp(i) = vertex_id(i)
-      local_nid(i) = i
-    enddo
-
-    call monolis_qsort_I_2d(temp, local_nid, 1, n_vertex)
-
-    in = com%send_index(n_neib_send + 1)
-    do i = 1, in
-      call monolis_bsearch_I(temp, 1, n_vertex, wr(i), id)
-      com%send_item(i) = local_nid(id)
-    enddo
+    call monolis_comm_get_send_parallel_item(com%comm, n_vertex, vertex_id, &
+      & com%recv_n_neib, com%recv_neib_pe, com%recv_index, com%recv_item, &
+      & com%send_n_neib, com%send_neib_pe, com%send_index, com%send_item)
   end subroutine monolis_comm_get_send_parallel
 end module mod_monolis_comm_par_util
