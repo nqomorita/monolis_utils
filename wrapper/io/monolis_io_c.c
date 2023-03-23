@@ -29,12 +29,12 @@ void monolis_input_global_id(
   FILE* fp;
   int i;
   int ierr;
-  int* itmp;
+  int itmp;
   char ctmp[MONOLIS_CHARLEN];
 
   fp = monolis_open_file(fp, fname);
   ierr = fscanf(fp, "%s", ctmp);
-  ierr = fscanf(fp, "%d %d", n_vertex, itmp);
+  ierr = fscanf(fp, "%d %d", n_vertex, &itmp);
 
   *vertex_id = monolis_alloc_I_1d(*vertex_id, *n_vertex);
 
