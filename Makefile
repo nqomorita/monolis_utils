@@ -129,6 +129,9 @@ monolis_io_file_name_c.c \
 monolis_io_com_c.c \
 monolis_io_c.c
 
+SRC_COM_C = \
+monolis_comm_table_c.c
+
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
 mpi_wrap.f90 \
@@ -139,6 +142,7 @@ $(addprefix define/, $(SRC_DEFINE_C)) \
 $(addprefix sys/, $(SRC_SYS_C)) \
 $(addprefix std/, $(SRC_STD_C)) \
 $(addprefix io/, $(SRC_IO_C)) \
+$(addprefix com/, $(SRC_COM_C)) \
 $(addprefix mpi/, $(SRC_MPI_C))
 
 ##> all targes
@@ -210,6 +214,9 @@ monolis_io_file_name_c_test.c \
 monolis_io_com_c_test.c \
 monolis_io_c_test.c
 
+SRC_COM_C_TEST = \
+monolis_comm_table_c_test.c
+
 SRC_MPI_C_TEST = \
 monolis_mpi_util_c_test.c \
 monolis_mpi_c_test.c
@@ -219,6 +226,7 @@ $(addprefix define/, $(SRC_DEFINE_C_TEST)) \
 $(addprefix sys/, $(SRC_SYS_C_TEST)) \
 $(addprefix io/, $(SRC_IO_C_TEST)) \
 $(addprefix std/, $(SRC_STD_C_TEST)) \
+$(addprefix com/, $(SRC_COM_C_TEST)) \
 $(addprefix mpi/, $(SRC_MPI_C_TEST))
 
 TST_SRC_C_ALL = $(SRC_ALL_C_TEST) monolis_utils_c_test.c

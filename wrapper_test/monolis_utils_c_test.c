@@ -11,6 +11,7 @@
 #include "./io/monolis_io_file_name_c_test.h"
 #include "./io/monolis_io_com_c_test.h"
 #include "./io/monolis_io_c_test.h"
+#include "./com/monolis_comm_table_c_test.h"
 
 int main()
 {
@@ -33,6 +34,8 @@ int main()
   monolis_mpi_test();
 
   monolis_mpi_util_test();
+
+  monolis_comm_table_c_test();
 
   monolis_mpi_finalize();
 }
