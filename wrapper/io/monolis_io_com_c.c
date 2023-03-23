@@ -15,10 +15,11 @@ void monolis_input_com_table_main(
 {
   int i;
   int nitem;
+  int ierr;
   FILE* fp;
 
   fp = monolis_open_file(fp, fname);
-  fscanf(fp, "%d %d", n_neib, &nitem);
+  ierr = fscanf(fp, "%d %d", n_neib, &nitem);
 
   if(n_neib == 0){
     *neib_pe = monolis_alloc_I_1d(*neib_pe, 1);
@@ -33,15 +34,15 @@ void monolis_input_com_table_main(
   }
 
   for(i = 0; i < *n_neib; i++){
-    fscanf(fp, "%d", &(*neib_pe)[i]);
+    ierr = fscanf(fp, "%d", &(*neib_pe)[i]);
   }
 
   for(i = 0; i < *n_neib + 1; i++){
-    fscanf(fp, "%d", &(*index)[i]);
+    ierr = fscanf(fp, "%d", &(*index)[i]);
   }
 
   for(i = 0; i < nitem; i++){
-    fscanf(fp, "%d", &(*item)[i]);
+    ierr = fscanf(fp, "%d", &(*item)[i]);
   }
 
   fclose(fp);
