@@ -13,7 +13,7 @@ void monolis_input_internal_vertex_number(
 void monolis_input_global_id(
   const char* fname,
   int*        n_vertex,
-  int*        vertex_id);
+  int**       vertex_id);
 
 #ifdef __cplusplus
 }

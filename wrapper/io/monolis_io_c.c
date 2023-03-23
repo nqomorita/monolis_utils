@@ -11,7 +11,7 @@ void monolis_input_internal_vertex_number(
   int*        n_internal)
 {
   FILE* fp;
-  char* ctmp;
+  char ctmp[MONOLIS_CHARLEN];
 
   fp = monolis_open_file(fp, fname);
   fscanf(fp, "%s", ctmp);
@@ -23,21 +23,21 @@ void monolis_input_internal_vertex_number(
 void monolis_input_global_id(
   const char* fname,
   int*        n_vertex,
-  int*        vertex_id)
+  int**       vertex_id)
 {
   FILE* fp;
   int i;
   int* itmp;
-  char* ctmp;
+  char ctmp[MONOLIS_CHARLEN];
 
   fp = monolis_open_file(fp, fname);
   fscanf(fp, "%s", ctmp);
   fscanf(fp, "%d %d", n_vertex, itmp);
 
-  vertex_id = monolis_alloc_I_1d(vertex_id, *n_vertex);
+  *vertex_id = monolis_alloc_I_1d(*vertex_id, *n_vertex);
 
   for(i = 0; i < *n_vertex; i++){
-    fscanf(fp, "%d", &vertex_id[i]);
+    fscanf(fp, "%d", &(*vertex_id)[i]);
   }
 
   fclose(fp);
