@@ -9,6 +9,8 @@
 #include "./mpi/monolis_mpi_c_test.h"
 #include "./mpi/monolis_mpi_util_c_test.h"
 #include "./io/monolis_io_file_name_c_test.h"
+#include "./io/monolis_io_com_c_test.h"
+#include "./io/monolis_io_c_test.h"
 
 int main()
 {
@@ -23,6 +25,10 @@ int main()
   monolis_alloc_test();
 
   monolis_io_file_name_c_test();
+
+  monolis_io_com_c_test();
+
+  monolis_io_c_test();
 
   monolis_mpi_test();
 

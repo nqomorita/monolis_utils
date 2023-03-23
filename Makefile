@@ -124,7 +124,10 @@ std_sort_I_wrap.f90 \
 std_test_wrap.f90
 
 SRC_IO_C = \
+monolis_io_util_c.c \
 monolis_io_file_name_c.c \
+monolis_io_com_c.c \
+monolis_io_c.c
 
 SRC_MPI_C = \
 mpi_util_wrap.f90 \
@@ -203,7 +206,9 @@ SRC_STD_C_TEST = \
 std_sort_I_wrap_test.c
 
 SRC_IO_C_TEST = \
-monolis_io_file_name_c_test.c
+monolis_io_file_name_c_test.c \
+monolis_io_com_c_test.c \
+monolis_io_c_test.c
 
 SRC_MPI_C_TEST = \
 monolis_mpi_util_c_test.c \
@@ -292,6 +297,9 @@ cp_header:
 	$(CP) ./wrapper/define/monolis_def_prm_c.h ./include/
 	$(CP) ./wrapper/define/monolis_def_com_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_file_name_c.h ./include/
+	$(CP) ./wrapper/io/monolis_io_com_c.h ./include/
+	$(CP) ./wrapper/io/monolis_io_util_c.h ./include/
+	$(CP) ./wrapper/io/monolis_io_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_test_c.h ./include/
 	$(CP) ./wrapper/sys/monolis_alloc_c.h ./include/
