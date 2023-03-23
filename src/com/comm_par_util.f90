@@ -81,25 +81,25 @@ contains
 
   !> @ingroup dev_com
   !> 全ての外部節点を取得
-  subroutine monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer)
+  subroutine monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, comm, n_outer)
     implicit none
     !> [in] 内部節点数
     integer(kint), intent(in) :: n_internal_vertex
     !> [in] 全節点数
     integer(kint), intent(in) :: n_vertex
-    !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
     !> [out] 全ての外部節点配列に属する節点数
     integer(kint) :: n_outer
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
 
     M = n_vertex - n_internal_vertex
-    comm_size = monolis_mpi_get_local_comm_size(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
 
     !> 個数の共有
     call monolis_alloc_I_1d(counts, comm_size)
-    call monolis_allgather_I1(M, counts, com%comm)
+    call monolis_allgather_I1(M, counts, comm)
 
     n_outer = 0
     do i = 1, comm_size
@@ -110,7 +110,7 @@ contains
   !> @ingroup dev_com
   !> 全ての外部節点を取得
   subroutine monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
-    & com, outer_node_id_all, displs)
+    & comm, outer_node_id_all, displs)
     implicit none
     !> [in] 内部節点数
     integer(kint), intent(in) :: n_internal_vertex
@@ -118,8 +118,8 @@ contains
     integer(kint), intent(in) :: n_vertex
     !> [in] グローバル節点番号
     integer(kint) :: vertex_id(:)
-    !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
     !> [out] 全ての外部節点番号
     integer(kint) :: outer_node_id_all(:)
     !> 全ての外部節点配列の各領域に属する節点数
@@ -129,11 +129,11 @@ contains
     integer(kint), allocatable :: outer_node_id_local(:)
 
     M = n_vertex - n_internal_vertex
-    comm_size = monolis_mpi_get_local_comm_size(com%comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
 
     !> 個数の共有
     call monolis_alloc_I_1d(counts, comm_size)
-    call monolis_allgather_I1(M, counts, com%comm)
+    call monolis_allgather_I1(M, counts, comm)
 
     !> MPI 通信用 displs 配列の作成
     call monolis_alloc_I_1d(outer_node_id_local, M)
@@ -147,20 +147,20 @@ contains
     enddo
 
     !> 全ての外部節点を取得
-    call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, com%comm)
+    call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, comm)
   end subroutine monolis_comm_get_all_external_node_parallel
 
   !> @ingroup dev_com
   !> 全ての外部節点が所属する領域番号を取得
-  subroutine monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
+  subroutine monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
     !> [in] 内部節点数
     integer(kint), intent(in) :: n_internal_vertex
     !> [in] グローバル節点番号
     integer(kint), intent(in) :: vertex_id(:)
-    !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    !> [in] MPI コミュニケータ
+    integer(kint) :: comm
     !> [in] 全ての外部節点番号
     integer(kint) :: outer_node_id_all(:)
     !> [out] 全ての外部節点が属する領域番号
@@ -171,8 +171,8 @@ contains
     integer(kint) :: i, j, jS, jE, id, idx
     integer(kint), allocatable :: internal_node_id(:)
 
-    my_rank = monolis_mpi_get_local_my_rank(com%comm)
-    comm_size = monolis_mpi_get_local_comm_size(com%comm)
+    my_rank = monolis_mpi_get_local_my_rank(comm)
+    comm_size = monolis_mpi_get_local_comm_size(comm)
     n_outer = displs(comm_size + 1)
 
     !> 外点が属する領域番号を取得
@@ -201,7 +201,7 @@ contains
       enddo
     enddo aa
 
-    call monolis_allreduce_I(n_outer, outer_domain_id_all, monolis_mpi_min, com%comm)
+    call monolis_allreduce_I(n_outer, outer_domain_id_all, monolis_mpi_min, comm)
   end subroutine monolis_comm_get_all_external_node_domain_id_parallel
 
   !> @ingroup dev_com
@@ -386,11 +386,10 @@ contains
     integer(kint) :: outer_domain_id_all(:)
     !> [in] 全ての外部節点配列の各領域に属する節点数
     integer(kint) :: displs(:)
-    integer(kint) :: comm_size, my_rank
+    integer(kint) :: comm_size
     integer(kint), allocatable :: is_neib(:)
 
     !> 隣接領域の取得
-    my_rank = monolis_mpi_get_local_my_rank(com%comm)
     comm_size = monolis_mpi_get_local_comm_size(com%comm)
 
     call monolis_alloc_I_1d(is_neib, comm_size)

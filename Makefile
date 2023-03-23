@@ -311,6 +311,8 @@ cp_header:
 	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_test_c.h ./include/
 	$(CP) ./wrapper/sys/monolis_alloc_c.h ./include/
+	$(CP) ./wrapper/com/monolis_comm_par_util_c.h ./include/
+	$(CP) ./wrapper/com/monolis_comm_table_c.h ./include/
 	$(CP) ./wrapper/monolis_utils.h ./include/
 
 clean:

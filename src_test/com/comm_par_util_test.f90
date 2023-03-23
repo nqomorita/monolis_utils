@@ -133,13 +133,13 @@ contains
     com%comm_size = monolis_mpi_get_global_comm_size()
     com%n_internal_vertex = n_internal_vertex
 
-    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer_node)
+    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com%comm, n_outer_node)
 
     call monolis_alloc_I_1d(outer_node_id_all, n_outer_node)
     call monolis_alloc_I_1d(displs, monolis_mpi_get_global_comm_size() + 1)
 
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
-      & com, outer_node_id_all, displs)
+      & com%comm, outer_node_id_all, displs)
 
     i_ans(1) = 40
     i_ans(2) = 50
@@ -186,16 +186,16 @@ contains
     com%comm_size = monolis_mpi_get_global_comm_size()
     com%n_internal_vertex = n_internal_vertex
 
-    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com, n_outer_node)
+    call monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, com%comm, n_outer_node)
 
     call monolis_alloc_I_1d(outer_node_id_all, n_outer_node)
     call monolis_alloc_I_1d(outer_domain_id_all, n_outer_node)
     call monolis_alloc_I_1d(displs, monolis_mpi_get_global_comm_size() + 1)
 
     call monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
-      & com, outer_node_id_all, displs)
+      & com%comm, outer_node_id_all, displs)
 
-    call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com, &
+    call monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com%comm, &
     & outer_node_id_all, outer_domain_id_all, displs)
 
     i_ans(1) = 1
