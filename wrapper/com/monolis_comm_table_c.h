@@ -9,10 +9,10 @@ extern "C" {
 #include "monolis_def_com_c.h"
 
 void monolis_com_get_comm_table_parallel(
-  int         n_internal_vertex,
-  int         n_vertex,
-  int*        vertex_id,
-  MONOLIS_COM com);
+  int          n_internal_vertex,
+  int          n_vertex,
+  int*         vertex_id,
+  MONOLIS_COM* com);
 
 #ifdef __cplusplus
 }

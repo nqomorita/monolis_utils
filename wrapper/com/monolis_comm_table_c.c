@@ -22,21 +22,21 @@ void monolis_comm_get_recv_parallel(
 
   is_neib = monolis_alloc_I_1d(is_neib, comm_size);
 
-  monolis_comm_get_recv_parallel_n_neib(com->comm, outer_domain_id_all, displs, &com->recv_n_neib, is_neib);
+  //monolis_comm_get_recv_parallel_n_neib(com->comm, n_vertex, outer_domain_id_all, comm_size, displs, &com->recv_n_neib, is_neib);
 
-  com->recv_neib_pe = monolis_alloc_I_1d(com->recv_neib_pe, com->recv_n_neib);
+  //com->recv_neib_pe = monolis_alloc_I_1d(com->recv_neib_pe, com->recv_n_neib);
 
-  monolis_comm_get_recv_parallel_neib_id(com->comm, is_neib, com->recv_neib_pe);
+  //monolis_comm_get_recv_parallel_neib_id(com->comm, comm_size, is_neib, com->recv_neib_pe);
 
-  com->recv_index = monolis_alloc_I_1d(com->recv_index, com->recv_n_neib + 1);
+  //com->recv_index = monolis_alloc_I_1d(com->recv_index, com->recv_n_neib + 1);
 
-  monolis_comm_get_recv_parallel_index(com->comm, displs, outer_domain_id_all,
-    com->recv_n_neib, com->recv_neib_pe, com->recv_index);
+  //monolis_comm_get_recv_parallel_index(com->comm, comm_size, displs, n_vertex, outer_domain_id_all,
+  //  com->recv_n_neib, com->recv_neib_pe, com->recv_index[com->recv_n_neib + 1], com->recv_index);
 
-  com->recv_item = monolis_alloc_I_1d(com->recv_item, com->recv_index[com->recv_n_neib + 1]);
+  //com->recv_item = monolis_alloc_I_1d(com->recv_item, com->recv_index[com->recv_n_neib + 1]);
 
-  monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, com->comm,
-    outer_node_id_all, outer_domain_id_all, displs, com->recv_n_neib, com->recv_neib_pe, com->recv_index, com->recv_item);
+  //monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, com->comm, comm_size,
+  //  outer_node_id_all, outer_domain_id_all, displs, com->recv_n_neib, com->recv_neib_pe, com->recv_index, com->recv_item);
 }
 
 void monolis_comm_get_send_parallel(
@@ -51,23 +51,23 @@ void monolis_comm_get_send_parallel(
 
   send_n_list = monolis_alloc_I_1d(send_n_list, comm_size);
 
-  monolis_comm_get_send_parallel_n_list(com->comm, com->recv_n_neib, com->recv_neib_pe, com->recv_index, send_n_list);
+  monolis_comm_get_send_parallel_n_list(com->comm, comm_size, com->recv_n_neib, com->recv_neib_pe, com->recv_index, send_n_list);
 
-  monolis_comm_get_send_parallel_n_neib(com->comm, send_n_list, &com->send_n_neib);
+  monolis_comm_get_send_parallel_n_neib(com->comm, comm_size, send_n_list, &com->send_n_neib);
 
   com->send_neib_pe = monolis_alloc_I_1d(com->send_neib_pe, com->send_n_neib);
 
-  monolis_comm_get_send_parallel_neib_id(com->comm, send_n_list, com->send_neib_pe);
+  monolis_comm_get_send_parallel_neib_id(com->comm, comm_size, com->send_n_neib, send_n_list, com->send_neib_pe);
 
   com->send_index = monolis_alloc_I_1d(com->send_index, com->send_n_neib + 1);
 
-  monolis_comm_get_send_parallel_index(com->comm, send_n_list, com->send_n_neib, com->send_index);
+  monolis_comm_get_send_parallel_index(com->comm, comm_size, send_n_list, com->send_n_neib, com->send_index);
 
   com->send_item = monolis_alloc_I_1d(com->send_item, com->send_index[com->send_n_neib + 1]);
 
-  monolis_comm_get_send_parallel_item(com->comm, n_vertex, vertex_id,
-    com->recv_n_neib, com->recv_neib_pe, com->recv_index, com->recv_item,
-    com->send_n_neib, com->send_neib_pe, com->send_index, com->send_item);
+  monolis_comm_get_send_parallel_item(com->comm, comm_size, n_vertex, vertex_id,
+    com->recv_n_neib, com->recv_neib_pe, com->recv_index, com->recv_index[com->recv_n_neib + 1], com->recv_item,
+    com->send_n_neib, com->send_neib_pe, com->send_index, com->send_index[com->send_n_neib + 1], com->send_item);
 }
 
 void monolis_com_get_comm_table_parallel(
@@ -93,13 +93,13 @@ void monolis_com_get_comm_table_parallel(
 
   displs = monolis_alloc_I_1d(displs, com->comm_size + 1);
 
-  monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com->comm, outer_node_id_all_global, displs);
+  monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, com->comm, outer_node_id_all_global, com->comm_size, displs);
 
   outer_domain_id_all = monolis_alloc_I_1d(outer_domain_id_all, n_outer_node);
 
-  monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, com->comm, outer_node_id_all_global, outer_domain_id_all, displs);
+  monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, n_vertex, vertex_id, com->comm, outer_node_id_all_global, outer_domain_id_all, com->comm_size, displs);
 
   monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, outer_node_id_all_global, outer_domain_id_all, displs);
 
-  monolis_comm_get_send_parallel(n_vertex, vertex_id, com);
+  //monolis_comm_get_send_parallel(n_vertex, vertex_id, com);
 }
