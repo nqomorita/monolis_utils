@@ -130,6 +130,7 @@ monolis_io_com_c.c \
 monolis_io_c.c
 
 SRC_COM_C = \
+comm_par_util_wrap.f90 \
 monolis_comm_table_c.c
 
 SRC_MPI_C = \
