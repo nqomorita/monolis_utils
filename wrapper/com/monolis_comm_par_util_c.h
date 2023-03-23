@@ -26,11 +26,10 @@ void  monolis_comm_get_recv_parallel_index(
   int  comm,
   int  comm_size,
   int* displs,
-  int  n_vertex,
+  int  n_outer_node,
   int* outer_domain_id_all,
   int  recv_n_neib,
   int* recv_neib_pe,
-  int  nz,
   int* recv_index);
 
 void monolis_comm_get_recv_parallel_item(
@@ -38,12 +37,14 @@ void monolis_comm_get_recv_parallel_item(
   int* vertex_id,
   int  comm,
   int  comm_size,
+  int  n_outer_node,
   int* outer_node_id_all,
   int* outer_domain_id_all,
   int* displs,
   int  recv_n_neib,
   int* recv_neib_pe,
   int* recv_index,
+  int  nz,
   int* recv_item);
 
 void monolis_comm_get_send_parallel_n_list(
@@ -76,7 +77,6 @@ void monolis_comm_get_send_parallel_index(
 
 void monolis_comm_get_send_parallel_item(
   int  comm,
-  int  comm_size,
   int  n_vertex,
   int* vertex_id,
   int  recv_n_neib,
@@ -101,6 +101,7 @@ void monolis_comm_get_all_external_node_parallel(
   int  n_vertex,
   int* vertex_id,
   int  comm,
+  int  n_outer_node,
   int* outer_node_id_all_global,
   int  comm_size,
   int* displs);
@@ -110,6 +111,7 @@ void monolis_comm_get_all_external_node_domain_id_parallel(
   int  n_vertex,
   int* vertex_id,
   int  comm,
+  int  n_outer_node,
   int* outer_node_id_all_global,
   int* outer_domain_id_all,
   int  comm_size,

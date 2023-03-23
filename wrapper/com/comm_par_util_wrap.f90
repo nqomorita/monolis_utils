@@ -27,7 +27,7 @@ contains
   !> @ingroup dev_com
   !> 全ての外部節点を取得
   subroutine monolis_comm_get_all_external_node_parallel_c(n_internal_vertex, n_vertex, vertex_id, &
-    & comm, outer_node_id_all, comm_size, displs)&
+    & comm, n_outer_node, outer_node_id_all, comm_size, displs)&
     & bind(c, name = "monolis_comm_get_all_external_node_parallel")
     implicit none
     !> [in] 内部節点数
@@ -38,8 +38,10 @@ contains
     integer(c_int) :: vertex_id(n_vertex)
     !> [in] MPI コミュニケータ
     integer(c_int), value :: comm
+    !> [in] 外部節点数
+    integer(c_int), value :: n_outer_node
     !> [out] 全ての外部節点番号
-    integer(c_int) :: outer_node_id_all(n_vertex)
+    integer(c_int) :: outer_node_id_all(n_outer_node)
     !> [in] コミュニケータサイズ
     integer(c_int), value :: comm_size
     !> 全ての外部節点配列の各領域に属する節点数
@@ -52,7 +54,7 @@ contains
   !> @ingroup dev_com
   !> 全ての外部節点が所属する領域番号を取得
   subroutine monolis_comm_get_all_external_node_domain_id_parallel_c(n_internal_vertex, n_vertex, vertex_id, comm, &
-    & outer_node_id_all, outer_domain_id_all, comm_size, displs)&
+    & n_outer_node, outer_node_id_all, outer_domain_id_all, comm_size, displs)&
     & bind(c, name = "monolis_comm_get_all_external_node_domain_id_parallel")
     implicit none
     !> [in] 内部節点数
@@ -63,10 +65,12 @@ contains
     integer(c_int) :: vertex_id(n_vertex)
     !> [in] MPI コミュニケータ
     integer(c_int), value :: comm
+    !> [in] 外部節点数
+    integer(c_int), value :: n_outer_node
     !> [in] 全ての外部節点番号
-    integer(c_int) :: outer_node_id_all(n_vertex)
+    integer(c_int) :: outer_node_id_all(n_outer_node)
     !> [out] 全ての外部節点が属する領域番号
-    integer(c_int) :: outer_domain_id_all(n_vertex)
+    integer(c_int) :: outer_domain_id_all(n_outer_node)
     !> [in] コミュニケータサイズ
     integer(c_int), value :: comm_size
     !> 全ての外部節点配列の各領域に属する節点数
@@ -78,15 +82,16 @@ contains
 
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の取得（並列実行版）
-  subroutine monolis_comm_get_recv_parallel_n_neib_c(comm, n_vertex, outer_domain_id_all, comm_size, displs, n_neib_recv, is_neib)&
+  subroutine monolis_comm_get_recv_parallel_n_neib_c(comm, n_outer_node, outer_domain_id_all, &
+    & comm_size, displs, n_neib_recv, is_neib)&
     & bind(c, name = "monolis_comm_get_recv_parallel_n_neib")
     implicit none
     !> [in] MPI コミュニケータ
     integer(c_int), value :: comm
     !> [in] 全節点数
-    integer(c_int), value :: n_vertex
+    integer(c_int), value :: n_outer_node
     !> [in] 全ての外部節点が属する領域番号
-    integer(c_int) :: outer_domain_id_all(n_vertex)
+    integer(c_int) :: outer_domain_id_all(n_outer_node)
     !> [in] コミュニケータサイズ
     integer(c_int), value :: comm_size
     !> [in] 全ての外部節点配列の各領域に属する節点数
@@ -119,7 +124,7 @@ contains
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の index 配列取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_index_c(comm, comm_size, displs, &
-    & n_vertex, outer_domain_id_all, n_neib_recv, neib_id, index)&
+    & n_outer_node, outer_domain_id_all, n_neib_recv, neib_id, index)&
     & bind(c, name = "monolis_comm_get_recv_parallel_index")
     implicit none
     !> [in] MPI コミュニケータ
@@ -129,9 +134,9 @@ contains
     !> [in] 全ての外部節点配列の各領域に属する節点数
     integer(c_int) :: displs(comm_size + 1)
     !> [in] 全節点数
-    integer(c_int), value :: n_vertex
+    integer(c_int), value :: n_outer_node
     !> [in] 全ての外部節点が属する領域番号
-    integer(c_int) :: outer_domain_id_all(n_vertex)
+    integer(c_int) :: outer_domain_id_all(n_outer_node)
     !> [in] 隣接する領域数
     integer(c_int), value :: n_neib_recv
     !> [in] 隣接領域番号
@@ -145,7 +150,8 @@ contains
   !> @ingroup dev_com
   !> データ通信する recv 隣接領域の item 配列取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_item_c(n_vertex, vertex_id, comm, comm_size, &
-    & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, nz, item)&
+    & n_outer_node, outer_node_id_all, outer_domain_id_all, displs, &
+    & recv_n_neib, neib_id, index, nz, item)&
     & bind(c, name = "monolis_comm_get_recv_parallel_item")
     implicit none
     !> [in] 全節点数
@@ -156,10 +162,12 @@ contains
     integer(c_int), value :: comm
     !> [in] コミュニケータサイズ
     integer(c_int), value :: comm_size
+    !> [in] コミュニケータサイズ
+    integer(c_int), value :: n_outer_node
     !> [in] 全ての外部節点番号
-    integer(c_int) :: outer_node_id_all(n_vertex)
+    integer(c_int) :: outer_node_id_all(n_outer_node)
     !> [in] 全ての外部節点が属する領域番号
-    integer(c_int) :: outer_domain_id_all(n_vertex)
+    integer(c_int) :: outer_domain_id_all(n_outer_node)
     !> [in] 全ての外部節点配列の各領域に属する節点数
     integer(c_int) :: displs(comm_size + 1)
     !> [in] 隣接する領域数
