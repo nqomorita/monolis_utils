@@ -191,7 +191,7 @@ contains
         call monolis_hash_get(hash_tree, ckey, tmp, is_exist)
 
         if(is_exist)then
-          nid(i) = tmp
+          nid(i + 12) = tmp
         else
           newid = newid + 1
           nid(i + 12) = n_node + newid
