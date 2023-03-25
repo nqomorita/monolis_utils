@@ -29,7 +29,7 @@ contains
     integer(kint), allocatable :: elem_ref(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(6)
-    integer(kint) :: i, i1, i2, eid, newid, conn(4)
+    integer(kint) :: i, i1, i2, i3, eid, newid, conn(4)
     real(kdouble) :: pos(3,1)
     character :: ckey*18, ckey1*9, ckey2*9
     logical :: is_exist, is_pushed
@@ -39,6 +39,7 @@ contains
     call monolis_alloc_I_2d(elem_ref, 4, 8*n_elem)
     call monolis_alloc_R_2d(node_ref, 3, n_node)
     node_ref = node
+    n_elem_ref = 8*n_elem
 
     newid = 0
     do eid = 1, n_elem
@@ -46,13 +47,19 @@ contains
       do i = 1, 6
         i1 = conn(monolis_C3D4_edge(1, i))
         i2 = conn(monolis_C3D4_edge(2, i))
+
+        if(i1 < i2)then
+          i3 = i1
+          i1 = i2
+          i2 = i3
+        endif
+
         call monolis_hash_get_key_I(9, i1, ckey1)
         call monolis_hash_get_key_I(9, i2, ckey2)
         ckey = ckey1//ckey2
 
         is_exist = .false.
         call monolis_hash_get(hash_tree, ckey, tmp, is_exist)
-
         if(is_exist)then
           nid(i) = tmp
         else
@@ -131,7 +138,7 @@ contains
     integer(kint), allocatable :: elem_ref(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(19)
-    integer(kint) :: i, i1, i2, j, eid, newid, conn(8)
+    integer(kint) :: i, i1, i2, i3, j, eid, newid, conn(8)
     real(kdouble) :: pos(3,1)
     character :: ckey*27, ckey1*9, ckey2*9, ckey3*9
     logical :: is_exist, is_pushed
@@ -141,6 +148,7 @@ contains
     call monolis_alloc_I_2d(elem_ref, 8, 8*n_elem)
     call monolis_alloc_R_2d(node_ref, 3, n_node)
     node_ref = node
+    n_elem_ref = 8*n_elem
 
     newid = 0
     do eid = 1, n_elem
@@ -149,6 +157,13 @@ contains
       do i = 1, 12
         i1 = conn(monolis_C3D8_edge(1, i))
         i2 = conn(monolis_C3D8_edge(2, i))
+
+        if(i1 < i2)then
+          i3 = i1
+          i1 = i2
+          i2 = i3
+        endif
+
         call monolis_hash_get_key_I(9, i1, ckey1)
         call monolis_hash_get_key_I(9, i2, ckey2)
         call monolis_hash_get_key_I(9,  0, ckey3)

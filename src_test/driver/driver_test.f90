@@ -304,12 +304,16 @@ contains
     implicit none
     character(monolis_charlen) :: fname
     integer(kint) :: n_node, n_elem, n_base, i, j
-    integer(kint) :: ians(10,12)
-    real(kdouble) :: rans(3,53)
-    integer(kint), allocatable :: elem(:,:)
-    real(kdouble), allocatable :: node(:,:)
+    integer(kint), allocatable :: elem(:,:), elem_ans(:,:)
+    real(kdouble), allocatable :: node(:,:), node_ans(:,:)
 
     call monolis_std_log_string("monolis_h_refiner_tet_test")
+
+    fname = "driver/ans/node.ref.h.tet.dat"
+    call monolis_input_node(fname, n_node, node_ans)
+
+    fname = "driver/ans/elem.ref.h.tet.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem_ans)
 
     fname = "driver/output/node.ref.h.tet.dat"
     call monolis_input_node(fname, n_node, node)
@@ -317,31 +321,19 @@ contains
     fname = "driver/output/elem.ref.h.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
-!    call monolis_test_check_eq_I1("monolis_h_refiner_tet_test 1", n_node, 53)
-!    call monolis_test_check_eq_I1("monolis_h_refiner_tet_test 2", n_elem, 12)
-!    call monolis_test_check_eq_I1("monolis_h_refiner_tet_test 3", n_base, 10)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1", n_node, 14)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 2", n_elem, 16)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 3", n_base, 4)
 
-    rans(1, 1) = 0.0d+00; rans(2, 1) = 0.0d+00; rans(3, 1) = 0.0d+00;
-    rans(1, 2) = 2.0d+00; rans(2, 2) = 0.0d+00; rans(3, 2) = 0.0d+00;
-    rans(1, 3) = 2.0d+00; rans(2, 3) = 2.0d+00; rans(3, 3) = 0.0d+00;
-    rans(1, 4) = 0.0d+00; rans(2, 4) = 2.0d+00; rans(3, 4) = 0.0d+00;
-    rans(1, 5) = 0.0d+00; rans(2, 5) = 0.0d+00; rans(3, 5) = 2.0d+00;
-
-    do i = 1, 53
-!      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node", rans(1,i), node(1,i))
-!      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node", rans(2,i), node(2,i))
-!      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node", rans(3,i), node(3,i))
+    do i = 1, n_node
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(1,i), node(1,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(2,i), node(2,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(3,i), node(3,i))
     enddo
 
-    ians(1, 1) = 1; ians(2, 1) = 2; ians(3, 1) = 3; ians(4, 1) = 9; ians(5, 1) = 10;
-    ians(1, 2) = 1; ians(2, 2) = 3; ians(3, 2) = 4; ians(4, 2) = 9; ians(5, 2) = 16;
-    ians(1, 3) = 7; ians(2, 3) = 6; ians(3, 3) = 5; ians(4, 3) = 9; ians(5, 3) = 20;
-    ians(1, 4) = 8; ians(2, 4) = 7; ians(3, 4) = 5; ians(4, 4) = 9; ians(5, 4) = 26;
-    ians(1, 5) = 2; ians(2, 5) = 1; ians(3, 5) = 5; ians(4, 5) = 9; ians(5, 5) = 30;
-
-    do i = 1, 12
-    do j = 1, 10
-!      call monolis_test_check_eq_I1("monolis_p_refiner_tet_test elem", ians(j,i), elem(j,i))
+    do i = 1, n_elem
+    do j = 1, n_base
+      call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem", elem_ans(j,i), elem(j,i))
     enddo
     enddo
   end subroutine monolis_h_refiner_tet_test
@@ -350,12 +342,16 @@ contains
     implicit none
     character(monolis_charlen) :: fname
     integer(kint) :: n_node, n_elem, n_base, i, j
-    integer(kint) :: ians(10,12)
-    real(kdouble) :: rans(3,53)
-    integer(kint), allocatable :: elem(:,:)
-    real(kdouble), allocatable :: node(:,:)
+    integer(kint), allocatable :: elem(:,:), elem_ans(:,:)
+    real(kdouble), allocatable :: node(:,:), node_ans(:,:)
 
     call monolis_std_log_string("monolis_h_refiner_hex_test")
+
+    fname = "driver/ans/node.ref.h.hex.dat"
+    call monolis_input_node(fname, n_node, node_ans)
+
+    fname = "driver/ans/elem.ref.h.hex.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem_ans)
 
     fname = "driver/output/node.ref.h.hex.dat"
     call monolis_input_node(fname, n_node, node)
@@ -363,31 +359,19 @@ contains
     fname = "driver/output/elem.ref.h.hex.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
-!    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1", n_node, 53)
-!    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 2", n_elem, 12)
-!    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 3", n_base, 10)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1", n_node, 45)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 2", n_elem, 16)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 3", n_base, 8)
 
-    rans(1, 1) = 0.0d+00; rans(2, 1) = 0.0d+00; rans(3, 1) = 0.0d+00;
-    rans(1, 2) = 2.0d+00; rans(2, 2) = 0.0d+00; rans(3, 2) = 0.0d+00;
-    rans(1, 3) = 2.0d+00; rans(2, 3) = 2.0d+00; rans(3, 3) = 0.0d+00;
-    rans(1, 4) = 0.0d+00; rans(2, 4) = 2.0d+00; rans(3, 4) = 0.0d+00;
-    rans(1, 5) = 0.0d+00; rans(2, 5) = 0.0d+00; rans(3, 5) = 2.0d+00;
-
-    do i = 1, 53
-!      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", rans(1,i), node(1,i))
-!      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", rans(2,i), node(2,i))
-!      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", rans(3,i), node(3,i))
+    do i = 1, n_node
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(1,i), node(1,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(2,i), node(2,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node", node_ans(3,i), node(3,i))
     enddo
 
-    ians(1, 1) = 1; ians(2, 1) = 2; ians(3, 1) = 3; ians(4, 1) = 9; ians(5, 1) = 10;
-    ians(1, 2) = 1; ians(2, 2) = 3; ians(3, 2) = 4; ians(4, 2) = 9; ians(5, 2) = 16;
-    ians(1, 3) = 7; ians(2, 3) = 6; ians(3, 3) = 5; ians(4, 3) = 9; ians(5, 3) = 20;
-    ians(1, 4) = 8; ians(2, 4) = 7; ians(3, 4) = 5; ians(4, 4) = 9; ians(5, 4) = 26;
-    ians(1, 5) = 2; ians(2, 5) = 1; ians(3, 5) = 5; ians(4, 5) = 9; ians(5, 5) = 30;
-
-    do i = 1, 12
-    do j = 1, 10
-!      call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem", ians(j,i), elem(j,i))
+    do i = 1, n_elem
+    do j = 1, n_base
+      call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem", elem_ans(j,i), elem(j,i))
     enddo
     enddo
   end subroutine monolis_h_refiner_hex_test
