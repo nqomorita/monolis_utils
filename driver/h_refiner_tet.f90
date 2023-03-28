@@ -14,7 +14,7 @@ program monolis_h_refiner_tet
   character(monolis_charlen) :: foename
   integer(kint) :: n_node, n_elem, n_base
   integer(kint) :: n_node_ref, n_elem_ref
-  logical :: is_get
+  logical :: is_get, is_1_origin
   integer(kint), allocatable :: elem(:,:), elem_ref(:,:)
   real(kdouble), allocatable :: node(:,:), node_ref(:,:)
 
@@ -60,9 +60,15 @@ program monolis_h_refiner_tet
     call monolis_std_error_stop()
   endif
 
+  call monolis_check_fortran_1_origin_elem(elem, is_1_origin)
+
+  if(.not. is_1_origin) elem = elem + 1
+
   call monolis_h_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
 
   call monolis_output_node(fonname, n_node_ref, node_ref)
+
+  if(.not. is_1_origin) elem_ref = elem_ref - 1
 
   call monolis_output_elem(foename, n_elem_ref, 4, elem_ref)
 

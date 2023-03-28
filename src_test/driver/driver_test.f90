@@ -27,7 +27,7 @@ contains
 
     call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
 
-    fname = "driver/output/dbc.hex.dat"
+    fname = "driver/output.f/dbc.hex.dat"
     call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1", n_bc, 52)
@@ -68,6 +68,24 @@ contains
       call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4", i_bc(2,2*i  ), 2)
       call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5", r_bc(2*i  ), 2.0d0)
     enddo
+
+    call monolis_dealloc_I_2d(i_bc)
+    call monolis_dealloc_R_1d(r_bc)
+
+    fname = "driver/output.c/dbc.hex.dat"
+    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1 Clang", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2 Clang", n_dof, 2)
+
+    do i = 1, 26
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5 Clang", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5 Clang", r_bc(2*i  ), 2.0d0)
+    enddo
   end subroutine monolis_dbc_all_surf_hex_test
 
   subroutine monolis_dbc_all_surf_tet_test()
@@ -80,7 +98,7 @@ contains
 
     call monolis_std_log_string("monolis_dbc_all_surf_tet_test")
 
-    fname = "driver/output/dbc.tet.dat"
+    fname = "driver/output.f/dbc.tet.dat"
     call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1", n_bc, 16)
@@ -103,6 +121,24 @@ contains
       call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4", i_bc(2,2*i  ), 2)
       call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5", r_bc(2*i  ), 2.0d0)
     enddo
+
+    call monolis_dealloc_I_2d(i_bc)
+    call monolis_dealloc_R_1d(r_bc)
+
+    fname = "driver/output.c/dbc.tet.dat"
+    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1 Clang", n_bc, 16)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 2 Clang", n_dof, 2)
+
+    do i = 1, 8
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5 Clang", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5 Clang", r_bc(2*i  ), 2.0d0)
+    enddo
   end subroutine monolis_dbc_all_surf_tet_test
 
   subroutine monolis_extract_all_surf_hex_test()
@@ -113,7 +149,7 @@ contains
 
     call monolis_std_log_string("monolis_extract_all_surf_hex_test")
 
-    fname = "driver/output/surf.hex.dat"
+    fname = "driver/output.f/surf.hex.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
     call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test 1", n_elem, 24)
@@ -150,6 +186,21 @@ contains
       call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test", ians(3,i), elem(3,i))
       call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test", ians(4,i), elem(4,i))
     enddo
+
+    call monolis_dealloc_I_2d(elem)
+
+    fname = "driver/output.c/surf.hex.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem)
+
+    call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test 1 Clang", n_elem, 24)
+    call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test 2 Clang", n_base, 4)
+
+    do i = 1, 24
+      call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test Clang", ians(1,i) - 1, elem(1,i))
+      call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test Clang", ians(2,i) - 1, elem(2,i))
+      call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test Clang", ians(3,i) - 1, elem(3,i))
+      call monolis_test_check_eq_I1("monolis_extract_all_surf_hex_test Clang", ians(4,i) - 1, elem(4,i))
+    enddo
   end subroutine monolis_extract_all_surf_hex_test
 
   subroutine monolis_extract_all_surf_tet_test()
@@ -161,7 +212,7 @@ contains
 
     call monolis_std_log_string("monolis_extract_all_surf_tet_test")
 
-    fname = "driver/output/surf.tet.dat"
+    fname = "driver/output.f/surf.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
     call monolis_test_check_eq_I1("monolis_extract_all_surf_tet_test 1", n_elem, 12)
@@ -185,6 +236,20 @@ contains
       call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test", ians(2,i), elem(2,i))
       call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test", ians(3,i), elem(3,i))
     enddo
+
+    call monolis_dealloc_I_2d(elem)
+
+    fname = "driver/output.c/surf.tet.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem)
+
+    call monolis_test_check_eq_I1("monolis_extract_all_surf_tet_test 1 Clang", n_elem, 12)
+    call monolis_test_check_eq_I1("monolis_extract_all_surf_tet_test 2 Clang", n_base, 3)
+
+    do i = 1, 12
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test Clang", ians(1,i) - 1 , elem(1,i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test Clang", ians(2,i) - 1, elem(2,i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test Clang", ians(3,i) - 1, elem(3,i))
+    enddo
   end subroutine monolis_extract_all_surf_tet_test
 
   subroutine monolis_p_refiner_tet_test()
@@ -198,10 +263,10 @@ contains
 
     call monolis_std_log_string("monolis_p_refiner_tet_test")
 
-    fname = "driver/output/node.ref.p.tet.dat"
+    fname = "driver/output.f/node.ref.p.tet.dat"
     call monolis_input_node(fname, n_node, node)
 
-    fname = "driver/output/elem.ref.p.tet.dat"
+    fname = "driver/output.f/elem.ref.p.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
     call monolis_test_check_eq_I1("monolis_p_refiner_tet_test 1", n_node, 53)
@@ -298,6 +363,32 @@ contains
       call monolis_test_check_eq_I1("monolis_p_refiner_tet_test elem", ians(j,i), elem(j,i))
     enddo
     enddo
+
+
+    call monolis_dealloc_I_2d(elem)
+    call monolis_dealloc_R_2d(node)
+
+    fname = "driver/output.c/node.ref.p.tet.dat"
+    call monolis_input_node(fname, n_node, node)
+
+    fname = "driver/output.c/elem.ref.p.tet.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem)
+
+    call monolis_test_check_eq_I1("monolis_p_refiner_tet_test 1 Clang", n_node, 53)
+    call monolis_test_check_eq_I1("monolis_p_refiner_tet_test 2 Clang", n_elem, 12)
+    call monolis_test_check_eq_I1("monolis_p_refiner_tet_test 3 Clang", n_base, 10)
+
+    do i = 1, 53
+      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node Clang", rans(1,i), node(1,i))
+      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node Clang", rans(2,i), node(2,i))
+      call monolis_test_check_eq_R1("monolis_p_refiner_tet_test node Clang", rans(3,i), node(3,i))
+    enddo
+
+    do i = 1, 12
+    do j = 1, 10
+      call monolis_test_check_eq_I1("monolis_p_refiner_tet_test elem Clang", ians(j,i) - 1, elem(j,i))
+    enddo
+    enddo
   end subroutine monolis_p_refiner_tet_test
 
   subroutine monolis_h_refiner_tet_test()
@@ -315,10 +406,10 @@ contains
     fname = "driver/ans/elem.ref.h.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem_ans)
 
-    fname = "driver/output/node.ref.h.tet.dat"
+    fname = "driver/output.f/node.ref.h.tet.dat"
     call monolis_input_node(fname, n_node, node)
 
-    fname = "driver/output/elem.ref.h.tet.dat"
+    fname = "driver/output.f/elem.ref.h.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
     call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1", n_node, 14)
@@ -334,6 +425,32 @@ contains
     do i = 1, n_elem
     do j = 1, n_base
       call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem", elem_ans(j,i), elem(j,i))
+    enddo
+    enddo
+
+
+    call monolis_dealloc_I_2d(elem)
+    call monolis_dealloc_R_2d(node)
+
+    fname = "driver/output.c/node.ref.h.tet.dat"
+    call monolis_input_node(fname, n_node, node)
+
+    fname = "driver/output.c/elem.ref.h.tet.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem)
+
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1 Clang", n_node, 14)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 2 Clang", n_elem, 16)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 3 Clang", n_base, 4)
+
+    do i = 1, n_node
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(1,i), node(1,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(2,i), node(2,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(3,i), node(3,i))
+    enddo
+
+    do i = 1, n_elem
+    do j = 1, n_base
+      call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem Clang", elem_ans(j,i) - 1, elem(j,i))
     enddo
     enddo
   end subroutine monolis_h_refiner_tet_test
@@ -353,10 +470,10 @@ contains
     fname = "driver/ans/elem.ref.h.hex.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem_ans)
 
-    fname = "driver/output/node.ref.h.hex.dat"
+    fname = "driver/output.f/node.ref.h.hex.dat"
     call monolis_input_node(fname, n_node, node)
 
-    fname = "driver/output/elem.ref.h.hex.dat"
+    fname = "driver/output.f/elem.ref.h.hex.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
 
     call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1", n_node, 45)
@@ -372,6 +489,33 @@ contains
     do i = 1, n_elem
     do j = 1, n_base
       call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem", elem_ans(j,i), elem(j,i))
+    enddo
+    enddo
+
+
+
+    call monolis_dealloc_I_2d(elem)
+    call monolis_dealloc_R_2d(node)
+
+    fname = "driver/output.c/node.ref.h.hex.dat"
+    call monolis_input_node(fname, n_node, node)
+
+    fname = "driver/output.c/elem.ref.h.hex.dat"
+    call monolis_input_elem(fname, n_elem, n_base, elem)
+
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 1 Clang", n_node, 45)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 2 Clang", n_elem, 16)
+    call monolis_test_check_eq_I1("monolis_h_refiner_hex_test 3 Clang", n_base, 8)
+
+    do i = 1, n_node
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(1,i), node(1,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(2,i), node(2,i))
+      call monolis_test_check_eq_R1("monolis_h_refiner_hex_test node Clang", node_ans(3,i), node(3,i))
+    enddo
+
+    do i = 1, n_elem
+    do j = 1, n_base
+      call monolis_test_check_eq_I1("monolis_h_refiner_hex_test elem Clang", elem_ans(j,i) - 1, elem(j,i))
     enddo
     enddo
   end subroutine monolis_h_refiner_hex_test
