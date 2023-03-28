@@ -169,7 +169,7 @@ contains
     vertex_id(3) = 30
     vertex_id(4) = 40
 
-    call monolis_comm_get_send_serial(n_domain, domain_id, n_vertex, vertex_id, com, recv_list(1))
+    call monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list(1))
 
     call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 1", com%send_n_neib, 1)
     call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 2", com%send_neib_pe(1), 2)
@@ -192,7 +192,7 @@ contains
     call monolis_comm_get_recv_serial(n_domain, domain_id, n_internal_vertex, &
       & outer_node_id_all_global, outer_domain_id_all, displs, com, recv_list)
 
-    call monolis_comm_get_send_serial(n_domain, domain_id, n_vertex, vertex_id, com, recv_list(2))
+    call monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list(2))
 
     call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 1", com%send_n_neib, 1)
     call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 2", com%send_neib_pe(1), 1)

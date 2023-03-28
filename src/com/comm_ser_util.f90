@@ -62,10 +62,12 @@ contains
     integer(kint), allocatable :: iadd(:)
 
     !> recv_n_neib
+    domain_id = domain_id + 1
+
     call monolis_alloc_I_1d(domain, n_domain)
 
     do j = displs(domain_id) + 1, displs(domain_id + 1)
-      in = outer_domain_id_all(j)
+      in = outer_domain_id_all(j) + 1
       domain(in) = domain(in) + 1
     enddo
 
@@ -89,7 +91,7 @@ contains
     do j = 1, n_domain
       if(domain(j) /= 0)then
         in = in + 1
-        com%recv_neib_pe(in) = j
+        com%recv_neib_pe(in) = j - 1 !> conver to 0 origin
         com%recv_index(in + 1) = com%recv_index(in) + domain(j)
       endif
     enddo
@@ -108,12 +110,12 @@ contains
         endif
       enddo
 
-      recv_list(recv_rank)%n_node = recv_list(recv_rank)%n_node + n_data
+      recv_list(recv_rank + 1)%n_node = recv_list(recv_rank + 1)%n_node + n_data
 
       !> add domain id
       call monolis_alloc_I_1d(iadd, n_data)
-      iadd = domain_id
-      call monolis_append_I_1d(recv_list(recv_rank)%domid, n_data, iadd)
+      iadd = domain_id - 1
+      call monolis_append_I_1d(recv_list(recv_rank + 1)%domid, n_data, iadd)
       call monolis_dealloc_I_1d(iadd)
 
       !> add global id
@@ -123,7 +125,7 @@ contains
         iadd(in) = outer_node_id_all_global(j)
         in = in + 1
       enddo
-      call monolis_append_I_1d(recv_list(recv_rank)%global_id, n_data, iadd)
+      call monolis_append_I_1d(recv_list(recv_rank + 1)%global_id, n_data, iadd)
       call monolis_dealloc_I_1d(iadd)
     enddo
 
@@ -141,16 +143,16 @@ contains
         endif
       enddo
     enddo
+
+    domain_id = domain_id - 1
   end subroutine monolis_comm_get_recv_serial
 
   !> @ingroup dev_com
   !> データ通信する send 隣接領域の取得（逐次実行版）
-  subroutine monolis_comm_get_send_serial(n_domain, domain_id, n_vertex, vertex_id, com, recv_list)
+  subroutine monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list)
     implicit none
     !> [in] 分割領域数
     integer(kint) :: n_domain
-    !> [in] 領域番号
-    integer(kint) :: domain_id
     !> [in] 節点数
     integer(kint) :: n_vertex
     !> [in] 節点 id
@@ -165,7 +167,7 @@ contains
     call monolis_alloc_I_1d(domain, n_domain)
 
     do i = 1, recv_list%n_node
-      in = recv_list%domid(i)
+      in = recv_list%domid(i) + 1
       domain(in) = domain(in) + 1
     enddo
 
@@ -190,7 +192,7 @@ contains
     do i = 1, n_domain
       if(domain(i) /= 0)then
         in = in + 1
-        com%send_neib_pe(in) = i
+        com%send_neib_pe(in) = i - 1 !> conver to 0 origin
         com%send_index(in + 1) = com%recv_index(in) + domain(i)
       endif
     enddo

@@ -130,6 +130,7 @@ contains
         call monolis_palloc_I_1d(index, 1)
         call monolis_palloc_I_1d(item, 1)
         close(20)
+        return
       else
         call monolis_palloc_I_1d(neib_pe, n_neib)
         call monolis_palloc_I_1d(index, n_neib + 1)
