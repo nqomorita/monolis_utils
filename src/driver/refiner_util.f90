@@ -198,7 +198,8 @@ contains
           call monolis_hash_push(hash_tree, ckey, nid(i), is_pushed, is_exist)
           pos = 0.0d0
           do j = 1, 4
-            pos(:,1) = pos(:,1) + 0.25d0*node(:,monolis_C3D8_surf(j,i))
+            i1 = conn(monolis_C3D8_surf(j,i))
+            pos(:,1) = pos(:,1) + 0.25d0*node(:,i1)
           enddo
           call monolis_append_R_2d(node_ref, 1, pos)
         endif
@@ -207,6 +208,7 @@ contains
       !> node on volume center
       newid = newid + 1
       nid(19) = n_node + newid
+      pos = 0.0d0
       do j = 1, 8
         pos(:,1) = pos(:,1) + 0.125d0*node(:,conn(j))
       enddo
@@ -218,7 +220,7 @@ contains
       elem_ref(3,8*eid - 7) = nid(13)
       elem_ref(4,8*eid - 7) = nid(4)
       elem_ref(5,8*eid - 7) = nid(9)
-      elem_ref(6,8*eid - 7) = nid(14)
+      elem_ref(6,8*eid - 7) = nid(15)
       elem_ref(7,8*eid - 7) = nid(19)
       elem_ref(8,8*eid - 7) = nid(18)
       !> elem 2
@@ -246,11 +248,11 @@ contains
       elem_ref(4,8*eid - 4) = nid(3)
       elem_ref(5,8*eid - 4) = nid(19)
       elem_ref(6,8*eid - 4) = nid(16)
-      elem_ref(7,8*eid - 4) = nid(5)
+      elem_ref(7,8*eid - 4) = nid(11)
       elem_ref(8,8*eid - 4) = nid(17)
       !> elem 5
       elem_ref(1,8*eid - 3) = nid(9)
-      elem_ref(2,8*eid - 3) = nid(14)
+      elem_ref(2,8*eid - 3) = nid(15)
       elem_ref(3,8*eid - 3) = nid(19)
       elem_ref(4,8*eid - 3) = nid(18)
       elem_ref(5,8*eid - 3) = conn(5)
