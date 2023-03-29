@@ -368,7 +368,7 @@ contains
 
       do i = 1, n_node
         do j = 1, n_dof
-          write(20,"(i0,x,$)") val(j,i)
+          write(20,"(x,i0,x,$)") val(j,i)
         enddo
         write(20,*)""
       enddo
