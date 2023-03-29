@@ -9,14 +9,16 @@
 !# monolis_output_internal_vertex_number(fname, n_internal)
 !# monolis_input_global_id(fname, n_vertex, vertex_id)
 !# monolis_output_global_id(fname, n_vertex, vertex_id)
-!# monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
-!# monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
-!# monolis_input_distval_i(fname, label, n_node, n_dof, val)
-!# monolis_output_distval_i(fname, label, n_node, n_dof, val)
-!# monolis_input_distval_r(fname, label, n_node, n_dof, val)
-!# monolis_output_distval_r(fname, label, n_node, n_dof, val)
-!# monolis_input_distval_c(fname, label, n_node, n_dof, val)
-!# monolis_output_distval_c(fname, label, n_node, n_dof, val)
+!# monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_output_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_input_bc_C(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_output_bc_C(fname, n_bc, n_dof, i_bc, r_bc)
+!# monolis_input_distval_I(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_I(fname, label, n_node, n_dof, val)
+!# monolis_input_distval_R(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_R(fname, label, n_node, n_dof, val)
+!# monolis_input_distval_C(fname, label, n_node, n_dof, val)
+!# monolis_output_distval_C(fname, label, n_node, n_dof, val)
 !# monolis_input_file_error_check(ierr)
 module mod_monolis_io
   use mod_monolis_utils_define_prm
@@ -268,7 +270,7 @@ contains
 
   !> @ingroup io
   !> bc フォーマットの入力
-  subroutine monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+  subroutine monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -292,11 +294,11 @@ contains
         read(20,*) i_bc(1,i), i_bc(2,i), r_bc(i)
       enddo
     close(20)
-  end subroutine monolis_input_bc
+  end subroutine monolis_input_bc_R
 
   !> @ingroup io
   !> bc フォーマットの出力
-  subroutine monolis_output_bc(fname, n_bc, n_dof, i_bc, r_bc)
+  subroutine monolis_output_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -316,11 +318,63 @@ contains
         write(20,"(i0,x,i0,x,1pe22.14)") i_bc(1,i), i_bc(2,i), r_bc(i)
       enddo
     close(20)
-  end subroutine monolis_output_bc
+  end subroutine monolis_output_bc_R
+
+  !> @ingroup io
+  !> bc フォーマットの入力
+  subroutine monolis_input_bc_C(fname, n_bc, n_dof, i_bc, r_bc)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [out] 境界条件の数
+    integer(kint) :: n_bc
+    !> [out] 自由度数
+    integer(kint) :: n_dof
+    !> [out] 境界条件の付与番号と付与自由度
+    integer(kint), allocatable :: i_bc(:,:)
+    !> [out] 境界条件の値
+    complex(kdouble), allocatable :: r_bc(:)
+    integer(kint) :: i
+
+    open(20, file = trim(fname), status = "old")
+      read(20,*) n_bc, n_dof
+
+      call monolis_alloc_I_2d(i_bc, 2, n_bc)
+      call monolis_alloc_C_1d(r_bc, n_bc)
+
+      do i = 1, n_bc
+        read(20,*) i_bc(1,i), i_bc(2,i), r_bc(i)
+      enddo
+    close(20)
+  end subroutine monolis_input_bc_C
+
+  !> @ingroup io
+  !> bc フォーマットの出力
+  subroutine monolis_output_bc_C(fname, n_bc, n_dof, i_bc, r_bc)
+    implicit none
+    !> [in] 出力ファイル名
+    character(*) :: fname
+    !> [in] 境界条件の数
+    integer(kint) :: n_bc
+    !> [in] 自由度数
+    integer(kint) :: n_dof
+    !> [in] 境界条件の付与番号と付与自由度
+    integer(kint) :: i_bc(:,:)
+    !> [in] 境界条件の値
+    complex(kdouble) :: r_bc(:)
+    integer(kint) :: i
+
+    open(20, file = trim(fname), status = "replace")
+      write(20,"(i0,x,i0)") n_bc, n_dof
+      do i = 1, n_bc
+        write(20,"(i0,x,i0,x,1p2e22.14)") i_bc(1,i), i_bc(2,i), r_bc(i)
+      enddo
+    close(20)
+  end subroutine monolis_output_bc_C
 
   !> @ingroup io
   !> distval フォーマットの入力（整数型）
-  subroutine monolis_input_distval_i(fname, label, n_node, n_dof, val)
+  subroutine monolis_input_distval_I(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -344,11 +398,11 @@ contains
         read(20,*) (val(j,i), j = 1, n_dof)
       enddo
     close(20)
-  end subroutine monolis_input_distval_i
+  end subroutine monolis_input_distval_I
 
   !> @ingroup io
   !> distval フォーマットの出力（整数型）
-  subroutine monolis_output_distval_i(fname, label, n_node, n_dof, val)
+  subroutine monolis_output_distval_I(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -373,11 +427,11 @@ contains
         write(20,*)""
       enddo
     close(20)
-  end subroutine monolis_output_distval_i
+  end subroutine monolis_output_distval_I
 
   !> @ingroup io
   !> distval フォーマットの入力（浮動小数点数型）
-  subroutine monolis_input_distval_r(fname, label, n_node, n_dof, val)
+  subroutine monolis_input_distval_R(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -401,11 +455,11 @@ contains
         read(20,*) (val(j,i), j = 1, n_dof)
       enddo
     close(20)
-  end subroutine monolis_input_distval_r
+  end subroutine monolis_input_distval_R
 
   !> @ingroup io
   !> distval フォーマットの出力（浮動小数点数型）
-  subroutine monolis_output_distval_r(fname, label, n_node, n_dof, val)
+  subroutine monolis_output_distval_R(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -430,11 +484,11 @@ contains
         write(20,*)""
       enddo
     close(20)
-  end subroutine monolis_output_distval_r
+  end subroutine monolis_output_distval_R
 
   !> @ingroup io
   !> distval フォーマットの入力（複素数型）
-  subroutine monolis_input_distval_c(fname, label, n_node, n_dof, val)
+  subroutine monolis_input_distval_C(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -463,11 +517,11 @@ contains
         enddo
       enddo
     close(20)
-  end subroutine monolis_input_distval_c
+  end subroutine monolis_input_distval_C
 
   !> @ingroup io
   !> distval フォーマットの出力（複素数型）
-  subroutine monolis_output_distval_c(fname, label, n_node, n_dof, val)
+  subroutine monolis_output_distval_C(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
     character(*) :: fname
@@ -492,7 +546,7 @@ contains
         write(20,*)""
       enddo
     close(20)
-  end subroutine monolis_output_distval_c
+  end subroutine monolis_output_distval_C
 
   !> @ingroup dev_io
   !> Fortran open 文のエラー処理

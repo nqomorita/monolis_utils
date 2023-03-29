@@ -28,7 +28,7 @@ contains
     call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
 
     fname = "driver/output.f/dbc.hex.dat"
-    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1", n_bc, 52)
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2", n_dof, 2)
@@ -73,7 +73,7 @@ contains
     call monolis_dealloc_R_1d(r_bc)
 
     fname = "driver/output.c/dbc.hex.dat"
-    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1 Clang", n_bc, 52)
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2 Clang", n_dof, 2)
@@ -99,7 +99,7 @@ contains
     call monolis_std_log_string("monolis_dbc_all_surf_tet_test")
 
     fname = "driver/output.f/dbc.tet.dat"
-    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1", n_bc, 16)
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 2", n_dof, 2)
@@ -126,7 +126,7 @@ contains
     call monolis_dealloc_R_1d(r_bc)
 
     fname = "driver/output.c/dbc.tet.dat"
-    call monolis_input_bc(fname, n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1 Clang", n_bc, 16)
     call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 2 Clang", n_dof, 2)

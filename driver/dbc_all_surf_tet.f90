@@ -78,7 +78,7 @@ program monolis_dbc_all_surf_tet
     enddo
   enddo
 
-  call monolis_output_bc(foname, n_dof*n_surf_node, n_dof, i_bc, r_bc)
+  call monolis_output_bc_R(foname, n_dof*n_surf_node, n_dof, i_bc, r_bc)
 
   call monolis_mpi_finalize()
 end program monolis_dbc_all_surf_tet

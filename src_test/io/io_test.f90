@@ -288,7 +288,7 @@ contains
 
     call monolis_std_log_string("monolis_input_bc_test")
 
-    call monolis_input_bc("io/input/bc.txt", n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R("io/input/bc.txt", n_bc, n_dof, i_bc, r_bc)
 
     call monolis_test_check_eq_I1("monolis_input_bc_test 1", n_bc, 3)
 
@@ -330,9 +330,9 @@ contains
     r_bc(2) = 4.0d0
     r_bc(3) = 5.0d0
 
-    call monolis_output_bc("io/input/bc.txt.out", n_bc, n_dof, i_bc, r_bc)
+    call monolis_output_bc_R("io/input/bc.txt.out", n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_input_bc("io/input/bc.txt.out", n_bc_ans, n_dof_ans, i_bc_ans, r_bc_ans)
+    call monolis_input_bc_R("io/input/bc.txt.out", n_bc_ans, n_dof_ans, i_bc_ans, r_bc_ans)
 
     call monolis_test_check_eq_I1("monolis_output_bc_test 1", n_bc, n_bc_ans)
 
