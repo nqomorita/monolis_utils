@@ -18,14 +18,16 @@ contains
     call monolis_output_internal_vertex_number_test()
     call monolis_input_global_id_test()
     call monolis_output_global_id_test()
-    call monolis_input_bc_test()
-    call monolis_output_bc_test()
-    call monolis_input_distval_i_test()
-    call monolis_output_distval_i_test()
-    call monolis_input_distval_r_test()
-    call monolis_output_distval_r_test()
-    call monolis_input_distval_c_test()
-    call monolis_output_distval_c_test()
+    call monolis_input_bc_R_test()
+    call monolis_output_bc_R_test()
+    call monolis_input_bc_C_test()
+    call monolis_output_bc_C_test()
+    call monolis_input_distval_I_test()
+    call monolis_output_distval_I_test()
+    call monolis_input_distval_R_test()
+    call monolis_output_distval_R_test()
+    call monolis_input_distval_C_test()
+    call monolis_output_distval_C_test()
   end subroutine monolis_io_test
 
   subroutine monolis_input_graph_test()
@@ -277,7 +279,7 @@ contains
     call monolis_test_check_eq_I("monolis_output_global_id_test 1", vertex_id, vertex_id_ans)
   end subroutine monolis_output_global_id_test
 
-  subroutine monolis_input_bc_test()
+  subroutine monolis_input_bc_R_test()
     implicit none
     integer(kint) :: n_bc
     integer(kint) :: n_dof
@@ -286,31 +288,31 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     real(kdouble), allocatable :: r_bc(:)
 
-    call monolis_std_log_string("monolis_input_bc_test")
+    call monolis_std_log_string("monolis_input_bc_R_test")
 
-    call monolis_input_bc_R("io/input/bc.txt", n_bc, n_dof, i_bc, r_bc)
+    call monolis_input_bc_R("io/input/bc.r.txt", n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_input_bc_test 1", n_bc, 3)
+    call monolis_test_check_eq_I1("monolis_input_bc_R_test 1", n_bc, 3)
 
-    call monolis_test_check_eq_I1("monolis_input_bc_test 2", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_input_bc_R_test 2", n_dof, 2)
 
     i_ans(1) = 1
     i_ans(2) = 2
     i_ans(3) = 3
-    call monolis_test_check_eq_I ("monolis_input_bc_test 3", i_bc(1,:), i_ans)
+    call monolis_test_check_eq_I ("monolis_input_bc_R_test 3", i_bc(1,:), i_ans)
 
     i_ans(1) = 2
     i_ans(2) = 3
     i_ans(3) = 4
-    call monolis_test_check_eq_I ("monolis_input_bc_test 4", i_bc(2,:), i_ans)
+    call monolis_test_check_eq_I ("monolis_input_bc_R_test 4", i_bc(2,:), i_ans)
 
     r_ans(1) = 3.0d0
     r_ans(2) = 4.0d0
     r_ans(3) = 5.0d0
-    call monolis_test_check_eq_R ("monolis_input_bc_test 5", r_bc, r_ans)
-  end subroutine monolis_input_bc_test
+    call monolis_test_check_eq_R ("monolis_input_bc_R_test 5", r_bc, r_ans)
+  end subroutine monolis_input_bc_R_test
 
-  subroutine monolis_output_bc_test()
+  subroutine monolis_output_bc_R_test()
     implicit none
     integer(kint) :: n_bc, n_bc_ans
     integer(kint) :: n_dof, n_dof_ans
@@ -319,7 +321,7 @@ contains
     integer(kint), allocatable :: i_bc_ans(:,:)
     real(kdouble), allocatable :: r_bc_ans(:)
 
-    call monolis_std_log_string("monolis_output_bc_test")
+    call monolis_std_log_string("monolis_output_bc_R_test")
 
     n_bc = 3
     n_dof = 2
@@ -330,20 +332,88 @@ contains
     r_bc(2) = 4.0d0
     r_bc(3) = 5.0d0
 
-    call monolis_output_bc_R("io/input/bc.txt.out", n_bc, n_dof, i_bc, r_bc)
+    call monolis_output_bc_R("io/input/bc.r.txt.out", n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_input_bc_R("io/input/bc.txt.out", n_bc_ans, n_dof_ans, i_bc_ans, r_bc_ans)
+    call monolis_input_bc_R("io/input/bc.r.txt.out", n_bc_ans, n_dof_ans, i_bc_ans, r_bc_ans)
 
-    call monolis_test_check_eq_I1("monolis_output_bc_test 1", n_bc, n_bc_ans)
+    call monolis_test_check_eq_I1("monolis_output_bc_R_test 1", n_bc, n_bc_ans)
 
-    call monolis_test_check_eq_I1("monolis_output_bc_test 2", n_dof, n_dof_ans)
+    call monolis_test_check_eq_I1("monolis_output_bc_R_test 2", n_dof, n_dof_ans)
 
-    call monolis_test_check_eq_I ("monolis_output_bc_test 3", i_bc(1,:), i_bc_ans(1,:))
+    call monolis_test_check_eq_I ("monolis_output_bc_R_test 3", i_bc(1,:), i_bc_ans(1,:))
 
-    call monolis_test_check_eq_I ("monolis_output_bc_test 4", i_bc(2,:), i_bc_ans(2,:))
+    call monolis_test_check_eq_I ("monolis_output_bc_R_test 4", i_bc(2,:), i_bc_ans(2,:))
 
-    call monolis_test_check_eq_R ("monolis_output_bc_test 5", r_bc, r_bc_ans)
-  end subroutine monolis_output_bc_test
+    call monolis_test_check_eq_R ("monolis_output_bc_R_test 5", r_bc, r_bc_ans)
+  end subroutine monolis_output_bc_R_test
+
+  subroutine monolis_input_bc_C_test()
+    implicit none
+    integer(kint) :: n_bc
+    integer(kint) :: n_dof
+    integer(kint) :: i_ans(3)
+    complex(kdouble) :: c_ans(3)
+    integer(kint), allocatable :: i_bc(:,:)
+    complex(kdouble), allocatable :: c_bc(:)
+
+    call monolis_std_log_string("monolis_input_bc_C_test")
+
+    call monolis_input_bc_C("io/input/bc.c.txt", n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_test_check_eq_I1("monolis_input_bc_C_test 1", n_bc, 3)
+
+    call monolis_test_check_eq_I1("monolis_input_bc_C_test 2", n_dof, 2)
+
+    i_ans(1) = 1
+    i_ans(2) = 2
+    i_ans(3) = 3
+    call monolis_test_check_eq_I ("monolis_input_bc_C_test 3", i_bc(1,:), i_ans)
+
+    i_ans(1) = 2
+    i_ans(2) = 3
+    i_ans(3) = 4
+    call monolis_test_check_eq_I ("monolis_input_bc_C_test 4", i_bc(2,:), i_ans)
+
+    c_ans(1) = (3.0d0, 13.0d0)
+    c_ans(2) = (4.0d0, 14.0d0)
+    c_ans(3) = (5.0d0, 15.0d0)
+    call monolis_test_check_eq_C ("monolis_input_bc_C_test 5", c_bc, c_ans)
+  end subroutine monolis_input_bc_C_test
+
+  subroutine monolis_output_bc_C_test()
+    implicit none
+    integer(kint) :: n_bc, n_bc_ans
+    integer(kint) :: n_dof, n_dof_ans
+    integer(kint) :: i_bc(2,3)
+    complex(kdouble) :: c_bc(3)
+    integer(kint), allocatable :: i_bc_ans(:,:)
+    complex(kdouble), allocatable :: c_bc_ans(:)
+
+    call monolis_std_log_string("monolis_output_bc_C_test")
+
+    n_bc = 3
+    n_dof = 2
+    i_bc(1,1) = 1; i_bc(2,1) = 2
+    i_bc(1,2) = 2; i_bc(2,2) = 3
+    i_bc(1,3) = 3; i_bc(2,3) = 4
+    c_bc(1) = (3.0d0, 13.0d0)
+    c_bc(2) = (4.0d0, 14.0d0)
+    c_bc(3) = (5.0d0, 15.0d0)
+
+    call monolis_output_bc_C("io/input/bc.c.txt.out", n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_input_bc_C("io/input/bc.c.txt.out", n_bc_ans, n_dof_ans, i_bc_ans, c_bc_ans)
+
+    call monolis_test_check_eq_I1("monolis_output_bc_C_test 1", n_bc, n_bc_ans)
+
+    call monolis_test_check_eq_I1("monolis_output_bc_C_test 2", n_dof, n_dof_ans)
+
+    call monolis_test_check_eq_I ("monolis_output_bc_C_test 3", i_bc(1,:), i_bc_ans(1,:))
+
+    call monolis_test_check_eq_I ("monolis_output_bc_C_test 4", i_bc(2,:), i_bc_ans(2,:))
+
+    call monolis_test_check_eq_C ("monolis_output_bc_C_test 5", c_bc, c_bc_ans)
+  end subroutine monolis_output_bc_C_test
 
   subroutine monolis_input_distval_i_test()
     implicit none
