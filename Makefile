@@ -171,21 +171,25 @@ LIB_OBJS    = $(subst $(WRAP_DIR), $(OBJ_DIR), $(LIB_OBJSt:.c=.o))
 
 ##> **********
 ##> driver target (2)
-DRIVE1 = $(BIN_DIR)/monolis_dbc_all_surf_hex
-DRIVE2 = $(BIN_DIR)/monolis_dbc_all_surf_tet
-DRIVE3 = $(BIN_DIR)/monolis_extract_all_surf_hex
-DRIVE4 = $(BIN_DIR)/monolis_extract_all_surf_tet
-DRIVE5 = $(BIN_DIR)/monolis_h_refiner_hex
-DRIVE6 = $(BIN_DIR)/monolis_h_refiner_tet
-DRIVE7 = $(BIN_DIR)/monolis_p_refiner_tet
+DRIVE1 = $(BIN_DIR)/monolis_dbc_all_surf_hex_R
+DRIVE2 = $(BIN_DIR)/monolis_dbc_all_surf_tet_R
+DRIVE3 = $(BIN_DIR)/monolis_dbc_all_surf_hex_C
+DRIVE4 = $(BIN_DIR)/monolis_dbc_all_surf_tet_C
+DRIVE5 = $(BIN_DIR)/monolis_extract_all_surf_hex
+DRIVE6 = $(BIN_DIR)/monolis_extract_all_surf_tet
+DRIVE7 = $(BIN_DIR)/monolis_h_refiner_hex
+DRIVE8 = $(BIN_DIR)/monolis_h_refiner_tet
+DRIVE9 = $(BIN_DIR)/monolis_p_refiner_tet
 
-DRV_OBJS1 = ./obj/dbc_all_surf_hex.o
-DRV_OBJS2 = ./obj/dbc_all_surf_tet.o
-DRV_OBJS3 = ./obj/extract_all_surf_hex.o
-DRV_OBJS4 = ./obj/extract_all_surf_tet.o
-DRV_OBJS5 = ./obj/h_refiner_hex.o
-DRV_OBJS6 = ./obj/h_refiner_tet.o
-DRV_OBJS7 = ./obj/p_refiner_tet.o
+DRV_OBJS1 = ./obj/dbc_all_surf_hex_R.o
+DRV_OBJS2 = ./obj/dbc_all_surf_tet_R.o
+DRV_OBJS3 = ./obj/dbc_all_surf_hex_C.o
+DRV_OBJS4 = ./obj/dbc_all_surf_tet_C.o
+DRV_OBJS5 = ./obj/extract_all_surf_hex.o
+DRV_OBJS6 = ./obj/extract_all_surf_tet.o
+DRV_OBJS7 = ./obj/h_refiner_hex.o
+DRV_OBJS8 = ./obj/h_refiner_tet.o
+DRV_OBJS9 = ./obj/p_refiner_tet.o
 
 ##> **********
 ##> test target for fortran (3)
@@ -245,6 +249,8 @@ all: \
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
+	$(DRIVE8) \
+	$(DRIVE9) \
 	$(TEST_TARGET) \
 	$(TEST_C_TARGET)
 
@@ -300,6 +306,12 @@ $(DRIVE6): $(DRV_OBJS6)
 $(DRIVE7): $(DRV_OBJS7)
 	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
 
+$(DRIVE8): $(DRV_OBJS8)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS8) -L./lib -lmonolis_utils
+
+$(DRIVE9): $(DRV_OBJS9)
+	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS9) -L./lib -lmonolis_utils
+
 cp_header:
 	$(CP) ./wrapper/mpi/monolis_mpi_util_c.h ./include/
 	$(CP) ./wrapper/mpi/monolis_mpi_c.h ./include/
@@ -328,6 +340,8 @@ clean:
 	$(DRV_OBJS5) \
 	$(DRV_OBJS6) \
 	$(DRV_OBJS7) \
+	$(DRV_OBJS8) \
+	$(DRV_OBJS9) \
 	$(LIB_TARGET) \
 	$(TEST_TARGET) \
 	$(TEST_C_TARGET) \
@@ -338,6 +352,8 @@ clean:
 	$(DRIVE5) \
 	$(DRIVE6) \
 	$(DRIVE7) \
+	$(DRIVE8) \
+	$(DRIVE9) \
 	./include/*.h \
 	./include/*.mod \
 	./bin/*

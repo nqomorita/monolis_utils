@@ -8,8 +8,10 @@ contains
   subroutine monolis_driver_test()
     implicit none
 
-    call monolis_dbc_all_surf_hex_test()
-    call monolis_dbc_all_surf_tet_test()
+    call monolis_dbc_all_surf_hex_R_test()
+    call monolis_dbc_all_surf_tet_R_test()
+    call monolis_dbc_all_surf_hex_C_test()
+    call monolis_dbc_all_surf_tet_C_test()
     call monolis_extract_all_surf_hex_test()
     call monolis_extract_all_surf_tet_test()
     call monolis_p_refiner_tet_test()
@@ -17,7 +19,7 @@ contains
     call monolis_h_refiner_hex_test()
   end subroutine monolis_driver_test
 
-  subroutine monolis_dbc_all_surf_hex_test()
+  subroutine monolis_dbc_all_surf_hex_R_test()
     implicit none
     character(monolis_charlen) :: fname
     integer(kint) :: n_bc, n_dof, i
@@ -27,11 +29,11 @@ contains
 
     call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
 
-    fname = "driver/output.f/dbc.hex.dat"
+    fname = "driver/output.f/dbc.hex.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1", n_bc, 52)
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 1", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 2", n_dof, 2)
 
     i_bc_ans(1) = 1
     i_bc_ans(2) = 2
@@ -61,34 +63,105 @@ contains
     i_bc_ans(26) = 27
 
     do i = 1, 26
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3", i_bc(1,2*i-1), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4", i_bc(2,2*i-1), 1)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5", r_bc(2*i-1), 1.0d0)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3", i_bc(1,2*i  ), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4", i_bc(2,2*i  ), 2)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5", r_bc(2*i  ), 2.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 3", i_bc(1,2*i-1), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 4", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test R 5", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 3", i_bc(1,2*i  ), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 4", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test R 5", r_bc(2*i  ), 2.0d0)
     enddo
 
     call monolis_dealloc_I_2d(i_bc)
     call monolis_dealloc_R_1d(r_bc)
 
-    fname = "driver/output.c/dbc.hex.dat"
+    fname = "driver/output.c/dbc.hex.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 1 Clang", n_bc, 52)
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 2 Clang", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 1 Clang", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 2 Clang", n_dof, 2)
 
     do i = 1, 26
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4 Clang", i_bc(2,2*i-1), 1)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5 Clang", r_bc(2*i-1), 1.0d0)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test 4 Clang", i_bc(2,2*i  ), 2)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test 5 Clang", r_bc(2*i  ), 2.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test R 5 Clang", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test R 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_hex_test R 5 Clang", r_bc(2*i  ), 2.0d0)
     enddo
-  end subroutine monolis_dbc_all_surf_hex_test
+  end subroutine monolis_dbc_all_surf_hex_R_test
 
-  subroutine monolis_dbc_all_surf_tet_test()
+  subroutine monolis_dbc_all_surf_hex_C_test()
+    implicit none
+    character(monolis_charlen) :: fname
+    integer(kint) :: n_bc, n_dof, i
+    integer(kint) :: i_bc_ans(26)
+    integer(kint), allocatable :: i_bc(:,:)
+    complex(kdouble), allocatable :: c_bc(:)
+
+    call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
+
+    fname = "driver/output.f/dbc.hex.C.dat"
+    call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 1", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 2", n_dof, 2)
+
+    i_bc_ans(1) = 1
+    i_bc_ans(2) = 2
+    i_bc_ans(3) = 3
+    i_bc_ans(4) = 4
+    i_bc_ans(5) = 5
+    i_bc_ans(6) = 6
+    i_bc_ans(7) = 7
+    i_bc_ans(8) = 8
+    i_bc_ans(9) = 9
+    i_bc_ans(10) = 10
+    i_bc_ans(11) = 11
+    i_bc_ans(12) = 12
+    i_bc_ans(13) = 13
+    i_bc_ans(14) = 15
+    i_bc_ans(15) = 16
+    i_bc_ans(16) = 17
+    i_bc_ans(17) = 18
+    i_bc_ans(18) = 19
+    i_bc_ans(19) = 20
+    i_bc_ans(20) = 21
+    i_bc_ans(21) = 22
+    i_bc_ans(22) = 23
+    i_bc_ans(23) = 24
+    i_bc_ans(24) = 25
+    i_bc_ans(25) = 26
+    i_bc_ans(26) = 27
+
+    do i = 1, 26
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 3", i_bc(1,2*i-1), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 4", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_hex_test C 5", c_bc(2*i-1), (1.0d0, 2.0d0))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 3", i_bc(1,2*i  ), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 4", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_hex_test C 5", c_bc(2*i  ), (3.0d0, 4.0d0))
+    enddo
+
+    call monolis_dealloc_I_2d(i_bc)
+    call monolis_dealloc_C_1d(c_bc)
+
+    fname = "driver/output.c/dbc.hex.C.dat"
+    call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 1 Clang", n_bc, 52)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 2 Clang", n_dof, 2)
+
+    do i = 1, 26
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_hex_test C 5 Clang", c_bc(2*i-1), (1.0d0, 2.0d0))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_hex_test C 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_hex_test C 5 Clang", c_bc(2*i  ), (3.0d0, 4.0d0))
+    enddo
+  end subroutine monolis_dbc_all_surf_hex_C_test
+
+  subroutine monolis_dbc_all_surf_tet_R_test()
     implicit none
     character(monolis_charlen) :: fname
     integer(kint) :: n_bc, n_dof, i
@@ -96,13 +169,13 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     real(kdouble), allocatable :: r_bc(:)
 
-    call monolis_std_log_string("monolis_dbc_all_surf_tet_test")
+    call monolis_std_log_string("monolis_dbc_all_surf_tet_R_test")
 
-    fname = "driver/output.f/dbc.tet.dat"
+    fname = "driver/output.f/dbc.tet.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1", n_bc, 16)
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 2", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 1", n_bc, 16)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 2", n_dof, 2)
 
     i_bc_ans(1) = 1
     i_bc_ans(2) = 2
@@ -114,32 +187,85 @@ contains
     i_bc_ans(8) = 8
 
     do i = 1, 8
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3", i_bc(1,2*i-1), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4", i_bc(2,2*i-1), 1)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5", r_bc(2*i-1), 1.0d0)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3", i_bc(1,2*i  ), i_bc_ans(i))
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4", i_bc(2,2*i  ), 2)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5", r_bc(2*i  ), 2.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 3", i_bc(1,2*i-1), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 4", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test R 5", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 3", i_bc(1,2*i  ), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 4", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test R 5", r_bc(2*i  ), 2.0d0)
     enddo
 
     call monolis_dealloc_I_2d(i_bc)
     call monolis_dealloc_R_1d(r_bc)
 
-    fname = "driver/output.c/dbc.tet.dat"
+    fname = "driver/output.c/dbc.tet.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
 
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 1 Clang", n_bc, 16)
-    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 2 Clang", n_dof, 2)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 1 Clang", n_bc, 16)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 2 Clang", n_dof, 2)
 
     do i = 1, 8
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4 Clang", i_bc(2,2*i-1), 1)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5 Clang", r_bc(2*i-1), 1.0d0)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
-      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test 4 Clang", i_bc(2,2*i  ), 2)
-      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test 5 Clang", r_bc(2*i  ), 2.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test R 5 Clang", r_bc(2*i-1), 1.0d0)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test R 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_R1("monolis_dbc_all_surf_tet_test R 5 Clang", r_bc(2*i  ), 2.0d0)
     enddo
-  end subroutine monolis_dbc_all_surf_tet_test
+  end subroutine monolis_dbc_all_surf_tet_R_test
+
+  subroutine monolis_dbc_all_surf_tet_C_test()
+    implicit none
+    character(monolis_charlen) :: fname
+    integer(kint) :: n_bc, n_dof, i
+    integer(kint) :: i_bc_ans(8)
+    integer(kint), allocatable :: i_bc(:,:)
+    complex(kdouble), allocatable :: c_bc(:)
+
+    call monolis_std_log_string("monolis_dbc_all_surf_tet_C_test")
+
+    fname = "driver/output.f/dbc.tet.C.dat"
+    call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 1", n_bc, 16)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 2", n_dof, 2)
+
+    i_bc_ans(1) = 1
+    i_bc_ans(2) = 2
+    i_bc_ans(3) = 3
+    i_bc_ans(4) = 4
+    i_bc_ans(5) = 5
+    i_bc_ans(6) = 6
+    i_bc_ans(7) = 7
+    i_bc_ans(8) = 8
+
+    do i = 1, 8
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 3", i_bc(1,2*i-1), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 4", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_tet_test C 5", c_bc(2*i-1), (1.0d0, 2.0d0))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 3", i_bc(1,2*i  ), i_bc_ans(i))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 4", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_tet_test C 5", c_bc(2*i  ), (3.0d0, 4.0d0))
+    enddo
+
+    call monolis_dealloc_I_2d(i_bc)
+    call monolis_dealloc_C_1d(c_bc)
+
+    fname = "driver/output.c/dbc.tet.C.dat"
+    call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
+
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 1 Clang", n_bc, 16)
+    call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 2 Clang", n_dof, 2)
+
+    do i = 1, 8
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 3 Clang", i_bc(1,2*i-1), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 4 Clang", i_bc(2,2*i-1), 1)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_tet_test C 5 Clang", c_bc(2*i-1), (1.0d0, 2.0d0))
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 3 Clang", i_bc(1,2*i  ), i_bc_ans(i) - 1)
+      call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test C 4 Clang", i_bc(2,2*i  ), 2)
+      call monolis_test_check_eq_C1("monolis_dbc_all_surf_tet_test C 5 Clang", c_bc(2*i  ), (3.0d0, 4.0d0))
+    enddo
+  end subroutine monolis_dbc_all_surf_tet_C_test
 
   subroutine monolis_extract_all_surf_hex_test()
     character(monolis_charlen) :: fname

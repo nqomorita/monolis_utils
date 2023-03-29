@@ -5,9 +5,13 @@ OUTF=driver/output.f
 INPC=driver/input.c
 OUTC=driver/output.c
 
-../bin/monolis_dbc_all_surf_hex -i ${INPF}/elem.hex.dat -o ${OUTF}/dbc.hex.dat 2 1.0 2.0
+../bin/monolis_dbc_all_surf_hex_R -i ${INPF}/elem.hex.dat -o ${OUTF}/dbc.hex.R.dat 2 1.0 2.0
 
-../bin/monolis_dbc_all_surf_tet -i ${INPF}/elem.tet.dat -o ${OUTF}/dbc.tet.dat 2 1.0 2.0
+../bin/monolis_dbc_all_surf_tet_R -i ${INPF}/elem.tet.dat -o ${OUTF}/dbc.tet.R.dat 2 1.0 2.0
+
+../bin/monolis_dbc_all_surf_hex_C -i ${INPF}/elem.hex.dat -o ${OUTF}/dbc.hex.C.dat 2 1.0 2.0 3.0 4.0
+
+../bin/monolis_dbc_all_surf_tet_C -i ${INPF}/elem.tet.dat -o ${OUTF}/dbc.tet.C.dat 2 1.0 2.0 3.0 4.0
 
 ../bin/monolis_extract_all_surf_hex -i ${INPF}/elem.hex.dat -o ${OUTF}/surf.hex.dat
 
@@ -19,9 +23,13 @@ OUTC=driver/output.c
 
 ../bin/monolis_h_refiner_hex -in ${INPF}/node.hex.2elem.dat -ie ${INPF}/elem.hex.2elem.dat -on ${OUTF}/node.ref.h.hex.dat -oe ${OUTF}/elem.ref.h.hex.dat
 
-../bin/monolis_dbc_all_surf_hex -i ${INPC}/elem.hex.dat -o ${OUTC}/dbc.hex.dat 2 1.0 2.0
+../bin/monolis_dbc_all_surf_hex_R -i ${INPC}/elem.hex.dat -o ${OUTC}/dbc.hex.R.dat 2 1.0 2.0
 
-../bin/monolis_dbc_all_surf_tet -i ${INPC}/elem.tet.dat -o ${OUTC}/dbc.tet.dat 2 1.0 2.0
+../bin/monolis_dbc_all_surf_tet_R -i ${INPC}/elem.tet.dat -o ${OUTC}/dbc.tet.R.dat 2 1.0 2.0
+
+../bin/monolis_dbc_all_surf_hex_C -i ${INPC}/elem.hex.dat -o ${OUTC}/dbc.hex.C.dat 2 1.0 2.0 3.0 4.0
+
+../bin/monolis_dbc_all_surf_tet_C -i ${INPC}/elem.tet.dat -o ${OUTC}/dbc.tet.C.dat 2 1.0 2.0 3.0 4.0
 
 ../bin/monolis_extract_all_surf_hex -i ${INPC}/elem.hex.dat -o ${OUTC}/surf.hex.dat
 
@@ -33,6 +41,6 @@ OUTC=driver/output.c
 
 ../bin/monolis_h_refiner_hex -in ${INPC}/node.hex.2elem.dat -ie ${INPC}/elem.hex.2elem.dat -on ${OUTC}/node.ref.h.hex.dat -oe ${OUTC}/elem.ref.h.hex.dat
 
-./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0
+./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0
 
-mpirun --oversubscribe --allow-run-as-root -np 2 ./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0
+mpirun --oversubscribe --allow-run-as-root -np 2 ./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0
