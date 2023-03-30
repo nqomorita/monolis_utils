@@ -14,6 +14,7 @@ module mod_monolis_utils_define_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
   use mod_monolis_utils_palloc
+  use mod_monolis_mpi_util
   implicit none
 
   !> COM 構造体
@@ -60,9 +61,9 @@ contains
     !> [in] COM 構造体
     type(monolis_COM) :: COM
 
-    COM%comm = 0
-    COM%my_rank = 0
-    COM%comm_size = 1
+    COM%comm = monolis_mpi_get_global_comm()
+    COM%my_rank = monolis_mpi_get_global_my_rank()
+    COM%comm_size = monolis_mpi_get_global_comm_size()
     COM%n_internal_vertex = 0
 
     COM%recv_n_neib = 0
