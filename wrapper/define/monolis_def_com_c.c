@@ -4,6 +4,7 @@
 #include <complex.h>
 #include "monolis_def_com_c.h"
 #include "monolis_alloc_c.h"
+#include "monolis_mpi_util_c.h"
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize(
@@ -12,9 +13,9 @@ void monolis_com_initialize(
     com->recv_n_neib = 0;
     com->send_n_neib = 0;
     com->n_internal_vertex = 0;
-    com->my_rank = 0;
-    com->comm = 0;
-    com->comm_size = 0;
+    com->my_rank = monolis_mpi_get_global_my_rank();
+    com->comm = monolis_mpi_get_global_comm();
+    com->comm_size = monolis_mpi_get_global_comm_size();
 
     com->recv_neib_pe = NULL;
     com->recv_index = NULL;
