@@ -16,7 +16,7 @@ void monolis_input_internal_vertex_number(
   char ctmp[MONOLIS_CHARLEN];
 
   fp = monolis_open_file(fp, fname);
-  ierr = fscanf(fp, "%s %d", ctmp, i);
+  ierr = fscanf(fp, "%s %d", ctmp, &i);
   ierr = fscanf(fp, "%d", n_internal);
 
   fclose(fp);
