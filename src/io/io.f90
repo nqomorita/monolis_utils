@@ -197,11 +197,11 @@ contains
     !> [in] 出力ファイル名
     character(*) :: fname
     !> [out] 内部自由度の数
-    integer(kint) :: n_internal
+    integer(kint) :: n_internal, i
     character(monolis_charlen) :: label
 
     open(20, file = trim(fname), status = "old")
-      read(20,*) label
+      read(20,*) label, i
       read(20,*) n_internal
     close(20)
   end subroutine monolis_input_internal_vertex_number
@@ -216,7 +216,7 @@ contains
     integer(kint) :: n_internal
 
     open(20, file = trim(fname), status = "replace")
-      write(20,"(a)") "#n_internal"
+      write(20,"(a)") "#n_internal 1"
       write(20,"(i0)") n_internal
     close(20)
   end subroutine monolis_output_internal_vertex_number

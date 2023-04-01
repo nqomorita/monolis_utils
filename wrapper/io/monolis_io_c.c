@@ -11,11 +11,12 @@ void monolis_input_internal_vertex_number(
   int*        n_internal)
 {
   FILE* fp;
+  int i;
   int ierr;
   char ctmp[MONOLIS_CHARLEN];
 
   fp = monolis_open_file(fp, fname);
-  ierr = fscanf(fp, "%s", ctmp);
+  ierr = fscanf(fp, "%s %d", ctmp, i);
   ierr = fscanf(fp, "%d", n_internal);
 
   fclose(fp);
