@@ -52,7 +52,7 @@ contains
   !> クイックソート（1次元実数配列）
   recursive subroutine monolis_qsort_R_1d_I_1d(array1, array2, iS, iE)
     implicit none
-    !> [in,out] 整数配列
+    !> [in,out] 実数配列
     real(kdouble), intent(inout) :: array1(:)
     !> [in,out] ソートに従属する整数配列
     integer(kint), intent(inout) :: array2(:)
@@ -101,9 +101,9 @@ contains
   !> @details 第一引数をソート
   recursive subroutine monolis_qsort_R_2d(array1, array2, iS, iE)
     implicit none
-    !> [in,out] ソートされる整数配列
+    !> [in,out] ソートされる実数配列
     real(kdouble), intent(inout) :: array1(:)
-    !> [in,out] ソートに従属する整数配列
+    !> [in,out] ソートに従属する実数配列
     real(kdouble), intent(inout) :: array2(:)
     !> [in] ソートする開始位置
     integer(kint), intent(in) :: iS
@@ -149,13 +149,13 @@ contains
   !> 実数配列の二分探索
   subroutine monolis_bsearch_R(array, iS, iE, val, idx)
     implicit none
-    !> [in] 整数配列
+    !> [in] 実数配列
     real(kdouble), intent(in) :: array(:)
     !> [in] ソートする開始位置
     integer(kint), intent(in) :: iS
     !> [in] ソートする終了位置
     integer(kint), intent(in) :: iE
-    !> [in] 検索する整数値
+    !> [in] 検索する実数値
     real(kdouble), intent(in) :: val
     !> [out] 検索した結果の位置（検索結果がない場合 -1 を返す）
     integer(kint), intent(out) :: idx
