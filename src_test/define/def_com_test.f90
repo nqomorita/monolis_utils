@@ -37,8 +37,8 @@ contains
 
     call monolis_palloc_I_1d(COM1%recv_index, COM1%recv_n_neib + 1)
 
-    COM1%recv_index(1) = 20
-    COM1%recv_index(2) = 30
+    COM1%recv_index(1) = 0
+    COM1%recv_index(2) = 2
 
     call monolis_palloc_I_1d(COM1%recv_item, 2)
 
@@ -54,9 +54,9 @@ contains
 
     call monolis_palloc_I_1d(COM1%send_index, COM1%send_n_neib + 1)
 
-    COM1%send_index(1) = 31
-    COM1%send_index(2) = 41
-    COM1%send_index(3) = 51
+    COM1%send_index(1) = 0
+    COM1%send_index(2) = 1
+    COM1%send_index(3) = 2
 
     call monolis_palloc_I_1d(COM1%send_item, 2)
 
