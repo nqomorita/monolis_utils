@@ -16,6 +16,7 @@ contains
     call monolis_get_arg_input_in_tag_test()
     call monolis_get_arg_input_ie_tag_test()
     call monolis_get_arg_input_n_tag_test()
+    call monolis_get_arg_input_d_tag_test()
   end subroutine monolis_io_arg_test
 
   subroutine monolis_check_arg_input_test()
@@ -181,4 +182,21 @@ contains
 
     call monolis_test_check_eq_I1("monolis_get_arg_input_n_tag 1", n_domain, 2)
   end subroutine monolis_get_arg_input_n_tag_test
+
+  subroutine monolis_get_arg_input_d_tag_test()
+    implicit none
+    character(monolis_charlen) :: var
+    logical :: is_get
+
+    call monolis_std_global_log_string("monolis_get_arg_input_d_tag")
+
+    !> case 1
+    call monolis_get_arg_input_d_tag(var, is_get)
+
+    if(trim(var) == "driver")then
+      call monolis_test_assert_pass("monolis_get_arg_input_o_tag 2")
+    else
+      call monolis_test_assert_fail("monolis_get_arg_input_o_tag 2", "")
+    endif
+  end subroutine monolis_get_arg_input_d_tag_test
 end module mod_monolis_io_arg_test

@@ -28,6 +28,8 @@ contains
     call monolis_output_distval_R_test()
     call monolis_input_distval_C_test()
     call monolis_output_distval_C_test()
+
+    call monolis_std_global_log_string("monolis_input_file_error_check")
   end subroutine monolis_io_test
 
   subroutine monolis_input_graph_test()

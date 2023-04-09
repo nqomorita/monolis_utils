@@ -41,6 +41,6 @@ OUTC=driver/output.c
 
 ../bin/monolis_h_refiner_hex -in ${INPC}/node.hex.2elem.dat -ie ${INPC}/elem.hex.2elem.dat -on ${OUTC}/node.ref.h.hex.dat -oe ${OUTC}/elem.ref.h.hex.dat
 
-./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0 | tee test_list.dat
+./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -d driver -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0 | tee test_list.dat
 
-mpirun -np 2 ./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0 | tee -a test_list.dat
+mpirun -np 2 ./monolis_utils_test -test_i 1 -test_r 2.0 -test_s test_string -d driver -i a.txt -o b.txt -in c.txt -ie d.txt -n 2 2 10.0 20.0 30.0 40.0 | tee -a test_list.dat

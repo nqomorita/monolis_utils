@@ -22,6 +22,9 @@ contains
     call monolis_std_global_log_string("monolis_mpi_initialize")
     call monolis_std_global_log_string("monolis_mpi_finalize")
 
+    call monolis_std_global_log_string("monolis_mpi_get_global_my_rank")
+    call monolis_std_global_log_string("monolis_mpi_get_local_my_rank")
+
     call monolis_std_global_log_string("monolis_mpi_global_barrier")
     call monolis_std_global_log_string("monolis_mpi_local_barrier")
 
