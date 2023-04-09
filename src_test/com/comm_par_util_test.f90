@@ -26,7 +26,7 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_generate_global_vertex_id")
+    call monolis_std_global_log_string("monolis_generate_global_vertex_id")
 
     n_internal_vertex = 3
 
@@ -78,7 +78,7 @@ contains
     integer(kint) :: comm, i_ans(3)
     integer(kint), allocatable :: vtxdist(:)
 
-    call monolis_std_log_string("monolis_com_n_vertex_list")
+    call monolis_std_global_log_string("monolis_com_n_vertex_list")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -107,8 +107,8 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_comm_get_all_external_n_node_parallel")
-    call monolis_std_log_string("monolis_comm_get_all_external_node_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_n_node_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_parallel")
 
     call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
@@ -161,7 +161,7 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_domain_id_parallel")
 
     call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 

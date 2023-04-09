@@ -19,9 +19,9 @@ contains
   subroutine monolis_mpi_util_test_main()
     implicit none
 
-    call monolis_std_log_string("monolis_mpi_get_global_comm")
-    call monolis_std_log_string("monolis_mpi_get_global_comm_size")
-    call monolis_std_log_string("monolis_mpi_get_local_comm_size")
+    call monolis_std_global_log_string("monolis_mpi_get_global_comm")
+    call monolis_std_global_log_string("monolis_mpi_get_global_comm_size")
+    call monolis_std_global_log_string("monolis_mpi_get_local_comm_size")
 
     if(monolis_mpi_get_global_comm() == MPI_COMM_WORLD)then
       call monolis_test_assert_pass("monolis_mpi_global_comm")
@@ -48,7 +48,7 @@ contains
     integer(kint) :: group_id
     integer(kint) :: comm_split
 
-    call monolis_std_log_string("monolis_mpi_split_comm")
+    call monolis_std_global_log_string("monolis_mpi_split_comm")
 
     comm = monolis_mpi_get_global_comm()
 

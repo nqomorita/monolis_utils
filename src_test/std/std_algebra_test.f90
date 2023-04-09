@@ -24,7 +24,7 @@ contains
     implicit none
     real(kdouble) :: a(3,3), b(3,3), c(3,3)
 
-    call monolis_std_log_string("monolis_get_inverse_matrix_R")
+    call monolis_std_global_log_string("monolis_get_inverse_matrix_R")
 
     !> case 1
     a(1,1) = 3.0d0; a(1,2) = 3.0d0; a(1,3) = 2.0d0
@@ -46,7 +46,7 @@ contains
     implicit none
     real(kdouble) :: a(2,2), b(2,2), c(2,2), det
 
-    call monolis_std_log_string("monolis_get_inverse_matrix_R_2d")
+    call monolis_std_global_log_string("monolis_get_inverse_matrix_R_2d")
 
     !> case 1
     a(1,1) = 3.0d0; a(1,2) = 4.0d0
@@ -67,7 +67,7 @@ contains
     real(kdouble) :: a(3,3), b(3,3), c(3,3), det
     logical :: is_fail
 
-    call monolis_std_log_string("monolis_get_inverse_matrix_R_3d")
+    call monolis_std_global_log_string("monolis_get_inverse_matrix_R_3d")
 
     !> case 1
     a(1,1) = 3.0d0; a(1,2) = 3.0d0; a(1,3) = 2.0d0
@@ -90,7 +90,7 @@ contains
     implicit none
     real(kdouble) :: v1(3), v2(3), v3(3), v4(3)
 
-    call monolis_std_log_string("monolis_normalize_cross_product_R_3d")
+    call monolis_std_global_log_string("monolis_normalize_cross_product_R_3d")
 
     !> case 1
     v1(1) = 2.0d0;
@@ -148,7 +148,7 @@ contains
     implicit none
     real(kdouble) :: v1(3), v2(3), v3(3), v4(3)
 
-    call monolis_std_log_string("monolis_cross_product_R_3d")
+    call monolis_std_global_log_string("monolis_cross_product_R_3d")
 
     !> case 1
     v1(1) = 2.0d0;
@@ -206,7 +206,7 @@ contains
     implicit none
     real(kdouble) :: v1(3), v2(3), v3(3)
 
-    call monolis_std_log_string("monolis_normalize_vector_R")
+    call monolis_std_global_log_string("monolis_normalize_vector_R")
 
     !> case 1
     v1(1) = 2.0d0;
@@ -226,7 +226,7 @@ contains
     implicit none
     real(kdouble) :: v1(3), norm
 
-    call monolis_std_log_string("monolis_get_l2_norm_R")
+    call monolis_std_global_log_string("monolis_get_l2_norm_R")
 
     !> case 1
     v1(1) = 2.0d0;
@@ -242,7 +242,7 @@ contains
     implicit none
     real(kdouble) :: v1(3), norm
 
-    call monolis_std_log_string("monolis_get_rundom_number_R")
+    call monolis_std_global_log_string("monolis_get_rundom_number_R")
 
     call monolis_get_rundom_number_R(3, v1, 1)
 

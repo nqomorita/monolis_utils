@@ -149,8 +149,8 @@ $(addprefix mpi/, $(SRC_MPI_C))
 ##> all targes
 SRC_ALL = \
 $(addprefix define/, $(SRC_DEFINE1)) \
-$(addprefix sys/, $(SRC_SYS)) \
 $(addprefix mpi/, $(SRC_MPI1)) \
+$(addprefix sys/, $(SRC_SYS)) \
 $(addprefix define/, $(SRC_DEFINE2)) \
 $(addprefix mpi/, $(SRC_MPI2)) \
 $(addprefix std/, $(SRC_STD)) \

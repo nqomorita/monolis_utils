@@ -20,7 +20,7 @@ contains
     real(kdouble) :: coord(3,3)
     real(kdouble) :: BB(6), BB_ans(6)
 
-    call monolis_std_log_string("monolis_get_aabb_from_coodinates")
+    call monolis_std_global_log_string("monolis_get_aabb_from_coodinates")
 
     coord(1,1) = 1.0d0; coord(2,1) = 10.0d0; coord(3,1) = 100.0d0;
     coord(1,2) = 2.0d0; coord(2,2) = 20.0d0; coord(3,2) = 200.0d0;
@@ -43,7 +43,7 @@ contains
     real(kdouble) :: BB_in(6,3)
     real(kdouble) :: BB(6), BB_ans(6)
 
-    call monolis_std_log_string("monolis_get_aabb_from_BB")
+    call monolis_std_global_log_string("monolis_get_aabb_from_BB")
 
     BB_in(1,1) = 1.0d0; BB_in(2,1) = 10.0d0; BB_in(3,1) = 4.0d0; BB_in(4,1) = 40.0d0; BB_in(5,1) = 7.0d0; BB_in(6,1) = 70.0d0;
     BB_in(1,2) = 2.0d0; BB_in(2,2) = 20.0d0; BB_in(3,2) = 5.0d0; BB_in(4,2) = 50.0d0; BB_in(5,2) = 8.0d0; BB_in(6,2) = 80.0d0;
@@ -67,7 +67,7 @@ contains
     real(kdouble) :: BB(6), ths
     logical :: is_inside
 
-    call monolis_std_log_string("monolis_check_inside_in_aabb")
+    call monolis_std_global_log_string("monolis_check_inside_in_aabb")
 
     BB(1) = 1.0d0
     BB(2) = 3.0d0

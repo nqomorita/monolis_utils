@@ -22,7 +22,7 @@ contains
     integer(kint) :: b
     logical :: is_eq
 
-    call monolis_std_log_string("monolis_test_check_eq_I_main")
+    call monolis_std_global_log_string("monolis_test_check_eq_I_main")
 
     !> case 1
     a = 2
@@ -55,7 +55,7 @@ contains
     real(kdouble) :: b
     logical :: is_eq
 
-    call monolis_std_log_string("monolis_test_check_eq_R_main")
+    call monolis_std_global_log_string("monolis_test_check_eq_R_main")
 
     !> case 1
     a = 2.0d0
@@ -112,7 +112,7 @@ contains
     complex(kdouble) :: b
     logical :: is_eq
 
-    call monolis_std_log_string("monolis_test_check_eq_C_main")
+    call monolis_std_global_log_string("monolis_test_check_eq_C_main")
 
     !> case 1
     a = (2.0d0, 1.0d0)
@@ -193,7 +193,7 @@ contains
     logical :: b
     logical :: is_eq
 
-    call monolis_std_log_string("monolis_test_check_eq_L_main")
+    call monolis_std_global_log_string("monolis_test_check_eq_L_main")
 
     !> case 1
     a = .true.

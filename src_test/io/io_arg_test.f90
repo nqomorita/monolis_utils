@@ -23,7 +23,7 @@ contains
     character(monolis_charlen) :: tag
     logical :: is_get
 
-    call monolis_std_log_string("monolis_check_arg_input")
+    call monolis_std_global_log_string("monolis_check_arg_input")
 
     !> case 1
     tag = "-test_i2"
@@ -42,7 +42,7 @@ contains
     integer(kint) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_I")
+    call monolis_std_global_log_string("monolis_get_arg_input_I")
 
     !> case 1
     tag = "-test_i2"
@@ -62,7 +62,7 @@ contains
     real(kdouble) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_R")
+    call monolis_std_global_log_string("monolis_get_arg_input_R")
 
     !> case 1
     tag = "-test_r2"
@@ -82,7 +82,7 @@ contains
     character(monolis_charlen) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_S")
+    call monolis_std_global_log_string("monolis_get_arg_input_S")
 
     !> case 1
     tag = "-test_s2"
@@ -106,7 +106,7 @@ contains
     character(monolis_charlen) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_i_tag")
+    call monolis_std_global_log_string("monolis_get_arg_input_i_tag")
 
     !> case 1
     call monolis_get_arg_input_i_tag(var, is_get)
@@ -123,7 +123,7 @@ contains
     character(monolis_charlen) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_in_tag")
+    call monolis_std_global_log_string("monolis_get_arg_input_in_tag")
 
     !> case 2
     call monolis_get_arg_input_in_tag(var, is_get)
@@ -140,7 +140,7 @@ contains
     character(monolis_charlen) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_ie_tag")
+    call monolis_std_global_log_string("monolis_get_arg_input_ie_tag")
 
     !> case 1
     call monolis_get_arg_input_ie_tag(var, is_get)
@@ -157,7 +157,7 @@ contains
     character(monolis_charlen) :: var
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_o_tag")
+    call monolis_std_global_log_string("monolis_get_arg_input_o_tag")
 
     !> case 1
     call monolis_get_arg_input_o_tag(var, is_get)
@@ -174,7 +174,7 @@ contains
     integer(kint) :: n_domain
     logical :: is_get
 
-    call monolis_std_log_string("monolis_get_arg_input_n_tag")
+    call monolis_std_global_log_string("monolis_get_arg_input_n_tag")
 
     !> case 1
     call monolis_get_arg_input_n_tag(n_domain, is_get)

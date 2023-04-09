@@ -29,7 +29,7 @@ contains
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint) :: displs(3)
 
-    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_serial")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_domain_id_serial")
 
     vertex_domain_id(1) = 1
     vertex_domain_id(2) = 1
@@ -72,7 +72,7 @@ contains
     !> [in] recv 節点の情報
     type(monolis_comm_node_list) :: recv_list(2)
 
-    call monolis_std_log_string("monolis_comm_get_recv_serial")
+    call monolis_std_global_log_string("monolis_comm_get_recv_serial")
 
     n_domain = 2
 
@@ -132,7 +132,7 @@ contains
     integer(kint) :: n_internal_vertex, outer_node_id_all_global(2)
     integer(kint) :: outer_domain_id_all(2), displs(3)
 
-    call monolis_std_log_string("monolis_comm_get_send_serial")
+    call monolis_std_global_log_string("monolis_comm_get_send_serial")
 
     n_domain = 2
 

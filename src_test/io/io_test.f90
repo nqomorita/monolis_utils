@@ -38,7 +38,7 @@ contains
     integer(kint), allocatable :: index(:)
     integer(kint), allocatable :: item(:)
 
-    call monolis_std_log_string("monolis_input_graph")
+    call monolis_std_global_log_string("monolis_input_graph")
 
     call monolis_input_graph("io/input/graph.txt", n_vertex, vertex_id, index, item)
 
@@ -74,7 +74,7 @@ contains
     integer(kint), allocatable :: index_ans(:)
     integer(kint), allocatable :: item_ans(:)
 
-    call monolis_std_log_string("monolis_output_graph")
+    call monolis_std_global_log_string("monolis_output_graph")
 
     n_vertex = 3
     vertex_id(1) = 1
@@ -110,7 +110,7 @@ contains
     real(kdouble) :: r_ans(3)
     real(kdouble), allocatable :: node(:,:)
 
-    call monolis_std_log_string("monolis_input_node")
+    call monolis_std_global_log_string("monolis_input_node")
 
     call monolis_input_node("io/input/node.txt", n_node, node)
 
@@ -138,7 +138,7 @@ contains
     real(kdouble) :: node(3,3)
     real(kdouble), allocatable :: node_ans(:,:)
 
-    call monolis_std_log_string("monolis_output_node")
+    call monolis_std_global_log_string("monolis_output_node")
 
     n_node = 3
     node(1,1) = 1.0d0; node(2,1) = 2.0d0; node(3,1) = 3.0d0
@@ -165,7 +165,7 @@ contains
     integer(kint) :: i_ans(2)
     integer(kint), allocatable :: elem(:,:)
 
-    call monolis_std_log_string("monolis_input_elem")
+    call monolis_std_global_log_string("monolis_input_elem")
 
     call monolis_input_elem("io/input/elem.txt", n_elem, n_base, elem)
 
@@ -193,7 +193,7 @@ contains
     integer(kint) :: elem(2,3)
     integer(kint), allocatable :: elem_ans(:,:)
 
-    call monolis_std_log_string("monolis_output_elem")
+    call monolis_std_global_log_string("monolis_output_elem")
 
     n_elem = 3
     n_base = 2
@@ -218,7 +218,7 @@ contains
     implicit none
     integer(kint) :: n_internal_vertex
 
-    call monolis_std_log_string("monolis_input_internal_vertex_number")
+    call monolis_std_global_log_string("monolis_input_internal_vertex_number")
 
     call monolis_input_internal_vertex_number("io/input/n_internal.txt", n_internal_vertex)
 
@@ -229,7 +229,7 @@ contains
     implicit none
     integer(kint) :: n_internal_vertex, n_internal_vertex_ans
 
-    call monolis_std_log_string("monolis_output_internal_vertex_number")
+    call monolis_std_global_log_string("monolis_output_internal_vertex_number")
 
     n_internal_vertex = 5
     call monolis_output_internal_vertex_number("io/input/n_internal.txt.out", n_internal_vertex)
@@ -245,7 +245,7 @@ contains
     integer(kint) :: n_vertex
     integer(kint), allocatable :: vertex_id(:)
 
-    call monolis_std_log_string("monolis_input_global_id")
+    call monolis_std_global_log_string("monolis_input_global_id")
 
     call monolis_input_global_id("io/input/id.txt", n_vertex, vertex_id)
 
@@ -263,7 +263,7 @@ contains
     integer(kint) :: vertex_id_ans(5)
     integer(kint), allocatable :: vertex_id(:)
 
-    call monolis_std_log_string("monolis_output_global_id")
+    call monolis_std_global_log_string("monolis_output_global_id")
 
     n_vertex = 5
     vertex_id_ans(1) = 10
@@ -288,7 +288,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     real(kdouble), allocatable :: r_bc(:)
 
-    call monolis_std_log_string("monolis_input_bc_R")
+    call monolis_std_global_log_string("monolis_input_bc_R")
 
     call monolis_input_bc_R("io/input/bc.r.txt", n_bc, n_dof, i_bc, r_bc)
 
@@ -321,7 +321,7 @@ contains
     integer(kint), allocatable :: i_bc_ans(:,:)
     real(kdouble), allocatable :: r_bc_ans(:)
 
-    call monolis_std_log_string("monolis_output_bc_R")
+    call monolis_std_global_log_string("monolis_output_bc_R")
 
     n_bc = 3
     n_dof = 2
@@ -356,7 +356,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     complex(kdouble), allocatable :: c_bc(:)
 
-    call monolis_std_log_string("monolis_input_bc_C")
+    call monolis_std_global_log_string("monolis_input_bc_C")
 
     call monolis_input_bc_C("io/input/bc.c.txt", n_bc, n_dof, i_bc, c_bc)
 
@@ -389,7 +389,7 @@ contains
     integer(kint), allocatable :: i_bc_ans(:,:)
     complex(kdouble), allocatable :: c_bc_ans(:)
 
-    call monolis_std_log_string("monolis_output_bc_C")
+    call monolis_std_global_log_string("monolis_output_bc_C")
 
     n_bc = 3
     n_dof = 2
@@ -423,7 +423,7 @@ contains
     integer(kint) :: i_ans(3)
     integer(kint), allocatable :: val(:,:)
 
-    call monolis_std_log_string("monolis_input_distval_i")
+    call monolis_std_global_log_string("monolis_input_distval_i")
 
     call monolis_input_distval_i("io/input/distval_i.txt", label, n_node, n_dof, val)
 
@@ -451,7 +451,7 @@ contains
     integer(kint) :: val(1,3)
     integer(kint), allocatable :: val_ans(:,:)
 
-    call monolis_std_log_string("monolis_output_distval_i")
+    call monolis_std_global_log_string("monolis_output_distval_i")
 
     label = "#val"
     n_node = 3
@@ -485,7 +485,7 @@ contains
     real(kdouble) :: r_ans(3)
     real(kdouble), allocatable :: val(:,:)
 
-    call monolis_std_log_string("monolis_input_distval_r")
+    call monolis_std_global_log_string("monolis_input_distval_r")
 
     call monolis_input_distval_r("io/input/distval_r.txt", label, n_node, n_dof, val)
 
@@ -513,7 +513,7 @@ contains
     real(kdouble) :: val(1,3)
     real(kdouble), allocatable :: val_ans(:,:)
 
-    call monolis_std_log_string("monolis_output_distval_r")
+    call monolis_std_global_log_string("monolis_output_distval_r")
 
     label = "#val"
     n_node = 3
@@ -547,7 +547,7 @@ contains
     complex(kdouble) :: r_ans(3)
     complex(kdouble), allocatable :: val(:,:)
 
-    call monolis_std_log_string("monolis_input_distval_c")
+    call monolis_std_global_log_string("monolis_input_distval_c")
 
     call monolis_input_distval_c("io/input/distval_c.txt", label, n_node, n_dof, val)
 
@@ -575,7 +575,7 @@ contains
     complex(kdouble) :: val(1,3)
     complex(kdouble), allocatable :: val_ans(:,:)
 
-    call monolis_std_log_string("monolis_output_distval_c")
+    call monolis_std_global_log_string("monolis_output_distval_c")
 
     label = "#val"
     n_node = 3

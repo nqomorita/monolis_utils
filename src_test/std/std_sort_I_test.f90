@@ -22,7 +22,7 @@ contains
     implicit none
     integer(kint) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_qsort_I_1d")
+    call monolis_std_global_log_string("monolis_qsort_I_1d")
 
     !> case 1
     a(1) = 5
@@ -80,7 +80,7 @@ contains
     implicit none
     integer(kint) :: a(5), b(5), c(5), d(5)
 
-    call monolis_std_log_string("monolis_qsort_I_2d")
+    call monolis_std_global_log_string("monolis_qsort_I_2d")
 
     !> case 1
     a(1) = 5; b(1) = 50
@@ -141,7 +141,7 @@ contains
     implicit none
     integer(kint) :: a(5), idx
 
-    call monolis_std_log_string("monolis_bsearch_I")
+    call monolis_std_global_log_string("monolis_bsearch_I")
 
     !> case 1
     a(1) = 10
@@ -167,7 +167,7 @@ contains
     implicit none
     integer(kint) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_get_sequence_array_I")
+    call monolis_std_global_log_string("monolis_get_sequence_array_I")
 
     !> case 1
     call monolis_get_sequence_array_I(a, 5, 1, 1)
@@ -196,7 +196,7 @@ contains
     implicit none
     integer(kint) :: a(5), b(3), newlen
 
-    call monolis_std_log_string("monolis_get_uniq_array_I")
+    call monolis_std_global_log_string("monolis_get_uniq_array_I")
 
     !> case 1
     a(1) = 1
@@ -219,7 +219,7 @@ contains
     implicit none
     integer(kint) :: perm(5), a(5), b(5)
 
-    call monolis_std_log_string("monolis_perm_array_I")
+    call monolis_std_global_log_string("monolis_perm_array_I")
 
     a(1) = 1
     a(2) = 2

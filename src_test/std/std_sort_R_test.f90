@@ -22,7 +22,7 @@ contains
     implicit none
     real(kdouble) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_qsort_R_1d")
+    call monolis_std_global_log_string("monolis_qsort_R_1d")
 
     !> case 1
     a(1) = 5.0d0
@@ -81,7 +81,7 @@ contains
     integer(kint) :: b(5), d(5)
     real(kdouble) :: a(5), c(5)
 
-    call monolis_std_log_string("monolis_qsort_R_1d_I_1d")
+    call monolis_std_global_log_string("monolis_qsort_R_1d_I_1d")
 
     !> case 1
     a(1) = 5.0d0; b(1) = 50
@@ -142,7 +142,7 @@ contains
     implicit none
     real(kdouble) :: a(5), b(5), c(5), d(5)
 
-    call monolis_std_log_string("monolis_qsort_R_2d")
+    call monolis_std_global_log_string("monolis_qsort_R_2d")
 
     !> case 1
     a(1) = 5.0d0; b(1) = 50.0d0
@@ -204,7 +204,7 @@ contains
     integer(kint) :: idx
     real(kdouble) :: a(5)
 
-    call monolis_std_log_string("monolis_bsearch_R")
+    call monolis_std_global_log_string("monolis_bsearch_R")
 
     !> case 1
     a(1) = 10.0d0
@@ -230,7 +230,7 @@ contains
     implicit none
     real(kdouble) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_get_sequence_array_R")
+    call monolis_std_global_log_string("monolis_get_sequence_array_R")
 
     !> case 1
     call monolis_get_sequence_array_R(a, 5, 1.0d0, 1.0d0)
@@ -260,7 +260,7 @@ contains
     integer(kint) :: perm(5)
     real(kdouble) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_perm_array_R")
+    call monolis_std_global_log_string("monolis_perm_array_R")
 
     a(1) = 1.0d0
     a(2) = 2.0d0

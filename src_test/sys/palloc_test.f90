@@ -22,7 +22,7 @@ contains
     integer(kint) :: b(5)
     integer(kint), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_palloc_I_1d")
+    call monolis_std_global_log_string("monolis_palloc_I_1d")
 
     call monolis_palloc_I_1d(a, 5)
 
@@ -43,7 +43,7 @@ contains
     implicit none
     integer(kint), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_pdealloc_I_1d")
+    call monolis_std_global_log_string("monolis_pdealloc_I_1d")
 
     call monolis_palloc_I_1d(a, 5)
 
@@ -61,7 +61,7 @@ contains
     real(kdouble) :: b(5)
     real(kdouble), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_palloc_R_1d")
+    call monolis_std_global_log_string("monolis_palloc_R_1d")
 
     call monolis_palloc_R_1d(a, 5)
 
@@ -82,7 +82,7 @@ contains
     implicit none
     real(kdouble), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_pdealloc_R_1d")
+    call monolis_std_global_log_string("monolis_pdealloc_R_1d")
 
     call monolis_palloc_R_1d(a, 5)
 
@@ -100,7 +100,7 @@ contains
     complex(kdouble) :: b(5)
     complex(kdouble), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_palloc_C_1d")
+    call monolis_std_global_log_string("monolis_palloc_C_1d")
 
     call monolis_palloc_C_1d(a, 5)
 
@@ -121,7 +121,7 @@ contains
     implicit none
     complex(kdouble), pointer :: a(:) => null()
 
-    call monolis_std_log_string("monolis_pdealloc_C_1d")
+    call monolis_std_global_log_string("monolis_pdealloc_C_1d")
 
     call monolis_palloc_C_1d(a, 5)
 

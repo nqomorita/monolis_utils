@@ -20,7 +20,7 @@ contains
     complex(kdouble), allocatable :: cval(:)
     logical :: is_get
 
-    call monolis_std_log_string("monolis_driver_get_arg_dbc_all_R R")
+    call monolis_std_global_log_string("monolis_driver_get_arg_dbc_all_R")
 
     call monolis_driver_get_arg_dbc_all_R(n_dof, rval, is_get)
 
@@ -35,7 +35,7 @@ contains
 
 
 
-    call monolis_std_log_string("monolis_driver_get_arg_dbc_all_C")
+    call monolis_std_global_log_string("monolis_driver_get_arg_dbc_all_C")
 
     call monolis_driver_get_arg_dbc_all_C(n_dof, cval, is_get)
 

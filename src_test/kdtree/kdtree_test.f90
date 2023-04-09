@@ -22,9 +22,9 @@ contains
     real(kdouble) :: BB(6,5), pos(3)
     integer(kint), allocatable :: ids(:)
 
-    call monolis_std_log_string("monolis_kdtree_init_by_BB")
-    call monolis_std_log_string("monolis_kdtree_get_BB_including_coordinates")
-    call monolis_std_log_string("monolis_kdtree_finalize")
+    call monolis_std_global_log_string("monolis_kdtree_init_by_BB")
+    call monolis_std_global_log_string("monolis_kdtree_get_BB_including_coordinates")
+    call monolis_std_global_log_string("monolis_kdtree_finalize")
 
     !> initialize
     BB_id(1) = 10
@@ -113,9 +113,9 @@ contains
     real(kdouble) :: BB(6,5), pos(3)
     integer(kint), allocatable :: ids(:)
 
-    call monolis_std_log_string("monolis_kdtree_init_by_BB")
-    call monolis_std_log_string("monolis_kdtree_get_BB_including_coordinates")
-    call monolis_std_log_string("monolis_kdtree_finalize")
+    call monolis_std_global_log_string("monolis_kdtree_init_by_BB")
+    call monolis_std_global_log_string("monolis_kdtree_get_BB_including_coordinates")
+    call monolis_std_global_log_string("monolis_kdtree_finalize")
 
     !> initialize
     BB_id(1) = 50

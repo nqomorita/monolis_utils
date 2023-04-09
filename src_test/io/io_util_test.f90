@@ -17,7 +17,7 @@ contains
     integer(kint) :: elem(2,2)
     logical :: is_1_origin
 
-    call monolis_std_log_string("monolis_check_fortran_1_origin_elem")
+    call monolis_std_global_log_string("monolis_check_fortran_1_origin_elem")
 
     elem(1,1) = 1; elem(2,1) = 2
     elem(1,2) = 2; elem(2,2) = 3
@@ -39,7 +39,7 @@ contains
     integer(kint) :: item(3)
     logical :: is_1_origin
 
-    call monolis_std_log_string("monolis_check_fortran_1_origin_graph")
+    call monolis_std_global_log_string("monolis_check_fortran_1_origin_graph")
 
     item(1) = 1
     item(2) = 2

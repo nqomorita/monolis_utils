@@ -20,8 +20,8 @@ contains
     implicit none
     type(monolis_hash_structure) :: monolis_hash
 
-    call monolis_std_log_string("monolis_hash_init")
-    call monolis_std_log_string("monolis_hash_finalize")
+    call monolis_std_global_log_string("monolis_hash_init")
+    call monolis_std_global_log_string("monolis_hash_finalize")
 
     !> case 1
     call monolis_hash_init(monolis_hash, 5)
@@ -43,7 +43,7 @@ contains
     implicit none
     character :: key*5
 
-    call monolis_std_log_string("monolis_hash_get_key_I")
+    call monolis_std_global_log_string("monolis_hash_get_key_I")
 
     call monolis_hash_get_key_I(5, 1, key)
 
@@ -61,9 +61,9 @@ contains
     character :: key*5
     logical :: is_pushed, is_exist
 
-    call monolis_std_log_string("monolis_hash_push")
-    call monolis_std_log_string("monolis_hash_get")
-    call monolis_std_log_string("monolis_hash_get_key_I")
+    call monolis_std_global_log_string("monolis_hash_push")
+    call monolis_std_global_log_string("monolis_hash_get")
+    call monolis_std_global_log_string("monolis_hash_get_key_I")
 
     call monolis_hash_init(monolis_hash, 5)
 
@@ -101,9 +101,9 @@ contains
     character :: key*5
     logical :: is_pushed, is_exist
 
-    call monolis_std_log_string("monolis_hash_get_key_I")
-    call monolis_std_log_string("monolis_hash_push")
-    call monolis_std_log_string("monolis_hash_get")
+    call monolis_std_global_log_string("monolis_hash_get_key_I")
+    call monolis_std_global_log_string("monolis_hash_push")
+    call monolis_std_global_log_string("monolis_hash_get")
 
     call monolis_hash_init(monolis_hash, 5)
 

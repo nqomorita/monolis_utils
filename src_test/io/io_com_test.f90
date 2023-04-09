@@ -19,7 +19,7 @@ contains
     type(monolis_COM) :: COM
     integer(kint) :: i_ans(4)
 
-    call monolis_std_log_string("monolis_input_send_com_table")
+    call monolis_std_global_log_string("monolis_input_send_com_table")
 
     call monolis_input_send_com_table("io/input/com.txt", COM)
 
@@ -46,7 +46,7 @@ contains
     type(monolis_COM) :: COM
     integer(kint) :: i_ans(4)
 
-    call monolis_std_log_string("monolis_input_recv_com_table")
+    call monolis_std_global_log_string("monolis_input_recv_com_table")
 
     call monolis_input_recv_com_table("io/input/com.txt", COM)
 
@@ -72,7 +72,7 @@ contains
     implicit none
     type(monolis_COM) :: COM, COM_ans
 
-    call monolis_std_log_string("monolis_output_send_com_table")
+    call monolis_std_global_log_string("monolis_output_send_com_table")
 
     COM%send_n_neib = 2
 
@@ -112,7 +112,7 @@ contains
     implicit none
     type(monolis_COM) :: COM, COM_ans
 
-    call monolis_std_log_string("monolis_output_recv_com_table")
+    call monolis_std_global_log_string("monolis_output_recv_com_table")
 
     COM%recv_n_neib = 2
 

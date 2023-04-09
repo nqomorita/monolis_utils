@@ -22,7 +22,7 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_com_get_comm_table_parallel")
+    call monolis_std_global_log_string("monolis_com_get_comm_table_parallel")
 
     n_internal_vertex = 3
 

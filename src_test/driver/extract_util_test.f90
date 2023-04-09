@@ -18,7 +18,7 @@ contains
     integer(kint) :: surf(2,4), i_ans(5)
     integer(kint), allocatable :: node_id(:)
 
-    call monolis_std_log_string("monolis_get_surf_node")
+    call monolis_std_global_log_string("monolis_get_surf_node")
 
     n_base = 2
 
@@ -48,7 +48,7 @@ contains
     integer(kint) :: n_base
     integer(kint) :: conn(8)
 
-    call monolis_std_log_string("get_key_surf")
+    call monolis_std_global_log_string("get_key_surf")
 
     !> hex mesh
 
