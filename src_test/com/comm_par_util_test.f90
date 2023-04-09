@@ -26,7 +26,7 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_generate_global_vertex_id_test")
+    call monolis_std_log_string("monolis_generate_global_vertex_id")
 
     n_internal_vertex = 3
 
@@ -69,7 +69,7 @@ contains
       i_ans(5) = 3
     endif
 
-    call monolis_test_check_eq_I("monolis_generate_global_vertex_id_test 1", vertex_id_new, i_ans)
+    call monolis_test_check_eq_I("monolis_generate_global_vertex_id 1", vertex_id_new, i_ans)
   end subroutine monolis_generate_global_vertex_id_test
 
   subroutine monolis_com_n_vertex_list_test()
@@ -78,7 +78,7 @@ contains
     integer(kint) :: comm, i_ans(3)
     integer(kint), allocatable :: vtxdist(:)
 
-    call monolis_std_log_string("monolis_com_n_vertex_list_test")
+    call monolis_std_log_string("monolis_com_n_vertex_list")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -91,9 +91,9 @@ contains
     i_ans(3) = 3
 
     if(monolis_mpi_get_global_comm_size() == 2)then
-      call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans)
+      call monolis_test_check_eq_I("monolis_com_n_vertex_list 1", vtxdist, i_ans)
     else
-      call monolis_test_check_eq_I("monolis_com_n_vertex_list_test 1", vtxdist, i_ans(1:2))
+      call monolis_test_check_eq_I("monolis_com_n_vertex_list 1", vtxdist, i_ans(1:2))
     endif
   end subroutine monolis_com_n_vertex_list_test
 
@@ -107,7 +107,8 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_comm_get_all_external_node_test")
+    call monolis_std_log_string("monolis_comm_get_all_external_n_node_parallel")
+    call monolis_std_log_string("monolis_comm_get_all_external_node_parallel")
 
     call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 
@@ -160,7 +161,7 @@ contains
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_test")
+    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_parallel")
 
     call monolis_com_set_communicator(com, monolis_mpi_get_global_comm())
 

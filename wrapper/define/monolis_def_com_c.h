@@ -42,6 +42,11 @@ void monolis_com_initialize(
 void monolis_com_finalize(
   MONOLIS_COM* com);
 
+/** COM 構造体のコピー関数 */
+void monolis_com_copy(
+  MONOLIS_COM* in,
+  MONOLIS_COM* out);
+
 /** COM 構造体に MPI コミュニケータを設定 */
 void monolis_com_set_communicator(
   MONOLIS_COM* com,

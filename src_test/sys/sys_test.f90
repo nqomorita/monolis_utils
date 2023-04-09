@@ -15,7 +15,7 @@ contains
   subroutine monolis_conv_I2L_test
     implicit none
 
-    call monolis_std_log_string("monolis_conv_I2L_test")
+    call monolis_std_log_string("monolis_conv_I2L")
 
     call monolis_test_check_eq_L1("monolis_conv_I2L_test", monolis_conv_I2L(0), .false.)
 
@@ -25,7 +25,7 @@ contains
   subroutine monolis_conv_L2I_test
     implicit none
 
-    call monolis_std_log_string("monolis_conv_L2I_test")
+    call monolis_std_log_string("monolis_conv_L2I")
 
     call monolis_test_check_eq_I1("monolis_conv_L2I_test", monolis_conv_L2I(.false.), 0)
 

@@ -22,7 +22,7 @@ contains
     implicit none
     integer(kint) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_qsort_I_1d_test")
+    call monolis_std_log_string("monolis_qsort_I_1d")
 
     !> case 1
     a(1) = 5
@@ -39,7 +39,7 @@ contains
     b(4) = 4
     b(5) = 5
 
-    call monolis_test_check_eq_I("monolis_qsort_I_1d_test case 1", a, b)
+    call monolis_test_check_eq_I("monolis_qsort_I_1d case 1", a, b)
 
     !> case 2
     a(1) = 5
@@ -56,7 +56,7 @@ contains
     b(4) = 3
     b(5) = 2
 
-    call monolis_test_check_eq_I("monolis_qsort_I_1d_test case 2", a, b)
+    call monolis_test_check_eq_I("monolis_qsort_I_1d case 2", a, b)
 
     !> case 3
     a(1) = 5
@@ -73,14 +73,14 @@ contains
     b(4) = 5
     b(5) = 5
 
-    call monolis_test_check_eq_I("monolis_qsort_I_1d_test case 3", a, b)
+    call monolis_test_check_eq_I("monolis_qsort_I_1d case 3", a, b)
   end subroutine monolis_qsort_I_1d_test
 
   subroutine monolis_qsort_I_2d_test()
     implicit none
     integer(kint) :: a(5), b(5), c(5), d(5)
 
-    call monolis_std_log_string("monolis_qsort_I_2d_test")
+    call monolis_std_log_string("monolis_qsort_I_2d")
 
     !> case 1
     a(1) = 5; b(1) = 50
@@ -97,8 +97,8 @@ contains
     c(4) = 4; d(4) = 40
     c(5) = 5; d(5) = 50
 
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 1", a, c)
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 1", b, d)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 1", a, c)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 1", b, d)
 
     !> case 2
     a(1) = 5; b(1) = 50
@@ -115,8 +115,8 @@ contains
     c(4) = 3; d(4) = 30
     c(5) = 2; d(5) = 20
 
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 2", a, c)
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 2", b, d)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 2", a, c)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 2", b, d)
 
     !> case 3
     a(1) = 5; b(1) = 50
@@ -133,15 +133,15 @@ contains
     c(4) = 5; d(4) = 50
     c(5) = 5; d(5) = 50
 
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 3", a, c)
-    call monolis_test_check_eq_I("monolis_qsort_I_2d_test case 3", b, d)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 3", a, c)
+    call monolis_test_check_eq_I("monolis_qsort_I_2d case 3", b, d)
   end subroutine monolis_qsort_I_2d_test
 
   subroutine monolis_bsearch_I_test()
     implicit none
     integer(kint) :: a(5), idx
 
-    call monolis_std_log_string("monolis_bsearch_I_test")
+    call monolis_std_log_string("monolis_bsearch_I")
 
     !> case 1
     a(1) = 10
@@ -152,22 +152,22 @@ contains
 
     call monolis_bsearch_I(a, 1, 5, 20, idx)
 
-    call monolis_test_check_eq_I1("monolis_bsearch_I_test case 1", idx, 2)
+    call monolis_test_check_eq_I1("monolis_bsearch_I case 1", idx, 2)
 
     call monolis_bsearch_I(a, 1, 5, 10, idx)
 
-    call monolis_test_check_eq_I1("monolis_bsearch_I_test case 2", idx, 1)
+    call monolis_test_check_eq_I1("monolis_bsearch_I case 2", idx, 1)
 
     call monolis_bsearch_I(a, 1, 3, 40, idx)
 
-    call monolis_test_check_eq_I1("monolis_bsearch_I_test case 3", idx, -1)
+    call monolis_test_check_eq_I1("monolis_bsearch_I case 3", idx, -1)
   end subroutine monolis_bsearch_I_test
 
   subroutine monolis_get_sequence_array_I_test()
     implicit none
     integer(kint) :: a(5), b(5)
 
-    call monolis_std_log_string("monolis_get_sequence_array_I_test")
+    call monolis_std_log_string("monolis_get_sequence_array_I")
 
     !> case 1
     call monolis_get_sequence_array_I(a, 5, 1, 1)
@@ -178,7 +178,7 @@ contains
     b(4) = 4
     b(5) = 5
 
-    call monolis_test_check_eq_I("monolis_get_sequence_array_I_test case 1", a, b)
+    call monolis_test_check_eq_I("monolis_get_sequence_array_I case 1", a, b)
 
     !> case 2
     call monolis_get_sequence_array_I(a, 5, 2, 2)
@@ -189,14 +189,14 @@ contains
     b(4) = 8
     b(5) = 10
 
-    call monolis_test_check_eq_I("monolis_get_sequence_array_I_test case 2", a, b)
+    call monolis_test_check_eq_I("monolis_get_sequence_array_I case 2", a, b)
   end subroutine monolis_get_sequence_array_I_test
 
   subroutine monolis_get_uniq_array_I_test()
     implicit none
     integer(kint) :: a(5), b(3), newlen
 
-    call monolis_std_log_string("monolis_get_uniq_array_I_test")
+    call monolis_std_log_string("monolis_get_uniq_array_I")
 
     !> case 1
     a(1) = 1
@@ -211,15 +211,15 @@ contains
     b(2) = 2
     b(3) = 4
 
-    call monolis_test_check_eq_I ("monolis_bsearch_I_test case 1", a(1:3), b)
-    call monolis_test_check_eq_I1("monolis_bsearch_I_test case 1", newlen, 3)
+    call monolis_test_check_eq_I ("monolis_get_uniq_array_I case 1", a(1:3), b)
+    call monolis_test_check_eq_I1("monolis_get_uniq_array_I case 1", newlen, 3)
   end subroutine monolis_get_uniq_array_I_test
 
   subroutine monolis_perm_array_I_test()
     implicit none
     integer(kint) :: perm(5), a(5), b(5)
 
-    call monolis_std_log_string("monolis_perm_array_I_test")
+    call monolis_std_log_string("monolis_perm_array_I")
 
     a(1) = 1
     a(2) = 2
@@ -241,7 +241,7 @@ contains
     b(4) = 2
     b(5) = 1
 
-    call monolis_test_check_eq_I("monolis_perm_array_I_test case 1", a, b)
+    call monolis_test_check_eq_I("monolis_perm_array_I case 1", a, b)
   end subroutine monolis_perm_array_I_test
 
 end module mod_monolis_utils_std_sort_I_test

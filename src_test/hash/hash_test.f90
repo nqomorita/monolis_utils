@@ -20,21 +20,22 @@ contains
     implicit none
     type(monolis_hash_structure) :: monolis_hash
 
-    call monolis_std_log_string("monolis_hash_init_test")
+    call monolis_std_log_string("monolis_hash_init")
+    call monolis_std_log_string("monolis_hash_finalize")
 
     !> case 1
     call monolis_hash_init(monolis_hash, 5)
 
-    call monolis_test_check_eq_I1("monolis_hash_init_test 1", monolis_hash%n_put, 0)
-    call monolis_test_check_eq_I1("monolis_hash_init_test 2", monolis_hash%key_size, 5)
-    call monolis_test_check_eq_I1("monolis_hash_init_test 3", monolis_hash%hash_size_id, 5)
-    call monolis_test_check_eq_I1("monolis_hash_init_test 4", size(monolis_hash%bin), 16381)
+    call monolis_test_check_eq_I1("monolis_hash_init 1", monolis_hash%n_put, 0)
+    call monolis_test_check_eq_I1("monolis_hash_init 2", monolis_hash%key_size, 5)
+    call monolis_test_check_eq_I1("monolis_hash_init 3", monolis_hash%hash_size_id, 5)
+    call monolis_test_check_eq_I1("monolis_hash_init 4", size(monolis_hash%bin), 16381)
 
     !> case 2
     call monolis_hash_finalize(monolis_hash)
 
     if(associated(monolis_hash%bin))then
-      call monolis_test_assert_fail("monolis_hash_init_test", "")
+      call monolis_test_assert_fail("monolis_hash_init", "")
     endif
   end subroutine monolis_hash_init_test
 
@@ -42,14 +43,14 @@ contains
     implicit none
     character :: key*5
 
-    call monolis_std_log_string("monolis_hash_get_key_I_test")
+    call monolis_std_log_string("monolis_hash_get_key_I")
 
     call monolis_hash_get_key_I(5, 1, key)
 
     if(key(1:5) /= "00001")then
-      call monolis_test_assert_fail("monolis_hash_get_key_I_test", "")
+      call monolis_test_assert_fail("monolis_hash_get_key_I", "")
     else
-      call monolis_test_assert_pass("monolis_hash_get_key_I_test")
+      call monolis_test_assert_pass("monolis_hash_get_key_I")
     endif
   end subroutine monolis_hash_get_key_I_test
 
@@ -60,7 +61,9 @@ contains
     character :: key*5
     logical :: is_pushed, is_exist
 
-    call monolis_std_log_string("monolis_hash_push_get_unit_test")
+    call monolis_std_log_string("monolis_hash_push")
+    call monolis_std_log_string("monolis_hash_get")
+    call monolis_std_log_string("monolis_hash_get_key_I")
 
     call monolis_hash_init(monolis_hash, 5)
 
@@ -98,7 +101,9 @@ contains
     character :: key*5
     logical :: is_pushed, is_exist
 
-    call monolis_std_log_string("monolis_hash_push_get_full_test")
+    call monolis_std_log_string("monolis_hash_get_key_I")
+    call monolis_std_log_string("monolis_hash_push")
+    call monolis_std_log_string("monolis_hash_get")
 
     call monolis_hash_init(monolis_hash, 5)
 

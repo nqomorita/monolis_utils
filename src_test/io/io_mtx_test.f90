@@ -19,7 +19,7 @@ contains
     integer(kint), allocatable :: elem(:,:)
     real(kdouble), allocatable :: coef(:)
 
-    call monolis_std_log_string("monolis_input_mtx_R_test")
+    call monolis_std_log_string("monolis_input_mtx_R")
 
     call monolis_input_mtx_R("io/input/mtx.r.txt", N, NZ, elem, coef)
 
@@ -82,7 +82,7 @@ contains
     integer(kint), allocatable :: elem(:,:)
     complex(kdouble), allocatable :: coef(:)
 
-    call monolis_std_log_string("monolis_input_mtx_C_test")
+    call monolis_std_log_string("monolis_input_mtx_C")
 
     call monolis_input_mtx_C("io/input/mtx.c.txt", N, NZ, elem, coef)
 

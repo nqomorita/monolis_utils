@@ -1,6 +1,7 @@
 !> 通信データモジュール
 !# subroutine monolis_com_initialize(COM)
 !# subroutine monolis_com_finalize(COM)
+!# subroutine monolis_com_copy(in, out)
 !# subroutine monolis_com_set_communicator(COM, comm)
 !# subroutine monolis_com_get_communicator(COM, comm)
 !# subroutine monolis_com_set_my_rank(COM, my_rank)
@@ -10,6 +11,7 @@
 !# subroutine monolis_com_set_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_get_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_debug_write(COM)
+
 module mod_monolis_utils_define_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
@@ -99,6 +101,58 @@ contains
     call monolis_pdealloc_I_1d(COM%send_index)
     call monolis_pdealloc_I_1d(COM%send_item)
   end subroutine monolis_com_finalize
+
+  !> @ingroup com
+  !> COM 構造体のコピー関数
+  subroutine monolis_com_copy(in, out)
+    implicit none
+    !> [in] COM 構造体（コピー元）
+    type(monolis_COM) :: in
+    !> [in] COM 構造体（コピー先）
+    type(monolis_COM) :: out
+    integer(kint) :: nz
+
+    out%comm = in%comm
+    out%my_rank = in%my_rank
+    out%comm_size = in%comm_size
+    out%n_internal_vertex = in%n_internal_vertex
+
+    !! recv section
+    call monolis_pdealloc_I_1d(out%recv_neib_pe)
+    call monolis_pdealloc_I_1d(out%recv_index)
+    call monolis_pdealloc_I_1d(out%recv_item)
+
+    if(in%recv_n_neib > 0)then
+      out%recv_n_neib = in%recv_n_neib
+      nz = in%recv_index(in%recv_n_neib + 1)
+
+      call monolis_palloc_I_1d(out%recv_neib_pe, in%recv_n_neib)
+      call monolis_palloc_I_1d(out%recv_index, in%recv_n_neib + 1)
+      call monolis_palloc_I_1d(out%recv_item, nz)
+
+      out%recv_neib_pe = in%recv_neib_pe
+      out%recv_index = in%recv_index
+      out%recv_item = in%recv_item
+    endif
+
+    !! send section
+    call monolis_pdealloc_I_1d(out%send_neib_pe)
+    call monolis_pdealloc_I_1d(out%send_index)
+    call monolis_pdealloc_I_1d(out%send_item)
+
+    if(in%send_n_neib > 0)then
+      out%send_n_neib = in%send_n_neib
+      nz = in%send_index(in%send_n_neib + 1)
+
+      call monolis_palloc_I_1d(out%send_neib_pe, in%send_n_neib)
+      call monolis_palloc_I_1d(out%send_index, in%send_n_neib + 1)
+      call monolis_palloc_I_1d(out%send_item, nz)
+
+      out%send_neib_pe = in%send_neib_pe
+      out%send_index = in%send_index
+      out%send_item = in%send_item
+    endif
+  end subroutine monolis_com_copy
 
   !> @ingroup com
   !> COM 構造体に MPI コミュニケータを設定
