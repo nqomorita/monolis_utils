@@ -11,6 +11,9 @@ extern "C" {
 void monolis_std_log_string(
   const char* array);
 
+void monolis_std_global_log_string(
+  const char* array);
+
 void monolis_test_assert_pass(
   const char* array);
 

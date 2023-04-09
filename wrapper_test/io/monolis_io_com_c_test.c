@@ -9,7 +9,7 @@ void monolis_io_com_c_test()
   MONOLIS_COM com1;
   MONOLIS_COM com2;
 
-  monolis_std_log_string("monolis_input_send_com_table");
+  monolis_std_global_log_string("monolis_input_send_com_table");
 
   monolis_input_send_com_table("io/input/com.txt", &com1);
 
@@ -24,7 +24,7 @@ void monolis_io_com_c_test()
   monolis_test_check_eq_I1("monolis_input_send_com_table 9", com1.send_item[2], 30);
   monolis_test_check_eq_I1("monolis_input_send_com_table 10", com1.send_item[3], 40);
 
-  monolis_std_log_string("monolis_input_recv_com_table");
+  monolis_std_global_log_string("monolis_input_recv_com_table");
 
   monolis_input_recv_com_table("io/input/com.txt", &com2);
 

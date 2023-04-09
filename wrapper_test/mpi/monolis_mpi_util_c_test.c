@@ -12,7 +12,10 @@ void monolis_mpi_util_test()
 
   if(monolis_mpi_get_global_comm_size() == 1) return;
 
-  monolis_std_log_string("monolis_mpi_util_test");
+  monolis_std_global_log_string("monolis_mpi_get_global_comm");
+  monolis_std_global_log_string("monolis_mpi_get_global_comm_size");
+  monolis_std_global_log_string("monolis_mpi_get_local_comm_size");
+  monolis_std_global_log_string("monolis_mpi_split_comm");
 
   if(monolis_mpi_get_global_comm() == 0){
     monolis_test_assert_pass("monolis_mpi_global_comm_c");

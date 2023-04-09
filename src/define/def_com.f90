@@ -112,18 +112,14 @@ contains
     type(monolis_COM) :: out
     integer(kint) :: nz
 
-    call monolis_com_initialize(out)
+    call monolis_com_finalize(out)
 
     out%comm = in%comm
     out%my_rank = in%my_rank
     out%comm_size = in%comm_size
     out%n_internal_vertex = in%n_internal_vertex
 
-    !! recv section
-    call monolis_pdealloc_I_1d(out%recv_neib_pe)
-    call monolis_pdealloc_I_1d(out%recv_index)
-    call monolis_pdealloc_I_1d(out%recv_item)
-
+    ! recv section
     if(in%recv_n_neib > 0)then
       out%recv_n_neib = in%recv_n_neib
       nz = in%recv_index(in%recv_n_neib + 1)
@@ -137,11 +133,7 @@ contains
       out%recv_item = in%recv_item
     endif
 
-    !! send section
-    call monolis_pdealloc_I_1d(out%send_neib_pe)
-    call monolis_pdealloc_I_1d(out%send_index)
-    call monolis_pdealloc_I_1d(out%send_item)
-
+    ! send section
     if(in%send_n_neib > 0)then
       out%send_n_neib = in%send_n_neib
       nz = in%send_index(in%send_n_neib + 1)

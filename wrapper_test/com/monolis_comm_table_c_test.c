@@ -12,7 +12,7 @@ void monolis_comm_table_c_test()
 
   if(monolis_mpi_get_global_comm_size() == 1) return;
 
-  monolis_std_log_string("monolis_def_com_test");
+  monolis_std_global_log_string("monolis_com_set_communicator");
 
   n_internal_vertex = 3;
 
@@ -33,6 +33,8 @@ void monolis_comm_table_c_test()
     vertex_id[3] = 20;
     vertex_id[4] = 30;
   }
+
+  monolis_std_global_log_string("monolis_com_get_comm_table_parallel");
 
   monolis_com_get_comm_table_parallel(n_internal_vertex, n_vertex, vertex_id, &com);
 

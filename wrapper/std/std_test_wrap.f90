@@ -17,6 +17,16 @@ contains
     call monolis_std_log_string(header)
   end subroutine monolis_std_log_string_c
 
+  subroutine monolis_std_global_log_string_c(array) &
+    & bind(c, name = "monolis_std_global_log_string")
+    implicit none
+    character :: array(*)
+    character(monolis_charlen) :: header
+
+    header = monolis_string_c2f(array)
+    call monolis_std_global_log_string(header)
+  end subroutine monolis_std_global_log_string_c
+
   subroutine monolis_test_assert_pass_c(array) &
     & bind(c, name = "monolis_test_assert_pass")
     implicit none

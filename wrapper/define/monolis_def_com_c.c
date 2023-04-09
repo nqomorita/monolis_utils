@@ -57,10 +57,6 @@ void monolis_com_copy(
   out->comm = in->comm;
   out->comm_size = in->comm_size;
 
-  monolis_dealloc_I_1d(&out->recv_neib_pe);
-  monolis_dealloc_I_1d(&out->recv_index);
-  monolis_dealloc_I_1d(&out->recv_item);
-
   if(in->recv_n_neib > 0){
     out->recv_n_neib = in->recv_n_neib;
     nz = in->recv_index[in->recv_n_neib];
@@ -69,22 +65,18 @@ void monolis_com_copy(
     out->recv_index = monolis_alloc_I_1d(out->recv_index, in->recv_n_neib + 1);
     out->recv_item = monolis_alloc_I_1d(out->recv_item, nz);
 
-    for (int i = 0; i < in->recv_n_neib; ++i) {
+    for (i = 0; i < in->recv_n_neib; ++i) {
       out->recv_neib_pe[i] = in->recv_neib_pe[i];
     }
 
-    for (int i = 0; i < in->recv_n_neib + 1; ++i) {
+    for (i = 0; i < in->recv_n_neib + 1; ++i) {
       out->recv_index[i] = in->recv_index[i];
     }
 
-    for (int i = 0; i < nz; ++i) {
+    for (i = 0; i < nz; ++i) {
       out->recv_item[i] = in->recv_item[i];
     }
   }
-
-  monolis_dealloc_I_1d(&out->send_neib_pe);
-  monolis_dealloc_I_1d(&out->send_index);
-  monolis_dealloc_I_1d(&out->send_item);
 
   if(in->send_n_neib > 0){
     out->send_n_neib = in->send_n_neib;
@@ -94,15 +86,15 @@ void monolis_com_copy(
     out->send_index = monolis_alloc_I_1d(out->send_index, in->send_n_neib + 1);
     out->send_item = monolis_alloc_I_1d(out->send_item, nz);
 
-    for (int i = 0; i < in->send_n_neib; ++i) {
+    for (i = 0; i < in->send_n_neib; ++i) {
       out->send_neib_pe[i] = in->send_neib_pe[i];
     }
 
-    for (int i = 0; i < in->send_n_neib + 1; ++i) {
+    for (i = 0; i < in->send_n_neib + 1; ++i) {
       out->send_index[i] = in->send_index[i];
     }
 
-    for (int i = 0; i < nz; ++i) {
+    for (i = 0; i < nz; ++i) {
       out->send_item[i] = in->send_item[i];
     }
   }
