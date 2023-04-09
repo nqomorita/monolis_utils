@@ -104,8 +104,7 @@ contains
 
       n_data = 0
       do j = jS, jE
-        in = outer_domain_id_all(j)
-        if(recv_rank == in)then
+        if(recv_rank == outer_domain_id_all(j))then
           n_data = n_data + 1
         endif
       enddo
@@ -120,10 +119,16 @@ contains
 
       !> add global id
       call monolis_alloc_I_1d(iadd, n_data)
-      in = 1
-      do j = displs(domain_id) + 1, displs(domain_id + 1)
-        iadd(in) = outer_node_id_all_global(j)
-        in = in + 1
+
+      jS = displs(domain_id) + 1
+      jE = displs(domain_id + 1)
+
+      in = 0
+      do j = jS, jE
+        if(recv_rank == outer_domain_id_all(j))then
+          in = in + 1
+          iadd(in) = outer_node_id_all_global(j)
+        endif
       enddo
       call monolis_append_I_1d(recv_list(recv_rank + 1)%global_id, n_data, iadd)
       call monolis_dealloc_I_1d(iadd)
@@ -193,7 +198,7 @@ contains
       if(domain(i) /= 0)then
         in = in + 1
         com%send_neib_pe(in) = i - 1 !> conver to 0 origin
-        com%send_index(in + 1) = com%recv_index(in) + domain(i)
+        com%send_index(in + 1) = com%send_index(in) + domain(i)
       endif
     enddo
 
