@@ -112,6 +112,8 @@ contains
     type(monolis_COM) :: out
     integer(kint) :: nz
 
+    call monolis_com_initialize(out)
+
     out%comm = in%comm
     out%my_rank = in%my_rank
     out%comm_size = in%comm_size
