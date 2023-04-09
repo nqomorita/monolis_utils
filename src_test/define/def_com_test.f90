@@ -10,6 +10,8 @@ contains
     implicit none
 
     call monolis_com_set_test()
+
+    call monolis_std_global_log_string("monolis_com_debug_write")
   end subroutine monolis_utils_define_com_test
 
   subroutine monolis_com_set_test()
@@ -19,6 +21,11 @@ contains
     integer(kint) :: my_rank, my_rank_ans
     integer(kint) :: comm_size, comm_size_ans
     integer(kint) :: n_internal_vertex, n_internal_vertex_ans
+
+    call monolis_std_global_log_string("monolis_com_initialize")
+    call monolis_std_global_log_string("monolis_com_finalize")
+
+    call monolis_com_initialize(COM)
 
     !> case 1
     call monolis_std_global_log_string("monolis_com_set_communicator")
@@ -63,5 +70,7 @@ contains
 
     call monolis_test_check_eq_I1("monolis_com_set_test 4", &
       & n_internal_vertex, n_internal_vertex_ans)
+
+    call monolis_com_finalize(COM)
   end subroutine monolis_com_set_test
 end module mod_monolis_utils_define_com_test

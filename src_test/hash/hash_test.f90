@@ -13,6 +13,13 @@ contains
     call monolis_hash_get_key_I_test()
     call monolis_hash_push_get_unit_test()
     call monolis_hash_push_get_full_test()
+
+    call monolis_std_global_log_string("monolis_hash_key")
+    call monolis_std_global_log_string("monolis_hash_list_get")
+    call monolis_std_global_log_string("monolis_hash_list_push")
+    call monolis_std_global_log_string("monolis_hash_list_update")
+    call monolis_std_global_log_string("monolis_hash_resize")
+    call monolis_std_global_log_string("monolis_index_key")
   end subroutine monolis_utils_hash_test
 
   !> unit test

@@ -18,6 +18,23 @@ contains
     call monolis_alltoall_1_test()
     call monolis_send_recv_test()
     call monolis_update_test()
+
+    call monolis_std_global_log_string("monolis_mpi_initialize")
+    call monolis_std_global_log_string("monolis_mpi_finalize")
+
+    call monolis_std_global_log_string("monolis_mpi_global_barrier")
+    call monolis_std_global_log_string("monolis_mpi_local_barrier")
+
+    call monolis_std_global_log_string("monolis_get_time")
+    call monolis_std_global_log_string("monolis_get_time_global_sync")
+    call monolis_std_global_log_string("monolis_get_time_local_sync")
+
+    call monolis_std_global_log_string("monolis_Irecv_C")
+    call monolis_std_global_log_string("monolis_Irecv_I")
+    call monolis_std_global_log_string("monolis_Irecv_R")
+    call monolis_std_global_log_string("monolis_Isend_C")
+    call monolis_std_global_log_string("monolis_Isend_I")
+    call monolis_std_global_log_string("monolis_Isend_R")
   end subroutine monolis_mpi_test
 
   !> unit test

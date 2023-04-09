@@ -13,6 +13,17 @@ contains
     call monolis_test_check_eq_R_main_test()
     call monolis_test_check_eq_C_main_test()
     call monolis_test_check_eq_L_main_test()
+
+    call monolis_std_global_log_string("monolis_test_check_eq_I1")
+    call monolis_std_global_log_string("monolis_test_check_eq_R1")
+    call monolis_std_global_log_string("monolis_test_check_eq_C1")
+    call monolis_std_global_log_string("monolis_test_check_eq_L1")
+    call monolis_std_global_log_string("monolis_test_check_eq_I")
+    call monolis_std_global_log_string("monolis_test_check_eq_R")
+    call monolis_std_global_log_string("monolis_test_check_eq_C")
+    call monolis_std_global_log_string("monolis_test_check_eq_L")
+    call monolis_std_global_log_string("monolis_test_assert_pass")
+    call monolis_std_global_log_string("monolis_test_assert_fail")
   end subroutine monolis_utils_std_test_test
 
   !> unit test

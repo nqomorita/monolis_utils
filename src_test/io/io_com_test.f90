@@ -12,6 +12,9 @@ contains
     call monolis_input_recv_com_table_test()
     call monolis_output_send_com_table_test()
     call monolis_output_recv_com_table_test()
+
+    call monolis_std_global_log_string("monolis_input_com_table_main")
+    call monolis_std_global_log_string("monolis_output_com_table_main")
   end subroutine monolis_io_com_test
 
   subroutine monolis_input_send_com_table_test()

@@ -11,6 +11,10 @@ contains
 
     call monolis_kdtree_init_test()
     call monolis_kdtree_overlap_test()
+
+    call monolis_std_global_log_string("monolis_kdtree_finalize_main")
+    call monolis_std_global_log_string("monolis_kdtree_get_BB_including_coordinates_main")
+    call monolis_std_global_log_string("monolis_kdtree_init_by_BB_main")
   end subroutine monolis_utils_kdtree_test
 
   !> unit test

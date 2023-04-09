@@ -6,9 +6,11 @@ grep MONOLIS test_list.dat | sort | uniq | sed "s/\*\* MONOLIS: //g" | grep -v \
 # monolis_utils で実装された関数名のリストを作成
 cd ..
 
-find ./src -name "*.f90" | xargs grep -ih subroutine | grep -v end | grep -v \! | sed "s/  subroutine //g" | sed "s/  recursive subroutine //g" | sed "s/(.*//g" > ./src_test/tmp_list.dat
+find ./src -name "*.f90" | xargs grep -ih subroutine | grep -v "  end" | grep -v \! | sed "s/  subroutine //g" | sed "s/  recursive subroutine //g" | sed "s/(.*//g" > ./src_test/tmp_list.dat
 
 find ./src -name "*.f90" | xargs grep -ih function | grep -v end | grep -v \! | sed "s/  function //g" | sed "s/(.*//g" >> ./src_test/tmp_list.dat
+
+ls -1 bin/ >>  ./src_test/tmp_list.dat
 
 cd ./src_test
 

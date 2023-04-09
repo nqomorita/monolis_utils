@@ -93,7 +93,7 @@ contains
 
   !> @ingroup dev_error
   !> デバッグログ出力（文字列型）
-  subroutine monolis_std_debug_log_C(header, char)
+  subroutine monolis_std_debug_log_string(header, char)
     implicit none
     !> [in] 出力ログ
     character(*) :: header
@@ -101,7 +101,7 @@ contains
     character(*) :: char
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,a)")"** MONOLIS DEBUG: ", trim(header), char
-  end subroutine monolis_std_debug_log_C
+  end subroutine monolis_std_debug_log_string
 
   !> @ingroup dev_error
   !> デバッグログ出力（論理型）

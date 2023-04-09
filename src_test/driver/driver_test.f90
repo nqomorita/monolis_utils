@@ -17,6 +17,13 @@ contains
     call monolis_p_refiner_tet_test()
     call monolis_h_refiner_tet_test()
     call monolis_h_refiner_hex_test()
+
+    call monolis_std_global_log_string("monolis_h_refine_hex")
+    call monolis_std_global_log_string("monolis_h_refine_tet")
+    call monolis_std_global_log_string("monolis_p_refine_tet")
+
+    call monolis_std_global_log_string("monolis_get_surf")
+    call monolis_std_global_log_string("monolis_get_surf_main")
   end subroutine monolis_driver_test
 
   subroutine monolis_dbc_all_surf_hex_R_test()

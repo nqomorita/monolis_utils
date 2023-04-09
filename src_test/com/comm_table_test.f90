@@ -23,6 +23,20 @@ contains
     if(monolis_mpi_get_global_comm_size() == 1) return
 
     call monolis_std_global_log_string("monolis_com_get_comm_table_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_n_node_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_domain_id_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_recv_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_recv_parallel_n_neib")
+    call monolis_std_global_log_string("monolis_comm_get_recv_parallel_neib_id")
+    call monolis_std_global_log_string("monolis_comm_get_recv_parallel_index")
+    call monolis_std_global_log_string("monolis_comm_get_recv_parallel_item")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel_n_neib")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel_neib_id")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel_index")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel_item")
+    call monolis_std_global_log_string("monolis_comm_get_send_parallel_n_list")
 
     n_internal_vertex = 3
 
