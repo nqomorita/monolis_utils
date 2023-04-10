@@ -8,12 +8,12 @@ contains
   !> 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all_R(n_dof, val, is_get)
     implicit none
-    !> 入力自由度数
-    integer(kint) :: n_dof
-    !> 入力値
-    real(kdouble), allocatable :: val(:)
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
+    !> [out] 入力値
+    real(kdouble), allocatable, intent(out) :: val(:)
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, j, count
     character(monolis_charlen) :: argc1
 
@@ -52,12 +52,12 @@ contains
   !> 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all_C(n_dof, val, is_get)
     implicit none
-    !> 入力自由度数
-    integer(kint) :: n_dof
-    !> 入力値
-    complex(kdouble), allocatable :: val(:)
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
+    !> [out] 入力値
+    complex(kdouble), allocatable, intent(out) :: val(:)
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, j, count
     real(kdouble) :: r(2)
     character(monolis_charlen) :: argc1
