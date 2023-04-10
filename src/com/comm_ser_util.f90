@@ -15,15 +15,15 @@ contains
     & outer_node_id_all_global, outer_domain_id_all, displs)
     implicit none
     !> [in] 節点の所属する領域番号（全節点数）
-    integer(kint) :: vertex_domain_id(:)
+    integer(kint), intent(in) :: vertex_domain_id(:)
     !> [in] 領域分割数
-    integer(kint) :: n_domain
+    integer(kint), intent(in) :: n_domain
     !> [in] 全ての外部節点番号
-    integer(kint) :: outer_node_id_all_global(:)
-    !> 全ての外部節点が属する領域番号
-    integer(kint), allocatable :: outer_domain_id_all(:)
+    integer(kint), intent(in) :: outer_node_id_all_global(:)
+    !> [out] 全ての外部節点が属する領域番号
+    integer(kint), allocatable, intent(out) :: outer_domain_id_all(:)
     !> [in] 全ての外部節点配列の各領域に属する節点数
-    integer(kint) :: displs(:)
+    integer(kint), intent(in) :: displs(:)
     integer(kint) :: i, in, id
 
     call monolis_alloc_I_1d(outer_domain_id_all, displs(n_domain + 1))
@@ -40,22 +40,22 @@ contains
   subroutine monolis_comm_get_recv_serial(n_domain, domain_id, n_internal_vertex, &
     & outer_node_id_all_global, outer_domain_id_all, displs, com, recv_list)
     implicit none
-    !> [in] 分割領域数
-    integer(kint) :: n_domain
+    !> [in] 分割領域数  !L19との表記ゆれ
+    integer(kint), intent(in) :: n_domain
     !> [in] 領域番号
-    integer(kint) :: domain_id
-    !> [in] 領域の内部節点数
-    integer(kint) :: n_internal_vertex
-    !> 全ての外部節点番号（グローバル番号）
+    integer(kint) :: domain_id  !inout?
+    !> [in] 分割領域における内部計算点数
+    integer(kint), intent(in) :: n_internal_vertex
+    !> [in] 全ての外部節点番号（グローバル番号）  !L21との表記ゆれ
     integer(kint) :: outer_node_id_all_global(:)
-    !> [in] 節点が属する領域番号（全節点）
+    !> [in] 節点が属する領域番号（全節点）  !L23との表記ゆれ
     integer(kint) :: outer_domain_id_all(:)
-    !> 全ての外部節点配列の各領域に属する節点数
-    integer(kint) :: displs(:)
+    !> [in] 全ての外部節点配列の各領域に属する節点数
+    integer(kint), intent(in) :: displs(:)
     !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    type(monolis_COM) :: com  !inout?
     !> [in] recv 節点の情報
-    type(monolis_comm_node_list) :: recv_list(:)
+    type(monolis_comm_node_list) :: recv_list(:)  !inout
     integer(kint) :: i, in, j, jn, jS, jE, n_neib, n_data
     integer(kint) :: recv_rank
     integer(kint), allocatable :: domain(:), master_vertex_local_id(:)
@@ -151,16 +151,16 @@ contains
   !> データ通信する send 隣接領域の取得（逐次実行版）
   subroutine monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list)
     implicit none
-    !> [in] 分割領域数
-    integer(kint) :: n_domain
-    !> [in] 節点数
-    integer(kint) :: n_vertex
-    !> [in] 節点 id
-    integer(kint) :: vertex_id(:)
+    !> [in] 分割領域数  !L19との表記ゆれ
+    integer(kint), intent(in) :: n_domain
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] 計算点 id
+    integer(kint), intent(in) :: vertex_id(:)
     !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    type(monolis_COM) :: com  !inout?
     !> [in] recv 節点の情報
-    type(monolis_comm_node_list) :: recv_list
+    type(monolis_comm_node_list), intent(in) :: recv_list
     integer(kint) :: i, in, n_neib, id
     integer(kint), allocatable :: temp(:), local_nid(:), domain(:)
 
