@@ -11,9 +11,9 @@ contains
   subroutine monolis_check_fortran_1_origin_elem(elem, is_1_origin)
     implicit none
     !> [in] elem データ
-    integer(kint) :: elem(:,:)
+    integer(kint), intent(in) :: elem(:,:)
     !> [out] 1 オリジンであれば真
-    logical :: is_1_origin
+    logical, intent(out) :: is_1_origin
     is_1_origin = .true.
     if(minval(elem) == 0) is_1_origin = .false.
   end subroutine monolis_check_fortran_1_origin_elem
@@ -23,9 +23,9 @@ contains
   subroutine monolis_check_fortran_1_origin_graph(item, is_1_origin)
     implicit none
     !> [in] graph データの item 配列
-    integer(kint) :: item(:)
+    integer(kint), intent(in) :: item(:)
     !> [out] 1 オリジンであれば真
-    logical :: is_1_origin
+    logical, intent(out) :: is_1_origin
     is_1_origin = .true.
     if(minval(item) == 0) is_1_origin = .false.
   end subroutine monolis_check_fortran_1_origin_graph
