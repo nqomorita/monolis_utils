@@ -25,7 +25,7 @@ module mod_monolis_utils_define_com
     integer(kint) :: my_rank
     !> MPI コミュニケータサイズ
     integer(kint) :: comm_size
-    !> 内部領域に属する自由度数
+    !> 分割領域における内部計算点数
     integer(kint) :: n_internal_vertex
     !> 受信する領域数
     integer(kint) :: recv_n_neib
@@ -59,7 +59,7 @@ contains
   subroutine monolis_com_initialize(COM)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    type(monolis_COM) :: COM  !inout?
 
     COM%comm = monolis_mpi_get_global_comm()
     COM%my_rank = monolis_mpi_get_global_my_rank()
@@ -82,7 +82,7 @@ contains
   subroutine monolis_com_finalize(COM)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    type(monolis_COM) :: COM  !inout?
 
     COM%comm = 0
     COM%my_rank = 0
@@ -104,10 +104,10 @@ contains
   !> COM 構造体に MPI コミュニケータを設定
   subroutine monolis_com_set_communicator(COM, comm)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI コミュニケータ
-    integer(kint) :: comm
+    !> [out] COM 構造体
+    type(monolis_COM), intent(out) :: COM
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
     COM%comm = comm
   end subroutine monolis_com_set_communicator
 
@@ -116,9 +116,9 @@ contains
   subroutine monolis_com_get_communicator(COM, comm)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI コミュニケータ
-    integer(kint) :: comm
+    type(monolis_COM), intent(in) :: COM
+    !> [out] MPI コミュニケータ
+    integer(kint), intent(out) :: comm
     comm = COM%comm
   end subroutine monolis_com_get_communicator
 
@@ -126,10 +126,10 @@ contains
   !> COM 構造体に MPI ランク番号を設定
   subroutine monolis_com_set_my_rank(COM, my_rank)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI ランク番号
-    integer(kint) :: my_rank
+    !> [out] COM 構造体
+    type(monolis_COM), intent(out) :: COM
+    !> [in] MPI ランク番号
+    integer(kint), intent(in) :: my_rank
     COM%my_rank = my_rank
   end subroutine monolis_com_set_my_rank
 
@@ -138,9 +138,9 @@ contains
   subroutine monolis_com_get_my_rank(COM, my_rank)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI ランク番号
-    integer(kint) :: my_rank
+    type(monolis_COM), intent(in) :: COM
+    !> [out] MPI ランク番号
+    integer(kint), intent(out) :: my_rank
     my_rank = COM%my_rank
   end subroutine monolis_com_get_my_rank
 
@@ -148,10 +148,10 @@ contains
   !> COM 構造体に MPI コミュニケータサイズを設定
   subroutine monolis_com_set_comm_size(COM, comm_size)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI コミュニケータサイズ
-    integer(kint) :: comm_size
+    !> [out] COM 構造体
+    type(monolis_COM), intent(out) :: COM
+    !> [in] MPI コミュニケータサイズ
+    integer(kint), intent(in) :: comm_size
     COM%comm_size = comm_size
   end subroutine monolis_com_set_comm_size
 
@@ -160,31 +160,31 @@ contains
   subroutine monolis_com_get_comm_size(COM, comm_size)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> MPI コミュニケータサイズ
-    integer(kint) :: comm_size
+    type(monolis_COM), intent(in) :: COM
+    !> [out] MPI コミュニケータサイズ
+    integer(kint), intent(out) :: comm_size
     comm_size = COM%comm_size
   end subroutine monolis_com_get_comm_size
 
   !> @ingroup com
-  !> COM 構造体に内部領域に属する自由度数を設定
+  !> COM 構造体に分割領域における内部計算点数を設定
   subroutine monolis_com_set_n_internal_vertex(COM, n_internal_vertex)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> 内部領域に属する自由度数
-    integer(kint) :: n_internal_vertex
+    !> [out] COM 構造体
+    type(monolis_COM), intent(out) :: COM
+    !> [in] 分割領域における内部計算点数
+    integer(kint), intent(in) :: n_internal_vertex
     COM%n_internal_vertex = n_internal_vertex
   end subroutine monolis_com_set_n_internal_vertex
 
   !> @ingroup com
-  !> COM 構造体から内部領域に属する自由度数を取得
+  !> COM 構造体から分割領域における内部計算点数を取得
   subroutine monolis_com_get_n_internal_vertex(COM, n_internal_vertex)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> 内部領域に属する自由度数
-    integer(kint) :: n_internal_vertex
+    type(monolis_COM), intent(in) :: COM
+    !> [out] 分割領域における内部計算点数
+    integer(kint), intent(out) :: n_internal_vertex
     n_internal_vertex = COM%n_internal_vertex
   end subroutine monolis_com_get_n_internal_vertex
 
@@ -193,7 +193,7 @@ contains
   subroutine monolis_com_debug_write(COM)
     implicit none
     !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    type(monolis_COM), intent(in) :: COM
 
     write(*,*)"--- monolis_com_debug_write"
     write(*,*)"COM%comm"
