@@ -14,19 +14,19 @@ contains
     & n_base_out, n_elem_out, out)
     implicit none
     !> [in] 要素数
-    integer(kint) :: n_elem
-    !> [in] 基底の数
-    integer(kint) :: n_base
-    !> [in] 要素
-    integer(kint) :: elem(:,:)
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素を構成する形状関数の数
+    integer(kint), intent(in) :: n_base
+    !> [in] 要素コネクティビティ
+    integer(kint), intent(in) :: elem(:,:)
     !> [in] 入力要素の面の数
-    integer(kint) :: n_surf
+    integer(kint), intent(in) :: n_surf
     !> [in] 入力要素の面の基底の数
-    integer(kint) :: n_base_out
+    integer(kint), intent(in) :: n_base_out
     !> [out] 抽出された要素の要素数
-    integer(kint) :: n_elem_out
+    integer(kint), intent(out) :: n_elem_out
     !> [out] 抽出された要素
-    integer(kint), allocatable :: out(:,:)
+    integer(kint), allocatable, intent(out) :: out(:,:)
     integer(kint) :: conn(n_base)
     integer(kint) :: i, j, in, eid
     integer(kint), allocatable :: is_inner(:,:)
@@ -66,16 +66,16 @@ contains
   !> 表面要素を構成する節点番号を抽出
   subroutine monolis_get_surf_node(n_base, n_surf, surf, n_node, node_id)
     implicit none
-    !> [in] 入力要素の数
-    integer(kint) :: n_surf
-    !> [in] 入力要素の基底の数
-    integer(kint) :: n_base
+    !> [in] 要素を構成する形状関数の数
+    integer(kint), intent(in) :: n_base
+    !> [in] 入力要素の面の数
+    integer(kint), intent(in) :: n_surf
     !> [in] 抽出された要素
-    integer(kint) :: surf(:,:)
+    integer(kint), intent(in) :: surf(:,:)
     !> [out] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(out) :: n_node
     !> [out] 節点番号
-    integer(kint), allocatable :: node_id(:)
+    integer(kint), allocatable, intent(out) :: node_id(:)
     integer(kint) :: i, j
     integer(kint), allocatable :: tmp(:)
 
@@ -102,15 +102,15 @@ contains
   subroutine monolis_get_surf_main(n_elem, n_base, elem, n_surf, is_inner)
     implicit none
     !> [in]  要素数
-    integer(kint) :: n_elem
-    !> [in] 基底の数
-    integer(kint) :: n_base
-    !> [in] 要素
-    integer(kint) :: elem(:,:)
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素を構成する形状関数の数
+    integer(kint), intent(in) :: n_base
+    !> [in] 要素コネクティビティ
+    integer(kint), intent(in) :: elem(:,:)
     !> [in] 入力要素の面の数
-    integer(kint) :: n_surf
+    integer(kint), intent(in) :: n_surf
     !> [out] 要素の表面判定フラグ
-    integer(kint), allocatable :: is_inner(:,:)
+    integer(kint), allocatable, intent(out) :: is_inner(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: conn(n_base)
     integer(kint) :: i, in, eid
@@ -156,14 +156,14 @@ contains
   !> ハッシュキーの生成
   function get_key_surf(n_base, i, conn)
     implicit none
-    !> [out]ハッシュキー
+    !> [out] ハッシュキー
     character :: get_key_surf*27
-    !> [in] 入力要素の基底の数
-    integer(kint) :: n_base
+    !> [in] 要素を構成する形状関数の数
+    integer(kint), intent(in) :: n_base
     !> [in] 入力要素の面番号
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     !> [in] 要素コネクティビティ
-    integer(kint) :: conn(:)
+    integer(kint), intent(in) :: conn(:)
     integer(kint) :: array(4)
     integer(kint) :: i1, i2, i3, i4
     character :: c1*9, c2*9, c3*9
