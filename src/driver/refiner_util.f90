@@ -12,21 +12,21 @@ contains
   subroutine monolis_h_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(in) :: n_node
     !> [in] 節点座標
-    real(kdouble) :: node(:,:)
-    !> [in] 要素の数
-    integer(kint) :: n_elem
-    !> [in] 要素
-    integer(kint) :: elem(:,:)
+    real(kdouble), intent(in) :: node(:,:)
+    !> [in] 要素数
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素コネクティビティ
+    integer(kint), intent(in) :: elem(:,:)
     !> [out] リファイン後の節点数
-    integer(kint) :: n_node_ref
-    !> [out] リファイン後の節点
-    real(kdouble), allocatable :: node_ref(:,:)
+    integer(kint), intent(out) :: n_node_ref
+    !> [out] リファイン後の節点座標
+    real(kdouble), allocatable, intent(out) :: node_ref(:,:)
     !> [out] リファイン後の要素数
-    integer(kint) :: n_elem_ref
-    !> [inout] リファイン後の要素
-    integer(kint), allocatable :: elem_ref(:,:)
+    integer(kint), intent(out) :: n_elem_ref
+    !> [inout] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(6)
     integer(kint) :: i, i1, i2, i3, eid, newid, conn(4)
@@ -121,21 +121,21 @@ contains
   subroutine monolis_h_refine_hex(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(in) :: n_node
     !> [in] 節点座標
-    real(kdouble) :: node(:,:)
-    !> [in] 要素の数
-    integer(kint) :: n_elem
-    !> [in] 要素
-    integer(kint) :: elem(:,:)
+    real(kdouble), intent(in) :: node(:,:)
+    !> [in] 要素数
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素コネクティビティ
+    integer(kint), intent(in) :: elem(:,:)
     !> [out] リファイン後の節点数
-    integer(kint) :: n_node_ref
-    !> [out] リファイン後の節点
-    real(kdouble), allocatable :: node_ref(:,:)
+    integer(kint), intent(out) :: n_node_ref
+    !> [out] リファイン後の節点座標
+    real(kdouble), allocatable, intent(out) :: node_ref(:,:)
     !> [out] リファイン後の要素数
-    integer(kint) :: n_elem_ref
-    !> [inout] リファイン後の要素
-    integer(kint), allocatable :: elem_ref(:,:)
+    integer(kint), intent(out) :: n_elem_ref
+    !> [inout] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(19)
     integer(kint) :: i, i1, i2, i3, j, eid, newid, conn(8)
@@ -296,19 +296,19 @@ contains
   subroutine monolis_p_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, elem_ref)
     implicit none
     !> [in] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(in) :: n_node
     !> [in] 節点座標
-    real(kdouble) :: node(:,:)
-    !> [in] 要素の数
-    integer(kint) :: n_elem
-    !> [in] 要素
-    integer(kint) :: elem(:,:)
+    real(kdouble), intent(in) :: node(:,:)
+    !> [in] 要素数
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素コネクティビティ
+    integer(kint), intent(in) :: elem(:,:)
     !> [out] リファイン後の節点数
-    integer(kint) :: n_node_ref
-    !> [out] リファイン後の節点
-    real(kdouble), allocatable :: node_ref(:,:)
-    !> [inout] リファイン後の要素
-    integer(kint), allocatable :: elem_ref(:,:)
+    integer(kint), intent(out) :: n_node_ref
+    !> [out] リファイン後の節点座標
+    real(kdouble), allocatable, intent(out) :: node_ref(:,:)
+    !> [inout] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(6)
     integer(kint) :: i, i1, i2, eid, newid, conn(4)
