@@ -13,14 +13,14 @@ contains
   !> 通信テーブルを作成（並列実行版）
   subroutine monolis_com_get_comm_table_parallel(n_internal_vertex, n_vertex, vertex_id, com)
     implicit none
-    !> [in] 内部節点数
-    integer(kint) :: n_internal_vertex
-    !> [in] 全節点数
-    integer(kint) :: n_vertex
-    !> [in] グローバル節点番号
-    integer(kint) :: vertex_id(:)
+    !> [in] 分割領域における内部計算点数
+    integer(kint), intent(in) :: n_internal_vertex
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] 計算点 id
+    integer(kint), intent(in) :: vertex_id(:)
     !> [out] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com
+    type(monolis_COM) :: com  !inout?
     !> 全ての外部節点番号（グローバル番号）
     integer(kint), allocatable :: outer_node_id_all_global(:)
     !> 全ての外部節点が属する領域番号
