@@ -21,9 +21,9 @@ contains
   subroutine monolis_check_arg_input(tag, is_get)
     implicit none
     !> [in] 引数のタグ
-    character(*) :: tag
+    character(*), intent(in) :: tag
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, count
     character(monolis_charlen) :: argc1
 
@@ -45,11 +45,11 @@ contains
   subroutine monolis_get_arg_input_I(tag, var, is_get)
     implicit none
     !> [in] 引数のタグ
-    character(*) :: tag
-    !> [out] 分割数
-    integer(kint) :: var
+    character(*), intent(in) :: tag
+    !> [inout] 分割数
+    integer(kint), intent(inout) :: var
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, count
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
@@ -77,11 +77,11 @@ contains
   subroutine monolis_get_arg_input_R(tag, var, is_get)
     implicit none
     !> [in] 引数のタグ
-    character(*) :: tag
-    !> [out] 分割数
-    real(kdouble) :: var
+    character(*), intent(in) :: tag
+    !> [inout] 分割数
+    real(kdouble), intent(inout) :: var
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, count
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
@@ -109,11 +109,11 @@ contains
   subroutine monolis_get_arg_input_S(tag, var, is_get)
     implicit none
     !> [in] 引数のタグ
-    character(*) :: tag
-    !> [out] 文字列型
-    character(monolis_charlen) :: var
+    character(*), intent(in) :: tag
+    !> [inout] 文字列型
+    character(monolis_charlen), intent(inout) :: var
     !> [out] 引数の取得判定
-    logical :: is_get
+    logical, intent(out) :: is_get
     integer(kint) :: i, count
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
@@ -141,9 +141,10 @@ contains
   !> 入力節点ファイル名を取得
   subroutine monolis_get_arg_input_in_tag(fnname, is_get)
     implicit none
-    !> 入力節点ファイル名
-    character(monolis_charlen) :: fnname
-    logical :: is_get
+    !> [out] 入力節点ファイル名
+    character(monolis_charlen), intent(out) :: fnname
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     fnname = "node.dat"
     call monolis_get_arg_input_S("-in", fnname, is_get)
     call monolis_std_log_string2("[input node file]", fnname)
@@ -153,9 +154,10 @@ contains
   !> 入力要素ファイル名を取得
   subroutine monolis_get_arg_input_ie_tag(fename, is_get)
     implicit none
-    !> 入力要素ファイル名
-    character(monolis_charlen) :: fename
-    logical :: is_get
+    !> [out] 入力要素ファイル名
+    character(monolis_charlen), intent(out) :: fename
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     fename = "elem.dat"
     call monolis_get_arg_input_S("-ie", fename, is_get)
     call monolis_std_log_string2("[input elem file]", fename)
@@ -165,9 +167,10 @@ contains
   !> 入力ファイル名を取得
   subroutine monolis_get_arg_input_i_tag(finame, is_get)
     implicit none
-    !> 出力ファイル名
-    character(monolis_charlen) :: finame
-    logical :: is_get
+    !> [inout] 出力ファイル名
+    character(monolis_charlen), intent(inout) :: finame
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     call monolis_get_arg_input_S("-i", finame, is_get)
     call monolis_std_log_string2("[input file]", finame)
   end subroutine monolis_get_arg_input_i_tag
@@ -176,9 +179,10 @@ contains
   !> 出力ファイル名を取得
   subroutine monolis_get_arg_input_o_tag(foname, is_get)
     implicit none
-    !> 出力ファイル名
-    character(monolis_charlen) :: foname
-    logical :: is_get
+    !> [inout] 出力ファイル名
+    character(monolis_charlen), intent(inout) :: foname
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     call monolis_get_arg_input_S("-o", foname, is_get)
     call monolis_std_log_string2("[output file]", foname)
   end subroutine monolis_get_arg_input_o_tag
@@ -187,9 +191,10 @@ contains
   !> 分割数を取得
   subroutine monolis_get_arg_input_n_tag(n_domain, is_get)
     implicit none
-    !> 分割数
-    integer(kint) :: n_domain
-    logical :: is_get
+    !> [out] 分割数
+    integer(kint), intent(out) :: n_domain
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     n_domain = 1
     call monolis_get_arg_input_I("-n", n_domain, is_get)
     call monolis_std_log_I1("[number of domains]", n_domain)
@@ -199,9 +204,10 @@ contains
   !> 分割数を取得
   subroutine monolis_get_arg_input_d_tag(fdname, is_get)
     implicit none
-    !> 出力ファイル名
-    character(monolis_charlen) :: fdname
-    logical :: is_get
+    !> [out] 出力ファイル名
+    character(monolis_charlen), intent(out) :: fdname
+    !> [out] 引数の取得判定
+    logical, intent(out) :: is_get
     fdname = "./parted.0"
     call monolis_get_arg_input_S("-d", fdname, is_get)
     call monolis_std_log_string2("[output directory]", fdname)
