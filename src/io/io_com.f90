@@ -19,9 +19,9 @@ contains
   subroutine monolis_output_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> 分割領域に対応する COM 構造体
-    type(monolis_COM) :: COM
+    character(*), intent(in) :: fname
+    !> [in] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(in) :: COM
 
     call monolis_output_com_table_main(fname, &
       & COM%send_n_neib, COM%send_neib_pe, COM%send_index, COM%send_item)
@@ -32,9 +32,9 @@ contains
   subroutine monolis_output_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> 分割領域に対応する COM 構造体
-    type(monolis_COM) :: COM
+    character(*), intent(in) :: fname
+    !> [in] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(in) :: COM
 
     call monolis_output_com_table_main(fname, &
       & COM%recv_n_neib, COM%recv_neib_pe, COM%recv_index, COM%recv_item)
@@ -45,15 +45,15 @@ contains
   subroutine monolis_output_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 隣接領域数
-    integer(kint) :: n_neib
+    integer(kint), intent(in) :: n_neib
     !> [in] 隣接領域 id
-    integer(kint) :: neib_pe(:)
+    integer(kint), intent(in) :: neib_pe(:)
     !> [in] 通信テーブルの index 配列
-    integer(kint) :: index(:)
+    integer(kint), intent(in) :: index(:)
     !> [in] 通信テーブルの item 配列
-    integer(kint) :: item(:)
+    integer(kint), intent(in) :: item(:)
     integer(kint) :: i
 
     open(20, file = fname, status = "replace")
@@ -84,9 +84,9 @@ contains
   subroutine monolis_input_send_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> 分割領域に対応する COM 構造体
-    type(monolis_COM) :: COM
+    character(*), intent(in) :: fname
+    !> [out] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(out) :: COM
 
     call monolis_input_com_table_main(fname, &
       & COM%send_n_neib, COM%send_neib_pe, COM%send_index, COM%send_item)
@@ -97,9 +97,9 @@ contains
   subroutine monolis_input_recv_com_table(fname, COM)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> 分割領域に対応する COM 構造体
-    type(monolis_COM) :: COM
+    character(*), intent(in) :: fname
+    !> [out] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(out) :: COM
 
     call monolis_input_com_table_main(fname, &
       & COM%recv_n_neib, COM%recv_neib_pe, COM%recv_index, COM%recv_item)
@@ -110,15 +110,15 @@ contains
   subroutine monolis_input_com_table_main(fname, n_neib, neib_pe, index, item)
     implicit none
     !> [in] 入力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 隣接領域数
-    integer(kint) :: n_neib
+    integer(kint), intent(out) :: n_neib
     !> [out] 隣接領域 id
-    integer(kint), pointer :: neib_pe(:)
+    integer(kint), pointer, intent(out) :: neib_pe(:)
     !> [out] 通信テーブルの index 配列
-    integer(kint), pointer :: index(:)
+    integer(kint), pointer, intent(out) :: index(:)
     !> [out] 通信テーブルの item 配列
-    integer(kint), pointer :: item(:)
+    integer(kint), pointer, intent(out) :: item(:)
     integer(kint) :: i, nz
 
     open(20, file = fname, status = "old")
