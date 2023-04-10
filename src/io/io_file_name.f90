@@ -14,9 +14,9 @@ contains
     !> [out] 戻り値
     character(monolis_charlen) :: monolis_get_global_input_file_name
     !> [in] 入力ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
     !> [in] 入力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     integer(kint) :: domain_id
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
@@ -39,11 +39,11 @@ contains
     !> [out] 戻り値
     character(monolis_charlen) :: monolis_get_local_input_file_name
     !> [in] 入力ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
     !> [in] 入力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: domain_id
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
@@ -66,9 +66,9 @@ contains
     !> [out] 戻り値
     character(monolis_charlen) :: monolis_get_global_output_file_name
     !> [in] 出力ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     integer(kint) :: domain_id
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
@@ -91,11 +91,11 @@ contains
     !> [out] 戻り値
     character(monolis_charlen) :: monolis_get_local_output_file_name
     !> [in] 出力ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: domain_id
     integer(kint) :: comm_size
     character(monolis_charlen) :: cid
@@ -118,11 +118,11 @@ contains
     !> [out] 戻り値
     character(monolis_charlen) :: monolis_get_output_file_name_by_domain_id
     !> [in] 出力ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 領域番号
-    integer(kint) :: domain_id
+    integer(kint), intent(in) :: domain_id
     character(monolis_charlen) :: cid
 
     write(cid,"(i0)") domain_id
