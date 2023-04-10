@@ -11,15 +11,15 @@ contains
   subroutine monolis_input_mtx_R(fname, N, NZ, elem, coef)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 行列の自由度
-    integer(kint) :: N
+    integer(kint), intent(out) :: N
     !> [out] 行列の非零要素数
-    integer(kint) :: NZ
+    integer(kint), intent(out) :: NZ
     !> [out] 行列の非零要素数
-    integer(kint), allocatable :: elem(:,:)
+    integer(kint), allocatable, intent(out) :: elem(:,:)
     !> [out] 行列の非零要素数
-    real(kdouble), allocatable :: coef(:)
+    real(kdouble), allocatable, intent(out) :: coef(:)
     integer(kint) :: i, in, ierr
     character(monolis_charlen) :: ctemp
     logical :: is_first
@@ -57,15 +57,15 @@ contains
   subroutine monolis_input_mtx_C(fname, N, NZ, elem, coef)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 行列の自由度
-    integer(kint) :: N
+    integer(kint), intent(out) :: N
     !> [out] 行列の非零要素数
-    integer(kint) :: NZ
+    integer(kint), intent(out) :: NZ
     !> [out] 行列の非零要素数
-    integer(kint), allocatable :: elem(:,:)
+    integer(kint), allocatable, intent(out) :: elem(:,:)
     !> [out] 行列の非零要素数
-    complex(kdouble), allocatable :: coef(:)
+    complex(kdouble), allocatable, intent(out) :: coef(:)
     integer(kint) :: i, in, ierr
     real(kdouble) :: r1, r2
     character(monolis_charlen) :: ctemp
