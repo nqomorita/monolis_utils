@@ -34,15 +34,15 @@ contains
   subroutine monolis_input_graph(fname, n_vertex, vertex_id, index, item)
     implicit none
     !> [in] 入力ファイル名
-    character(*) :: fname
-    !> [out] グラフノード数
-    integer(kint) :: n_vertex
-    !> [out] グラフノード id
-    integer(kint), allocatable :: vertex_id(:)
+    character(*), intent(in) :: fname
+    !> [out] 全計算点数
+    integer(kint), intent(out) :: n_vertex
+    !> [out] 計算点 id
+    integer(kint), allocatable, intent(out) :: vertex_id(:)
     !> [out] グラフの CSR 圧縮形式の index 配列
-    integer(kint), allocatable :: index(:)
+    integer(kint), allocatable, intent(out) :: index(:)
     !> [out] グラフの CSR 圧縮形式の index 配列
-    integer(kint), allocatable :: item(:)
+    integer(kint), allocatable, intent(out) :: item(:)
     integer(kint) :: i, in, j, tmp, nz, ierr
 
     nz = 0
@@ -75,15 +75,15 @@ contains
   subroutine monolis_output_graph(fname, n_vertex, vertex_id, index, item)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> [in] グラフノード数
-    integer(kint) :: n_vertex
-    !> [in] グラフノード id
-    integer(kint) :: vertex_id(:)
+    character(*), intent(in) :: fname
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] 計算点 id
+    integer(kint), intent(in) :: vertex_id(:)
     !> [in] グラフの CSR 圧縮形式の index 配列
-    integer(kint) :: index(:)
+    integer(kint), intent(in) :: index(:)
     !> [in] グラフの CSR 圧縮形式の index 配列
-    integer(kint) :: item(:)
+    integer(kint), intent(in) :: item(:)
     integer(kint) :: i, in, j, jS, jE
 
     open(20, file = trim(fname), status = "replace")
@@ -106,11 +106,11 @@ contains
   subroutine monolis_input_node(fname, n_node, node)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(out) :: n_node
     !> [out] 節点座標
-    real(kdouble), allocatable :: node(:,:)
+    real(kdouble), allocatable, intent(out) :: node(:,:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "old")
@@ -127,11 +127,11 @@ contains
   subroutine monolis_output_node(fname, n_node, node)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 節点数
-    integer(kint) :: n_node
+    integer(kint), intent(in) :: n_node
     !> [in] 節点座標
-    real(kdouble) :: node(:,:)
+    real(kdouble), intent(in) :: node(:,:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "replace")
@@ -147,13 +147,13 @@ contains
   subroutine monolis_input_elem(fname, n_elem, n_base, elem)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 要素数
-    integer(kint) :: n_elem
-    !> [out] 基底の数
-    integer(kint) :: n_base
+    integer(kint), intent(out) :: n_elem
+    !> [out] 要素を構成する形状関数の数
+    integer(kint), intent(out) :: n_base
     !> [out] 要素コネクティビティ
-    integer(kint), allocatable :: elem(:,:)
+    integer(kint), allocatable, intent(out) :: elem(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "old")
@@ -170,13 +170,13 @@ contains
   subroutine monolis_output_elem(fname, n_elem, n_base, elem)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 要素数
-    integer(kint) :: n_elem
-    !> [in] 基底の数
-    integer(kint) :: n_base
+    integer(kint), intent(in) :: n_elem
+    !> [in] 要素を構成する形状関数の数
+    integer(kint), intent(in) :: n_base
     !> [in] 要素コネクティビティ
-    integer(kint) :: elem(:,:)
+    integer(kint), intent(in) :: elem(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "replace")
@@ -195,9 +195,10 @@ contains
   subroutine monolis_input_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 内部自由度の数
-    integer(kint) :: n_internal, i
+    integer(kint), intent(out) :: n_internal
+    integer(kint) :: i
     character(monolis_charlen) :: label
 
     open(20, file = trim(fname), status = "old")
@@ -211,9 +212,9 @@ contains
   subroutine monolis_output_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 内部自由度の数
-    integer(kint) :: n_internal
+    integer(kint), intent(in) :: n_internal
 
     open(20, file = trim(fname), status = "replace")
       write(20,"(a)") "#n_internal 1"
@@ -226,11 +227,11 @@ contains
   subroutine monolis_input_global_id(fname, n_vertex, vertex_id)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> [out] 節点数
-    integer(kint) :: n_vertex
-    !> [out] グローバル id
-    integer(kint), allocatable :: vertex_id(:)
+    character(*), intent(in) :: fname
+    !> [out] 全計算点数
+    integer(kint), intent(out) :: n_vertex
+    !> [out] 計算点 id
+    integer(kint), allocatable, intent(out) :: vertex_id(:)
     integer(kint) :: i, n_dof
     character(monolis_charlen) :: label
 
@@ -251,11 +252,11 @@ contains
   subroutine monolis_output_global_id(fname, n_vertex, vertex_id)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
-    !> [in] 節点数
-    integer(kint) :: n_vertex
-    !> [in] グローバル id
-    integer(kint) :: vertex_id(:)
+    character(*), intent(in) :: fname
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n_vertex
+    !> [in] 計算点 id
+    integer(kint), intent(in) :: vertex_id(:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "replace")
@@ -273,15 +274,15 @@ contains
   subroutine monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 境界条件の数
-    integer(kint) :: n_bc
-    !> [out] 自由度数
-    integer(kint) :: n_dof
+    integer(kint),intent(out) :: n_bc
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
     !> [out] 境界条件の付与番号と付与自由度
-    integer(kint), allocatable :: i_bc(:,:)
+    integer(kint), allocatable, intent(out) :: i_bc(:,:)
     !> [out] 境界条件の値
-    real(kdouble), allocatable :: r_bc(:)
+    real(kdouble), allocatable, intent(out) :: r_bc(:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "old")
@@ -301,15 +302,15 @@ contains
   subroutine monolis_output_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 境界条件の数
-    integer(kint) :: n_bc
+    integer(kint), intent(in) :: n_bc
     !> [in] 自由度数
-    integer(kint) :: n_dof
+    integer(kint), intent(in) :: n_dof
     !> [in] 境界条件の付与番号と付与自由度
-    integer(kint) :: i_bc(:,:)
+    integer(kint), intent(in) :: i_bc(:,:)
     !> [in] 境界条件の値
-    real(kdouble) :: r_bc(:)
+    real(kdouble), intent(in) :: r_bc(:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "replace")
@@ -325,15 +326,15 @@ contains
   subroutine monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] 境界条件の数
-    integer(kint) :: n_bc
+    integer(kint), intent(out) :: n_bc
     !> [out] 自由度数
-    integer(kint) :: n_dof
+    integer(kint), intent(out) :: n_dof
     !> [out] 境界条件の付与番号と付与自由度
-    integer(kint), allocatable :: i_bc(:,:)
+    integer(kint), allocatable, intent(out) :: i_bc(:,:)
     !> [out] 境界条件の値
-    complex(kdouble), allocatable :: c_bc(:)
+    complex(kdouble), allocatable, intent(out) :: c_bc(:)
     integer(kint) :: i, j
     real(kdouble) :: tmp(2)
 
@@ -355,15 +356,15 @@ contains
   subroutine monolis_output_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] 境界条件の数
-    integer(kint) :: n_bc
+    integer(kint), intent(in) :: n_bc
     !> [in] 自由度数
-    integer(kint) :: n_dof
+    integer(kint), intent(in) :: n_dof
     !> [in] 境界条件の付与番号と付与自由度
-    integer(kint) :: i_bc(:,:)
+    integer(kint), intent(in) :: i_bc(:,:)
     !> [in] 境界条件の値
-    complex(kdouble) :: c_bc(:)
+    complex(kdouble), intent(in) :: c_bc(:)
     integer(kint) :: i
 
     open(20, file = trim(fname), status = "replace")
@@ -379,15 +380,15 @@ contains
   subroutine monolis_input_distval_I(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] ラベル名
-    character(monolis_charlen) :: label
+    character(monolis_charlen), intent(out) :: label
     !> [out] 節点数
-    integer(kint) :: n_node
-    !> [out] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(out) :: n_node
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
     !> [out] データ
-    integer(kint), allocatable :: val(:,:)
+    integer(kint), allocatable, intent(out) :: val(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "old")
@@ -407,15 +408,15 @@ contains
   subroutine monolis_output_distval_I(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] ラベル名
-    character(*) :: label
+    character(*), intent(in) :: label
     !> [in] 節点数
-    integer(kint) :: n_node
-    !> [in] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(in) :: n_node
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof
     !> [in] データ
-    integer(kint) :: val(:,:)
+    integer(kint), intent(in) :: val(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "replace")
@@ -436,15 +437,15 @@ contains
   subroutine monolis_input_distval_R(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] ラベル名
-    character(monolis_charlen) :: label
+    character(monolis_charlen), intent(out) :: label
     !> [out] 節点数
-    integer(kint) :: n_node
-    !> [out] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(out) :: n_node
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
     !> [out] データ
-    real(kdouble), allocatable :: val(:,:)
+    real(kdouble), allocatable, intent(out) :: val(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "old")
@@ -464,15 +465,15 @@ contains
   subroutine monolis_output_distval_R(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] ラベル名
-    character(*) :: label
+    character(*), intent(in) :: label
     !> [in] 節点数
-    integer(kint) :: n_node
-    !> [in] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(in) :: n_node
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof
     !> [in] データ
-    real(kdouble) :: val(:,:)
+    real(kdouble), intent(in) :: val(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "replace")
@@ -493,15 +494,15 @@ contains
   subroutine monolis_input_distval_C(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [out] ラベル名
-    character(monolis_charlen) :: label
+    character(monolis_charlen), intent(out) :: label
     !> [out] 節点数
-    integer(kint) :: n_node
-    !> [out] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(out) :: n_node
+    !> [out] 計算点が持つ自由度
+    integer(kint), intent(out) :: n_dof
     !> [out] データ
-    complex(kdouble), allocatable :: val(:,:)
+    complex(kdouble), allocatable, intent(out) :: val(:,:)
     real(kdouble), allocatable :: tmp(:)
     integer(kint) :: i, j
 
@@ -526,15 +527,15 @@ contains
   subroutine monolis_output_distval_C(fname, label, n_node, n_dof, val)
     implicit none
     !> [in] 出力ファイル名
-    character(*) :: fname
+    character(*), intent(in) :: fname
     !> [in] ラベル名
-    character(*) :: label
+    character(*), intent(in) :: label
     !> [in] 節点数
-    integer(kint) :: n_node
-    !> [in] 節点あたりのデータ数
-    integer(kint) :: n_dof
+    integer(kint), intent(in) :: n_node
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof
     !> [in] データ
-    complex(kdouble) :: val(:,:)
+    complex(kdouble), intent(in) :: val(:,:)
     integer(kint) :: i, j
 
     open(20, file = trim(fname), status = "replace")
@@ -555,7 +556,7 @@ contains
   subroutine monolis_input_file_error_check(ierr)
     implicit none
     !> [in] エラーステータス
-    integer(kint) :: ierr
+    integer(kint), intent(in) :: ierr
 
     if(ierr /= 0)then
       !call monolis_error_string("file open")
