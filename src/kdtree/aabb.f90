@@ -52,7 +52,7 @@ contains
     !> [in] 内包判定の閾値
     real(kdouble), intent(in) :: ths
     !> [out] 内包判定フラグ（内側に含まれていれば .true. を返す）
-    logical :: is_inside
+    logical, intent(out) :: is_inside
 
     is_inside = .false.
 
