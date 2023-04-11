@@ -99,7 +99,7 @@ contains
     implicit none
     !> [out] k-d ツリー構造体
     type(monolis_kdtree_structure_main), pointer, intent(out) :: kdtree
-    !> [in] バウンディングボックスの入力数  !in?
+    !> [in] バウンディングボックスの入力数
     integer(kint), intent(in) :: n_BB
     !> [in,out] バウンディングボックスの id（サイズ [n_BB]）
     integer(kint), intent(inout) :: BB_id(:)

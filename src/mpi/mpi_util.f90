@@ -78,7 +78,7 @@ contains
   function monolis_mpi_get_local_comm_size(comm)
     implicit none
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [out] コミュニケータサイズ
     integer(kint) :: monolis_mpi_get_local_comm_size
     integer(kint) :: ierr
@@ -95,7 +95,7 @@ contains
   function monolis_mpi_get_local_my_rank(comm)
     implicit none
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [out] MPI ランク番号
     integer(kint) :: monolis_mpi_get_local_my_rank
     integer(kint) :: ierr
@@ -124,7 +124,7 @@ contains
   subroutine monolis_mpi_local_barrier(comm)
     implicit none
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 #ifndef NO_MPI
     call MPI_barrier(comm, ierr)
@@ -136,11 +136,11 @@ contains
   subroutine monolis_mpi_split_comm(comm, group_id, comm_split)
     implicit none
     !> [in] 分割前の MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] コミュニケータのグループ id
-    integer(kint) :: group_id
+    integer(kint), intent(in) :: group_id
     !> [out] 分割後の MPI コミュニケータ
-    integer(kint) :: comm_split
+    integer(kint), intent(out) :: comm_split
     integer(kint) :: key
     integer(kint) :: ierr
 #ifndef NO_MPI
@@ -185,7 +185,7 @@ contains
     !> [out] 時刻
     real(kdouble) :: monolis_get_time_local_sync
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
 
 #ifndef NO_MPI
     call monolis_mpi_local_barrier(comm)
