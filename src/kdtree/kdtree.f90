@@ -99,14 +99,14 @@ contains
     implicit none
     !> [out] k-d ツリー構造体
     type(monolis_kdtree_structure_main), pointer, intent(out) :: kdtree
-    !> [in,out] バウンディングボックスの入力数  !in?
-    integer(kint), intent(inout) :: n_BB
+    !> [in] バウンディングボックスの入力数  !in?
+    integer(kint), intent(in) :: n_BB
     !> [in,out] バウンディングボックスの id（サイズ [n_BB]）
     integer(kint), intent(inout) :: BB_id(:)
     !> [in,out] バウンディングボックスの入力座標（サイズ [6, n_BB]、x_min, x_max, y_min, y_max, z_min, z_max の順に格納）
     real(kdouble), intent(inout) :: BB(:,:)
-    !> [in,out] k-d ツリーの深さ
-    integer(kint), intent(inout) :: depth
+    !> [in] k-d ツリーの深さ
+    integer(kint), intent(in) :: depth
     integer(kint) :: i, mid_id, iSl, iEl, iSr, iEr
     integer(kint), allocatable :: perm(:)
     real(kdouble), allocatable :: mid_coord(:,:)
