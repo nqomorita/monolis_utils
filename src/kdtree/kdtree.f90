@@ -46,8 +46,8 @@ contains
   !> バウンディングボックス情報を入力して k-d ツリーを構築
   subroutine monolis_kdtree_init_by_BB(monolis_kdtree, n_BB, BB_id, BB)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure) :: monolis_kdtree
+    !> [in,out] k-d ツリー構造体
+    type(monolis_kdtree_structure), intent(inout) :: monolis_kdtree
     !> [in,out] バウンディングボックスの入力数
     integer(kint), intent(inout) :: n_BB
     !> [in,out] バウンディングボックスの id（サイズ [n_BB]）
@@ -68,14 +68,14 @@ contains
   !> 座標を入力して座標を含むバウンディングボックスを取得
   subroutine monolis_kdtree_get_BB_including_coordinates(monolis_kdtree, pos, n_BB, BB_id)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure) :: monolis_kdtree
+    !> [in,out] k-d ツリー構造体
+    type(monolis_kdtree_structure), intent(inout) :: monolis_kdtree
     !> [in] 入力座標
     real(kdouble), intent(in) :: pos(3)
     !> [out] 座標を含むバウンディングボックスの数
     integer(kint), intent(out) :: n_BB
     !> [out] 座標を含むバウンディングボックスの id（サイズ [n_BB]）
-    integer(kint), intent(out), allocatable :: BB_id(:)
+    integer(kint), allocatable, intent(out) :: BB_id(:)
 
     n_BB = 0
     call monolis_dealloc_I_1d(BB_id)
@@ -87,8 +87,8 @@ contains
   !> k-d ツリー構造体の終了処理
   subroutine monolis_kdtree_finalize(monolis_kdtree)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure) :: monolis_kdtree
+    !> [in,out] k-d ツリー構造体
+    type(monolis_kdtree_structure), intent(inout) :: monolis_kdtree
 
     call monolis_kdtree_finalize_main(monolis_kdtree%kdtree)
   end subroutine monolis_kdtree_finalize
@@ -97,16 +97,16 @@ contains
   !> バウンディングボックス情報を入力して k-d ツリーを構築（メイン関数）
   recursive subroutine monolis_kdtree_init_by_BB_main(kdtree, n_BB, BB_id, BB, depth)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure_main), pointer :: kdtree
-    !> [in,out] バウンディングボックスの入力数
-    integer(kint) :: n_BB
+    !> [out] k-d ツリー構造体
+    type(monolis_kdtree_structure_main), pointer, intent(out) :: kdtree
+    !> [in,out] バウンディングボックスの入力数  !in?
+    integer(kint), intent(inout) :: n_BB
     !> [in,out] バウンディングボックスの id（サイズ [n_BB]）
-    integer(kint) :: BB_id(:)
+    integer(kint), intent(inout) :: BB_id(:)
     !> [in,out] バウンディングボックスの入力座標（サイズ [6, n_BB]、x_min, x_max, y_min, y_max, z_min, z_max の順に格納）
-    real(kdouble) :: BB(:,:)
+    real(kdouble), intent(inout) :: BB(:,:)
     !> [in,out] k-d ツリーの深さ
-    integer(kint) :: depth
+    integer(kint), intent(inout) :: depth
     integer(kint) :: i, mid_id, iSl, iEl, iSr, iEr
     integer(kint), allocatable :: perm(:)
     real(kdouble), allocatable :: mid_coord(:,:)
@@ -161,8 +161,8 @@ contains
   !> 座標を入力して座標を含むバウンディングボックスを取得（メイン関数）
   recursive subroutine monolis_kdtree_get_BB_including_coordinates_main(kdtree, pos, n_BB, BB_id)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure_main), pointer :: kdtree
+    !> [in,out] k-d ツリー構造体
+    type(monolis_kdtree_structure_main), pointer, intent(inout) :: kdtree
     !> [in] 入力座標
     real(kdouble), intent(in) :: pos(3)
     !> [out] 座標を含むバウンディングボックスの数
@@ -204,8 +204,8 @@ contains
   !> k-d ツリー構造体の終了処理（メイン関数）
   recursive subroutine monolis_kdtree_finalize_main(kdtree)
     implicit none
-    !> k-d ツリー構造体
-    type(monolis_kdtree_structure_main), pointer :: kdtree
+    !> [in,out] k-d ツリー構造体
+    type(monolis_kdtree_structure_main), pointer, intent(inout) :: kdtree
 
     if(associated(kdtree%left))then
       call monolis_kdtree_finalize_main(kdtree%left)
