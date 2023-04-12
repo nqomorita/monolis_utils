@@ -46,15 +46,15 @@ contains
 
   function monolis_C2D6_weight(i)
     implicit none
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     real(kdouble) :: monolis_C2D6_weight
     monolis_C2D6_weight = weight(i)
   end function monolis_C2D6_weight
 
   subroutine monolis_C2D6_integral_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(2)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(2)
 
     r(1) = gsp(1,i)
     r(2) = gsp(2,i)
@@ -62,8 +62,8 @@ contains
 
   !subroutine monolis_C2D6_node_point(i, r)
   !  implicit none
-  !  integer(kint) :: i
-  !  real(kdouble) :: r(2)
+  !  integer(kint), intent(in) :: i
+  !  real(kdouble), intent(out) :: r(2)
 
   !  r(1) = np(1,i)
   !  r(2) = np(2,i)
@@ -71,7 +71,8 @@ contains
 
   subroutine monolis_C2D6_shapefunc(local, func)
     implicit none
-    real(kdouble) :: local(2), func(6)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(6)
     real(kdouble) :: xi, et, st
 
     xi = local(1)
@@ -88,8 +89,8 @@ contains
 
   subroutine monolis_C2D6_shapefunc_deriv(local, func)
     implicit none
-    real(kdouble) :: local(2)
-    real(kdouble) :: func(6,2)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(6,2)
     real(kdouble) :: xi, et, st
 
     xi = local(1)
@@ -113,7 +114,7 @@ contains
 
   subroutine monolis_C2D6_shapefunc_2nd_deriv(func)
     implicit none
-    real(kdouble) :: func(6,2,2)
+    real(kdouble), intent(out) :: func(6,2,2)
 
     func(1,1,1) = 4.d0;  func(1,1,2) = 4.d0
     func(2,1,1) = 4.d0;  func(2,1,2) = 0.d0
