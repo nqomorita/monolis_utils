@@ -244,5 +244,4 @@ contains
       x(i - seed) = inv*t
     enddo
   end subroutine monolis_get_rundom_number_R
-
 end module mod_monolis_utils_std_algebra
