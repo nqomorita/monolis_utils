@@ -10,9 +10,9 @@ contains
   subroutine monolis_std_log_I1(header, n)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     write(*,"(a,a,x,i12)")"** MONOLIS: ", trim(header), n
   end subroutine monolis_std_log_I1
 
@@ -21,7 +21,7 @@ contains
   subroutine monolis_std_log_string(string)
     implicit none
     !> [in] 出力ログ
-    character(*) :: string
+    character(*), intent(in) :: string
     write(*,"(a,a)")"** MONOLIS: ", trim(string)
   end subroutine monolis_std_log_string
 
@@ -30,9 +30,9 @@ contains
   subroutine monolis_std_log_string2(header, string)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    character(*) :: string
+    character(*), intent(in) :: string
     write(*,"(a,a,x,a)")"** MONOLIS: ", trim(header), trim(string)
   end subroutine monolis_std_log_string2
 
@@ -41,7 +41,7 @@ contains
   subroutine monolis_std_debug_log_flag(flag)
     implicit none
     !> [in] フラグ設定
-    logical :: flag
+    logical, intent(in) :: flag
     monolis_debug_log_write = flag
   end subroutine monolis_std_debug_log_flag
 
@@ -50,7 +50,7 @@ contains
   subroutine monolis_std_debug_log_header(string)
     implicit none
     !> [in] 出力ログ
-    character(*) :: string
+    character(*), intent(in) :: string
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a)")"** MONOLIS DEBUG: ", trim(string)
   end subroutine monolis_std_debug_log_header
@@ -60,9 +60,9 @@ contains
   subroutine monolis_std_debug_log_I1(header, n)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,i12)")"** MONOLIS DEBUG: ", trim(header), n
   end subroutine monolis_std_debug_log_I1
@@ -72,9 +72,9 @@ contains
   subroutine monolis_std_debug_log_R1(header, var)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    real(kdouble) :: var
+    real(kdouble), intent(in) :: var
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,1pe12.4)")"** MONOLIS DEBUG: ", trim(header), var
   end subroutine monolis_std_debug_log_R1
@@ -84,9 +84,9 @@ contains
   subroutine monolis_std_debug_log_C(header, char)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    character(*) :: char
+    character(*), intent(in) :: char
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,a)")"** MONOLIS DEBUG: ", trim(header), char
   end subroutine monolis_std_debug_log_C
@@ -96,9 +96,9 @@ contains
   subroutine monolis_std_debug_log_L1(header, l)
     implicit none
     !> [in] 出力ログ
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] 出力ログ
-    logical :: l
+    logical, intent(in) :: l
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,l)")"** MONOLIS DEBUG: ", trim(header), l
   end subroutine monolis_std_debug_log_L1
@@ -115,7 +115,7 @@ contains
   subroutine monolis_std_error_string(string)
     implicit none
     !> [in] 出力ログ
-    character(*) :: string
+    character(*), intent(in) :: string
     character :: esc*1 = char(27)
 
     write(*,"(a,a)")esc//"[31m"//"** MONOLIS ERROR: "//esc//"[0m", trim(string)
@@ -126,7 +126,7 @@ contains
   subroutine monolis_std_warning_string(string)
     implicit none
     !> [in] 出力ログ
-    character(*) :: string
+    character(*), intent(in) :: string
     character :: esc*1 = char(27)
 
     write(*,"(a,a)")esc//"[31m"//"** MONOLIS WARNING: "//esc//"[0m", trim(string)
