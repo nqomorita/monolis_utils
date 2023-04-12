@@ -39,15 +39,15 @@ contains
 
   function monolis_C2D4_weight(i)
     implicit none
-    integer(kint), optional :: i
+    integer(kint), optional, intent(in) :: i
     real(kdouble) :: monolis_C2D4_weight
     monolis_C2D4_weight = 1.0d0
   end function monolis_C2D4_weight
 
   subroutine monolis_C2D4_integral_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(2)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(2)
 
     r(1) = gsp(1,i)
     r(2) = gsp(2,i)
@@ -55,8 +55,8 @@ contains
 
   subroutine monolis_C2D4_node_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(2)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(2)
 
     r(1) = np(1,i)
     r(2) = np(2,i)
@@ -64,7 +64,8 @@ contains
 
   subroutine monolis_C2D4_get_global_position(node, r, pos)
     implicit none
-    real(kdouble) :: node(2,4), r(2), pos(2)
+    real(kdouble), intent(in) :: node(2,4), r(2)
+    real(kdouble), intent(out) :: pos(2)
     real(kdouble) :: func(4)
 
     call monolis_C2D4_shapefunc(r, func)
@@ -73,8 +74,11 @@ contains
 
   subroutine monolis_C2D4_get_global_deriv(node, r, dndx, det)
     implicit none
-    real(kdouble) :: node(2,4), r(2), dndx(4,2), deriv(4,2)
-    real(kdouble) :: xj(2,2), inv(2,2), det
+    real(kdouble), intent(in) :: node(2,4)
+    real(kdouble), intent(in) :: r(2)
+    real(kdouble), intent(out) :: dndx(4,2)
+    real(kdouble), intent(out) :: det
+    real(kdouble) :: deriv(4,2), xj(2,2), inv(2,2)
 
     call monolis_C2D4_shapefunc_deriv(r, deriv)
     xj = matmul(node, deriv)
@@ -84,7 +88,8 @@ contains
 
   subroutine monolis_C2D4_shapefunc(local, func)
     implicit none
-    real(kdouble) :: local(2), func(4)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(4)
 
     func(1) = 0.25d0*(1.0d0-local(1))*(1.0d0-local(2))
     func(2) = 0.25d0*(1.0d0+local(1))*(1.0d0-local(2))
@@ -94,7 +99,8 @@ contains
 
   subroutine monolis_C2D4_shapefunc_deriv(local, func)
     implicit none
-    real(kdouble) :: local(2), func(4,2)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(4,2)
 
     func(1,1) = -0.25d0*(1.0d0-local(2))
     func(2,1) =  0.25d0*(1.0d0-local(2))
