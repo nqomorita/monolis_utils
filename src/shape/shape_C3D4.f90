@@ -51,15 +51,15 @@ contains
 
   function monolis_C3D4_weight(i)
     implicit none
-    integer(kint), optional :: i
+    integer(kint), optional, intent(in) :: i
     real(kdouble) :: monolis_C3D4_weight
     monolis_C3D4_weight = 0.166666666666666d0
   end function monolis_C3D4_weight
 
   subroutine monolis_C3D4_integral_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(3)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(3)
 
     r(1) = gsp(1)
     r(2) = gsp(2)
@@ -68,8 +68,8 @@ contains
 
   subroutine monolis_C3D4_node_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(3)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(3)
 
     r(1) = np(1,i)
     r(2) = np(2,i)
@@ -78,7 +78,8 @@ contains
 
   subroutine monolis_C3D4_shapefunc(local, func)
     implicit none
-    real(kdouble) :: local(3), func(4)
+    real(kdouble), intent(in) :: local(3)
+    real(kdouble), intent(out) :: func(4)
 
     func(1) = 1.0d0 - local(1) - local(2) - local(3)
     func(2) = local(1)
@@ -88,7 +89,8 @@ contains
 
   subroutine monolis_C3D4_shapefunc_deriv(local, func)
     implicit none
-    real(kdouble) :: local(3), func(4,3)
+    real(kdouble), intent(in) :: local(3)
+    real(kdouble), intent(out) :: func(4,3)
 
     func(1,1) = -1.d0
     func(2,1) = 1.d0
