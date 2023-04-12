@@ -23,7 +23,7 @@ contains
   subroutine monolis_palloc_I_1d(var, size)
     implicit none
     !> [out] メモリ確保するポインタ
-    integer(kint), intent(out), pointer :: var(:)
+    integer(kint), pointer, intent(out) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -47,8 +47,8 @@ contains
   !> 1 次元整数ポインタのメモリ開放
   subroutine monolis_pdealloc_I_1d(var)
     implicit none
-    !> [in] メモリ開放するポインタ
-    integer(kint), pointer :: var(:)
+    !> [out] メモリ開放するポインタ
+    integer(kint), pointer, intent(out) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
@@ -70,7 +70,7 @@ contains
   subroutine monolis_palloc_R_1d(var, size)
     implicit none
     !> [out] メモリ確保するポインタ
-    real(kdouble), intent(out), pointer :: var(:)
+    real(kdouble), pointer, intent(out) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -94,8 +94,8 @@ contains
   !> 1 次元浮動小数点ポインタのメモリ開放
   subroutine monolis_pdealloc_R_1d(var)
     implicit none
-    !> [in] メモリ開放するポインタ
-    real(kdouble), pointer :: var(:)
+    !> [out] メモリ開放するポインタ
+    real(kdouble), pointer, intent(out) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
@@ -117,7 +117,7 @@ contains
   subroutine monolis_palloc_C_1d(var, size)
     implicit none
     !> [out] メモリ確保するポインタ
-    complex(kdouble), intent(out), pointer :: var(:)
+    complex(kdouble), pointer, intent(out) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -141,8 +141,8 @@ contains
   !> 1 次元浮動小数点ポインタのメモリ開放
   subroutine monolis_pdealloc_C_1d(var)
     implicit none
-    !> [in] メモリ開放するポインタ
-    complex(kdouble), pointer :: var(:)
+    !> [out] メモリ開放するポインタ
+    complex(kdouble), pointer, intent(out) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
@@ -158,5 +158,4 @@ contains
       call monolis_std_error_stop()
     endif
   end subroutine monolis_pdealloc_C_1d
-
 end module mod_monolis_utils_palloc
