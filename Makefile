@@ -76,6 +76,9 @@ comm_par_util.f90 \
 comm_ser_util.f90 \
 comm_table.f90
 
+SRC_DEFINE3 = \
+def_com_init.f90
+
 SRC_STD = \
 std_test.f90 \
 std_sort_I.f90 \
@@ -114,7 +117,8 @@ refiner_util.f90
 
 ##> C wrapper section
 SRC_DEFINE_C = \
-monolis_def_com_c.c
+monolis_def_com_c.c \
+monolis_def_com_init_c.c
 
 SRC_SYS_C = \
 monolis_alloc_c.c
@@ -158,6 +162,7 @@ $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
 $(addprefix com/, $(SRC_COM)) \
 $(addprefix io/, $(SRC_IO)) \
+$(addprefix define/, $(SRC_DEFINE3)) \
 $(addprefix shape/, $(SRC_SHAPE)) \
 $(addprefix driver/, $(SRC_DRIVE))
 
@@ -206,7 +211,8 @@ TEST_C_TARGET = $(TST_WRAP_DIR)/monolis_utils_c_test
 
 ##> lib objs
 SRC_DEFINE_C_TEST = \
-monolis_def_com_c_test.c
+monolis_def_com_c_test.c \
+monolis_def_com_init_c_test.c
 
 SRC_SYS_C_TEST = \
 monolis_alloc_c_test.c
@@ -317,6 +323,7 @@ cp_header:
 	$(CP) ./wrapper/mpi/monolis_mpi_c.h ./include/
 	$(CP) ./wrapper/define/monolis_def_prm_c.h ./include/
 	$(CP) ./wrapper/define/monolis_def_com_c.h ./include/
+	$(CP) ./wrapper/define/monolis_def_com_init_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_file_name_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_com_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_util_c.h ./include/

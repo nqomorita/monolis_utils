@@ -32,11 +32,13 @@ typedef struct {
   int* send_index;
   /** 送信するノード番号の item 配列 */
   int* send_item;
+  /** 通信テーブルデータ読込のトップディレクトリ名 */
+  char top_dir_name[1024];
+  /** 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名 */
+  char part_dir_name[1024];
+  /** 通信テーブルデータが記載されたファイル名 */
+  char file_name[1024];
 } MONOLIS_COM;
-
-/** COM 構造体の初期化関数 */
-void monolis_com_initialize(
-  MONOLIS_COM* com);
 
 /** COM 構造体の終了処理関数 */
 void monolis_com_finalize(
@@ -86,6 +88,18 @@ void monolis_com_set_n_internal_vertex(
 void monolis_com_get_n_internal_vertex(
   MONOLIS_COM* com,
   int*         n_internal_vertex);
+
+void monolis_com_set_input_top_directory_name(
+  MONOLIS_COM* com,
+  const char*  param);
+
+void monolis_com_set_input_part_directory_name(
+  MONOLIS_COM* com,
+  const char*  param);
+
+void monolis_com_set_input_file_name(
+  MONOLIS_COM* com,
+  const char*  param);
 
 #ifdef __cplusplus
 }

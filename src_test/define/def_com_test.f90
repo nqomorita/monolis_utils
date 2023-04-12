@@ -1,7 +1,6 @@
 !> 通信データテストモジュール
 module mod_monolis_utils_define_com_test
   use mod_monolis_utils
-  use mod_monolis_utils_define_com
   implicit none
 
 contains
@@ -22,7 +21,7 @@ contains
 
     call monolis_std_global_log_string("monolis_com_copy")
 
-    call monolis_com_initialize(COM1)
+    call monolis_com_initialize_by_self(COM1)
 
     COM1%comm = 1
     COM1%my_rank = 2
@@ -96,7 +95,7 @@ contains
     call monolis_std_global_log_string("monolis_com_initialize")
     call monolis_std_global_log_string("monolis_com_finalize")
 
-    call monolis_com_initialize(COM)
+    call monolis_com_initialize_by_self(COM)
 
     !> case 1
     call monolis_std_global_log_string("monolis_com_set_communicator")

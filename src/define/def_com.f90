@@ -45,6 +45,12 @@ module mod_monolis_utils_define_com
     integer(kint), pointer :: send_index(:) => null()
     !> 送信するノード番号の item 配列
     integer(kint), pointer :: send_item(:) => null()
+    !> 通信テーブルデータ読込のトップディレクトリ名
+    character(monolis_charlen) :: top_dir_name = "./"
+    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+    character(monolis_charlen) :: part_dir_name = "parted.0"
+    !> 通信テーブルデータが記載されたファイル名
+    character(monolis_charlen) :: file_name = "graph.dat"
   end type monolis_COM
 
   !> 通信テーブル作成用ノードリスト構造体
@@ -55,29 +61,6 @@ module mod_monolis_utils_define_com
   end type monolis_comm_node_list
 
 contains
-
-  !> @ingroup com
-  !> COM 構造体の初期化関数
-  subroutine monolis_com_initialize(COM)
-    implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-
-    COM%comm = monolis_mpi_get_global_comm()
-    COM%my_rank = monolis_mpi_get_global_my_rank()
-    COM%comm_size = monolis_mpi_get_global_comm_size()
-    COM%n_internal_vertex = 0
-
-    COM%recv_n_neib = 0
-    call monolis_pdealloc_I_1d(COM%recv_neib_pe)
-    call monolis_pdealloc_I_1d(COM%recv_index)
-    call monolis_pdealloc_I_1d(COM%recv_item)
-
-    COM%send_n_neib = 0
-    call monolis_pdealloc_I_1d(COM%send_neib_pe)
-    call monolis_pdealloc_I_1d(COM%send_index)
-    call monolis_pdealloc_I_1d(COM%send_item)
-  end subroutine monolis_com_initialize
 
   !> @ingroup com
   !> COM 構造体の終了処理関数
@@ -235,6 +218,36 @@ contains
     integer(kint) :: n_internal_vertex
     n_internal_vertex = COM%n_internal_vertex
   end subroutine monolis_com_get_n_internal_vertex
+
+  !> 読込ファイルのトップディレクトリの設定
+  subroutine monolis_com_set_input_top_directory_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%top_dir_name = trim(param)
+  end subroutine monolis_com_set_input_top_directory_name
+
+  !> 読込ファイルの分割データディレクトリの設定
+  subroutine monolis_com_set_input_part_directory_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%part_dir_name = trim(param)
+  end subroutine monolis_com_set_input_part_directory_name
+
+  !> 読込ファイル名の設定
+  subroutine monolis_com_set_input_file_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%file_name = trim(param)
+  end subroutine monolis_com_set_input_file_name
 
   !> @ingroup dev_com
   !> COM 構造体のデバッグ用データ書き出し

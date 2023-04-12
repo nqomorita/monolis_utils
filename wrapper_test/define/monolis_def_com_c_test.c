@@ -10,7 +10,7 @@ void monolis_com_copy_test()
 
   monolis_std_global_log_string("monolis_com_copy");
 
-  monolis_com_initialize(&com1);
+  monolis_com_initialize_by_self(&com1);
 
   com1.comm = 1;
   com1.my_rank = 2;

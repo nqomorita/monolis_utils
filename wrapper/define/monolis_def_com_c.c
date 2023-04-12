@@ -6,25 +6,6 @@
 #include "monolis_alloc_c.h"
 #include "monolis_mpi_util_c.h"
 
-/** COM 構造体の初期化関数 */
-void monolis_com_initialize(
-  MONOLIS_COM* com)
-{
-  com->recv_n_neib = 0;
-  com->send_n_neib = 0;
-  com->n_internal_vertex = 0;
-  com->my_rank = monolis_mpi_get_global_my_rank();
-  com->comm = monolis_mpi_get_global_comm();
-  com->comm_size = monolis_mpi_get_global_comm_size();
-
-  com->recv_neib_pe = NULL;
-  com->recv_index = NULL;
-  com->recv_item = NULL;
-  com->send_neib_pe = NULL;
-  com->send_index = NULL;
-  com->send_item = NULL;
-}
-
 /** COM 構造体の終了処理関数 */
 void monolis_com_finalize(
   MONOLIS_COM* com)
@@ -163,3 +144,25 @@ void monolis_com_get_n_internal_vertex(
 {
   *n_internal_vertex = com->n_internal_vertex;
 }
+
+void monolis_com_set_input_top_directory_name(
+  MONOLIS_COM* com,
+  const char*  param)
+{
+  strcpy(com->top_dir_name, param);
+}
+
+void monolis_com_set_input_part_directory_name(
+  MONOLIS_COM* com,
+  const char*  param)
+{
+  strcpy(com->part_dir_name, param);
+}
+
+void monolis_com_set_input_file_name(
+  MONOLIS_COM* com,
+  const char*  param)
+{
+  strcpy(com->file_name, param);
+}
+
