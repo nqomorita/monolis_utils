@@ -30,7 +30,7 @@ contains
     !> [in] 入力配列 b
     integer(kint), intent(in) :: b
     !> [out] 一致判定（一致していれば .ture.）
-    logical :: is_eq
+    logical, intent(out) :: is_eq
 
     if(a - b /= 0)then
       is_eq = .false.
@@ -48,7 +48,7 @@ contains
     !> [in] 入力配列 b
     real(kdouble), intent(in) :: b
     !> [out] 一致判定（一致していれば .ture.）
-    logical :: is_eq
+    logical, intent(out) :: is_eq
 
     if(abs(a) < 1.0d-20)then
       if(abs(a - b) > monolis_test_ths)then
@@ -72,7 +72,7 @@ contains
     !> [in] 入力配列 b
     complex(kdouble), intent(in) :: b
     !> [out] 一致判定（一致していれば .ture.）
-    logical :: is_eq
+    logical, intent(out) :: is_eq
 
     if(abs(real(a)) < 1.0d-20 .or. abs(dimag(a)) < 1.0d-20)then
       if(abs(real(a) - real(b)) + abs(dimag(a) - dimag(b)) > monolis_test_ths)then
@@ -97,7 +97,7 @@ contains
     !> [in] 入力配列 b
     logical, intent(in) :: b
     !> [out] 一致判定（一致していれば .ture.）
-    logical :: is_eq
+    logical, intent(out) :: is_eq
 
     if(a .eqv. b)then
       is_eq = .true.
@@ -306,9 +306,9 @@ contains
   subroutine monolis_test_assert_fail(header, reason)
     implicit none
     !> [in] テスト内容を示す文字列
-    character(*) :: header
+    character(*), intent(in) :: header
     !> [in] エラー内容を示す文字列
-    character(*) :: reason
+    character(*), intent(in) :: reason
     character :: esc*1 = char(27)
 
     write(*,"(a,a)")esc//"[31m"//"[ FAILED ] "//trim(header)//esc//"[0m"//" : "//trim(reason)
