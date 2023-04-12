@@ -10,7 +10,7 @@ contains
   subroutine monolis_std_make_dir(dirname)
     implicit none
     !> [in] ディレクトリ名
-    character(*) :: dirname
+    character(*), intent(in) :: dirname
 
     call system('if [ ! -d '//trim(dirname)//' ]; then (echo "** MONOLIS: create '// &
       & trim(dirname)//'"; mkdir -p '//trim(dirname)//'); fi')
@@ -19,7 +19,7 @@ contains
   !> 整数型を論理型に変換
   function monolis_conv_I2L(val)
     implicit none
-    integer(kint) :: val
+    integer(kint), intent(in) :: val
     logical :: monolis_conv_I2L
 
     monolis_conv_I2L = .false.
@@ -38,8 +38,8 @@ contains
   !> 論理型を整数型に変換
   function monolis_conv_L2I(val)
     implicit none
+    logical, intent(in) :: val
     integer(kint) :: monolis_conv_L2I
-    logical :: val
 
     if(val)then
       monolis_conv_L2I = 1
