@@ -8,11 +8,16 @@ contains
 
   subroutine monolis_C3D8_get_local_position(coord, pos, x, ths, ths_up, is_converge)
     implicit none
+    real(kdouble), intent(in) :: coord(3,8)
+    real(kdouble), intent(in) :: pos(3)
+    real(kdouble), intent(out) :: x(3)
+    real(kdouble), intent(in) :: ths
+    real(kdouble), intent(in) :: ths_up
+    logical, intent(out) :: is_converge
     integer(kint) :: i, j
-    real(kdouble) :: coord(3,8), pos(3), x(3)
-    real(kdouble) :: jacobi(3,3), inJacob(3,3), det, ths, ths_up
+    real(kdouble) :: jacobi(3,3), inJacob(3,3), det
     real(kdouble) :: norm, func(8,3), n(8), fr(3), dx(3)
-    logical :: is_converge, is_fail
+    logical :: is_fail
 
     is_converge = .false.
     x = 0.0d0
