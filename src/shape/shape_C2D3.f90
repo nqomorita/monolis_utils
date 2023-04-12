@@ -41,15 +41,15 @@ contains
 
   function monolis_C2D3_weight(i)
     implicit none
-    integer(kint) :: i
+    integer(kint), intent(in) :: i
     real(kdouble) :: monolis_C2D3_weight
     monolis_C2D3_weight = weight(i)
   end function monolis_C2D3_weight
 
   subroutine monolis_C2D3_integral_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(2)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(2)
 
     r(1) = gsp(1,i)
     r(2) = gsp(2,i)
@@ -57,8 +57,8 @@ contains
 
   subroutine monolis_C2D3_node_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(2)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(2)
 
     r(1) = np(1,i)
     r(2) = np(2,i)
@@ -66,7 +66,8 @@ contains
 
   subroutine monolis_C2D3_shapefunc(local, func)
     implicit none
-    real(kdouble) :: local(2), func(3)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(3)
 
     func(1) = 1.0d0 - local(1) - local(2)
     func(2) = local(1)
@@ -75,7 +76,8 @@ contains
 
   subroutine monolis_C2D3_shapefunc_deriv(local, func)
     implicit none
-    real(kdouble) :: local(2), func(3,2)
+    real(kdouble), intent(in) :: local(2)
+    real(kdouble), intent(out) :: func(3,2)
 
     func(1,1) = -1.0d0
     func(2,1) =  1.0d0
@@ -88,8 +90,11 @@ contains
 
   subroutine monolis_C2D3_get_global_deriv(node, r, dndx, det)
     implicit none
-    real(kdouble) :: node(2,3), r(2), dndx(3,2), deriv(3,2)
-    real(kdouble) :: xj(2,2), inv(2,2), det
+    real(kdouble), intent(in) :: node(2,3)
+    real(kdouble), intent(in) :: r(2)
+    real(kdouble), intent(out) :: dndx(3,2)
+    real(kdouble), intent(out) :: det
+    real(kdouble) :: deriv(3,2), xj(2,2), inv(2,2)
 
     call monolis_C2D3_shapefunc_deriv(r, deriv)
     xj = matmul(node, deriv)
