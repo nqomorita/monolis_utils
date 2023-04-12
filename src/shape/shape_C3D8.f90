@@ -70,15 +70,15 @@ contains
 
   function monolis_C3D8_weight(i)
     implicit none
-    integer(kint), optional :: i
+    integer(kint), optional, intent(in) :: i
     real(kdouble) :: monolis_C3D8_weight
     monolis_C3D8_weight = 1.0d0
   end function monolis_C3D8_weight
 
   subroutine monolis_C3D8_integral_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(3)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(3)
 
     r(1) = gsp(1,i)
     r(2) = gsp(2,i)
@@ -87,8 +87,8 @@ contains
 
   subroutine monolis_C3D8_node_point(i, r)
     implicit none
-    integer(kint) :: i
-    real(kdouble) :: r(3)
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(3)
 
     r(1) = np(1,i)
     r(2) = np(2,i)
@@ -97,7 +97,9 @@ contains
 
   subroutine monolis_C3D8_get_global_position(node, r, pos)
     implicit none
-    real(kdouble) :: node(3,8), r(3), pos(3)
+    real(kdouble), intent(in) :: node(3,8)
+    real(kdouble), intent(in) :: r(3)
+    real(kdouble), intent(out) :: pos(3)
     real(kdouble) :: func(8)
 
     call monolis_C3D8_shapefunc(r, func)
@@ -106,8 +108,11 @@ contains
 
   subroutine monolis_C3D8_get_global_deriv(node, r, dndx, det)
     implicit none
-    real(kdouble) :: node(3,8), r(3), dndx(8,3), deriv(8,3)
-    real(kdouble) :: xj(3,3), inv(3,3), det
+    real(kdouble), intent(in) :: node(3,8)
+    real(kdouble), intent(in) :: r(3)
+    real(kdouble), intent(out) :: dndx(8,3)
+    real(kdouble), intent(out) :: det
+    real(kdouble) :: deriv(8,3), xj(3,3), inv(3,3)
     logical :: is_fail
 
     call monolis_C3D8_shapefunc_deriv(r, deriv)
@@ -118,7 +123,8 @@ contains
 
   subroutine monolis_C3D8_shapefunc(local, func)
     implicit none
-    real(kdouble) :: local(3), func(8)
+    real(kdouble), intent(in) :: local(3)
+    real(kdouble), intent(out) :: func(8)
 
     func(1) = 0.125d0*(1.0d0-local(1))*(1.0d0-local(2))*(1.0d0-local(3))
     func(2) = 0.125d0*(1.0d0+local(1))*(1.0d0-local(2))*(1.0d0-local(3))
@@ -132,7 +138,8 @@ contains
 
   subroutine monolis_C3D8_shapefunc_deriv(local, func)
     implicit none
-    real(kdouble) :: local(3), func(8,3)
+    real(kdouble), intent(in) :: local(3)
+    real(kdouble), intent(out) :: func(8,3)
 
     func(1,1) = -0.125d0*(1.0d0-local(2))*(1.0d0-local(3))
     func(2,1) =  0.125d0*(1.0d0-local(2))*(1.0d0-local(3))
