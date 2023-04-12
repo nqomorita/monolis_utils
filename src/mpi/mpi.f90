@@ -20,7 +20,7 @@ contains
   subroutine monolis_allreduce_I1(val, tag, comm)
     implicit none
     !> [in,out] 入出力値（整数型）
-    integer(kint) :: val
+    integer(kint), intent(inout) :: val
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -47,9 +47,9 @@ contains
   subroutine monolis_allreduce_I(n, val, tag, comm)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in,out] 入出力値（整数型）
-    integer(kint) :: val(n)
+    integer(kint), intent(inout) :: val(n)
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -74,7 +74,7 @@ contains
   subroutine monolis_allreduce_R1(val, tag, comm)
     implicit none
     !> [in,out] 入出力値（浮動小数点型）
-    real(kdouble) :: val
+    real(kdouble), intent(inout) :: val
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -102,9 +102,9 @@ contains
   subroutine monolis_allreduce_R(n, val, tag, comm)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in,out] 入出力値（浮動小数点配列型）
-    real(kdouble) :: val(n)
+    real(kdouble), intent(inout) :: val(n)
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -130,7 +130,7 @@ contains
   subroutine monolis_allreduce_C1(val, tag, comm)
     implicit none
     !> [in,out] 入出力値（浮動小数点型）
-    complex(kdouble) :: val
+    complex(kdouble), intent(inout) :: val
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -158,9 +158,9 @@ contains
   subroutine monolis_allreduce_C(n, val, tag, comm)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in,out] 入出力値（浮動小数点配列型）
-    complex(kdouble) :: val(n)
+    complex(kdouble), intent(inout) :: val(n)
     !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
     integer(kint), intent(in) :: tag
     !> [in] MPI コミュニケータ
@@ -186,15 +186,15 @@ contains
   subroutine monolis_Isend_I(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信値
-    integer(kint) :: ws(:)
+    integer(kint), intent(in) :: ws(:)
     !> [in] 送信先 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -207,15 +207,15 @@ contains
   subroutine monolis_Irecv_I(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [out] 受信値
-    integer(kint) :: ws(:)
+    integer(kint), intent(out) :: ws(:)
     !> [in] 送信元 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -228,15 +228,15 @@ contains
   subroutine monolis_Isend_R(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信値
-    real(kdouble) :: ws(:)
+    real(kdouble), intent(in) :: ws(:)
     !> [in] 送信先 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -249,15 +249,15 @@ contains
   subroutine monolis_Irecv_R(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [out] 受信値
-    real(kdouble) :: ws(:)
+    real(kdouble), intent(out) :: ws(:)
     !> [in] 送信元 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -270,15 +270,15 @@ contains
   subroutine monolis_Isend_C(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信値
-    complex(kdouble) :: ws(:)
+    complex(kdouble), intent(in) :: ws(:)
     !> [in] 送信先 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -291,15 +291,15 @@ contains
   subroutine monolis_Irecv_C(n, ws, pe_id, comm, req)
     implicit none
     !> [in] 配列サイズ
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [out] 受信値
-    complex(kdouble) :: ws(:)
+    complex(kdouble), intent(out) :: ws(:)
     !> [in] 送信元 MPI ランク
-    integer(kint) :: pe_id
+    integer(kint), intent(in) :: pe_id
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     !> [in] MPI リクエスト
-    integer(kint) :: req
+    integer(kint), intent(in) :: req
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -312,19 +312,19 @@ contains
   subroutine monolis_gatherv_I(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
-    integer(kint) :: sbuf(:)
+    integer(kint), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint), intent(in) :: sc
     !> [out] 受信データ配列
-    integer(kint) :: rbuf(:)
+    integer(kint), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
+    integer(kint), intent(in) :: rc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [in] データを格納する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -339,19 +339,19 @@ contains
   subroutine monolis_scatterv_I(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
-    integer(kint) :: sbuf(:)
+    integer(kint), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc(:)
+    integer(kint), intent(in) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [out] 受信データ配列
-    integer(kint) :: rbuf(:)
+    integer(kint), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc
+    integer(kint), intent(in) :: rc
     !> [in] データを送信する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -366,19 +366,19 @@ contains
   subroutine monolis_gatherv_R(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
-    real(kdouble) :: sbuf(:)
+    real(kdouble), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint), intent(in) :: sc
     !> [out] 受信データ配列
-    real(kdouble) :: rbuf(:)
+    real(kdouble), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
+    integer(kint), intent(in) :: rc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [in] データを格納する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -393,19 +393,19 @@ contains
   subroutine monolis_scatterv_R(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
-    real(kdouble) :: sbuf(:)
+    real(kdouble), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc(:)
+    integer(kint), intent(in) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [out] 受信データ配列
-    real(kdouble) :: rbuf(:)
+    real(kdouble), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc
+    integer(kint), intent(in) :: rc
     !> [in] データを送信する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -420,19 +420,19 @@ contains
   subroutine monolis_gatherv_C(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
-    complex(kdouble) :: sbuf(:)
+    complex(kdouble), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc
+    integer(kint), intent(in) :: sc
     !> [out] 受信データ配列
-    complex(kdouble) :: rbuf(:)
+    complex(kdouble), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc(:)
+    integer(kint), intent(in) :: rc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [in] データを格納する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -447,19 +447,19 @@ contains
   subroutine monolis_scatterv_C(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
-    complex(kdouble) :: sbuf(:)
+    complex(kdouble), intent(in) :: sbuf(:)
     !> [in] 送信データ個数
-    integer(kint) :: sc(:)
+    integer(kint), intent(in) :: sc(:)
     !> [in] 各ランクのデータ格納位置リスト
-    integer(kint) :: disp(:)
+    integer(kint), intent(in) :: disp(:)
     !> [out] 受信データ配列
-    complex(kdouble) :: rbuf(:)
+    complex(kdouble), intent(out) :: rbuf(:)
     !> [in] 各ランクのデータ個数リスト
-    integer(kint) :: rc
+    integer(kint), intent(in) :: rc
     !> [in] データを送信する MPI ランク
-    integer(kint) :: root
+    integer(kint), intent(in) :: root
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -474,11 +474,11 @@ contains
   subroutine monolis_allgather_I1(sval, rbuf, comm)
     implicit none
     !> [in] 送信データ
-    integer(kint) :: sval
+    integer(kint), intent(in) :: sval
     !> [out] 受信データ
-    integer(kint) :: rbuf(:)
+    integer(kint), intent(out) :: rbuf(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -493,17 +493,17 @@ contains
   subroutine monolis_allgatherv_I(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信データ
-    integer(kint) :: sval(:)
+    integer(kint), intent(in) :: sval(:)
     !> [out] 受信データ
-    integer(kint) :: rbuf(:)
+    integer(kint), intent(out) :: rbuf(:)
     !> [in] プロセスごとの送信データ長さ
-    integer(kint) :: counts(:)
+    integer(kint), intent(in) :: counts(:)
     !> [in] プロセスごとの送信データ開始位置
-    integer(kint) :: displs(:)
+    integer(kint), intent(in) :: displs(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -518,11 +518,11 @@ contains
   subroutine monolis_allgather_R1(sval, rbuf, comm)
     implicit none
     !> [in] 送信データ
-    real(kdouble) :: sval
+    real(kdouble), intent(in) :: sval
     !> [out] 受信データ
-    real(kdouble) :: rbuf(:)
+    real(kdouble), intent(out) :: rbuf(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -537,17 +537,17 @@ contains
   subroutine monolis_allgatherv_R(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信データ
-    real(kdouble) :: sval(:)
+    real(kdouble), intent(in) :: sval(:)
     !> [out] 受信データ
-    real(kdouble) :: rbuf(:)
+    real(kdouble), intent(out) :: rbuf(:)
     !> [in] プロセスごとの送信データ長さ
-    integer(kint) :: counts(:)
+    integer(kint), intent(in) :: counts(:)
     !> [in] プロセスごとの送信データ開始位置
-    integer(kint) :: displs(:)
+    integer(kint), intent(in) :: displs(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -562,11 +562,11 @@ contains
   subroutine monolis_allgather_C1(sval, rbuf, comm)
     implicit none
     !> [in] 送信データ
-    complex(kdouble) :: sval
+    complex(kdouble), intent(in) :: sval
     !> [out] 受信データ
-    complex(kdouble) :: rbuf(:)
+    complex(kdouble), intent(out) :: rbuf(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -581,17 +581,17 @@ contains
   subroutine monolis_allgatherv_C(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
-    integer(kint) :: n
+    integer(kint), intent(in) :: n
     !> [in] 送信データ
-    complex(kdouble) :: sval(:)
+    complex(kdouble), intent(in) :: sval(:)
     !> [out] 受信データ
-    complex(kdouble) :: rbuf(:)
+    complex(kdouble), intent(out) :: rbuf(:)
     !> [in] プロセスごとの送信データ長さ
-    integer(kint) :: counts(:)
+    integer(kint), intent(in) :: counts(:)
     !> [in] プロセスごとの送信データ開始位置
-    integer(kint) :: displs(:)
+    integer(kint), intent(in) :: displs(:)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -606,13 +606,13 @@ contains
   subroutine monolis_alltoall_I1(n, sbuf, comm)
     implicit none
     !> [in] データ送信個数
-    integer(kint) :: n
-    !> [in] 送信データ
-    integer(kint) :: sbuf(n)
-    !> [out] 受信データ
-    integer(kint) :: rbuf(n)
+    integer(kint), intent(in) :: n
+    !> [in,out] 送信データ
+    integer(kint), intent(inout) :: sbuf(n)
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
+    !> 受信データ
+    integer(kint) :: rbuf(n)
     integer(kint) :: ierr
 
 #ifndef NO_MPI
@@ -628,27 +628,27 @@ contains
     & val, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
-    integer(kint) :: send_n_neib
+    integer(kint), intent(in) :: send_n_neib
     !> [in] send する隣接領域 id
-    integer(kint) :: send_neib_pe(:)
+    integer(kint), intent(in) :: send_neib_pe(:)
     !> [in] recv する隣接領域数
-    integer(kint) :: recv_n_neib
+    integer(kint), intent(in) :: recv_n_neib
     !> [in] recv する隣接領域 id
-    integer(kint) :: recv_neib_pe(:)
+    integer(kint), intent(in) :: recv_neib_pe(:)
     !> [in] send の index 配列
-    integer(kint) :: send_index(:)
+    integer(kint), intent(in) :: send_index(:)
     !> [in] send の item 配列（送信する節点番号データ）
-    integer(kint) :: send_item (:)
+    integer(kint), intent(in) :: send_item (:)
     !> [in] recv の index 配列
-    integer(kint) :: recv_index(:)
+    integer(kint), intent(in) :: recv_index(:)
     !> [in] recv の item 配列（受信する節点番号データ）
-    integer(kint) :: recv_item (:)
-    !> [in] 送信データ配列
-    real(kdouble) :: val(:)
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    real(kdouble), intent(inout) :: val(:)
     !> [in] 節点番号の自由度数
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: i, iS, in, j, k, ierr, ns, nr
     integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
     integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
@@ -706,27 +706,27 @@ contains
     & val, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
-    integer(kint) :: send_n_neib
+    integer(kint), intent(in) :: send_n_neib
     !> [in] send する隣接領域 id
-    integer(kint) :: send_neib_pe(:)
+    integer(kint), intent(in) :: send_neib_pe(:)
     !> [in] recv する隣接領域数
-    integer(kint) :: recv_n_neib
+    integer(kint), intent(in) :: recv_n_neib
     !> [in] recv する隣接領域 id
-    integer(kint) :: recv_neib_pe(:)
+    integer(kint), intent(in) :: recv_neib_pe(:)
     !> [in] send の index 配列
-    integer(kint) :: send_index(:)
+    integer(kint), intent(in) :: send_index(:)
     !> [in] send の item 配列（送信する節点番号データ）
-    integer(kint) :: send_item (:)
+    integer(kint), intent(in) :: send_item (:)
     !> [in] recv の index 配列
-    integer(kint) :: recv_index(:)
+    integer(kint), intent(in) :: recv_index(:)
     !> [in] recv の item 配列（受信する節点番号データ）
-    integer(kint) :: recv_item (:)
-    !> [in] 送信データ配列
-    integer(kint) :: val(:)
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    integer(kint), intent(inout) :: val(:)
     !> [in] 節点番号の自由度数
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: i, iS, in, j, k, ierr, ns, nr
     integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
     integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
@@ -784,27 +784,27 @@ contains
     & val, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
-    integer(kint) :: send_n_neib
+    integer(kint), intent(in) :: send_n_neib
     !> [in] send する隣接領域 id
-    integer(kint) :: send_neib_pe(:)
+    integer(kint), intent(in) :: send_neib_pe(:)
     !> [in] recv する隣接領域数
-    integer(kint) :: recv_n_neib
+    integer(kint), intent(in) :: recv_n_neib
     !> [in] recv する隣接領域 id
-    integer(kint) :: recv_neib_pe(:)
+    integer(kint), intent(in) :: recv_neib_pe(:)
     !> [in] send の index 配列
-    integer(kint) :: send_index(:)
+    integer(kint), intent(in) :: send_index(:)
     !> [in] send の item 配列（送信する節点番号データ）
-    integer(kint) :: send_item (:)
+    integer(kint), intent(in) :: send_item (:)
     !> [in] recv の index 配列
-    integer(kint) :: recv_index(:)
+    integer(kint), intent(in) :: recv_index(:)
     !> [in] recv の item 配列（受信する節点番号データ）
-    integer(kint) :: recv_item (:)
-    !> [in] 送信データ配列
-    complex(kdouble) :: val(:)
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    complex(kdouble), intent(inout) :: val(:)
     !> [in] 節点番号の自由度数
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
+    integer(kint), intent(in) :: comm
     integer(kint) :: i, iS, in, j, k, ierr, ns, nr
     integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
     integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
@@ -860,13 +860,13 @@ contains
   subroutine monolis_mpi_update_R(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
-    type(monolis_com) :: monoCOM
+    type(monolis_com), intent(in) :: monoCOM
     !> [in] 節点あたりの自由度
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
-    real(kdouble) :: X(:)
+    real(kdouble), intent(inout) :: X(:)
     !> [in,out] 入出力ベクトル
-    real(kdouble), optional :: tcomm
+    real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
@@ -889,13 +889,13 @@ contains
   subroutine monolis_mpi_update_I(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
-    type(monolis_com) :: monoCOM
+    type(monolis_com), intent(in) :: monoCOM
     !> [in] 節点あたりの自由度
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
-    integer(kint) :: X(:)
+    integer(kint), intent(inout) :: X(:)
     !> [in,out] 入出力ベクトル
-    real(kdouble), optional :: tcomm
+    real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
@@ -918,13 +918,13 @@ contains
   subroutine monolis_mpi_update_C(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
-    type(monolis_com) :: monoCOM
+    type(monolis_com), intent(in) :: monoCOM
     !> [in] 節点あたりの自由度
-    integer(kint) :: ndof
+    integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
-    complex(kdouble) :: X(:)
+    complex(kdouble), intent(inout) :: X(:)
     !> [in,out] 入出力ベクトル
-    real(kdouble), optional :: tcomm
+    real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
