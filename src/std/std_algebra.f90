@@ -222,12 +222,12 @@ contains
   !> ランダムベクトルの取得（実数型）
   subroutine monolis_get_rundom_number_R(n, x, seed)
     implicit none
-    !> ベクトルサイズ
-    integer(kint) :: n
-    !> ベクトル
-    real(kdouble) :: x(n)
-    !> シフト量
-    integer(kint) :: seed
+    !> [in] ベクトルサイズ
+    integer(kint), intent(in) :: n
+    !> [out] ベクトル
+    real(kdouble), intent(out) :: x(n)
+    !> [in] シフト量
+    integer(kint), intent(in) :: seed
     integer(kint), parameter :: m = 1664501
     integer(kint), parameter :: lambda = 1229
     integer(kint), parameter :: u = 351750
