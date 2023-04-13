@@ -48,14 +48,12 @@ contains
 
   !> @ingroup com
   !> COM 構造体の初期化関数
-  subroutine monolis_com_initialize_by_parted_files(COM, comm, fname)
+  subroutine monolis_com_initialize_by_parted_files(COM, comm)
     implicit none
     !> [in] COM 構造体
     type(monolis_COM) :: COM
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
-    !> [in] MPI コミュニケータ
-    character(monolis_charlen) :: fname
 
     COM%comm = comm
     COM%my_rank = monolis_mpi_get_local_my_rank(comm)
