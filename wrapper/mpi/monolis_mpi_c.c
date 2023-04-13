@@ -58,10 +58,10 @@ void monolis_mpi_update_I(
 }
 
 void monolis_mpi_update_C(
-  MONOLIS_COM*    com,
-  int             n,
-  int             n_dof,
-  double complex* x)
+  MONOLIS_COM*     com,
+  int              n,
+  int              n_dof,
+  double _Complex* x)
 {
   int recv_nitem = com->recv_index[com->recv_n_neib];
   int send_nitem = com->send_index[com->send_n_neib];

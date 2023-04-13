@@ -180,8 +180,8 @@ void monolis_dealloc_R_2d_test()
 
 void monolis_alloc_C_1d_test()
 {
-  double complex* var;
-  double complex ans;
+  double _Complex* var;
+  double _Complex  ans;
   int  size;
 
   monolis_std_global_log_string("monolis_alloc_C_1d");
@@ -199,8 +199,8 @@ void monolis_alloc_C_1d_test()
 
 void monolis_dealloc_C_1d_test()
 {
-  double complex* var;
-  int  size;
+  double _Complex* var;
+  int size;
 
   monolis_std_global_log_string("monolis_dealloc_C_1d");
 
@@ -219,9 +219,9 @@ void monolis_dealloc_C_1d_test()
 
 void monolis_alloc_C_2d_test()
 {
-  double complex** var;
-  int              size1;
-  int              size2;
+  double _Complex** var;
+  int               size1;
+  int               size2;
 
   monolis_std_global_log_string("monolis_alloc_C_2d");
 

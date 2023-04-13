@@ -95,39 +95,39 @@ void monolis_dealloc_R_2d(
 }
 
 /** 1 次元複素数配列のメモリ確保 */
-complex double* monolis_alloc_C_1d(
-  complex double* var,
-  const int       size)
+double _Complex* monolis_alloc_C_1d(
+  double _Complex* var,
+  const int        size)
 {
-  var = (complex double*)calloc(size, sizeof(complex double));
+  var = (_Complex double*)calloc(size, sizeof(_Complex double));
   return var;
 }
 
 /** 1 次元複素数配列のメモリ解放 */
 void monolis_dealloc_C_1d(
-  complex double** var)
+  double _Complex** var)
 {
   free(*var);
   *var = NULL;
 }
 
 /** 2 次元複素数配列のメモリ確保 */
-complex double** monolis_alloc_C_2d(
-  complex double** var,
+double _Complex** monolis_alloc_C_2d(
+  double _Complex** var,
   const int        size1,
   const int        size2)
 {
   int i;
-  var = (complex double**)calloc(size1, sizeof(complex double*));
+  var = (double _Complex**)calloc(size1, sizeof(double _Complex*));
   for(i = 0; i < size1; i++) {
-    var[i] = (complex double*)calloc(size2, sizeof(complex double));
+    var[i] = (double _Complex*)calloc(size2, sizeof(double _Complex));
   }
   return var;
 }
 
 /** 2 次元複素数配列のメモリ解放 */
 void monolis_dealloc_C_2d(
-  complex double*** var,
+  double _Complex*** var,
   const int         size1,
   const int         size2)
 {

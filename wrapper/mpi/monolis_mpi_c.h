@@ -28,10 +28,10 @@ void monolis_allreduce_R(
   int     comm);
 
 void monolis_allreduce_C(
-  int             n,
-  complex double* val,
-  int             tag,
-  int             comm);
+  int              n,
+  double _Complex* val,
+  int              tag,
+  int              comm);
 
 void monolis_mpi_update_R(
   MONOLIS_COM* com,
@@ -78,26 +78,26 @@ void monolis_mpi_update_R_c_main(
   int*    send_item);
 
 void monolis_mpi_update_C(
-  MONOLIS_COM*    com,
-  int             n,
-  int             n_dof,
-  double complex* x);
+  MONOLIS_COM*     com,
+  int              n,
+  int              n_dof,
+  double _Complex* x);
 
 void monolis_mpi_update_C_c_main(
-  int             n,
-  int             n_dof,
-  double complex* x,
-  int             comm,
-  int             recv_n_neib,
-  int             recv_nitem,
-  int*            recv_neib_pe,
-  int*            recv_index,
-  int*            recv_item,
-  int             send_n_neib,
-  int             send_nitem,
-  int*            send_neib_pe,
-  int*            send_index,
-  int*            send_item);
+  int              n,
+  int              n_dof,
+  double _Complex* x,
+  int              comm,
+  int              recv_n_neib,
+  int              recv_nitem,
+  int*             recv_neib_pe,
+  int*             recv_index,
+  int*             recv_item,
+  int              send_n_neib,
+  int              send_nitem,
+  int*             send_neib_pe,
+  int*             send_index,
+  int*             send_item);
 
 #ifdef __cplusplus
 }
