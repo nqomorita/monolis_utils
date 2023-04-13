@@ -121,12 +121,10 @@ void monolis_com_initialize_by_self(
   com->recv_n_neib = 0;
   com->send_n_neib = 0;
 
-  com->recv_neib_pe = NULL;
-  com->recv_index = NULL;
-  com->recv_item = NULL;
-  com->send_neib_pe = NULL;
-  com->send_index = NULL;
-  com->send_item = NULL;
+  com->send_neib_pe = monolis_alloc_I_1d(com->send_neib_pe, 1);
+  com->send_index = monolis_alloc_I_1d(com->send_index, 2);
+  com->send_item = monolis_alloc_I_1d(com->send_item, 1);
+  com->recv_neib_pe = monolis_alloc_I_1d(com->recv_neib_pe, 1);
+  com->recv_index = monolis_alloc_I_1d(com->recv_index, 2);
+  com->recv_item = monolis_alloc_I_1d(com->recv_item, 1);
 }
-
-
