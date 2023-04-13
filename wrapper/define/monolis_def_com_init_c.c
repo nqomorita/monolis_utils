@@ -8,6 +8,7 @@
 #include "monolis_io_com_c.h"
 #include "monolis_io_file_name_c.h"
 #include "monolis_alloc_c.h"
+#include "monolis_comm_table_c.h"
 #include "monolis_mpi_util_c.h"
 
 /** COM 構造体の初期化関数 */
@@ -53,14 +54,16 @@ void monolis_com_input_comm_table(
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_parted_files(
-  MONOLIS_COM* com)
+  MONOLIS_COM* com,
+  int          comm)
 {
+  com->comm = comm;
+  com->comm_size = monolis_mpi_get_local_comm_size(comm);
+  com->my_rank = monolis_mpi_get_local_my_rank(comm);
+  com->n_internal_vertex = 0;
+
   com->recv_n_neib = 0;
   com->send_n_neib = 0;
-  com->n_internal_vertex = 0;
-  com->my_rank = monolis_mpi_get_global_my_rank();
-  com->comm = monolis_mpi_get_global_comm();
-  com->comm_size = monolis_mpi_get_global_comm_size();
 
   com->recv_neib_pe = NULL;
   com->recv_index = NULL;
@@ -68,18 +71,29 @@ void monolis_com_initialize_by_parted_files(
   com->send_neib_pe = NULL;
   com->send_index = NULL;
   com->send_item = NULL;
+
+  monolis_com_input_comm_table(
+    com,
+    com->top_dir_name,
+    com->part_dir_name,
+    com->file_name);
 }
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_global_id(
-  MONOLIS_COM* com)
+  MONOLIS_COM* com,
+  int          comm,
+  int          n_internal_vertex,
+  int          n_vertex,
+  int*         global_id)
 {
+  com->comm = comm;
+  com->comm_size = monolis_mpi_get_local_comm_size(comm);
+  com->my_rank = monolis_mpi_get_local_my_rank(comm);
+  com->n_internal_vertex = 0;
+
   com->recv_n_neib = 0;
   com->send_n_neib = 0;
-  com->n_internal_vertex = 0;
-  com->my_rank = monolis_mpi_get_global_my_rank();
-  com->comm = monolis_mpi_get_global_comm();
-  com->comm_size = monolis_mpi_get_global_comm_size();
 
   com->recv_neib_pe = NULL;
   com->recv_index = NULL;
@@ -87,18 +101,25 @@ void monolis_com_initialize_by_global_id(
   com->send_neib_pe = NULL;
   com->send_index = NULL;
   com->send_item = NULL;
+
+  monolis_com_get_comm_table_parallel(
+    n_internal_vertex,
+    n_vertex,
+    global_id,
+    com);
 }
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_self(
   MONOLIS_COM* com)
 {
+  com->comm = 0;
+  com->comm_size = 1;
+  com->my_rank = 0;
+  com->n_internal_vertex = 0;
+
   com->recv_n_neib = 0;
   com->send_n_neib = 0;
-  com->n_internal_vertex = 0;
-  com->my_rank = monolis_mpi_get_global_my_rank();
-  com->comm = monolis_mpi_get_global_comm();
-  com->comm_size = monolis_mpi_get_global_comm_size();
 
   com->recv_neib_pe = NULL;
   com->recv_index = NULL;
