@@ -8,11 +8,16 @@ extern "C" {
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_parted_files(
-  MONOLIS_COM* com);
+  MONOLIS_COM* com,
+  int          comm);
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_global_id(
-  MONOLIS_COM* com);
+  MONOLIS_COM* com,
+  int          comm,
+  int          n_internal_vertex,
+  int          n_vertex,
+  int*         global_id);
 
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_self(
