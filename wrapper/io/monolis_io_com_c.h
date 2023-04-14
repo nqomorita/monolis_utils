@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_com_c.h"
+
 void monolis_input_com_table_main(
   const char* fname,
   int*        n_neib,
