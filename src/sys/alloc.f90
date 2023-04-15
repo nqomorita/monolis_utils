@@ -46,8 +46,8 @@ contains
   !> @details 初期値 0 でメモリ確保がなされる。
   subroutine monolis_alloc_I_1d(var, size)
     implicit none
-    !> [out] メモリ確保する配列
-    integer(kint), allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ確保する配列
+    integer(kint), allocatable, intent(inout) :: var(:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -71,8 +71,8 @@ contains
   !> 1 次元整数配列のメモリ開放
   subroutine monolis_dealloc_I_1d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    integer(kint), allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ開放する配列
+    integer(kint), allocatable, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -152,8 +152,8 @@ contains
   !> @details 配列サイズは var(size1, size2) として確保される。
   subroutine monolis_alloc_I_2d(var, size1, size2)
     implicit none
-    !> [out] メモリ確保する配列（サイズ [size1, size2]）
-    integer(kint), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ確保する配列（サイズ [size1, size2]）
+    integer(kint), allocatable, intent(inout) :: var(:,:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size1
     !> [in] 配列サイズ
@@ -179,8 +179,8 @@ contains
   !> 2 次元整数配列のメモリ開放
   subroutine monolis_dealloc_I_2d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    integer(kint), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ開放する配列
+    integer(kint), allocatable, intent(inout) :: var(:,:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -200,8 +200,8 @@ contains
   !> 1 次元浮動小数点配列のメモリ確保
   subroutine monolis_alloc_R_1d(var, size)
     implicit none
-    !> [out] メモリ確保する配列
-    real(kdouble), allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ確保する配列
+    real(kdouble), allocatable, intent(inout) :: var(:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -225,8 +225,8 @@ contains
   !> 1 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_R_1d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    real(kdouble), allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ開放する配列
+    real(kdouble), allocatable, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -247,8 +247,8 @@ contains
   !> @details 配列サイズは var(size1, size2) として確保される。
   subroutine monolis_alloc_R_2d(var, size1, size2)
     implicit none
-    !> [out] メモリ確保する配列（サイズ [size1, size2]）
-    real(kdouble), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ確保する配列（サイズ [size1, size2]）
+    real(kdouble), allocatable, intent(inout) :: var(:,:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size1
     !> [in] 配列サイズ
@@ -274,8 +274,8 @@ contains
   !> 2 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_R_2d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    real(kdouble), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ開放する配列
+    real(kdouble), allocatable, intent(inout) :: var(:,:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -360,8 +360,8 @@ contains
   !> 1 次元複素数型配列のメモリ確保
   subroutine monolis_alloc_C_1d(var, size)
     implicit none
-    !> [out] メモリ確保する配列
-    complex(kdouble), intent(out), allocatable :: var(:)
+    !> [in,out] メモリ確保する配列
+    complex(kdouble), intent(inout), allocatable :: var(:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -385,8 +385,8 @@ contains
   !> 1 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_C_1d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    complex(kdouble), allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ開放する配列
+    complex(kdouble), allocatable, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -407,8 +407,8 @@ contains
   !> @details 配列サイズは var(size1, size2) として確保される。
   subroutine monolis_alloc_C_2d(var, size1, size2)
     implicit none
-    !> [out] メモリ確保する配列（サイズ [size1, size2]）
-    complex(kdouble), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ確保する配列（サイズ [size1, size2]）
+    complex(kdouble), allocatable, intent(inout) :: var(:,:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size1
     !> [in] 配列サイズ
@@ -434,8 +434,8 @@ contains
   !> 2 次元浮動小数点配列のメモリ開放
   subroutine monolis_dealloc_C_2d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    complex(kdouble), allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ開放する配列
+    complex(kdouble), allocatable, intent(inout) :: var(:,:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -455,8 +455,8 @@ contains
   !> 1 次元論理型配列のメモリ確保
   subroutine monolis_alloc_L_1d(var, size)
     implicit none
-    !> [out] メモリ確保する配列
-    logical, allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ確保する配列
+    logical, allocatable, intent(inout) :: var(:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -480,8 +480,8 @@ contains
   !> 1 次元論理型配列のメモリ開放
   subroutine monolis_dealloc_L_1d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    logical, allocatable, intent(out) :: var(:)
+    !> [in,out] メモリ開放する配列
+    logical, allocatable, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then
@@ -502,8 +502,8 @@ contains
   !> @details 配列サイズは var(size1, size2) として確保される。
   subroutine monolis_alloc_L_2d(var, size1, size2)
     implicit none
-    !> [out] メモリ確保する配列（サイズ [size1, size2]）
-    logical, allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ確保する配列（サイズ [size1, size2]）
+    logical, allocatable, intent(inout) :: var(:,:)
     !> [in] 配列サイズ
     integer(kint), intent(in) :: size1
     !> [in] 配列サイズ
@@ -529,8 +529,8 @@ contains
   !> 2 次元論理型配列のメモリ開放
   subroutine monolis_dealloc_L_2d(var)
     implicit none
-    !> [out] メモリ開放する配列
-    logical, allocatable, intent(out) :: var(:,:)
+    !> [in,out] メモリ開放する配列
+    logical, allocatable, intent(inout) :: var(:,:)
     integer(kint) :: ierr
 
     if(.not. allocated(var))then

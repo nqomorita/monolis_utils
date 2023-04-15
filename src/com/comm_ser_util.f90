@@ -156,14 +156,14 @@ contains
   !> データ通信する send 隣接領域の取得（逐次実行版）
   subroutine monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list)
     implicit none
-    !> [in] 分割領域数  !L19との表記ゆれ
+    !> [in] 分割領域数
     integer(kint), intent(in) :: n_domain
     !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] 計算点 id
     integer(kint), intent(in) :: vertex_id(:)
-    !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com  !inout?
+    !> [in,out] 分割領域に対応する com 構造体
+    type(monolis_COM), intent(inout) :: com
     !> [in] recv 計算点の情報
     type(monolis_comm_node_list), intent(in) :: recv_list
     integer(kint) :: i, in, n_neib, id

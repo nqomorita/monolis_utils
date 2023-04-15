@@ -22,8 +22,8 @@ contains
   !> @details 初期値 0 でメモリ確保がなされる。
   subroutine monolis_palloc_I_1d(var, size)
     implicit none
-    !> [out] メモリ確保するポインタ
-    integer(kint), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ確保するポインタ
+    integer(kint), pointer, intent(inout) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -47,8 +47,8 @@ contains
   !> 1 次元整数ポインタのメモリ開放
   subroutine monolis_pdealloc_I_1d(var)
     implicit none
-    !> [out] メモリ開放するポインタ
-    integer(kint), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ開放するポインタ
+    integer(kint), pointer, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
@@ -69,8 +69,8 @@ contains
   !> 1 次元浮動小数点ポインタのメモリ確保
   subroutine monolis_palloc_R_1d(var, size)
     implicit none
-    !> [out] メモリ確保するポインタ
-    real(kdouble), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ確保するポインタ
+    real(kdouble), pointer, intent(inout) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -94,8 +94,8 @@ contains
   !> 1 次元浮動小数点ポインタのメモリ開放
   subroutine monolis_pdealloc_R_1d(var)
     implicit none
-    !> [out] メモリ開放するポインタ
-    real(kdouble), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ開放するポインタ
+    real(kdouble), pointer, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
@@ -116,8 +116,8 @@ contains
   !> 1 次元複素数型ポインタのメモリ確保
   subroutine monolis_palloc_C_1d(var, size)
     implicit none
-    !> [out] メモリ確保するポインタ
-    complex(kdouble), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ確保するポインタ
+    complex(kdouble), pointer, intent(inout) :: var(:)
     !> [in] ポインタサイズ
     integer(kint), intent(in) :: size
     integer(kint) :: ierr
@@ -141,8 +141,8 @@ contains
   !> 1 次元浮動小数点ポインタのメモリ開放
   subroutine monolis_pdealloc_C_1d(var)
     implicit none
-    !> [out] メモリ開放するポインタ
-    complex(kdouble), pointer, intent(out) :: var(:)
+    !> [in,out] メモリ開放するポインタ
+    complex(kdouble), pointer, intent(inout) :: var(:)
     integer(kint) :: ierr
 
     if(.not. associated(var))then
