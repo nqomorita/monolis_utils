@@ -1,6 +1,7 @@
 !> 通信データモジュール
 !# subroutine monolis_com_initialize(COM)
 !# subroutine monolis_com_finalize(COM)
+!# subroutine monolis_com_copy(in, out)
 !# subroutine monolis_com_set_communicator(COM, comm)
 !# subroutine monolis_com_get_communicator(COM, comm)
 !# subroutine monolis_com_set_my_rank(COM, my_rank)
@@ -10,6 +11,7 @@
 !# subroutine monolis_com_set_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_get_n_internal_vertex(COM, n_internal_vertex)
 !# subroutine monolis_com_debug_write(COM)
+
 module mod_monolis_utils_define_com
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_alloc
@@ -43,6 +45,12 @@ module mod_monolis_utils_define_com
     integer(kint), pointer :: send_index(:) => null()
     !> 送信するノード番号の item 配列
     integer(kint), pointer :: send_item(:) => null()
+    !> 通信テーブルデータ読込のトップディレクトリ名
+    character(monolis_charlen) :: top_dir_name = "./"
+    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+    character(monolis_charlen) :: part_dir_name = "parted.0"
+    !> 通信テーブルデータが記載されたファイル名
+    character(monolis_charlen) :: file_name = "graph.dat"
   end type monolis_COM
 
   !> 通信テーブル作成用ノードリスト構造体
@@ -54,35 +62,11 @@ module mod_monolis_utils_define_com
 
 contains
 
-  !> @ingroup com
-  !> COM 構造体の初期化関数
-  subroutine monolis_com_initialize(COM)
-    implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM  !inout?
-
-    COM%comm = monolis_mpi_get_global_comm()
-    COM%my_rank = monolis_mpi_get_global_my_rank()
-    COM%comm_size = monolis_mpi_get_global_comm_size()
-    COM%n_internal_vertex = 0
-
-    COM%recv_n_neib = 0
-    call monolis_pdealloc_I_1d(COM%recv_neib_pe)
-    call monolis_pdealloc_I_1d(COM%recv_index)
-    call monolis_pdealloc_I_1d(COM%recv_item)
-
-    COM%send_n_neib = 0
-    call monolis_pdealloc_I_1d(COM%send_neib_pe)
-    call monolis_pdealloc_I_1d(COM%send_index)
-    call monolis_pdealloc_I_1d(COM%send_item)
-  end subroutine monolis_com_initialize
-
-  !> @ingroup com
   !> COM 構造体の終了処理関数
   subroutine monolis_com_finalize(COM)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM  !inout?
+    !> [in,out] COM 構造体
+    type(monolis_COM), intent(inout) :: COM
 
     COM%comm = 0
     COM%my_rank = 0
@@ -99,6 +83,52 @@ contains
     call monolis_pdealloc_I_1d(COM%send_index)
     call monolis_pdealloc_I_1d(COM%send_item)
   end subroutine monolis_com_finalize
+
+  !> @ingroup com
+  !> COM 構造体のコピー関数
+  subroutine monolis_com_copy(in, out)
+    implicit none
+    !> [in] COM 構造体（コピー元）
+    type(monolis_COM) :: in
+    !> [in] COM 構造体（コピー先）
+    type(monolis_COM) :: out
+    integer(kint) :: nz
+
+    call monolis_com_finalize(out)
+
+    out%comm = in%comm
+    out%my_rank = in%my_rank
+    out%comm_size = in%comm_size
+    out%n_internal_vertex = in%n_internal_vertex
+
+    ! recv section
+    if(in%recv_n_neib > 0)then
+      out%recv_n_neib = in%recv_n_neib
+      nz = in%recv_index(in%recv_n_neib + 1)
+
+      call monolis_palloc_I_1d(out%recv_neib_pe, in%recv_n_neib)
+      call monolis_palloc_I_1d(out%recv_index, in%recv_n_neib + 1)
+      call monolis_palloc_I_1d(out%recv_item, nz)
+
+      out%recv_neib_pe = in%recv_neib_pe
+      out%recv_index = in%recv_index
+      out%recv_item = in%recv_item
+    endif
+
+    ! send section
+    if(in%send_n_neib > 0)then
+      out%send_n_neib = in%send_n_neib
+      nz = in%send_index(in%send_n_neib + 1)
+
+      call monolis_palloc_I_1d(out%send_neib_pe, in%send_n_neib)
+      call monolis_palloc_I_1d(out%send_index, in%send_n_neib + 1)
+      call monolis_palloc_I_1d(out%send_item, nz)
+
+      out%send_neib_pe = in%send_neib_pe
+      out%send_index = in%send_index
+      out%send_item = in%send_item
+    endif
+  end subroutine monolis_com_copy
 
   !> @ingroup com
   !> COM 構造体に MPI コミュニケータを設定
@@ -187,6 +217,36 @@ contains
     integer(kint), intent(out) :: n_internal_vertex
     n_internal_vertex = COM%n_internal_vertex
   end subroutine monolis_com_get_n_internal_vertex
+
+  !> 読込ファイルのトップディレクトリの設定
+  subroutine monolis_com_set_input_top_directory_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%top_dir_name = trim(param)
+  end subroutine monolis_com_set_input_top_directory_name
+
+  !> 読込ファイルの分割データディレクトリの設定
+  subroutine monolis_com_set_input_part_directory_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%part_dir_name = trim(param)
+  end subroutine monolis_com_set_input_part_directory_name
+
+  !> 読込ファイル名の設定
+  subroutine monolis_com_set_input_file_name(COM, param)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM) :: COM
+    !> パラメータ
+    character(*) :: param
+    COM%file_name = trim(param)
+  end subroutine monolis_com_set_input_file_name
 
   !> @ingroup dev_com
   !> COM 構造体のデバッグ用データ書き出し

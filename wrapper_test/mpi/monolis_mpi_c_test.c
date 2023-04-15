@@ -9,7 +9,7 @@ void monolis_allreduce_I_test()
   int comm;
   int i;
 
-  monolis_std_log_string("monolis_allreduce_I_test");
+  monolis_std_global_log_string("monolis_allreduce_I");
 
   comm = monolis_mpi_get_global_comm();
 
@@ -18,9 +18,9 @@ void monolis_allreduce_I_test()
   monolis_allreduce_I(1, &i, MONOLIS_MPI_SUM, comm);
 
   if(monolis_mpi_get_global_comm_size() == 1){
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1_c", i, 1);
+    monolis_test_check_eq_I1("monolis_allreduce_I 1_c", i, 1);
   } else {
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 1_c", i, 3);
+    monolis_test_check_eq_I1("monolis_allreduce_I 1_c", i, 3);
   }
 
   i = monolis_mpi_get_global_my_rank() + 1;
@@ -28,16 +28,16 @@ void monolis_allreduce_I_test()
   monolis_allreduce_I(1, &i, MONOLIS_MPI_MAX, comm);
 
   if(monolis_mpi_get_global_comm_size() == 1){
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 2_c", i, 1);
+    monolis_test_check_eq_I1("monolis_allreduce_I 2_c", i, 1);
   } else {
-    monolis_test_check_eq_I1("monolis_allreduce_I_test 2_c", i, 2);
+    monolis_test_check_eq_I1("monolis_allreduce_I 2_c", i, 2);
   }
 
   i = monolis_mpi_get_global_my_rank() + 1;
 
   monolis_allreduce_I(1, &i, MONOLIS_MPI_MIN, comm);
 
-  monolis_test_check_eq_I1("monolis_allreduce_I_test 3_c", i, 1);
+  monolis_test_check_eq_I1("monolis_allreduce_I 3_c", i, 1);
 }
 
 void monolis_allreduce_R_test()
@@ -45,7 +45,7 @@ void monolis_allreduce_R_test()
   int comm;
   double i;
 
-  monolis_std_log_string("monolis_allreduce_R_test");
+  monolis_std_global_log_string("monolis_allreduce_R");
 
   comm = monolis_mpi_get_global_comm();
 
@@ -54,9 +54,9 @@ void monolis_allreduce_R_test()
   monolis_allreduce_R(1, &i, MONOLIS_MPI_SUM, comm);
 
   if(monolis_mpi_get_global_comm_size() == 1){
-    monolis_test_check_eq_R1("monolis_allreduce_R_test 1_c", i, 1.0);
+    monolis_test_check_eq_R1("monolis_allreduce_R 1_c", i, 1.0);
   } else {
-    monolis_test_check_eq_R1("monolis_allreduce_R_test 1_c", i, 3.0);
+    monolis_test_check_eq_R1("monolis_allreduce_R 1_c", i, 3.0);
   }
 
   i = monolis_mpi_get_global_my_rank() + 1;
@@ -64,16 +64,16 @@ void monolis_allreduce_R_test()
   monolis_allreduce_R(1, &i, MONOLIS_MPI_MAX, comm);
 
   if(monolis_mpi_get_global_comm_size() == 1){
-    monolis_test_check_eq_R1("monolis_allreduce_R_test 2_c", i, 1.0);
+    monolis_test_check_eq_R1("monolis_allreduce_R 2_c", i, 1.0);
   } else {
-    monolis_test_check_eq_R1("monolis_allreduce_R_test 2_c", i, 2.0);
+    monolis_test_check_eq_R1("monolis_allreduce_R 2_c", i, 2.0);
   }
 
   i = monolis_mpi_get_global_my_rank() + 1;
 
   monolis_allreduce_R(1, &i, MONOLIS_MPI_MIN, comm);
 
-  monolis_test_check_eq_R1("monolis_allreduce_R_test 3_c", i, 1.0);
+  monolis_test_check_eq_R1("monolis_allreduce_R 3_c", i, 1.0);
 }
 
 void monolis_allreduce_C_test()
@@ -83,7 +83,7 @@ void monolis_allreduce_C_test()
   double complex i;
   double complex j;
 
-  monolis_std_log_string("monolis_allreduce_C_test");
+  monolis_std_global_log_string("monolis_allreduce_C");
 
   comm = monolis_mpi_get_global_comm();
 
@@ -94,10 +94,10 @@ void monolis_allreduce_C_test()
 
   if(monolis_mpi_get_global_comm_size() == 1){
     j = 1.0 + 1.0*I;
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1_c", i, j);
+    monolis_test_check_eq_C1("monolis_allreduce_C 1_c", i, j);
   } else {
     j = 3.0 + 3.0*I;
-    monolis_test_check_eq_C1("monolis_allreduce_C_test 1_c", i, j);
+    monolis_test_check_eq_C1("monolis_allreduce_C 1_c", i, j);
   }
 }
 
@@ -109,7 +109,9 @@ void monolis_mpi_update_test()
   double r[8];
   double complex c[8];
 
-  monolis_std_log_string("monolis_mpi_update_test I");
+  monolis_std_global_log_string("monolis_mpi_update_I I");
+  monolis_std_global_log_string("monolis_mpi_update_R I");
+  monolis_std_global_log_string("monolis_mpi_update_C I");
 
   if(monolis_mpi_get_global_comm_size() == 1) return;
 

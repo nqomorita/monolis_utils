@@ -18,7 +18,7 @@ void monolis_io_file_name_c_test()
   int comm_size;
   int my_rank;
 
-  monolis_std_log_string("monolis_io_file_name_c_test");
+  monolis_std_global_log_string("monolis_get_global_input_file_name");
 
   comm = monolis_mpi_get_global_comm();
 
@@ -50,6 +50,8 @@ void monolis_io_file_name_c_test()
     }
   }
 
+  monolis_std_global_log_string("monolis_get_local_input_file_name");
+
   out2 = monolis_get_local_input_file_name(dir_name, file_name, comm);
 
   if(comm_size == 1){
@@ -74,6 +76,8 @@ void monolis_io_file_name_c_test()
     }
   }
 
+  monolis_std_global_log_string("monolis_get_global_output_file_name");
+
   out3 = monolis_get_global_output_file_name(dir_name, file_name);
 
   if(comm_size == 1){
@@ -97,6 +101,8 @@ void monolis_io_file_name_c_test()
       }
     }
   }
+
+  monolis_std_global_log_string("monolis_get_local_output_file_name");
 
   out4 = monolis_get_local_output_file_name(dir_name, file_name, comm);
 
@@ -123,6 +129,8 @@ void monolis_io_file_name_c_test()
   }
 
   domain_id = 2;
+
+  monolis_std_global_log_string("monolis_get_output_file_name_by_domain_id");
 
   out5 = monolis_get_output_file_name_by_domain_id(dir_name, file_name, domain_id);
 

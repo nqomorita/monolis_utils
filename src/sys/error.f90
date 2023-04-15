@@ -37,6 +37,18 @@ contains
   end subroutine monolis_std_log_string2
 
   !> @ingroup dev_error
+  !> 通常ログ出力関数
+  subroutine monolis_std_global_log_string(string)
+    use mod_monolis_mpi_util
+    implicit none
+    !> [in] 出力ログ
+    character(*) :: string
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      write(*,"(a,a)")"** MONOLIS: ", trim(string)
+    endif
+  end subroutine monolis_std_global_log_string
+
+  !> @ingroup dev_error
   !> デバッグ出力関数フラグの設定
   subroutine monolis_std_debug_log_flag(flag)
     implicit none
@@ -81,7 +93,7 @@ contains
 
   !> @ingroup dev_error
   !> デバッグログ出力（文字列型）
-  subroutine monolis_std_debug_log_C(header, char)
+  subroutine monolis_std_debug_log_string(header, char)
     implicit none
     !> [in] 出力ログ
     character(*), intent(in) :: header
@@ -89,7 +101,7 @@ contains
     character(*), intent(in) :: char
     if(.not. monolis_debug_log_write) return
     write(*,"(a,a,x,a)")"** MONOLIS DEBUG: ", trim(header), char
-  end subroutine monolis_std_debug_log_C
+  end subroutine monolis_std_debug_log_string
 
   !> @ingroup dev_error
   !> デバッグログ出力（論理型）

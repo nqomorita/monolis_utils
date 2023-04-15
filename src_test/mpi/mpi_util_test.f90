@@ -19,7 +19,9 @@ contains
   subroutine monolis_mpi_util_test_main()
     implicit none
 
-    call monolis_std_log_string("monolis_mpi_util_test_main")
+    call monolis_std_global_log_string("monolis_mpi_get_global_comm")
+    call monolis_std_global_log_string("monolis_mpi_get_global_comm_size")
+    call monolis_std_global_log_string("monolis_mpi_get_local_comm_size")
 
     if(monolis_mpi_get_global_comm() == MPI_COMM_WORLD)then
       call monolis_test_assert_pass("monolis_mpi_global_comm")
@@ -46,7 +48,7 @@ contains
     integer(kint) :: group_id
     integer(kint) :: comm_split
 
-    call monolis_std_log_string("monolis_mpi_split_comm_test")
+    call monolis_std_global_log_string("monolis_mpi_split_comm")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -54,8 +56,8 @@ contains
 
     call monolis_mpi_split_comm(comm, group_id, comm_split)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 1", monolis_mpi_get_local_comm_size(comm_split), 1)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm 1", monolis_mpi_get_local_comm_size(comm_split), 1)
 
-    call monolis_test_check_eq_I1("monolis_mpi_split_comm_test 2", monolis_mpi_get_local_my_rank(comm_split), 0)
+    call monolis_test_check_eq_I1("monolis_mpi_split_comm 2", monolis_mpi_get_local_my_rank(comm_split), 0)
   end subroutine monolis_mpi_split_comm_test
 end module mod_monolis_mpi_util_test

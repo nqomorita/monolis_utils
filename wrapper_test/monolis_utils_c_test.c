@@ -15,8 +15,6 @@
 
 int main()
 {
-  monolis_std_log_string("monolis_utils_c_test");
-
   monolis_mpi_initialize();
 
   monolis_def_com_test();

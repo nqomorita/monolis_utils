@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+
 FILE* monolis_open_file(
   FILE*       fp,
   const char* fname);

@@ -11,6 +11,9 @@ extern "C" {
 void monolis_std_log_string(
   const char* array);
 
+void monolis_std_global_log_string(
+  const char* array);
+
 void monolis_test_assert_pass(
   const char* array);
 
@@ -29,9 +32,9 @@ void monolis_test_check_eq_R1(
   double      b);
 
 void monolis_test_check_eq_C1(
-  const char*    array,
-  double complex a,
-  double complex b);
+  const char*     array,
+  double _Complex a,
+  double _Complex b);
 
 #ifdef __cplusplus
 }

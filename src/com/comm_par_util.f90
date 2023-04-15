@@ -12,14 +12,14 @@ module mod_monolis_comm_par_util
 contains
 
   !> @ingroup com
-  !> 分割領域の内部節点数リスト vtxdist を作成
+  !> 分割領域の内部計算点数リスト vtxdist を作成
   subroutine monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
     implicit none
     !> [in] 分割領域における内部計算点数
     integer(kint), intent(in) :: n_internal_vertex
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] 分割領域の内部節点数リスト
+    !> [out] 分割領域の内部計算点数リスト
     integer(kint), allocatable, intent(out) :: vtxdist(:)
     integer(kint) :: n_size, i
 
@@ -35,7 +35,7 @@ contains
   end subroutine monolis_com_n_vertex_list
 
   !> @ingroup com
-  !> グローバル節点番号を新たに生成
+  !> グローバル計算点番号を新たに生成
   subroutine monolis_generate_global_vertex_id(n_internal_vertex, n_vertex, vertex_id, com)
     implicit none
     !> [in] 分割領域における内部計算点数
@@ -65,7 +65,7 @@ contains
   end subroutine monolis_generate_global_vertex_id
 
   !> @ingroup com
-  !> 外部節点のグローバル節点番号を取得
+  !> 外部計算点のグローバル計算点番号を取得
   subroutine monolis_update_vertex_domain_id(vertex_domain_id, com)
     implicit none
     !> [out] グローバルノード番号配列
@@ -79,16 +79,16 @@ contains
   end subroutine monolis_update_vertex_domain_id
 
   !> @ingroup dev_com
-  !> 全ての外部節点を取得
+  !> 全ての外部計算点を取得
   subroutine monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, comm, n_outer)
     implicit none
     !> [in] 分割領域における内部計算点数
     integer(kint), intent(in) :: n_internal_vertex
-    !> [in] 全節点数
+    !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] 全ての外部節点配列に属する節点数
+    !> [out] 全ての外部計算点配列に属する計算点数
     integer(kint) :: n_outer
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
@@ -107,21 +107,21 @@ contains
   end subroutine monolis_comm_get_all_external_n_node_parallel
 
   !> @ingroup dev_com
-  !> 全ての外部節点を取得
+  !> 全ての外部計算点を取得
   subroutine monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
     & comm, outer_node_id_all, displs)
     implicit none
     !> [in] 分割領域における内部計算点数
     integer(kint), intent(in) :: n_internal_vertex
-    !> [in] 全節点数
+    !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] 計算点 id
     integer(kint), intent(in) :: vertex_id(:)
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] 全ての外部節点番号
+    !> [out] 全ての外部計算点番号
     integer(kint) :: outer_node_id_all(:)
-    !> 全ての外部節点配列の各領域に属する節点数
+    !> 全ての外部計算点配列の各領域に属する計算点数
     integer(kint) :: displs(:)
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
@@ -145,12 +145,12 @@ contains
       displs(i + 1) = displs(i) + counts(i)
     enddo
 
-    !> 全ての外部節点を取得
+    !> 全ての外部計算点を取得
     call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, comm)
   end subroutine monolis_comm_get_all_external_node_parallel
 
   !> @ingroup dev_com
-  !> 全ての外部節点が所属する領域番号を取得
+  !> 全ての外部計算点が所属する領域番号を取得
   subroutine monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
@@ -160,11 +160,11 @@ contains
     integer(kint), intent(in) :: vertex_id(:)
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [in] 全ての外部節点番号
+    !> [in] 全ての外部計算点番号
     integer(kint), intent(in) :: outer_node_id_all(:)
-    !> [out] 全ての外部節点が属する領域番号
+    !> [out] 全ての外部計算点が属する領域番号
     integer(kint), intent(out) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     integer(kint) :: comm_size, n_outer, my_rank
     integer(kint) :: i, j, jS, jE, id, idx
@@ -209,9 +209,9 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [in] 全ての外部節点が属する領域番号
+    !> [in] 全ての外部計算点が属する領域番号
     integer(kint), intent(in) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     !> [out] 隣接する領域数
     integer(kint), intent(out) :: n_neib_recv
@@ -267,9 +267,9 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
-    !> [in] 全ての外部節点が属する領域番号
+    !> [in] 全ての外部計算点が属する領域番号
     integer(kint), intent(in) :: outer_domain_id_all(:)
     !> [in] 隣接する領域数
     integer(kint), intent(in) :: n_neib_recv
@@ -309,17 +309,17 @@ contains
   subroutine monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, item)
     implicit none
-    !> [in] 全節点数
+    !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] 計算点 id
     integer(kint), intent(in) :: vertex_id(:)
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [in] 全ての外部節点番号
+    !> [in] 全ての外部計算点番号
     integer(kint), intent(in) :: outer_node_id_all(:)
-    !> [in] 全ての外部節点が属する領域番号
+    !> [in] 全ての外部計算点が属する領域番号
     integer(kint), intent(in) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     !> [in] 隣接する領域数
     integer(kint), intent(in) :: recv_n_neib
@@ -373,17 +373,17 @@ contains
   subroutine monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
-    !> [in] 全節点数
+    !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] 計算点 id
     integer(kint), intent(in) :: vertex_id(:)
     !> [in,out] 分割領域に対応する comm 構造体
     type(monolis_COM), intent(inout) :: com
-    !> [in] 全ての外部節点番号
+    !> [in] 全ての外部計算点番号
     integer(kint), intent(in) :: outer_node_id_all(:)
-    !> [in] 全ての外部節点が属する領域番号
+    !> [in] 全ての外部計算点が属する領域番号
     integer(kint), intent(in) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     integer(kint) :: comm_size
     integer(kint), allocatable :: is_neib(:)
@@ -422,7 +422,7 @@ contains
     integer(kint), intent(in) :: recv_neib_pe(:)
     !> [in] recv 隣接領域の index 配列
     integer(kint), intent(in) :: recv_index(:)
-    !> [out] send 節点の個数リスト
+    !> [out] send 計算点の個数リスト
     integer(kint), intent(out) :: send_n_list(:)
     integer(kint) :: i, jS, jE, id, comm_size
 
@@ -444,7 +444,7 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 節点の個数リスト
+    !> [out] send 計算点の個数リスト
     integer(kint), intent(in) :: send_n_list(:)
     !> [out] 隣接する領域数
     integer(kint), intent(out) :: n_neib_send
@@ -465,7 +465,7 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 節点の個数リスト
+    !> [out] send 計算点の個数リスト
     integer(kint), intent(in):: send_n_list(:)
     !> [out] 隣接する領域番号
     integer(kint), intent(out) :: send_neib_pe(:)
@@ -488,11 +488,11 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 節点の個数リスト
+    !> [out] send 計算点の個数リスト
     integer(kint), intent(in) :: send_n_list(:)
     !> [in] 隣接する領域数
     integer(kint), intent(in) :: send_n_neib
-    !> [out] send 節点の index 配列
+    !> [out] send 計算点の index 配列
     integer(kint), intent(out) :: send_index(:)
     integer(kint) :: i, in, comm_size
 
@@ -601,7 +601,7 @@ contains
   !> データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel(n_vertex, vertex_id, com)
     implicit none
-    !> [in] 全節点数
+    !> [in] 全計算点数
     integer(kint), intent(in) :: n_vertex
     !> [in] 計算点 id
     integer(kint), intent(in) :: vertex_id(:)

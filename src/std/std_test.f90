@@ -293,12 +293,15 @@ contains
   !> @ingroup test
   !> テストパス時の標準出力
   subroutine monolis_test_assert_pass(header)
+    use mod_monolis_mpi_util
     implicit none
     !> [in] テスト内容を示す文字列
     character(*), intent(in) :: header
     character :: esc*1 = char(27)
 
-    write(*,"(a,a)")esc//"[32m"//"[ PASSED ] "//trim(header)//esc//"[0m"
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      write(*,"(a,a)")esc//"[32m"//"[ PASSED ] "//trim(header)//esc//"[0m"
+    endif
   end subroutine monolis_test_assert_pass
 
   !> @ingroup test

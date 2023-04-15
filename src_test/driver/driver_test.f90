@@ -17,6 +17,13 @@ contains
     call monolis_p_refiner_tet_test()
     call monolis_h_refiner_tet_test()
     call monolis_h_refiner_hex_test()
+
+    call monolis_std_global_log_string("monolis_h_refine_hex")
+    call monolis_std_global_log_string("monolis_h_refine_tet")
+    call monolis_std_global_log_string("monolis_p_refine_tet")
+
+    call monolis_std_global_log_string("monolis_get_surf")
+    call monolis_std_global_log_string("monolis_get_surf_main")
   end subroutine monolis_driver_test
 
   subroutine monolis_dbc_all_surf_hex_R_test()
@@ -27,7 +34,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     real(kdouble), allocatable :: r_bc(:)
 
-    call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
+    call monolis_std_global_log_string("monolis_dbc_all_surf_hex_R")
 
     fname = "driver/output.f/dbc.hex.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
@@ -98,7 +105,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     complex(kdouble), allocatable :: c_bc(:)
 
-    call monolis_std_log_string("monolis_dbc_all_surf_hex_test")
+    call monolis_std_global_log_string("monolis_dbc_all_surf_hex_C")
 
     fname = "driver/output.f/dbc.hex.C.dat"
     call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
@@ -169,7 +176,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     real(kdouble), allocatable :: r_bc(:)
 
-    call monolis_std_log_string("monolis_dbc_all_surf_tet_R_test")
+    call monolis_std_global_log_string("monolis_dbc_all_surf_tet_R")
 
     fname = "driver/output.f/dbc.tet.R.dat"
     call monolis_input_bc_R(fname, n_bc, n_dof, i_bc, r_bc)
@@ -222,7 +229,7 @@ contains
     integer(kint), allocatable :: i_bc(:,:)
     complex(kdouble), allocatable :: c_bc(:)
 
-    call monolis_std_log_string("monolis_dbc_all_surf_tet_C_test")
+    call monolis_std_global_log_string("monolis_dbc_all_surf_tet_C")
 
     fname = "driver/output.f/dbc.tet.C.dat"
     call monolis_input_bc_C(fname, n_bc, n_dof, i_bc, c_bc)
@@ -273,7 +280,7 @@ contains
     integer(kint) :: ians(4,24)
     integer(kint), allocatable :: elem(:,:)
 
-    call monolis_std_log_string("monolis_extract_all_surf_hex_test")
+    call monolis_std_global_log_string("monolis_extract_all_surf_hex")
 
     fname = "driver/output.f/surf.hex.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
@@ -336,7 +343,7 @@ contains
     integer(kint) :: ians(3,12)
     integer(kint), allocatable :: elem(:,:)
 
-    call monolis_std_log_string("monolis_extract_all_surf_tet_test")
+    call monolis_std_global_log_string("monolis_extract_all_surf_tet")
 
     fname = "driver/output.f/surf.tet.dat"
     call monolis_input_elem(fname, n_elem, n_base, elem)
@@ -387,7 +394,7 @@ contains
     integer(kint), allocatable :: elem(:,:)
     real(kdouble), allocatable :: node(:,:)
 
-    call monolis_std_log_string("monolis_p_refiner_tet_test")
+    call monolis_std_global_log_string("monolis_p_refiner_tet")
 
     fname = "driver/output.f/node.ref.p.tet.dat"
     call monolis_input_node(fname, n_node, node)
@@ -524,7 +531,7 @@ contains
     integer(kint), allocatable :: elem(:,:), elem_ans(:,:)
     real(kdouble), allocatable :: node(:,:), node_ans(:,:)
 
-    call monolis_std_log_string("monolis_h_refiner_tet_test")
+    call monolis_std_global_log_string("monolis_h_refiner_tet")
 
     fname = "driver/ans/node.ref.h.tet.dat"
     call monolis_input_node(fname, n_node, node_ans)
@@ -588,7 +595,7 @@ contains
     integer(kint), allocatable :: elem(:,:), elem_ans(:,:)
     real(kdouble), allocatable :: node(:,:), node_ans(:,:)
 
-    call monolis_std_log_string("monolis_h_refiner_hex_test")
+    call monolis_std_global_log_string("monolis_h_refiner_hex")
 
     fname = "driver/ans/node.ref.h.hex.dat"
     call monolis_input_node(fname, n_node, node_ans)

@@ -21,11 +21,11 @@ contains
     integer(kint), intent(in) :: vertex_id(:)
     !> [out] 分割領域に対応する com 構造体
     type(monolis_COM) :: com  !inout?
-    !> 全ての外部節点番号（グローバル番号）
+    !> 全ての外部計算点番号（グローバル番号）
     integer(kint), allocatable :: outer_node_id_all_global(:)
-    !> 全ての外部節点が属する領域番号
+    !> 全ての外部計算点が属する領域番号
     integer(kint), allocatable :: outer_domain_id_all(:)
-    !> 全ての外部節点配列の各領域に属する節点数
+    !> 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), allocatable :: displs(:)
     integer(kint) :: n_outer_node
 

@@ -10,19 +10,19 @@ module mod_monolis_comm_ser_util
 contains
 
   !> @ingroup dev_com
-  !> 全ての外部節点が所属する領域番号を取得（逐次実行版）
+  !> 全ての外部計算点が所属する領域番号を取得（逐次実行版）
   subroutine monolis_comm_get_all_external_node_domain_id_serial(vertex_domain_id, n_domain, &
     & outer_node_id_all_global, outer_domain_id_all, displs)
     implicit none
-    !> [in] 節点の所属する領域番号（全節点数）
+    !> [in] 計算点の所属する領域番号（全計算点数）
     integer(kint), intent(in) :: vertex_domain_id(:)
     !> [in] 領域分割数
     integer(kint), intent(in) :: n_domain
-    !> [in] 全ての外部節点番号
+    !> [in] 全ての外部計算点番号
     integer(kint), intent(in) :: outer_node_id_all_global(:)
-    !> [out] 全ての外部節点が属する領域番号
+    !> [out] 全ての外部計算点が属する領域番号
     integer(kint), allocatable, intent(out) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     integer(kint) :: i, in, id
 
@@ -46,15 +46,15 @@ contains
     integer(kint) :: domain_id  !inout?
     !> [in] 分割領域における内部計算点数
     integer(kint), intent(in) :: n_internal_vertex
-    !> [in] 全ての外部節点番号（グローバル番号）  !L21との表記ゆれ
+    !> [in] 全ての外部計算点番号（グローバル番号）  !L21との表記ゆれ
     integer(kint) :: outer_node_id_all_global(:)
-    !> [in] 節点が属する領域番号（全節点）  !L23との表記ゆれ
+    !> [in] 計算点が属する領域番号（全計算点）  !L23との表記ゆれ
     integer(kint) :: outer_domain_id_all(:)
-    !> [in] 全ての外部節点配列の各領域に属する節点数
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     !> [in] 分割領域に対応する com 構造体
     type(monolis_COM) :: com  !inout?
-    !> [in] recv 節点の情報
+    !> [in] recv 計算点の情報
     type(monolis_comm_node_list) :: recv_list(:)  !inout
     integer(kint) :: i, in, j, jn, jS, jE, n_neib, n_data
     integer(kint) :: recv_rank
@@ -104,8 +104,7 @@ contains
 
       n_data = 0
       do j = jS, jE
-        in = outer_domain_id_all(j)
-        if(recv_rank == in)then
+        if(recv_rank == outer_domain_id_all(j))then
           n_data = n_data + 1
         endif
       enddo
@@ -120,10 +119,16 @@ contains
 
       !> add global id
       call monolis_alloc_I_1d(iadd, n_data)
-      in = 1
-      do j = displs(domain_id) + 1, displs(domain_id + 1)
-        iadd(in) = outer_node_id_all_global(j)
-        in = in + 1
+
+      jS = displs(domain_id) + 1
+      jE = displs(domain_id + 1)
+
+      in = 0
+      do j = jS, jE
+        if(recv_rank == outer_domain_id_all(j))then
+          in = in + 1
+          iadd(in) = outer_node_id_all_global(j)
+        endif
       enddo
       call monolis_append_I_1d(recv_list(recv_rank + 1)%global_id, n_data, iadd)
       call monolis_dealloc_I_1d(iadd)
@@ -159,7 +164,7 @@ contains
     integer(kint), intent(in) :: vertex_id(:)
     !> [in] 分割領域に対応する com 構造体
     type(monolis_COM) :: com  !inout?
-    !> [in] recv 節点の情報
+    !> [in] recv 計算点の情報
     type(monolis_comm_node_list), intent(in) :: recv_list
     integer(kint) :: i, in, n_neib, id
     integer(kint), allocatable :: temp(:), local_nid(:), domain(:)
@@ -193,7 +198,7 @@ contains
       if(domain(i) /= 0)then
         in = in + 1
         com%send_neib_pe(in) = i - 1 !> conver to 0 origin
-        com%send_index(in + 1) = com%recv_index(in) + domain(i)
+        com%send_index(in + 1) = com%send_index(in) + domain(i)
       endif
     enddo
 

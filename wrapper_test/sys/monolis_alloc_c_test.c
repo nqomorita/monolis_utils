@@ -10,7 +10,7 @@ void monolis_alloc_I_1d_test()
   int* var;
   int  size;
 
-  monolis_std_log_string("monolis_alloc_I_1d_test");
+  monolis_std_global_log_string("monolis_alloc_I_1d");
 
   size = 5;
 
@@ -28,7 +28,7 @@ void monolis_dealloc_I_1d_test()
   int* var;
   int  size;
 
-  monolis_std_log_string("monolis_dealloc_I_1d_test");
+  monolis_std_global_log_string("monolis_dealloc_I_1d");
 
   size = 5;
 
@@ -49,7 +49,7 @@ void monolis_alloc_I_2d_test()
   int   size1;
   int   size2;
 
-  monolis_std_log_string("monolis_alloc_I_2d_test");
+  monolis_std_global_log_string("monolis_alloc_I_2d");
 
   size1 = 5;
   size2 = 2;
@@ -74,7 +74,7 @@ void monolis_dealloc_I_2d_test()
   int   size1;
   int   size2;
 
-  monolis_std_log_string("monolis_dealloc_I_2d_test");
+  monolis_std_global_log_string("monolis_dealloc_I_2d");
 
   size1 = 5;
   size2 = 2;
@@ -96,7 +96,7 @@ void monolis_alloc_R_1d_test()
   double ans;
   int  size;
 
-  monolis_std_log_string("monolis_alloc_R_1d_test");
+  monolis_std_global_log_string("monolis_alloc_R_1d");
 
   size = 5;
 
@@ -116,7 +116,7 @@ void monolis_dealloc_R_1d_test()
   double* var;
   int  size;
 
-  monolis_std_log_string("monolis_dealloc_R_1d_test");
+  monolis_std_global_log_string("monolis_dealloc_R_1d");
 
   size = 5;
 
@@ -137,7 +137,7 @@ void monolis_alloc_R_2d_test()
   int      size1;
   int      size2;
 
-  monolis_std_log_string("monolis_alloc_R_2d_test");
+  monolis_std_global_log_string("monolis_alloc_R_2d");
 
   size1 = 5;
   size2 = 2;
@@ -162,7 +162,7 @@ void monolis_dealloc_R_2d_test()
   int      size1;
   int      size2;
 
-  monolis_std_log_string("monolis_dealloc_R_2d_test");
+  monolis_std_global_log_string("monolis_dealloc_R_2d");
 
   size1 = 5;
   size2 = 2;
@@ -180,11 +180,11 @@ void monolis_dealloc_R_2d_test()
 
 void monolis_alloc_C_1d_test()
 {
-  double complex* var;
-  double complex ans;
+  double _Complex* var;
+  double _Complex  ans;
   int  size;
 
-  monolis_std_log_string("monolis_alloc_C_1d_test");
+  monolis_std_global_log_string("monolis_alloc_C_1d");
 
   size = 5;
 
@@ -199,10 +199,10 @@ void monolis_alloc_C_1d_test()
 
 void monolis_dealloc_C_1d_test()
 {
-  double complex* var;
-  int  size;
+  double _Complex* var;
+  int size;
 
-  monolis_std_log_string("monolis_dealloc_C_1d_test");
+  monolis_std_global_log_string("monolis_dealloc_C_1d");
 
   size = 5;
 
@@ -219,11 +219,11 @@ void monolis_dealloc_C_1d_test()
 
 void monolis_alloc_C_2d_test()
 {
-  double complex** var;
-  int              size1;
-  int              size2;
+  double _Complex** var;
+  int               size1;
+  int               size2;
 
-  monolis_std_log_string("monolis_alloc_C_2d_test");
+  monolis_std_global_log_string("monolis_alloc_C_2d");
 
   size1 = 5;
   size2 = 2;
@@ -248,7 +248,7 @@ void monolis_dealloc_C_2d_test()
   int              size1;
   int              size2;
 
-  monolis_std_log_string("monolis_dealloc_C_2d_test");
+  monolis_std_global_log_string("monolis_dealloc_C_2d");
 
   size1 = 5;
   size2 = 2;

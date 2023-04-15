@@ -8,6 +8,7 @@ extern "C" {
 
 #include "monolis_def_prm_c.h"
 #include "monolis_def_com_c.h"
+#include "monolis_def_com_init_c.h"
 #include "monolis_io_file_name_c.h"
 #include "monolis_io_com_c.h"
 #include "monolis_io_c.h"

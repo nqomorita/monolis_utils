@@ -18,6 +18,26 @@ contains
     call monolis_alltoall_1_test()
     call monolis_send_recv_test()
     call monolis_update_test()
+
+    call monolis_std_global_log_string("monolis_mpi_initialize")
+    call monolis_std_global_log_string("monolis_mpi_finalize")
+
+    call monolis_std_global_log_string("monolis_mpi_get_global_my_rank")
+    call monolis_std_global_log_string("monolis_mpi_get_local_my_rank")
+
+    call monolis_std_global_log_string("monolis_mpi_global_barrier")
+    call monolis_std_global_log_string("monolis_mpi_local_barrier")
+
+    call monolis_std_global_log_string("monolis_get_time")
+    call monolis_std_global_log_string("monolis_get_time_global_sync")
+    call monolis_std_global_log_string("monolis_get_time_local_sync")
+
+    call monolis_std_global_log_string("monolis_Irecv_C")
+    call monolis_std_global_log_string("monolis_Irecv_I")
+    call monolis_std_global_log_string("monolis_Irecv_R")
+    call monolis_std_global_log_string("monolis_Isend_C")
+    call monolis_std_global_log_string("monolis_Isend_I")
+    call monolis_std_global_log_string("monolis_Isend_R")
   end subroutine monolis_mpi_test
 
   !> unit test
@@ -27,7 +47,9 @@ contains
     real(kdouble) :: r
     complex(kdouble) :: c
 
-    call monolis_std_log_string("monolis_allreduce_x1_test")
+    call monolis_std_global_log_string("monolis_allreduce_I1")
+    call monolis_std_global_log_string("monolis_allreduce_R1")
+    call monolis_std_global_log_string("monolis_allreduce_C1")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -95,7 +117,9 @@ contains
     real(kdouble) :: r(2), r_ans(2)
     complex(kdouble) :: c(2), c_ans(2)
 
-    call monolis_std_log_string("monolis_allreduce_x_test")
+    call monolis_std_global_log_string("monolis_allreduce_I")
+    call monolis_std_global_log_string("monolis_allreduce_R")
+    call monolis_std_global_log_string("monolis_allreduce_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -199,7 +223,9 @@ contains
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
 
-    call monolis_std_log_string("monolis_gather_test")
+    call monolis_std_global_log_string("monolis_gatherv_I")
+    call monolis_std_global_log_string("monolis_gatherv_R")
+    call monolis_std_global_log_string("monolis_gatherv_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -371,7 +397,9 @@ contains
     real(kdouble) :: r_sbuf(4), r_rbuf(2), r_ans(2)
     complex(kdouble) :: c_sbuf(4), c_rbuf(2), c_ans(2)
 
-    call monolis_std_log_string("monolis_scatterv_test")
+    call monolis_std_global_log_string("monolis_scatterv_I")
+    call monolis_std_global_log_string("monolis_scatterv_R")
+    call monolis_std_global_log_string("monolis_scatterv_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -442,7 +470,9 @@ contains
     real(kdouble) :: r_sbuf, r_rbuf(2), r_ans(2)
     complex(kdouble) :: c_sbuf, c_rbuf(2), c_ans(2)
 
-    call monolis_std_log_string("monolis_allgather_1_test")
+    call monolis_std_global_log_string("monolis_allgather_I1")
+    call monolis_std_global_log_string("monolis_allgather_R1")
+    call monolis_std_global_log_string("monolis_allgather_C1")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -503,7 +533,9 @@ contains
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
 
-    call monolis_std_log_string("monolis_allgather_test")
+    call monolis_std_global_log_string("monolis_allgatherv_I")
+    call monolis_std_global_log_string("monolis_allgatherv_R")
+    call monolis_std_global_log_string("monolis_allgatherv_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -592,7 +624,7 @@ contains
     implicit none
     integer(kint) :: comm, comm_size, sbuf(2), i_ans(2)
 
-    call monolis_std_log_string("monolis_alltoall_1_test")
+    call monolis_std_global_log_string("monolis_alltoall_I1")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
@@ -606,7 +638,7 @@ contains
     i_ans(1) = 1
     i_ans(2) = 2
 
-    call monolis_test_check_eq_I("monolis_alltoall_1_test  1", sbuf, i_ans)
+    call monolis_test_check_eq_I("monolis_alltoall_I1  1", sbuf, i_ans)
   end subroutine monolis_alltoall_1_test
 
   subroutine monolis_send_recv_test()
@@ -617,7 +649,9 @@ contains
     real(kdouble) :: r(8), r_ans(8)
     complex(kdouble) :: c(8), c_ans(8)
 
-    call monolis_std_log_string("monolis_send_recv_test")
+    call monolis_std_global_log_string("monolis_SendRecv_I")
+    call monolis_std_global_log_string("monolis_SendRecv_R")
+    call monolis_std_global_log_string("monolis_SendRecv_C")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
@@ -768,7 +802,9 @@ contains
     real(kdouble) :: r(8), r_ans(8)
     complex(kdouble) :: c(8), c_ans(8)
 
-    call monolis_std_log_string("monolis_update_test")
+    call monolis_std_global_log_string("monolis_mpi_update_I")
+    call monolis_std_global_log_string("monolis_mpi_update_R")
+    call monolis_std_global_log_string("monolis_mpi_update_C")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 

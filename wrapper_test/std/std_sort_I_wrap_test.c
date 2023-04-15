@@ -8,7 +8,7 @@ void monolis_sort_I_warp_test()
 {
   int a[5];
 
-  monolis_std_log_string("monolis_sort_I_warp_test");
+  monolis_std_global_log_string("monolis_qsort_I_1d");
 
   a[0] = 5;
   a[1] = 1;

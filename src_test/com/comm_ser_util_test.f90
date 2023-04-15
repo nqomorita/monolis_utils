@@ -29,7 +29,7 @@ contains
     !> 全ての外部節点配列の各領域に属する節点数
     integer(kint) :: displs(3)
 
-    call monolis_std_log_string("monolis_comm_get_all_external_node_domain_id_serial_test")
+    call monolis_std_global_log_string("monolis_comm_get_all_external_node_domain_id_serial")
 
     vertex_domain_id(1) = 1
     vertex_domain_id(2) = 1
@@ -49,8 +49,8 @@ contains
     call monolis_comm_get_all_external_node_domain_id_serial(vertex_domain_id, n_domain, &
       & outer_node_id_all_global, outer_domain_id_all, displs)
 
-    call monolis_test_check_eq_I1("monolis_comm_get_all_external_node_domain_id_serial_test 1", outer_domain_id_all(1), 2)
-    call monolis_test_check_eq_I1("monolis_comm_get_all_external_node_domain_id_serial_test 1", outer_domain_id_all(2), 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_all_external_node_domain_id_serial 1", outer_domain_id_all(1), 2)
+    call monolis_test_check_eq_I1("monolis_comm_get_all_external_node_domain_id_serial 1", outer_domain_id_all(2), 1)
   end subroutine monolis_comm_get_all_external_node_domain_id_serial_test
 
   subroutine monolis_comm_get_recv_serial_test()
@@ -72,7 +72,7 @@ contains
     !> [in] recv 節点の情報
     type(monolis_comm_node_list) :: recv_list(2)
 
-    call monolis_std_log_string("monolis_comm_get_recv_serial_test")
+    call monolis_std_global_log_string("monolis_comm_get_recv_serial")
 
     n_domain = 2
 
@@ -132,7 +132,7 @@ contains
     integer(kint) :: n_internal_vertex, outer_node_id_all_global(2)
     integer(kint) :: outer_domain_id_all(2), displs(3)
 
-    call monolis_std_log_string("monolis_comm_get_send_serial_test")
+    call monolis_std_global_log_string("monolis_comm_get_send_serial")
 
     n_domain = 2
 
@@ -171,11 +171,11 @@ contains
 
     call monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list(1))
 
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 1", com%send_n_neib, 1)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 2", com%send_neib_pe(1), 1)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 3", com%send_index(1), 0)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 4", com%send_index(2), 1)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test a 5", com%send_item(1), 3)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial a 1", com%send_n_neib, 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial a 2", com%send_neib_pe(1), 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial a 3", com%send_index(1), 0)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial a 4", com%send_index(2), 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial a 5", com%send_item(1), 3)
 
     call monolis_com_finalize(com)
 
@@ -194,11 +194,11 @@ contains
 
     call monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list(2))
 
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 1", com%send_n_neib, 1)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 2", com%send_neib_pe(1), 0)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 3", com%send_index(1), 0)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 4", com%send_index(2), 1)
-    call monolis_test_check_eq_I1("monolis_comm_get_send_serial_test b 5", com%send_item(1), 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial b 1", com%send_n_neib, 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial b 2", com%send_neib_pe(1), 0)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial b 3", com%send_index(1), 0)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial b 4", com%send_index(2), 1)
+    call monolis_test_check_eq_I1("monolis_comm_get_send_serial b 5", com%send_item(1), 1)
   end subroutine monolis_comm_get_send_serial_test
 
 end module mod_monolis_comm_ser_util_test

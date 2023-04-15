@@ -25,8 +25,8 @@ contains
     real(kdouble), allocatable, intent(out) :: node_ref(:,:)
     !> [out] リファイン後の要素数
     integer(kint), intent(out) :: n_elem_ref
-    !> [inout] リファイン後の要素コネクティビティ
-    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
+    !> [out] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(out) :: elem_ref(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(6)
     integer(kint) :: i, i1, i2, i3, eid, newid, conn(4)
@@ -134,8 +134,8 @@ contains
     real(kdouble), allocatable, intent(out) :: node_ref(:,:)
     !> [out] リファイン後の要素数
     integer(kint), intent(out) :: n_elem_ref
-    !> [inout] リファイン後の要素コネクティビティ
-    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
+    !> [out] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(out) :: elem_ref(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(19)
     integer(kint) :: i, i1, i2, i3, j, eid, newid, conn(8)
@@ -307,8 +307,8 @@ contains
     integer(kint), intent(out) :: n_node_ref
     !> [out] リファイン後の節点座標
     real(kdouble), allocatable, intent(out) :: node_ref(:,:)
-    !> [inout] リファイン後の要素コネクティビティ
-    integer(kint), allocatable, intent(inout) :: elem_ref(:,:)  !out?
+    !> [out] リファイン後の要素コネクティビティ
+    integer(kint), allocatable, intent(out) :: elem_ref(:,:)
     type(monolis_hash_structure) :: hash_tree
     integer(kint) :: tmp, nid(6)
     integer(kint) :: i, i1, i2, eid, newid, conn(4)

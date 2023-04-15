@@ -2,6 +2,7 @@
 module mod_monolis_utils
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_define_com
+  use mod_monolis_utils_define_com_init
   use mod_monolis_utils_sys
   use mod_monolis_utils_alloc
   use mod_monolis_utils_palloc
