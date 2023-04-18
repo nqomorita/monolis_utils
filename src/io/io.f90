@@ -346,7 +346,7 @@ contains
 
       do i = 1, n_bc
         read(20,*) i_bc(1,i), i_bc(2,i), tmp(1), tmp(2)
-        c_bc(i) = complex(tmp(1), tmp(2))
+        c_bc(i) = cmplx(tmp(1), tmp(2))
       enddo
     close(20)
   end subroutine monolis_input_bc_C
@@ -516,7 +516,7 @@ contains
       do i = 1, n_node
         read(20,*) (tmp(j), j = 1, 2*n_dof)
         do j = 1, n_dof
-          val(j,i) = complex(tmp(2*j-1), tmp(2*j))
+          val(j,i) = cmplx(tmp(2*j-1), tmp(2*j))
         enddo
       enddo
     close(20)
