@@ -91,7 +91,7 @@ contains
       call getarg(2*j - 1 + 2*i    , argc1)
       read(argc1,*) r(2)
 
-      val(i) = complex(r(1), r(2))
+      val(i) = cmplx(r(1), r(2))
     enddo
 
     is_get = .true.
