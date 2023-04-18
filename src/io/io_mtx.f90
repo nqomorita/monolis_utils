@@ -93,7 +93,7 @@ contains
         in = in + 1
         backspace(20)
         read(20,*) elem(1,in), elem(2,in), r1, r2
-        coef(in) = complex(r1, r2)
+        coef(in) = cmplx(r1, r2)
       endif
       if(in == NZ) exit
     enddo
