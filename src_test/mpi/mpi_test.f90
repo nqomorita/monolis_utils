@@ -101,7 +101,7 @@ contains
 
     !> case 3
     r = dble(monolis_mpi_get_global_my_rank() + 1.0d0)
-    c = complex(r, r)
+    c = cmplx(r, r)
     call monolis_allreduce_C1(c, monolis_mpi_sum, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
@@ -201,8 +201,8 @@ contains
     !> case 3
     r(1) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 1.0d0
     r(2) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 2.0d0
-    c(1) = complex(r(1), r(1))
-    c(2) = complex(r(2), r(2))
+    c(1) = cmplx(r(1), r(1))
+    c(2) = cmplx(r(2), r(2))
     call monolis_allreduce_C(2, c, monolis_mpi_sum, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
@@ -340,8 +340,8 @@ contains
     rc(2) = 2
     r_sbuf(1) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 1.0d0
     r_sbuf(2) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 2.0d0
-    c_sbuf(1) = complex(r_sbuf(1), r_sbuf(1))
-    c_sbuf(2) = complex(r_sbuf(2), r_sbuf(2))
+    c_sbuf(1) = cmplx(r_sbuf(1), r_sbuf(1))
+    c_sbuf(2) = cmplx(r_sbuf(2), r_sbuf(2))
     disp(1) = 0
     disp(2) = 2
     c_rbuf = (0.0d0, 0.0d0)
@@ -371,8 +371,8 @@ contains
       rc(2) = 2
       r_sbuf(1) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 1.0d0
       r_sbuf(2) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 2.0d0
-      c_sbuf(1) = complex(r_sbuf(1), r_sbuf(1))
-      c_sbuf(2) = complex(r_sbuf(2), r_sbuf(2))
+      c_sbuf(1) = cmplx(r_sbuf(1), r_sbuf(1))
+      c_sbuf(2) = cmplx(r_sbuf(2), r_sbuf(2))
       disp(1) = 0
       disp(2) = 2
       c_ans = (0.0d0, 0.0d0)
@@ -457,8 +457,8 @@ contains
 
     r_ans(1) = 2.0d0*monolis_mpi_get_global_my_rank() + 1.0d0
     r_ans(2) = 2.0d0*monolis_mpi_get_global_my_rank() + 2.0d0
-    c_ans(1) = complex(r_ans(1), r_ans(1))
-    c_ans(2) = complex(r_ans(2), r_ans(2))
+    c_ans(1) = cmplx(r_ans(1), r_ans(1))
+    c_ans(2) = cmplx(r_ans(2), r_ans(2))
 
     call monolis_test_check_eq_C("monolis_scatterv_C  1", c_rbuf, c_ans)
   end subroutine monolis_scatterv_test
@@ -510,7 +510,7 @@ contains
 
     !> case 3
     r_sbuf = monolis_mpi_get_global_my_rank() + 1
-    c_sbuf = complex(r_sbuf, r_sbuf)
+    c_sbuf = cmplx(r_sbuf, r_sbuf)
     c_rbuf = (0.0d0, 0.0d0)
 
     call monolis_allgather_C1(c_sbuf, c_rbuf, comm)
@@ -597,8 +597,8 @@ contains
     rc(2) = 2
     r_sbuf(1) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 1.0d0
     r_sbuf(2) = 2.0d0*dble(monolis_mpi_get_global_my_rank()) + 2.0d0
-    c_sbuf(1) = complex(r_sbuf(1), r_sbuf(1))
-    c_sbuf(2) = complex(r_sbuf(2), r_sbuf(2))
+    c_sbuf(1) = cmplx(r_sbuf(1), r_sbuf(1))
+    c_sbuf(2) = cmplx(r_sbuf(2), r_sbuf(2))
     disp(1) = 0
     disp(2) = 2
     c_rbuf = (0.0d0, 0.0d0)
