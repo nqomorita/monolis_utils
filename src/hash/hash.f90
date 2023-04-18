@@ -61,7 +61,7 @@ contains
   !> ハッシュ構造体の初期化関数
   subroutine monolis_hash_init(monolis_hash, key_size)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     !> [in] キーサイズ
     integer(kint), intent(in) :: key_size
@@ -83,7 +83,7 @@ contains
   !> ハッシュ構造体の終了関数
   subroutine monolis_hash_finalize(monolis_hash)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     type(type_monolis_hash_list), pointer :: list(:)
     integer(kint) :: i, j, hash_size
@@ -151,7 +151,7 @@ contains
   !> ハッシュ構造体へ値の登録
   subroutine monolis_hash_push(monolis_hash, key, val, is_pushed, is_exist)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     !> [in] キー
     character(*), intent(in) :: key
@@ -187,7 +187,7 @@ contains
   !> ハッシュのリサイズ
   subroutine monolis_hash_resize(monolis_hash)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     integer(kint) :: i, j, hash, val
     integer(kint) :: new_size, old_size
@@ -261,7 +261,7 @@ contains
   !> ハッシュ構造体へ値の登録（メイン関数）
   subroutine monolis_hash_list_push(monolis_hash, key, hash, val)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     !> [in] キー
     character(*), intent(in) :: key
@@ -301,7 +301,7 @@ contains
   !> ハッシュの登録値の更新
   subroutine monolis_hash_list_update(monolis_hash, key, hash, val)
     implicit none
-    !> [inout] ハッシュ構造体
+    !> [in,out] ハッシュ構造体
     type(monolis_hash_structure), intent(inout) :: monolis_hash
     !> [in] キー
     character(*), intent(in) :: key

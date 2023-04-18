@@ -46,7 +46,7 @@ contains
     implicit none
     !> [in] 引数のタグ
     character(*), intent(in) :: tag
-    !> [inout] 分割数
+    !> [in,out] 分割数
     integer(kint), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
@@ -78,7 +78,7 @@ contains
     implicit none
     !> [in] 引数のタグ
     character(*), intent(in) :: tag
-    !> [inout] 分割数
+    !> [in,out] 分割数
     real(kdouble), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
@@ -110,7 +110,7 @@ contains
     implicit none
     !> [in] 引数のタグ
     character(*), intent(in) :: tag
-    !> [inout] 文字列型
+    !> [in,out] 文字列型
     character(monolis_charlen), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
@@ -167,7 +167,7 @@ contains
   !> 入力ファイル名を取得
   subroutine monolis_get_arg_input_i_tag(finame, is_get)
     implicit none
-    !> [inout] 出力ファイル名
+    !> [in,out] 出力ファイル名
     character(monolis_charlen), intent(inout) :: finame
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
@@ -179,7 +179,7 @@ contains
   !> 出力ファイル名を取得
   subroutine monolis_get_arg_input_o_tag(foname, is_get)
     implicit none
-    !> [inout] 出力ファイル名
+    !> [in,out] 出力ファイル名
     character(monolis_charlen), intent(inout) :: foname
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
