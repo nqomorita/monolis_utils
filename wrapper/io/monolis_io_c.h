@@ -6,10 +6,20 @@
 extern "C" {
 #endif
 
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_input_internal_vertex_number(
   const char* fname,
   int*        n_internal);
 
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_input_global_id(
   const char* fname,
   int*        n_vertex,

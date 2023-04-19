@@ -6,12 +6,20 @@
 extern "C" {
 #endif
 
-/** COM 構造体の初期化関数 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_com_initialize_by_parted_files(
   MONOLIS_COM* com,
   int          comm);
 
-/** COM 構造体の初期化関数 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_com_initialize_by_global_id(
   MONOLIS_COM* com,
   int          comm,
@@ -19,7 +27,11 @@ void monolis_com_initialize_by_global_id(
   int          n_vertex,
   int*         global_id);
 
-/** COM 構造体の初期化関数 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_com_initialize_by_self(
   MONOLIS_COM* com);
 

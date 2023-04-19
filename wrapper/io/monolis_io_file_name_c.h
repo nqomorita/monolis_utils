@@ -6,45 +6,52 @@
 extern "C" {
 #endif
 
-/** 並列計算用読み込みファイル名の取得（グローバルコミュニケータから指定） */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 const char* monolis_get_global_input_file_name(
-  /**  [in] 入力ディレクトリ名 */
   const char* dir_name,
-  /**  [in] 入力ファイル名 */
   const char* file_name);
 
-/** 並列計算用読み込みファイル名の取得（ローカルコミュニケータから指定） */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 const char* monolis_get_local_input_file_name(
-  /**  [in] 入力ディレクトリ名 */
   const char* dir_name,
-  /**  [in] 入力ファイル名 */
   const char* file_name,
-  /**  [in] MPI コミュニケータ */
   int         comm);
 
-/** 並列計算用書き出しファイル名の取得（グローバルコミュニケータから指定） */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 const char* monolis_get_global_output_file_name(
-  /**  [in] 出力ディレクトリ名 */
   const char* dir_name,
-  /**  [in] 出力ディレクトリ名 */
   const char* file_name);
 
-/** 並列計算用書き出しファイル名の取得（ローカルコミュニケータから指定） */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 const char* monolis_get_local_output_file_name(
-  /**  [in] 出力ディレクトリ名 */
   const char* dir_name,
-  /**  [in] 出力ディレクトリ名 */
   const char* file_name,
-  /**  [in] MPI コミュニケータ */
   int         comm);
 
-/** 並列計算用書き出しファイル名の取得（ローカルコミュニケータから指定） */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 const char* monolis_get_output_file_name_by_domain_id(
-  /**  [in] 出力ディレクトリ名 */
   const char* dir_name,
-  /**  [in] 出力ディレクトリ名 */
   const char* file_name,
-  /**  [in] 領域番号 */
   int         domain_id);
 
 #ifdef __cplusplus

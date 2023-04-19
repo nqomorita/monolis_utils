@@ -8,64 +8,112 @@ extern "C" {
 
 #include <complex.h>
 
-/** 1 次元整数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 int* monolis_alloc_I_1d(
   int*      var,
   const int size);
 
-/** 1 次元実数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_I_1d(
   int**     var);
 
-/** 2 次元整数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 int** monolis_alloc_I_2d(
   int**     var,
   const int size1,
   const int size2);
 
-/** 2 次元実数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_I_2d(
   int***    var,
   const int size1,
   const int size2);
 
-/** 1 次元実数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 double* monolis_alloc_R_1d(
   double*   var,
   const int size);
 
-/** 1 次元実数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_R_1d(
   double**  var);
 
-/** 2 次元実数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 double** monolis_alloc_R_2d(
   double**  var,
   const int size1,
   const int size2);
 
-/** 2 次元実数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_R_2d(
   double*** var,
   const int size1,
   const int size2);
 
-/** 1 次元複素数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 double _Complex* monolis_alloc_C_1d(
   double _Complex* var,
   const int        size);
 
-/** 1 次元複素数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_C_1d(
   double _Complex** var);
 
-/** 2 次元複素数配列のメモリ確保 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 double _Complex** monolis_alloc_C_2d(
   double _Complex** var,
   const int         size1,
   const int         size2);
 
-/** 2 次元複素数配列のメモリ解放 */
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 void monolis_dealloc_C_2d(
   double _Complex*** var,
   const int          size1,
