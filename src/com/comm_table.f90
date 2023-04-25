@@ -51,4 +51,92 @@ contains
 
     call monolis_comm_get_send_parallel(n_vertex, vertex_id, com)
   end subroutine monolis_com_get_comm_table_parallel
+
+  !> @ingroup com
+  !> monolis 構造体に内部領域に属する単一メッシュのリストを取得
+  subroutine monolis_get_bool_list_of_internal_simple_mesh(monoCOM, n_node, n_elem, n_base, elem, list)
+    implicit none
+    !> [in] monolis 構造体
+    type(monolis_COM) :: monoCOM
+    !> [in] 節点数
+    integer(kint) :: n_node
+    !> [in] 要素数
+    integer(kint) :: n_elem
+    !> [in] 要素の基底数
+    integer(kint) :: n_base
+    !> [in] 要素コネクティビティ
+    integer(kint) :: elem(:,:)
+    !> [out] 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
+    logical :: list(:)
+    integer(kint) :: i, in, j, id(n_base), n_internal_vertex, my_rank
+    integer(kint), allocatable :: domain_id(:)
+
+    call monolis_com_get_n_internal_vertex(monoCOM, n_internal_vertex)
+
+    my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
+
+    call monolis_alloc_I_1d(domain_id, n_node)
+
+    do i = 1, n_internal_vertex
+      domain_id(i) = my_rank
+    enddo
+
+    call monolis_mpi_update_I(monoCOM, 1, domain_id)
+
+    list = 0
+    do i = 1, n_elem
+      do j = 1, n_base
+        id(j) = domain_id(elem(j,i))
+      enddo
+      in = minval(id)
+      if(in == my_rank) list(i) = 1
+    enddo
+  end subroutine monolis_get_bool_list_of_internal_simple_mesh
+
+  !> @ingroup com
+  !> monolis 構造体に内部領域に属するコネクティビティのリストを取得
+  subroutine monolis_get_bool_list_of_internal_connetivity(monoCOM, n_node, n_elem, index, item, list)
+    implicit none
+    !> [in] monolis 構造体
+    type(monolis_COM) :: monoCOM
+    !> [in] 節点数
+    integer(kint) :: n_node
+    !> [in] 要素数
+    integer(kint) :: n_elem
+    !> [in] 要素コネクティビティの index 配列
+    integer(kint) :: index(:)
+    !> [in] 要素コネクティビティの item 配列
+    integer(kint) :: item(:)
+    !> [in] 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
+    logical :: list(:)
+    integer(kint) :: i, in, j, jS, jE, n_internal_vertex, my_rank
+    integer(kint), allocatable :: id(:)
+    integer(kint), allocatable :: domain_id(:)
+
+    call monolis_com_get_n_internal_vertex(monoCOM, n_internal_vertex)
+
+    my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
+
+    call monolis_alloc_I_1d(domain_id, n_node)
+
+    do i = 1, n_internal_vertex
+      domain_id(i) = my_rank
+    enddo
+
+    call monolis_mpi_update_I(monoCOM, 1, domain_id)
+
+    list = 0
+    do i = 1, n_elem
+      jS = index(i) + 1
+      jE = index(i + 1)
+      call monolis_alloc_I_1d(id, jE - jS + 1)
+      do j = jS, jE
+        id(j - jS + 1) = domain_id(item(j))
+      enddo
+      call monolis_dealloc_I_1d(id)
+      in = minval(id)
+      if(in == my_rank) list(i) = 1
+    enddo
+  end subroutine monolis_get_bool_list_of_internal_connetivity
+
 end module mod_monolis_comm_table

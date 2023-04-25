@@ -80,8 +80,8 @@ void monolis_allreduce_C_test()
 {
   int comm;
   double a;
-  double complex i;
-  double complex j;
+  double _Complex i;
+  double _Complex j;
 
   monolis_std_global_log_string("monolis_allreduce_C");
 
@@ -107,7 +107,7 @@ void monolis_mpi_update_test()
   int ndof, nnode;
   int i[8];
   double r[8];
-  double complex c[8];
+  double _Complex c[8];
 
   monolis_std_global_log_string("monolis_mpi_update_I I");
   monolis_std_global_log_string("monolis_mpi_update_R I");

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <complex.h>
 #include "monolis_utils.h"
 #include "monolis_alloc_c_test.h"
 
@@ -244,7 +243,7 @@ void monolis_alloc_C_2d_test()
 
 void monolis_dealloc_C_2d_test()
 {
-  double complex** var;
+  double _Complex** var;
   int              size1;
   int              size2;
 

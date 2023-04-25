@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
 #include "monolis_def_com_c.h"
 
 /**
@@ -21,6 +22,22 @@ void monolis_com_get_comm_table_parallel(
   int          n_vertex,
   int*         vertex_id,
   MONOLIS_COM* com);
+
+void monolis_get_bool_list_of_internal_simple_mesh(
+  MONOLIS_COM* com,
+  int          n_node,
+  int          n_elem,
+  int          n_base,
+  int**        elem,
+  bool*        list);
+
+void monolis_get_bool_list_of_internal_connetivity(
+  MONOLIS_COM* com,
+  int          n_node,
+  int          n_elem,
+  int*         index,
+  int*         item,
+  bool*        list);
 
 #ifdef __cplusplus
 }

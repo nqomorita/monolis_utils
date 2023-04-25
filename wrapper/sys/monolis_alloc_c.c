@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <complex.h>
 #include "monolis_alloc_c.h"
 
 /** 1 次元整数配列のメモリ確保 */

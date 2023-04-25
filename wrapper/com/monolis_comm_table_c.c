@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <complex.h>
+#include <stdbool.h>
 #include "monolis_def_com_c.h"
+#include "monolis_mpi_c.h"
 #include "monolis_mpi_util_c.h"
 #include "monolis_alloc_c.h"
 #include "monolis_comm_par_util_c.h"
@@ -104,4 +105,84 @@ void monolis_com_get_comm_table_parallel(
   monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, n_outer_node, outer_node_id_all_global, outer_domain_id_all, displs);
 
   monolis_comm_get_send_parallel(n_vertex, vertex_id, com);
+}
+
+void monolis_get_bool_list_of_internal_simple_mesh(
+  MONOLIS_COM* com,
+  int          n_node,
+  int          n_elem,
+  int          n_base,
+  int**        elem,
+  bool*        list)
+{
+  int i, j;
+  int my_rank;
+  int n_internal_vertex;
+  int id;
+  int* domain_id;
+
+  monolis_com_get_n_internal_vertex(com, &n_internal_vertex);
+
+  my_rank = monolis_mpi_get_local_my_rank(com->comm);
+
+  monolis_alloc_I_1d(domain_id, n_node);
+
+  for (i = 0; i < n_node; ++i) {
+    domain_id[i] = my_rank;
+  }
+
+  monolis_mpi_update_I(com, n_node, 1, domain_id);
+
+  for (i = 0; i < n_node; ++i) {
+    list[i] = false;
+  }
+
+  for (i = 0; i < n_elem; ++i) {
+    id = domain_id[elem[0][i]];
+    for (j = 0; j < n_base; ++j) {
+      if(id > domain_id[elem[i][j]]) id = domain_id[elem[i][j]];
+    }
+    if(id == my_rank) list[i] = true;
+  }
+}
+
+void monolis_get_bool_list_of_internal_connetivity(
+  MONOLIS_COM* com,
+  int          n_node,
+  int          n_elem,
+  int*         index,
+  int*         item,
+  bool*        list)
+{
+  int i, j, jS, jE;
+  int my_rank;
+  int n_internal_vertex;
+  int id;
+  int* domain_id;
+
+  monolis_com_get_n_internal_vertex(com, &n_internal_vertex);
+
+  my_rank = monolis_mpi_get_local_my_rank(com->comm);
+
+  monolis_alloc_I_1d(domain_id, n_node);
+
+  for (i = 0; i < n_node; ++i) {
+    domain_id[i] = my_rank;
+  }
+
+  monolis_mpi_update_I(com, n_node, 1, domain_id);
+
+  for (i = 0; i < n_node; ++i) {
+    list[i] = false;
+  }
+
+  for (i = 0; i < n_elem; ++i) {
+    jS = index[i];
+    jE = index[i + 1] + 1;
+    id = domain_id[item[jS]];
+    for (j = jS; j < jE; ++j) {
+      if(id > domain_id[item[j]]) id = domain_id[item[j]];
+    }
+    if(id == my_rank) list[i] = true;
+  }
 }

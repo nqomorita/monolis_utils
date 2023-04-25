@@ -7,7 +7,6 @@ extern "C" {
 #endif
 
 #include "monolis_def_com_c.h"
-#include <complex.h>
 
 static const int MONOLIS_MPI_SUM = 1;
 
@@ -114,7 +113,7 @@ void monolis_mpi_update_R_c_main(
  */
 void monolis_mpi_update_C(
   MONOLIS_COM*     com,
-  int              n,
+  int          n,
   int              n_dof,
   double _Complex* x);
 
