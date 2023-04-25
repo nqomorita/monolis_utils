@@ -11,7 +11,131 @@ contains
     implicit none
 
     call monolis_com_get_comm_table_parallel_test()
+    call monolis_get_bool_list_of_internal_test()
   end subroutine monolis_comm_table_test
+
+  subroutine monolis_get_bool_list_of_internal_test()
+    implicit none
+    type(monolis_COM) :: monoCOM
+    integer(kint) :: n_node
+    integer(kint) :: n_elem
+    integer(kint) :: n_base
+    integer(kint) :: comm
+    integer(kint) :: n_internal_vertex
+    integer(kint) :: elem(2,4)
+    integer(kint) :: global_id(5)
+    integer(kint) :: index(5)
+    integer(kint) :: item(8)
+    logical :: list(4)
+
+    if(monolis_mpi_get_global_comm_size() == 1) return
+
+    call monolis_std_global_log_string("monolis_get_bool_list_of_internal_simple_mesh")
+
+    comm = monolis_mpi_get_global_comm()
+
+    n_internal_vertex = 3
+
+    n_node = 5
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      global_id(1) = 10
+      global_id(2) = 20
+      global_id(3) = 30
+      global_id(4) = 40
+      global_id(5) = 50
+    else
+      global_id(1) = 40
+      global_id(2) = 50
+      global_id(3) = 60
+      global_id(4) = 20
+      global_id(5) = 30
+    endif
+
+    call monolis_com_initialize_by_global_id(monoCOM, comm, n_internal_vertex, n_node, global_id)
+
+    n_elem = 4
+    n_base = 2
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      elem(1,1) = 1; elem(2,1) = 2;
+      elem(1,2) = 2; elem(2,2) = 3;
+      elem(1,3) = 3; elem(2,3) = 4;
+      elem(1,4) = 4; elem(2,4) = 5;
+    else
+      elem(1,1) = 1; elem(2,1) = 2;
+      elem(1,2) = 2; elem(2,2) = 3;
+      elem(1,3) = 4; elem(2,3) = 5;
+      elem(1,4) = 5; elem(2,4) = 1;
+    endif
+
+    monoCOM%n_internal_vertex = 3
+
+    list = .false.
+
+    call monolis_get_bool_list_of_internal_simple_mesh(monoCOM, n_node, n_elem, n_base, elem, list)
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(1), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(2), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(3), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(4), .false.)
+    else
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(1), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(2), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(3), .false.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_simple_mesh", list(4), .false.)
+    endif
+
+    call monolis_com_finalize(monoCOM)
+
+
+    call monolis_std_global_log_string("monolis_get_bool_list_of_internal_connetivity")
+
+    list = .false.
+
+    n_node = 5
+
+    n_elem = 4
+
+    monoCOM%n_internal_vertex = 3
+
+    call monolis_com_initialize_by_global_id(monoCOM, comm, n_internal_vertex, n_node, global_id)
+
+    index(1) = 0
+    index(2) = 2
+    index(3) = 4
+    index(4) = 6
+    index(5) = 8
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      item(1) = 1; item(2) = 2;
+      item(3) = 2; item(4) = 3;
+      item(5) = 3; item(6) = 4;
+      item(7) = 4; item(8) = 5;
+    else
+      item(1) = 1; item(2) = 2;
+      item(3) = 2; item(4) = 3;
+      item(5) = 4; item(6) = 5;
+      item(7) = 5; item(8) = 1;
+    endif
+
+    call monolis_get_bool_list_of_internal_connetivity(monoCOM, n_node, n_elem, index, item, list)
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(1), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(2), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(3), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(4), .false.)
+    else
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(1), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(2), .true.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(3), .false.)
+      call monolis_test_check_eq_L1("monolis_get_bool_list_of_internal_connetivity", list(4), .false.)
+    endif
+
+    call monolis_com_finalize(monoCOM)
+  end subroutine monolis_get_bool_list_of_internal_test
 
   subroutine monolis_com_get_comm_table_parallel_test()
     implicit none

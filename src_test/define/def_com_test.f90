@@ -141,6 +141,7 @@ contains
       & n_internal_vertex, n_internal_vertex_ans)
 
     !> case 5
+    call monolis_std_global_log_string("monolis_com_set_input_top_directory_name")
     call monolis_com_set_input_top_directory_name(COM, "a")
 
     if(trim(COM%top_dir_name) == "a")then
@@ -150,6 +151,7 @@ contains
     endif
 
     !> case 6
+    call monolis_std_global_log_string("monolis_com_set_input_part_directory_name")
     call monolis_com_set_input_part_directory_name(COM, "b")
 
     if(trim(COM%part_dir_name) == "b")then
@@ -159,6 +161,7 @@ contains
     endif
 
     !> case 7
+    call monolis_std_global_log_string("monolis_com_set_input_file_name")
     call monolis_com_set_input_file_name(COM, "c")
 
     if(trim(COM%file_name) == "c")then
