@@ -43,6 +43,7 @@ contains
     call monolis_input_send_com_table(fname, COM)
 
     fname = monolis_get_output_file_name_by_domain_id(trim(header), trim(file_name)//".n_internal", COM%my_rank)
+
     call monolis_input_internal_vertex_number(fname, COM%n_internal_vertex)
   end subroutine monolis_com_input_comm_table
 

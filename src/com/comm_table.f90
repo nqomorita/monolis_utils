@@ -107,7 +107,7 @@ contains
     integer(kint) :: index(:)
     !> [in] 要素コネクティビティの item 配列
     integer(kint) :: item(:)
-    !> [in] 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
+    !> [out] 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
     logical :: list(:)
     integer(kint) :: i, in, j, jS, jE, n_internal_vertex, my_rank
     integer(kint), allocatable :: id(:)

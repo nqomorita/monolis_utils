@@ -92,7 +92,6 @@ contains
     integer(kint) :: comm_size, comm_size_ans
     integer(kint) :: n_internal_vertex, n_internal_vertex_ans
 
-    call monolis_std_global_log_string("monolis_com_initialize")
     call monolis_std_global_log_string("monolis_com_finalize")
 
     call monolis_com_initialize_by_self(COM)
