@@ -43,7 +43,6 @@ contains
     call monolis_input_send_com_table(fname, COM)
 
     fname = monolis_get_output_file_name_by_domain_id(trim(header), trim(file_name)//".n_internal", COM%my_rank)
-
     call monolis_input_internal_vertex_number(fname, COM%n_internal_vertex)
   end subroutine monolis_com_input_comm_table
 
@@ -55,6 +54,11 @@ contains
     type(monolis_COM) :: COM
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
+
+    if(monolis_mpi_get_local_comm_size(comm) == 1)then
+      call monolis_com_initialize_by_self(COM)
+      return
+    endif
 
     COM%comm = comm
     COM%my_rank = monolis_mpi_get_local_my_rank(comm)
@@ -88,6 +92,11 @@ contains
     integer(kint) :: n_vertex
     !> [in] グローバル計算点番号
     integer(kint) :: global_id(:)
+
+    if(monolis_mpi_get_local_comm_size(comm) == 1)then
+      call monolis_com_initialize_by_self(COM)
+      return
+    endif
 
     COM%comm = comm
     COM%my_rank = monolis_mpi_get_local_my_rank(comm)

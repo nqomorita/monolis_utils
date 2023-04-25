@@ -140,6 +140,33 @@ contains
     call monolis_test_check_eq_I1("monolis_com_set_test 4", &
       & n_internal_vertex, n_internal_vertex_ans)
 
+    !> case 5
+    call monolis_com_set_input_top_directory_name(COM, "a")
+
+    if(trim(COM%top_dir_name) == "a")then
+      call monolis_test_assert_pass("monolis_com_set_input_top_directory_name 1")
+    else
+      call monolis_test_assert_fail("monolis_com_set_input_top_directory_name 1", "")
+    endif
+
+    !> case 6
+    call monolis_com_set_input_part_directory_name(COM, "b")
+
+    if(trim(COM%part_dir_name) == "b")then
+      call monolis_test_assert_pass("monolis_com_set_input_part_directory_name 1")
+    else
+      call monolis_test_assert_fail("monolis_com_set_input_part_directory_name 1", "")
+    endif
+
+    !> case 7
+    call monolis_com_set_input_file_name(COM, "c")
+
+    if(trim(COM%file_name) == "c")then
+      call monolis_test_assert_pass("monolis_com_set_input_file_name 1")
+    else
+      call monolis_test_assert_fail("monolis_com_set_input_file_name 1", "")
+    endif
+
     call monolis_com_finalize(COM)
   end subroutine monolis_com_set_test
 end module mod_monolis_utils_define_com_test

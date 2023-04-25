@@ -85,8 +85,8 @@ contains
     implicit none
     !> [in] 出力ファイル名
     character(*), intent(in) :: fname
-    !> [out] 分割領域に対応する COM 構造体
-    type(monolis_COM), intent(out) :: COM
+    !> [in,out] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(inout) :: COM
 
     call monolis_input_com_table_main(fname, &
       & COM%send_n_neib, COM%send_neib_pe, COM%send_index, COM%send_item)
@@ -98,8 +98,8 @@ contains
     implicit none
     !> [in] 出力ファイル名
     character(*), intent(in) :: fname
-    !> [out] 分割領域に対応する COM 構造体
-    type(monolis_COM), intent(out) :: COM
+    !> [in,out] 分割領域に対応する COM 構造体
+    type(monolis_COM), intent(inout) :: COM
 
     call monolis_input_com_table_main(fname, &
       & COM%recv_n_neib, COM%recv_neib_pe, COM%recv_index, COM%recv_item)

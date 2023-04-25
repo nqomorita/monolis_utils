@@ -53,7 +53,12 @@ contains
 
     call monolis_test_check_eq_I1("monolis_com_initialize_by_global_id 1", COM%my_rank, monolis_mpi_get_global_my_rank())
     call monolis_test_check_eq_I1("monolis_com_initialize_by_global_id 2", COM%comm_size, monolis_mpi_get_global_comm_size())
-    call monolis_test_check_eq_I1("monolis_com_initialize_by_global_id 3", COM%n_internal_vertex, 3)
+
+    if(monolis_mpi_get_local_comm_size(comm) == 1)then
+      call monolis_test_check_eq_I1("monolis_com_initialize_by_global_id 3", COM%n_internal_vertex, 0)
+    else
+      call monolis_test_check_eq_I1("monolis_com_initialize_by_global_id 3", COM%n_internal_vertex, 3)
+      endif
 
     call monolis_com_finalize(COM)
 
