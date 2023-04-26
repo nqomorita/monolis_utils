@@ -10,7 +10,7 @@ extern "C" {
   static const char* MONOLIS_DEFAULT_TOP_DIR = "./";
 
   /** 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名 */
-  static const char* MONOLIS_DEFAULT_PART_DIR = "part.0";
+  static const char* MONOLIS_DEFAULT_PART_DIR = "parted.0";
 
   /** 通信テーブルデータが記載されたファイル名 */
   static const char* MONOLIS_DEFAULT_FILE_NAME = "graph.dat";
