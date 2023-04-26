@@ -54,7 +54,10 @@ void monolis_com_input_comm_table(
 /** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_parted_files(
   MONOLIS_COM* com,
-  int          comm)
+  int          comm,
+  const char*  top_dir_name,
+  const char*  part_dir_name,
+  const char*  file_name)
 {
   com->comm = comm;
   com->comm_size = monolis_mpi_get_local_comm_size(comm);
@@ -73,9 +76,9 @@ void monolis_com_initialize_by_parted_files(
 
   monolis_com_input_comm_table(
     com,
-    com->top_dir_name,
-    com->part_dir_name,
-    com->file_name);
+    top_dir_name,
+    part_dir_name,
+    file_name);
 }
 
 /** COM 構造体の初期化関数 */

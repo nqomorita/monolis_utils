@@ -20,11 +20,11 @@ contains
     !> [in] COM 構造体
     type(monolis_com) :: COM
     !> 通信テーブルデータ読込のトップディレクトリ名
-    character(monolis_charlen) :: top_dir_name
+    character(*) :: top_dir_name
     !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
-    character(monolis_charlen) :: part_dir_name
+    character(*) :: part_dir_name
     !> 通信テーブルデータが記載されたファイル名
-    character(monolis_charlen) :: file_name
+    character(*) :: file_name
     integer(kint) :: i, j, nitem
     character(monolis_charlen) :: header
     character(monolis_charlen) :: fname
@@ -48,12 +48,18 @@ contains
 
   !> @ingroup com
   !> COM 構造体の初期化関数
-  subroutine monolis_com_initialize_by_parted_files(COM, comm)
+  subroutine monolis_com_initialize_by_parted_files(COM, comm, top_dir_name, part_dir_name, file_name)
     implicit none
     !> [in] COM 構造体
     type(monolis_COM) :: COM
     !> [in] MPI コミュニケータ
     integer(kint) :: comm
+    !> 通信テーブルデータ読込のトップディレクトリ名
+    character(*) :: top_dir_name
+    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+    character(*) :: part_dir_name
+    !> 通信テーブルデータが記載されたファイル名
+    character(*) :: file_name
 
     if(monolis_mpi_get_local_comm_size(comm) == 1)then
       call monolis_com_initialize_by_self(COM)
@@ -75,7 +81,7 @@ contains
     call monolis_pdealloc_I_1d(COM%send_index)
     call monolis_pdealloc_I_1d(COM%send_item)
 
-    call monolis_com_input_comm_table(COM, COM%top_dir_name, COM%part_dir_name, COM%file_name)
+    call monolis_com_input_comm_table(COM, top_dir_name, part_dir_name, file_name)
   end subroutine monolis_com_initialize_by_parted_files
 
   !> @ingroup com

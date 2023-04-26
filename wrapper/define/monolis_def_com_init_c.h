@@ -13,7 +13,10 @@ extern "C" {
  */
 void monolis_com_initialize_by_parted_files(
   MONOLIS_COM* com,
-  int          comm);
+  int          comm,
+  const char   top_dir_name,
+  const char   part_dir_name,
+  const char   file_name);
 
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）

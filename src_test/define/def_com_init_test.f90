@@ -20,9 +20,8 @@ contains
 
     comm = monolis_mpi_get_global_comm()
 
-    call monolis_com_set_input_part_directory_name(COM, "parted.0.ans")
-
-    call monolis_com_initialize_by_parted_files(COM, comm)
+    call monolis_com_initialize_by_parted_files(COM, comm, &
+      & MONOLIS_DEFAULT_TOP_DIR, "parted.0.ans", MONOLIS_DEFAULT_FILE_NAME)
 
     call monolis_test_check_eq_I1("monolis_com_initialize_by_parted_files 1", COM%my_rank, monolis_mpi_get_global_my_rank())
     call monolis_test_check_eq_I1("monolis_com_initialize_by_parted_files 2", COM%comm_size, monolis_mpi_get_global_comm_size())

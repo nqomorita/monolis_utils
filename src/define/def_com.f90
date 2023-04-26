@@ -45,12 +45,6 @@ module mod_monolis_utils_define_com
     integer(kint), pointer :: send_index(:) => null()
     !> 送信するノード番号の item 配列
     integer(kint), pointer :: send_item(:) => null()
-    !> 通信テーブルデータ読込のトップディレクトリ名
-    character(monolis_charlen) :: top_dir_name = "./"
-    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
-    character(monolis_charlen) :: part_dir_name = "parted.0"
-    !> 通信テーブルデータが記載されたファイル名
-    character(monolis_charlen) :: file_name = "graph.dat"
   end type monolis_COM
 
   !> 通信テーブル作成用ノードリスト構造体
@@ -59,6 +53,13 @@ module mod_monolis_utils_define_com
     integer(kint), allocatable :: domid(:)
     integer(kint), allocatable :: global_id(:)
   end type monolis_comm_node_list
+
+  !> 通信テーブルデータ読込のトップディレクトリ名
+  character(monolis_charlen) :: MONOLIS_DEFAULT_TOP_DIR = "./"
+  !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+  character(monolis_charlen) :: MONOLIS_DEFAULT_PART_DIR = "parted.0"
+  !> 通信テーブルデータが記載されたファイル名
+  character(monolis_charlen) :: MONOLIS_DEFAULT_FILE_NAME = "graph.dat"
 
 contains
 
@@ -217,36 +218,6 @@ contains
     integer(kint), intent(out) :: n_internal_vertex
     n_internal_vertex = COM%n_internal_vertex
   end subroutine monolis_com_get_n_internal_vertex
-
-  !> 読込ファイルのトップディレクトリの設定
-  subroutine monolis_com_set_input_top_directory_name(COM, param)
-    implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> パラメータ
-    character(*) :: param
-    COM%top_dir_name = trim(param)
-  end subroutine monolis_com_set_input_top_directory_name
-
-  !> 読込ファイルの分割データディレクトリの設定
-  subroutine monolis_com_set_input_part_directory_name(COM, param)
-    implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> パラメータ
-    character(*) :: param
-    COM%part_dir_name = trim(param)
-  end subroutine monolis_com_set_input_part_directory_name
-
-  !> 読込ファイル名の設定
-  subroutine monolis_com_set_input_file_name(COM, param)
-    implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
-    !> パラメータ
-    character(*) :: param
-    COM%file_name = trim(param)
-  end subroutine monolis_com_set_input_file_name
 
   !> @ingroup dev_com
   !> COM 構造体のデバッグ用データ書き出し

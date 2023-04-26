@@ -144,24 +144,3 @@ void monolis_com_get_n_internal_vertex(
   *n_internal_vertex = com->n_internal_vertex;
 }
 
-void monolis_com_set_input_top_directory_name(
-  MONOLIS_COM* com,
-  const char*  param)
-{
-  strcpy(com->top_dir_name, param);
-}
-
-void monolis_com_set_input_part_directory_name(
-  MONOLIS_COM* com,
-  const char*  param)
-{
-  strcpy(com->part_dir_name, param);
-}
-
-void monolis_com_set_input_file_name(
-  MONOLIS_COM* com,
-  const char*  param)
-{
-  strcpy(com->file_name, param);
-}
-
