@@ -167,15 +167,15 @@ void monolis_get_bool_list_of_internal_c_test()
   index[4] = 8;
 
   if(monolis_mpi_get_global_my_rank() == 0){
-    elem[0][0] = 0; elem[0][1] = 1;
-    elem[1][0] = 1; elem[1][1] = 2;
-    elem[2][0] = 2; elem[2][1] = 3;
-    elem[3][0] = 3; elem[3][1] = 4;
+    item[0] = 0; item[1] = 1;
+    item[2] = 1; item[3] = 2;
+    item[4] = 2; item[5] = 3;
+    item[6] = 3; item[7] = 4;
   } else {
-    elem[0][0] = 0; elem[0][1] = 1;
-    elem[1][0] = 1; elem[1][1] = 2;
-    elem[2][0] = 3; elem[2][1] = 4;
-    elem[3][0] = 4; elem[3][1] = 0;
+    item[0] = 0; item[1] = 1;
+    item[2] = 1; item[3] = 2;
+    item[4] = 3; item[5] = 4;
+    item[6] = 4; item[7] = 0;
   }
 
   monolis_get_bool_list_of_internal_connetivity(&com, n_node, n_elem, index, item, list);
