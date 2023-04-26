@@ -68,8 +68,8 @@ contains
   !> 外部計算点のグローバル計算点番号を取得
   subroutine monolis_update_vertex_domain_id(vertex_domain_id, com)
     implicit none
-    !> [out] グローバルノード番号配列
-    integer(kint), intent(out) :: vertex_domain_id(:)
+    !> [in,out] グローバルノード番号配列
+    integer(kint), intent(inout) :: vertex_domain_id(:)
     !> [in] com 構造体
     type(monolis_COM), intent(in) :: com
 
@@ -89,7 +89,7 @@ contains
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
     !> [out] 全ての外部計算点配列に属する計算点数
-    integer(kint) :: n_outer
+    integer(kint), intent(out) :: n_outer
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
 
@@ -120,9 +120,9 @@ contains
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
     !> [out] 全ての外部計算点番号
-    integer(kint) :: outer_node_id_all(:)
-    !> 全ての外部計算点配列の各領域に属する計算点数
-    integer(kint) :: displs(:)
+    integer(kint), intent(out) :: outer_node_id_all(:)
+    !> [in] 全ての外部計算点配列の各領域に属する計算点数
+    integer(kint), intent(in) :: displs(:)
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
     integer(kint), allocatable :: outer_node_id_local(:)
@@ -140,6 +140,8 @@ contains
     do i = n_internal_vertex + 1, n_vertex
       outer_node_id_local(i - n_internal_vertex) = vertex_id(i)
     enddo
+
+    displs = 0
 
     do i = 1, comm_size
       displs(i + 1) = displs(i) + counts(i)
@@ -347,6 +349,8 @@ contains
 
     call monolis_alloc_I_1d(count, recv_n_neib)
 
+    item = 0
+
     count = 0
     do i = 1, recv_n_neib
       n_data = 0
@@ -428,6 +432,8 @@ contains
 
     comm_size = monolis_mpi_get_local_comm_size(comm)
 
+    send_n_list = 0
+
     do i = 1, recv_n_neib
       id = recv_neib_pe(i)
       jS = recv_index(i)
@@ -472,6 +478,8 @@ contains
     integer(kint) :: i, in, comm_size
 
     comm_size = monolis_mpi_get_local_comm_size(comm)
+
+    send_neib_pe = 0
 
     in = 0
     do i = 1, comm_size

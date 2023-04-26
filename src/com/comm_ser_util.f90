@@ -18,9 +18,9 @@ contains
     integer(kint), intent(in) :: vertex_domain_id(:)
     !> [in] 領域分割数
     integer(kint), intent(in) :: n_domain
-    !> [in] 全ての外部計算点番号
+    !> [in] 全ての外部計算点番号（グローバル番号）
     integer(kint), intent(in) :: outer_node_id_all_global(:)
-    !> [out] 全ての外部計算点が属する領域番号
+    !> [out] 計算点が属する領域番号（全計算点）
     integer(kint), allocatable, intent(out) :: outer_domain_id_all(:)
     !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
@@ -40,22 +40,22 @@ contains
   subroutine monolis_comm_get_recv_serial(n_domain, domain_id, n_internal_vertex, &
     & outer_node_id_all_global, outer_domain_id_all, displs, com, recv_list)
     implicit none
-    !> [in] 分割領域数  !L19との表記ゆれ
+    !> [in] 分割領域数
     integer(kint), intent(in) :: n_domain
-    !> [in] 領域番号
-    integer(kint) :: domain_id  !inout?
+    !> [in,out] 領域番号
+    integer(kint),  intent(inout) :: domain_id
     !> [in] 分割領域における内部計算点数
     integer(kint), intent(in) :: n_internal_vertex
-    !> [in] 全ての外部計算点番号（グローバル番号）  !L21との表記ゆれ
+    !> [in] 全ての外部計算点番号（グローバル番号）
     integer(kint) :: outer_node_id_all_global(:)
-    !> [in] 計算点が属する領域番号（全計算点）  !L23との表記ゆれ
+    !> [in] 計算点が属する領域番号（全計算点）
     integer(kint) :: outer_domain_id_all(:)
     !> [in] 全ての外部計算点配列の各領域に属する計算点数
     integer(kint), intent(in) :: displs(:)
     !> [in] 分割領域に対応する com 構造体
-    type(monolis_COM) :: com  !inout?
+    type(monolis_COM) :: com
     !> [in] recv 計算点の情報
-    type(monolis_comm_node_list) :: recv_list(:)  !inout
+    type(monolis_comm_node_list) :: recv_list(:)
     integer(kint) :: i, in, j, jn, jS, jE, n_neib, n_data
     integer(kint) :: recv_rank
     integer(kint), allocatable :: domain(:), master_vertex_local_id(:)
