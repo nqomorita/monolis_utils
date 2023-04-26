@@ -133,12 +133,12 @@ void monolis_get_bool_list_of_internal_simple_mesh(
 
   monolis_mpi_update_I(com, n_node, 1, domain_id);
 
-  for (i = 0; i < n_node; ++i) {
+  for (i = 0; i < n_elem; ++i) {
     list[i] = false;
   }
 
   for (i = 0; i < n_elem; ++i) {
-    id = domain_id[elem[0][i]];
+    id = domain_id[elem[i][0]];
     for (j = 0; j < n_base; ++j) {
       if(id > domain_id[elem[i][j]]) id = domain_id[elem[i][j]];
     }
@@ -172,7 +172,7 @@ void monolis_get_bool_list_of_internal_connetivity(
 
   monolis_mpi_update_I(com, n_node, 1, domain_id);
 
-  for (i = 0; i < n_node; ++i) {
+  for (i = 0; i < n_elem; ++i) {
     list[i] = false;
   }
 
