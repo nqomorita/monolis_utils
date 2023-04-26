@@ -121,8 +121,8 @@ contains
     integer(kint), intent(in) :: comm
     !> [out] 全ての外部計算点番号
     integer(kint), intent(out) :: outer_node_id_all(:)
-    !> [in] 全ての外部計算点配列の各領域に属する計算点数
-    integer(kint), intent(in) :: displs(:)
+    !> [in,out] 全ての外部計算点配列の各領域に属する計算点数
+    integer(kint), intent(inout) :: displs(:)
     integer(kint) :: M, comm_size, i
     integer(kint), allocatable :: counts(:)
     integer(kint), allocatable :: outer_node_id_local(:)
