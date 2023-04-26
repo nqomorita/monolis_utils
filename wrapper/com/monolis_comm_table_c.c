@@ -125,7 +125,7 @@ void monolis_get_bool_list_of_internal_simple_mesh(
 
   my_rank = monolis_mpi_get_local_my_rank(com->comm);
 
-  monolis_alloc_I_1d(domain_id, n_node);
+  domain_id = monolis_alloc_I_1d(domain_id, n_node);
 
   for (i = 0; i < n_node; ++i) {
     domain_id[i] = my_rank;
@@ -164,7 +164,7 @@ void monolis_get_bool_list_of_internal_connetivity(
 
   my_rank = monolis_mpi_get_local_my_rank(com->comm);
 
-  monolis_alloc_I_1d(domain_id, n_node);
+  domain_id = monolis_alloc_I_1d(domain_id, n_node);
 
   for (i = 0; i < n_node; ++i) {
     domain_id[i] = my_rank;
