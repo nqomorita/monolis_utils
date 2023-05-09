@@ -12,7 +12,8 @@ extern "C" {
  * @ingroup com
  */
 const char* monolis_get_global_input_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name);
 
 /**
@@ -21,7 +22,8 @@ const char* monolis_get_global_input_file_name(
  * @ingroup com
  */
 const char* monolis_get_local_input_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         comm);
 
@@ -31,7 +33,8 @@ const char* monolis_get_local_input_file_name(
  * @ingroup com
  */
 const char* monolis_get_global_output_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name);
 
 /**
@@ -40,7 +43,8 @@ const char* monolis_get_global_output_file_name(
  * @ingroup com
  */
 const char* monolis_get_local_output_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         comm);
 
@@ -50,7 +54,8 @@ const char* monolis_get_local_output_file_name(
  * @ingroup com
  */
 const char* monolis_get_output_file_name_by_domain_id(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         domain_id);
 

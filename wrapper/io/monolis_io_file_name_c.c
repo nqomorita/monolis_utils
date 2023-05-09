@@ -6,7 +6,8 @@
 
 /** 並列計算用読み込みファイル名の取得（グローバルコミュニケータから指定） */
 const char* monolis_get_global_input_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name)
 {
   int comm_size;
@@ -18,7 +19,7 @@ const char* monolis_get_global_input_file_name(
   filename = (char*)malloc(sizeof(char)*MONOLIS_CHARLEN);
 
   if(comm_size > 1){
-    snprintf(filename, MONOLIS_CHARLEN, "%s/%s.%d", dir_name, file_name, my_rank);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
     snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
   }
@@ -28,7 +29,8 @@ const char* monolis_get_global_input_file_name(
 
 /** 並列計算用読み込みファイル名の取得（ローカルコミュニケータから指定） */
 const char* monolis_get_local_input_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         comm)
 {
@@ -41,7 +43,7 @@ const char* monolis_get_local_input_file_name(
   filename = (char*)malloc(sizeof(char)*MONOLIS_CHARLEN);
 
   if(comm_size > 1){
-    snprintf(filename, MONOLIS_CHARLEN, "%s/%s.%d", dir_name, file_name, my_rank);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
     snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
   }
@@ -51,7 +53,8 @@ const char* monolis_get_local_input_file_name(
 
 /** 並列計算用書き出しファイル名の取得（グローバルコミュニケータから指定） */
 const char* monolis_get_global_output_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name)
 {
   int comm_size;
@@ -63,7 +66,7 @@ const char* monolis_get_global_output_file_name(
   filename = (char*)malloc(sizeof(char)*MONOLIS_CHARLEN);
 
   if(comm_size > 1){
-    snprintf(filename, MONOLIS_CHARLEN, "%s/%s.%d", dir_name, file_name, my_rank);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
     snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
   }
@@ -73,7 +76,8 @@ const char* monolis_get_global_output_file_name(
 
 /** 並列計算用書き出しファイル名の取得（ローカルコミュニケータから指定） */
 const char* monolis_get_local_output_file_name(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         comm)
 {
@@ -86,7 +90,7 @@ const char* monolis_get_local_output_file_name(
   filename = (char*)malloc(sizeof(char)*MONOLIS_CHARLEN);
 
   if(comm_size > 1){
-    snprintf(filename, MONOLIS_CHARLEN, "%s/%s.%d", dir_name, file_name, my_rank);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
     snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
   }
@@ -96,7 +100,8 @@ const char* monolis_get_local_output_file_name(
 
 /** 並列計算用書き出しファイル名の取得（ローカルコミュニケータから指定） */
 const char* monolis_get_output_file_name_by_domain_id(
-  const char* dir_name,
+  const char* top_dir_name,
+  const char* part_dir_name,
   const char* file_name,
   int         domain_id)
 {
@@ -104,7 +109,7 @@ const char* monolis_get_output_file_name_by_domain_id(
 
   filename = (char*)malloc(sizeof(char)*MONOLIS_CHARLEN);
 
-  snprintf(filename, MONOLIS_CHARLEN, "%s/%s.%d", dir_name, file_name, domain_id);
+  snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, domain_id);
 
   return filename;
 }
