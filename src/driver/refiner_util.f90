@@ -153,6 +153,7 @@ contains
     newid = 0
     do eid = 1, n_elem
       conn = elem(:,eid)
+      nid = 0
       !> node on edge
       do i = 1, 12
         i1 = conn(monolis_C3D8_edge(1, i))
@@ -195,7 +196,7 @@ contains
         else
           newid = newid + 1
           nid(i + 12) = n_node + newid
-          call monolis_hash_push(hash_tree, ckey, nid(i), is_pushed, is_exist)
+          call monolis_hash_push(hash_tree, ckey, nid(i + 12), is_pushed, is_exist)
           pos = 0.0d0
           do j = 1, 4
             i1 = conn(monolis_C3D8_surf(j,i))
