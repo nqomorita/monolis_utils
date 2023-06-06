@@ -7,6 +7,48 @@ module mod_monolis_utils_std_algebra
 contains
 
   !> @ingroup std_algebra
+  !> 行列からベクトル配列に変換（実数型）
+  subroutine monolis_mat_to_vec_R(N, M, MAT, X)
+    implicit none
+    !> 行数
+    integer(kint) :: N
+    !> 列数
+    integer(kint) :: M
+    !> 行列
+    real(kdouble) :: MAT(N,M)
+    !> ベクトル
+    real(kdouble) :: X(N*M)
+    integer(kint) :: i, j
+
+    do i = 1, M
+      do j = 1, N
+        X(N*(i-1) + j) = MAT(j,i)
+      enddo
+    enddo
+  end subroutine monolis_mat_to_vec_R
+
+  !> @ingroup std_algebra
+  !> ベクトル配列から行列に変換（実数型）
+  subroutine monolis_vec_to_mat_R(N, M, X, MAT)
+    implicit none
+    !> 行数
+    integer(kint) :: N
+    !> 列数
+    integer(kint) :: M
+    !> ベクトル
+    real(kdouble) :: X(N*M)
+    !> 行列
+    real(kdouble) :: MAT(N,M)
+    integer(kint) :: i, j
+
+    do i = 1, M
+      do j = 1, N
+        MAT(j,i) = X(N*(i-1) + j)
+      enddo
+    enddo
+  end subroutine monolis_vec_to_mat_R
+
+  !> @ingroup std_algebra
   !> 逆行列の取得（n x n 行列、実数型）
   !> @details ピボットが 0 であればエラーストップ
   subroutine monolis_get_inverse_matrix_R(n, a, inv)
