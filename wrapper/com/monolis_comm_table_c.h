@@ -23,6 +23,16 @@ void monolis_com_get_comm_table_parallel(
   int*         vertex_id,
   MONOLIS_COM* com);
 
+/**
+ * @brief !
+ * @param[in,out] com 分割領域に対応する com 構造体
+ * @param[in] n_node 節点数
+ * @param[in] n_elem 要素数
+ * @param[in] n_base 要素を構成する形状関数の数
+ * @param[in] elem 要素コネクティビティ
+ * @param[out] list !
+ * @ingroup com
+ */
 void monolis_get_bool_list_of_internal_simple_mesh(
   MONOLIS_COM* com,
   int          n_node,
@@ -31,6 +41,16 @@ void monolis_get_bool_list_of_internal_simple_mesh(
   int**        elem,
   bool*        list);
 
+/**
+ * @brief !
+ * @param[in,out] com 分割領域に対応する com 構造体
+ * @param[in] n_node 節点数
+ * @param[in] n_elem 要素数
+ * @param[in] index !
+ * @param[in] item !
+ * @param[out] list !
+ * @ingroup com
+ */
 void monolis_get_bool_list_of_internal_connetivity(
   MONOLIS_COM* com,
   int          n_node,
