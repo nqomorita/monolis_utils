@@ -32,6 +32,13 @@ int monolis_mpi_get_global_comm();
  * @param[in] n_internal_vertex 分割領域における内部計算点数
  * @ingroup com
  */
+int monolis_mpi_get_self_comm();
+
+/**
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @ingroup com
+ */
 int monolis_mpi_get_global_comm_size();
 
 /**

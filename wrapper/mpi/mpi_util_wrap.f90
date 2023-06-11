@@ -32,6 +32,15 @@ contains
   end function monolis_mpi_get_global_comm_c
 
   !> @ingroup mpi
+  !> MPI のセルフコミュニケータを取得する関数
+  function monolis_mpi_get_self_comm_c()&
+    & bind(c, name = "monolis_mpi_get_self_comm")
+    implicit none
+    integer(c_int) :: monolis_mpi_get_self_comm_c
+    monolis_mpi_get_self_comm_c = monolis_mpi_get_self_comm()
+  end function monolis_mpi_get_self_comm_c
+
+  !> @ingroup mpi
   !> MPI のグローバルランクサイズを取得する関数
   function monolis_mpi_get_global_comm_size_c()&
     & bind(c, name = "monolis_mpi_get_global_comm_size")
