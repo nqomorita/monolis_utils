@@ -9,7 +9,7 @@ extern "C" {
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 int* monolis_alloc_I_1d(
   int*      var,
@@ -18,7 +18,7 @@ int* monolis_alloc_I_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_I_1d(
   int**     var);
@@ -26,7 +26,7 @@ void monolis_dealloc_I_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 int** monolis_alloc_I_2d(
   int**     var,
@@ -36,7 +36,7 @@ int** monolis_alloc_I_2d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_I_2d(
   int***    var,
@@ -46,7 +46,7 @@ void monolis_dealloc_I_2d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 double* monolis_alloc_R_1d(
   double*   var,
@@ -55,7 +55,7 @@ double* monolis_alloc_R_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_R_1d(
   double**  var);
@@ -63,7 +63,7 @@ void monolis_dealloc_R_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 double** monolis_alloc_R_2d(
   double**  var,
@@ -73,7 +73,7 @@ double** monolis_alloc_R_2d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_R_2d(
   double*** var,
@@ -83,7 +83,7 @@ void monolis_dealloc_R_2d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 double _Complex* monolis_alloc_C_1d(
   double _Complex* var,
@@ -92,7 +92,7 @@ double _Complex* monolis_alloc_C_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_C_1d(
   double _Complex** var);
@@ -100,7 +100,7 @@ void monolis_dealloc_C_1d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 double _Complex** monolis_alloc_C_2d(
   double _Complex** var,
@@ -110,7 +110,7 @@ double _Complex** monolis_alloc_C_2d(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup alloc
  */
 void monolis_dealloc_C_2d(
   double _Complex*** var,

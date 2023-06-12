@@ -17,7 +17,7 @@ static const int MONOLIS_MPI_MIN = 3;
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_allreduce_I(
   int  n,
@@ -28,7 +28,7 @@ void monolis_allreduce_I(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_allreduce_R(
   int     n,
@@ -39,7 +39,7 @@ void monolis_allreduce_R(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_allreduce_C(
   int              n,
@@ -50,7 +50,7 @@ void monolis_allreduce_C(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_mpi_update_R(
   MONOLIS_COM* com,
@@ -77,7 +77,7 @@ void monolis_mpi_update_I_c_main(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_mpi_update_I(
   MONOLIS_COM* com,
@@ -88,7 +88,7 @@ void monolis_mpi_update_I(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_mpi_update_R_c_main(
   int     n,
@@ -109,7 +109,7 @@ void monolis_mpi_update_R_c_main(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_mpi_update_C(
   MONOLIS_COM*     com,
@@ -120,7 +120,7 @@ void monolis_mpi_update_C(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup mpi
  */
 void monolis_mpi_update_C_c_main(
   int              n,

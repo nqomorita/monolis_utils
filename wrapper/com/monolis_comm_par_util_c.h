@@ -12,7 +12,7 @@ extern "C" {
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void  monolis_comm_get_recv_parallel_n_neib(
   int  comm,
@@ -29,7 +29,7 @@ void  monolis_comm_get_recv_parallel_n_neib(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_recv_parallel_neib_id(
   int  comm,
@@ -43,7 +43,7 @@ void monolis_comm_get_recv_parallel_neib_id(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void  monolis_comm_get_recv_parallel_index(
   int  comm,
@@ -61,7 +61,7 @@ void  monolis_comm_get_recv_parallel_index(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_recv_parallel_item(
   int  n_vertex,
@@ -84,7 +84,7 @@ void monolis_comm_get_recv_parallel_item(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_n_list(
   int  comm,
@@ -100,7 +100,7 @@ void monolis_comm_get_send_parallel_n_list(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_n_neib(
   int  comm,
@@ -114,7 +114,7 @@ void monolis_comm_get_send_parallel_n_neib(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_neib_id(
   int  comm,
@@ -129,7 +129,7 @@ void monolis_comm_get_send_parallel_neib_id(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_index(
   int  comm,
@@ -144,7 +144,7 @@ void monolis_comm_get_send_parallel_index(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_item(
   int  comm,
@@ -167,7 +167,7 @@ void monolis_comm_get_send_parallel_item(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_n_node_parallel(
   int  n_internal_vertex,
@@ -181,7 +181,7 @@ void monolis_comm_get_all_external_n_node_parallel(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_node_parallel(
   int  n_internal_vertex,
@@ -199,7 +199,7 @@ void monolis_comm_get_all_external_node_parallel(
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
  * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_node_domain_id_parallel(
   int  n_internal_vertex,

@@ -11,7 +11,7 @@ extern "C" {
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup io
  */
 void monolis_input_com_table_main(
   const char* fname,
@@ -23,7 +23,7 @@ void monolis_input_com_table_main(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup io
  */
 void monolis_input_send_com_table(
   const char*  fname,
@@ -32,7 +32,7 @@ void monolis_input_send_com_table(
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @ingroup io
  */
 void monolis_input_recv_com_table(
   const char*  fname,
