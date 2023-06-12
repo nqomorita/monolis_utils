@@ -7,8 +7,12 @@ extern "C" {
 #endif
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体の初期化関数
+ * @param[in,out] com COM 構造体
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] op_dir_name 通信テーブルデータ読込のトップディレクトリ名
+ * @param[in] part_dir_name 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+ * @param[in] file_name 通信テーブルデータが記載されたファイル名
  * @ingroup com
  */
 void monolis_com_initialize_by_parted_files(
@@ -19,8 +23,12 @@ void monolis_com_initialize_by_parted_files(
   const char*  file_name);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @brief COM 構造体の初期化関数
+ * @param[in,out] com COM 構造体
+ * @param[in] comm MPI コミュニケータ
  * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @param[in] n_vertex 全計算点数
+ * @param[in] global_id グローバル計算点番号
  * @ingroup com
  */
 void monolis_com_initialize_by_global_id(
@@ -31,8 +39,8 @@ void monolis_com_initialize_by_global_id(
   int*         global_id);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体の初期化関数
+ * @param[in,out] com COM 構造体
  * @ingroup com
  */
 void monolis_com_initialize_by_self(

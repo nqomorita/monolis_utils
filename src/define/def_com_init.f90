@@ -17,14 +17,14 @@ contains
   !> COM 構造体の初期化関数
   subroutine monolis_com_input_comm_table(COM, top_dir_name, part_dir_name, file_name)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_com) :: COM
-    !> 通信テーブルデータ読込のトップディレクトリ名
-    character(*) :: top_dir_name
-    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
-    character(*) :: part_dir_name
-    !> 通信テーブルデータが記載されたファイル名
-    character(*) :: file_name
+    !> [in,out] COM 構造体
+    type(monolis_com), intent(inout) :: COM
+    !> [in] 通信テーブルデータ読込のトップディレクトリ名
+    character(*), intent(in) :: top_dir_name
+    !> [in] 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+    character(*), intent(in) :: part_dir_name
+    !> [in] 通信テーブルデータが記載されたファイル名
+    character(*), intent(in) :: file_name
     integer(kint) :: i, j, nitem
     character(monolis_charlen) :: header
     character(monolis_charlen) :: fname
@@ -50,16 +50,16 @@ contains
   !> COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_parted_files(COM, comm, top_dir_name, part_dir_name, file_name)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    !> [in,out] COM 構造体
+    type(monolis_COM), intent(inout) :: COM
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
-    !> 通信テーブルデータ読込のトップディレクトリ名
-    character(*) :: top_dir_name
-    !> 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
-    character(*) :: part_dir_name
-    !> 通信テーブルデータが記載されたファイル名
-    character(*) :: file_name
+    integer(kint), intent(in) :: comm
+    !> [in] 通信テーブルデータ読込のトップディレクトリ名
+    character(*), intent(in) :: top_dir_name
+    !> [in] 通信テーブルデータ読込の分割ファイルが格納されるディレクトリ名
+    character(*), intent(in) :: part_dir_name
+    !> [in] 通信テーブルデータが記載されたファイル名
+    character(*), intent(in) :: file_name
 
     if(monolis_mpi_get_local_comm_size(comm) == 1)then
       call monolis_com_initialize_by_self(COM)
@@ -88,16 +88,16 @@ contains
   !> COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_global_id(COM, comm, n_internal_vertex, n_vertex, global_id)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    !> [in,out] COM 構造体
+    type(monolis_COM), intent(inout) :: COM
     !> [in] MPI コミュニケータ
-    integer(kint) :: comm
-    !> [in] 内部計算点数
-    integer(kint) :: n_internal_vertex
+    integer(kint), intent(in) :: comm
+    !> [in] 分割領域における内部計算点数
+    integer(kint), intent(in) :: n_internal_vertex
     !> [in] 全計算点数
-    integer(kint) :: n_vertex
+    integer(kint), intent(in) :: n_vertex
     !> [in] グローバル計算点番号
-    integer(kint) :: global_id(:)
+    integer(kint), intent(in) :: global_id(:)
 
     if(monolis_mpi_get_local_comm_size(comm) == 1)then
       call monolis_com_initialize_by_self(COM)
@@ -126,8 +126,8 @@ contains
   !> COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_self(COM)
     implicit none
-    !> [in] COM 構造体
-    type(monolis_COM) :: COM
+    !> [in,out] COM 構造体
+    type(monolis_COM), intent(inout) :: COM
 
     COM%comm = MPI_COMM_SELF
     COM%my_rank = 0
