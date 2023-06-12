@@ -63,6 +63,7 @@ module mod_monolis_utils_define_com
 
 contains
 
+  !> @ingroup com
   !> COM 構造体の終了処理関数
   subroutine monolis_com_finalize(COM)
     implicit none
@@ -91,7 +92,7 @@ contains
     implicit none
     !> [in] COM 構造体（コピー元）
     type(monolis_COM) :: in
-    !> [in] COM 構造体（コピー先）
+    !> [out] COM 構造体（コピー先）
     type(monolis_COM) :: out
     integer(kint) :: nz
 

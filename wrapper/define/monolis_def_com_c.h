@@ -44,16 +44,17 @@ typedef struct {
 } MONOLIS_COM;
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体の終了処理関数
+ * @param[in,out] com COM 構造体
  * @ingroup com
  */
 void monolis_com_finalize(
   MONOLIS_COM* com);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体のコピー関数
+ * @param[in] in COM 構造体（コピー元）
+ * @param[out] out COM 構造体（コピー先）
  * @ingroup com
  */
 void monolis_com_copy(
@@ -61,8 +62,9 @@ void monolis_com_copy(
   MONOLIS_COM* out);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体に MPI コミュニケータを設定
+ * @param[out] com COM 構造体
+ * @param[in] comm MPI コミュニケータ
  * @ingroup com
  */
 void monolis_com_set_communicator(
@@ -70,8 +72,9 @@ void monolis_com_set_communicator(
   int          comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体から MPI コミュニケータを取得
+ * @param[in] com COM 構造体
+ * @param[out] comm MPI コミュニケータ
  * @ingroup com
  */
 void monolis_com_get_communicator(
@@ -79,8 +82,9 @@ void monolis_com_get_communicator(
   int*         comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体に MPI ランク番号を設定
+ * @param[out] com COM 構造体
+ * @param[in] my_rank MPI ランク番号
  * @ingroup com
  */
 void monolis_com_set_my_rank(
@@ -88,8 +92,9 @@ void monolis_com_set_my_rank(
   int          my_rank);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体から MPI ランク番号を取得
+ * @param[in] com COM 構造体
+ * @param[out] my_rank MPI ランク番号
  * @ingroup com
  */
 void monolis_com_get_my_rank(
@@ -97,8 +102,9 @@ void monolis_com_get_my_rank(
   int*         my_rank);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体に MPI コミュニケータサイズを設定
+ * @param[out] com COM 構造体
+ * @param[in] comm_size MPI コミュニケータサイズ
  * @ingroup com
  */
 void monolis_com_set_comm_size(
@@ -106,8 +112,9 @@ void monolis_com_set_comm_size(
   int          comm_size);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体から MPI コミュニケータサイズを取得
+ * @param[in] com COM 構造体
+ * @param[out] comm_size MPI コミュニケータサイズ
  * @ingroup com
  */
 void monolis_com_get_comm_size(
@@ -115,7 +122,8 @@ void monolis_com_get_comm_size(
   int*         comm_size);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @brief COM 構造体に分割領域における内部計算点数を設定
+ * @param[out] com COM 構造体
  * @param[in] n_internal_vertex 分割領域における内部計算点数
  * @ingroup com
  */
@@ -124,8 +132,9 @@ void monolis_com_set_n_internal_vertex(
   int          n_internal_vertex);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief COM 構造体から分割領域における内部計算点数を取得
+ * @param[in] com COM 構造体
+ * @param[out] n_internal_vertex 分割領域における内部計算点数
  * @ingroup com
  */
 void monolis_com_get_n_internal_vertex(
