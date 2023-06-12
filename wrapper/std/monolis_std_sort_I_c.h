@@ -9,7 +9,7 @@ extern "C" {
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup std_algebra
+ * @ingroup std
  */
 void monolis_qsort_I_1d(
   int* array,
