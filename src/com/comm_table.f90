@@ -56,13 +56,13 @@ contains
   !> monolis 構造体に内部領域に属する単一メッシュのリストを取得
   subroutine monolis_get_bool_list_of_internal_simple_mesh(monoCOM, n_node, n_elem, n_base, elem, list)
     implicit none
-    !> [in] monolis 構造体
+    !> [in] 分割領域に対応する com 構造体
     type(monolis_COM), intent(in) :: monoCOM
     !> [in] 節点数
     integer(kint), intent(in) :: n_node
     !> [in] 要素数
     integer(kint), intent(in) :: n_elem
-    !> [in] 要素の基底数
+    !> [in] 要素を構成する形状関数の数
     integer(kint), intent(in) :: n_base
     !> [in] 要素コネクティビティ
     integer(kint), intent(in) :: elem(:,:)
@@ -97,7 +97,7 @@ contains
   !> monolis 構造体に内部領域に属するコネクティビティのリストを取得
   subroutine monolis_get_bool_list_of_internal_connetivity(monoCOM, n_node, n_elem, index, item, list)
     implicit none
-    !> [in] monolis 構造体
+    !> [in] 分割領域に対応する com 構造体
     type(monolis_COM), intent(in) :: monoCOM
     !> [in] 節点数
     integer(kint), intent(in) :: n_node

@@ -8,11 +8,14 @@ extern "C" {
 
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @param[in] comm MPI コミュニケータ
  * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] outer_domain_id_all 全ての外部計算点が属する領域番号
+ * @param[in] comm_size !
+ * @param[in] displs 全ての外部計算点配列の各領域に属する計算点数
+ * @param[in] recv_n_neib 隣接する領域数
+ * @param[in] is_neib 隣接する領域フラグ（サイズ：[comm_size]）
+ * @ingroup dev_com
  */
 void  monolis_comm_get_recv_parallel_n_neib(
   int  comm,
@@ -24,12 +27,12 @@ void  monolis_comm_get_recv_parallel_n_neib(
   int* is_neib);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] is_neib 隣接する領域フラグ（サイズ：[comm_size]）
+ * @param[in] recv_neib_pe !
+ * @ingroup dev_com
  */
 void monolis_comm_get_recv_parallel_neib_id(
   int  comm,
@@ -38,12 +41,16 @@ void monolis_comm_get_recv_parallel_neib_id(
   int* recv_neib_pe);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する recv 隣接領域の index 配列取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] displs 全ての外部計算点配列の各領域に属する計算点数
+ * @param[in] n_outer_node !
+ * @param[in] outer_domain_id_all 全ての外部計算点が属する領域番号
+ * @param[in] recv_n_neib 隣接する領域数
+ * @param[in] recv_neib_pe !
+ * @param[out] recv_index recv 隣接領域の index 配列
+ * @ingroup dev_com
  */
 void  monolis_comm_get_recv_parallel_index(
   int  comm,
@@ -56,12 +63,21 @@ void  monolis_comm_get_recv_parallel_index(
   int* recv_index);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief データ通信する recv 隣接領域の item 配列取得（並列実行版）
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] n_outer_node !
+ * @param[in] outer_node_id_all 全ての外部計算点番号
+ * @param[in] outer_domain_id_all 全ての外部計算点が属する領域番号
+ * @param[in] displs 全ての外部計算点配列の各領域に属する計算点数
+ * @param[in] recv_n_neib 隣接する領域数
+ * @param[in] recv_neib_pe !
+ * @param[in] recv_index recv 隣接領域の index 配列
+ * @param[in] nz !
+ * @param[in] recv_item recv 隣接領域の item 配列
+ * @ingroup dev_com
  */
 void monolis_comm_get_recv_parallel_item(
   int  n_vertex,
@@ -79,12 +95,14 @@ void monolis_comm_get_recv_parallel_item(
   int* recv_item);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する send 隣接領域の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] recv_n_neib 隣接する領域数
+ * @param[in] recv_neib_pe !
+ * @param[in] recv_index recv 隣接領域の index 配列
+ * @param[in] send_n_list send 計算点の個数リスト
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_n_list(
   int  comm,
@@ -95,12 +113,12 @@ void monolis_comm_get_send_parallel_n_list(
   int* send_n_list);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する send 隣接領域の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] send_n_list send 計算点の個数リスト
+ * @param[in] send_n_neib !
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_n_neib(
   int  comm,
@@ -109,12 +127,13 @@ void monolis_comm_get_send_parallel_n_neib(
   int* send_n_neib);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する send 隣接領域の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] n_neib_send 隣接する領域数
+ * @param[in] send_n_list send 計算点の個数リスト
+ * @param[in] send_neib_pe !
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_neib_id(
   int  comm,
@@ -124,12 +143,13 @@ void monolis_comm_get_send_parallel_neib_id(
   int* send_neib_pe);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @brief データ通信する send 隣接領域の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] comm_size !
+ * @param[in] send_n_list send 計算点の個数リスト
+ * @param[in] send_n_neib !
+ * @param[in] send_index !
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_index(
   int  comm,
@@ -139,12 +159,21 @@ void monolis_comm_get_send_parallel_index(
   int* send_index);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief データ通信する send の item 配列の取得（並列実行版）
+ * @param[in] comm MPI コミュニケータ
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] recv_n_neib 隣接する領域数
+ * @param[in] recv_neib_pe !
+ * @param[in] recv_index recv 隣接領域の index 配列
+ * @param[in] recv_nz !
+ * @param[in] recv_item recv 隣接領域の item 配列
+ * @param[in] send_n_neib !
+ * @param[in] send_neib_pe !
+ * @param[in] send_index !
+ * @param[in] send_nz !
+ * @param[in] send_item !
+ * @ingroup dev_com
  */
 void monolis_comm_get_send_parallel_item(
   int  comm,
@@ -162,12 +191,12 @@ void monolis_comm_get_send_parallel_item(
   int* send_item);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
+ * @brief 全ての外部計算点を取得
  * @param[in] n_internal_vertex 分割領域における内部計算点数
  * @param[in] n_vertex 全計算点数
- * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] n_outer_node !
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_n_node_parallel(
   int  n_internal_vertex,
@@ -176,12 +205,16 @@ void monolis_comm_get_all_external_n_node_parallel(
   int* n_outer_node);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
+ * @brief 全ての外部計算点を取得
  * @param[in] n_internal_vertex 分割領域における内部計算点数
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] n_outer_node !
+ * @param[in] outer_node_id_all_global !
+ * @param[in] comm_size !
+ * @param[in] displs 全ての外部計算点配列の各領域に属する計算点数
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_node_parallel(
   int  n_internal_vertex,
@@ -194,12 +227,17 @@ void monolis_comm_get_all_external_node_parallel(
   int* displs);
 
 /**
- * @brief 通信テーブルを作成（並列実行版）
+ * @brief 全ての外部計算点が所属する領域番号を取得
  * @param[in] n_internal_vertex 分割領域における内部計算点数
  * @param[in] n_vertex 全計算点数
  * @param[in] vertex_id 計算点 id
- * @param[in] com 分割領域に対応する com 構造体
- * @ingroup com
+ * @param[in] comm MPI コミュニケータ
+ * @param[in] n_outer_node !
+ * @param[in] outer_node_id_all_global !
+ * @param[in] outer_domain_id_all !
+ * @param[in] comm_size !
+ * @param[in] displs 全ての外部計算点配列の各領域に属する計算点数
+ * @ingroup dev_com
  */
 void monolis_comm_get_all_external_node_domain_id_parallel(
   int  n_internal_vertex,
