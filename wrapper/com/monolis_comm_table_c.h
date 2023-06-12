@@ -24,13 +24,13 @@ void monolis_com_get_comm_table_parallel(
   MONOLIS_COM* com);
 
 /**
- * @brief !
- * @param[in,out] com 分割領域に対応する com 構造体
+ * @brief monolis 構造体に内部領域に属する単一メッシュのリストを取得
+ * @param[in] com monolis 構造体
  * @param[in] n_node 節点数
  * @param[in] n_elem 要素数
  * @param[in] n_base 要素を構成する形状関数の数
  * @param[in] elem 要素コネクティビティ
- * @param[out] list !
+ * @param[out] list 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
  * @ingroup com
  */
 void monolis_get_bool_list_of_internal_simple_mesh(
@@ -42,13 +42,13 @@ void monolis_get_bool_list_of_internal_simple_mesh(
   bool*        list);
 
 /**
- * @brief !
- * @param[in,out] com 分割領域に対応する com 構造体
+ * @brief monolis 構造体に内部領域に属するコネクティビティのリストを取得
+ * @param[in] com 分割領域に対応する com 構造体
  * @param[in] n_node 節点数
  * @param[in] n_elem 要素数
- * @param[in] index !
- * @param[in] item !
- * @param[out] list !
+ * @param[in] index 要素コネクティビティの index 配列
+ * @param[in] item 要素コネクティビティの item 配列
+ * @param[out] list 内部領域の所属を表すフラグ配列（false：内部領域に属する、true：内部領域に属さない）
  * @ingroup com
  */
 void monolis_get_bool_list_of_internal_connetivity(
