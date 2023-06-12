@@ -9,6 +9,8 @@ module mod_monolis_refiner_util
 
 contains
 
+  !> @ingroup dev_driver
+  !> 四面体一次要素の h 方向のリファイン
   subroutine monolis_h_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
@@ -118,6 +120,8 @@ contains
     call monolis_hash_finalize(hash_tree)
   end subroutine monolis_h_refine_tet
 
+  !> @ingroup dev_driver
+  !> 六面体一次要素の h 方向のリファイン
   subroutine monolis_h_refine_hex(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
@@ -294,6 +298,8 @@ contains
     call monolis_hash_finalize(hash_tree)
   end subroutine monolis_h_refine_hex
 
+  !> @ingroup dev_driver
+  !> 四面体一次要素の p 方向のリファイン
   subroutine monolis_p_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, elem_ref)
     implicit none
     !> [in] 節点数
