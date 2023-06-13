@@ -228,7 +228,7 @@ contains
     implicit none
     !> [in] 出力ファイル名
     character(*), intent(in) :: fname
-    !> [out] 全計算点数
+    !> [out] 分割領域における全計算点数
     integer(kint), intent(out) :: n_vertex
     !> [out] 計算点 id
     integer(kint), allocatable, intent(out) :: vertex_id(:)
