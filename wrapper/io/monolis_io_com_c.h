@@ -9,9 +9,13 @@ extern "C" {
 #include "monolis_def_com_c.h"
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @brief monolis 通信テーブルの入力（汎用関数）
+ * @param[in] fname 入力ファイル名
+ * @param[out] n_neib 隣接領域数
+ * @param[out] neib_pe 隣接領域 id
+ * @param[out] index 通信テーブルの index 配列
+ * @param[out] item 通信テーブルの item 配列
+ * @ingroup dev_io
  */
 void monolis_input_com_table_main(
   const char* fname,
@@ -21,18 +25,20 @@ void monolis_input_com_table_main(
   int*        item);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @brief monolis 通信テーブル send の入力
+ * @param[in] fname 入力ファイル名
+ * @param[in,out] com 分割領域に対応する COM 構造体
+ * @ingroup io
  */
 void monolis_input_send_com_table(
   const char*  fname,
   MONOLIS_COM* com);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
- * @ingroup com
+ * @brief monolis 通信テーブル recv の入力
+ * @param[in] fname 入力ファイル名
+ * @param[in,out] com 分割領域に対応する COM 構造体
+ * @ingroup io
  */
 void monolis_input_recv_com_table(
   const char*  fname,
