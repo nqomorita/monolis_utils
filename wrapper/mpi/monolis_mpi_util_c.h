@@ -7,95 +7,86 @@ extern "C" {
 #endif
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief monolis ライブラリで利用する MPI の初期化関数
  * @ingroup mpi
  */
 void monolis_mpi_initialize();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief monolis ライブラリを利用する MPI の終了処理関数
  * @ingroup mpi
  */
 void monolis_mpi_finalize();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のグローバルコミュニケータを取得する関数
  * @ingroup mpi
  */
 int monolis_mpi_get_global_comm();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のセルフコミュニケータを取得する関数
  * @ingroup mpi
  */
 int monolis_mpi_get_self_comm();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のグローバルランクサイズを取得する関数
  * @ingroup mpi
  */
 int monolis_mpi_get_global_comm_size();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のグローバルランクを取得する関数
  * @ingroup mpi
  */
 int monolis_mpi_get_global_my_rank();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のローカルコミュニケータのランクサイズを取得する関数
+ * @param[in] comm MPI コミュニケータ
  * @ingroup mpi
  */
 int monolis_mpi_get_local_comm_size(
   int comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI のローカルコミュニケータのランクを取得する関数
+ * @param[in] comm MPI コミュニケータ
  * @ingroup mpi
  */
 int monolis_mpi_get_local_my_rank(
   int comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI 時間計測関数
  * @ingroup mpi
  */
 double monolis_get_time();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI 時間計測関数（グローバルコミュニケータでの動機）
  * @ingroup mpi
  */
 double monolis_get_time_global_sync();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI 時間計測関数（ローカルコミュニケータ）
+ * @param[in] comm MPI コミュニケータ
  * @ingroup mpi
  */
 double monolis_get_time_local_sync(
   int comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI バリア関数（グローバルコミュニケータ）
  * @ingroup mpi
  */
 void monolis_mpi_global_barrier();
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief MPI バリア関数（ローカルコミュニケータ）
+ * @param[in] comm MPI コミュニケータ
  * @ingroup mpi
  */
 void monolis_mpi_local_barrier(
@@ -103,7 +94,9 @@ void monolis_mpi_local_barrier(
 
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @param[in] comm 分割前の MPI コミュニケータ
+ * @param[in] group_id コミュニケータのグループ id
+ * @param[out] comm_split 分割後の MPI コミュニケータ
  * @ingroup mpi
  */
 void monolis_mpi_split_comm(

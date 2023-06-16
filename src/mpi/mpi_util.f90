@@ -104,7 +104,7 @@ contains
   end function monolis_mpi_get_local_comm_size
 
   !> @ingroup mpi
-  !> MPI のローカルコミュニケータのランクサイズを取得する関数
+  !> MPI のローカルコミュニケータのランクを取得する関数
   function monolis_mpi_get_local_my_rank(comm)
     implicit none
     !> [in] MPI コミュニケータ
