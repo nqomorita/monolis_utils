@@ -7,32 +7,33 @@ extern "C" {
 #endif
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief 通常ログ出力関数
+ * @param[in] array 出力ログ
  * @ingroup dev_test
  */
 void monolis_std_log_string(
   const char* array);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief 通常ログ出力関数（MPI ランク 0 のみ出力）
+ * @param[in] array 出力ログ
  * @ingroup dev_test
  */
 void monolis_std_global_log_string(
   const char* array);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief テストパス時の標準出力
+ * @param[in] array テスト内容を示す文字列
  * @ingroup dev_test
  */
 void monolis_test_assert_pass(
   const char* array);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief テストエラー時の標準出力・エラーストップ
+ * @param[in] array1 テスト内容を示す文字列
+ * @param[in] array2 エラー内容を示す文字列
  * @ingroup dev_test
  */
 void monolis_test_assert_fail(
@@ -40,8 +41,10 @@ void monolis_test_assert_fail(
   const char* array2);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief 整数値（スカラ）の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] a 入力配列 a
+ * @param[in] b 入力配列 b
  * @ingroup dev_test
  */
 void monolis_test_check_eq_I1(
@@ -50,8 +53,10 @@ void monolis_test_check_eq_I1(
   int         b);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief 実数値（スカラ）の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] a 入力配列 a
+ * @param[in] b 入力配列 b
  * @ingroup dev_test
  */
 void monolis_test_check_eq_R1(
@@ -60,8 +65,10 @@ void monolis_test_check_eq_R1(
   double      b);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief 複素数値（スカラ）の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] a 入力配列 a
+ * @param[in] b 入力配列 b
  * @ingroup dev_test
  */
 void monolis_test_check_eq_C1(

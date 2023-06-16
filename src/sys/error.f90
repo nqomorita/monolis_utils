@@ -37,7 +37,7 @@ contains
   end subroutine monolis_std_log_string2
 
   !> @ingroup dev_error
-  !> 通常ログ出力関数
+  !> 通常ログ出力関数（MPI ランク 0 のみ出力）
   subroutine monolis_std_global_log_string(string)
     use mod_monolis_mpi_util
     implicit none

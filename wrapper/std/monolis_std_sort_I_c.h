@@ -7,8 +7,10 @@ extern "C" {
 #endif
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
- * @param[in] n_internal_vertex 分割領域における内部計算点数
+ * @brief クイックソート（1次元整数配列）
+ * @param[in,out] array 整数配列
+ * @param[in] iS ソートする開始位置
+ * @param[in] iE ソートする終了位置
  * @ingroup std
  */
 void monolis_qsort_I_1d(
