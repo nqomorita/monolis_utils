@@ -645,7 +645,7 @@ contains
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
     real(kdouble), intent(inout) :: val(:)
-    !> [in] 節点番号の自由度数
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
@@ -723,7 +723,7 @@ contains
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
     integer(kint), intent(inout) :: val(:)
-    !> [in] 節点番号の自由度数
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
@@ -801,7 +801,7 @@ contains
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
     complex(kdouble), intent(inout) :: val(:)
-    !> [in] 節点番号の自由度数
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
@@ -861,7 +861,7 @@ contains
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
-    !> [in] 節点あたりの自由度
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     real(kdouble), intent(inout) :: X(:)
@@ -890,7 +890,7 @@ contains
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
-    !> [in] 節点あたりの自由度
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     integer(kint), intent(inout) :: X(:)
@@ -919,7 +919,7 @@ contains
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
-    !> [in] 節点あたりの自由度
+    !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     complex(kdouble), intent(inout) :: X(:)

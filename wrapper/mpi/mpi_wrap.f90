@@ -63,7 +63,7 @@ contains
     implicit none
     !> [in] 配列サイズ
     integer(c_int), intent(in), value :: NP
-    !> [in] 自由度
+    !> [in] 計算点が持つ自由度
     integer(c_int), intent(in), value :: n_dof
     !> [in] MPI コミュニケータ
     integer(c_int), intent(in), value :: comm
@@ -105,7 +105,7 @@ contains
     implicit none
     !> [in] 配列サイズ
     integer(c_int), intent(in), value :: NP
-    !> [in] 自由度
+    !> [in] 計算点が持つ自由度
     integer(c_int), intent(in), value :: n_dof
     !> [in] MPI コミュニケータ
     integer(c_int), intent(in), value :: comm
@@ -147,7 +147,7 @@ contains
     implicit none
     !> [in] 配列サイズ
     integer(c_int), intent(in), value :: NP
-    !> [in] 自由度
+    !> [in] 計算点が持つ自由度
     integer(c_int), intent(in), value :: n_dof
     !> [in] MPI コミュニケータ
     integer(c_int), intent(in), value :: comm
