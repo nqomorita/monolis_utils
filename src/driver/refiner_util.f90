@@ -9,6 +9,8 @@ module mod_monolis_refiner_util
 
 contains
 
+  !> @ingroup dev_driver
+  !> 四面体一次要素の h 方向のリファイン
   subroutine monolis_h_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
@@ -118,6 +120,8 @@ contains
     call monolis_hash_finalize(hash_tree)
   end subroutine monolis_h_refine_tet
 
+  !> @ingroup dev_driver
+  !> 六面体一次要素の h 方向のリファイン
   subroutine monolis_h_refine_hex(n_node, node, n_elem, elem, n_node_ref, node_ref, n_elem_ref, elem_ref)
     implicit none
     !> [in] 節点数
@@ -153,6 +157,7 @@ contains
     newid = 0
     do eid = 1, n_elem
       conn = elem(:,eid)
+      nid = 0
       !> node on edge
       do i = 1, 12
         i1 = conn(monolis_C3D8_edge(1, i))
@@ -195,7 +200,7 @@ contains
         else
           newid = newid + 1
           nid(i + 12) = n_node + newid
-          call monolis_hash_push(hash_tree, ckey, nid(i), is_pushed, is_exist)
+          call monolis_hash_push(hash_tree, ckey, nid(i + 12), is_pushed, is_exist)
           pos = 0.0d0
           do j = 1, 4
             i1 = conn(monolis_C3D8_surf(j,i))
@@ -293,6 +298,8 @@ contains
     call monolis_hash_finalize(hash_tree)
   end subroutine monolis_h_refine_hex
 
+  !> @ingroup dev_driver
+  !> 四面体一次要素の p 方向のリファイン
   subroutine monolis_p_refine_tet(n_node, node, n_elem, elem, n_node_ref, node_ref, elem_ref)
     implicit none
     !> [in] 節点数

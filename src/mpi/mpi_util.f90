@@ -35,6 +35,19 @@ contains
   end subroutine monolis_mpi_finalize
 
   !> @ingroup mpi
+  !> MPI のセルフコミュニケータを取得する関数
+  function monolis_mpi_get_self_comm()
+    implicit none
+    integer(kint) :: monolis_mpi_get_self_comm
+
+#ifndef NO_MPI
+    monolis_mpi_get_self_comm = MPI_COMM_SELF
+#else
+    monolis_mpi_get_self_comm = 0
+#endif
+  end function monolis_mpi_get_self_comm
+
+  !> @ingroup mpi
   !> MPI のグローバルコミュニケータを取得する関数
   function monolis_mpi_get_global_comm()
     implicit none

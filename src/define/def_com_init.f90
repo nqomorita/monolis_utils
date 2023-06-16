@@ -26,7 +26,6 @@ contains
     !> [in] 通信テーブルデータが記載されたファイル名
     character(*), intent(in) :: file_name
     integer(kint) :: i, j, nitem
-    character(monolis_charlen) :: header
     character(monolis_charlen) :: fname
 
     if(COM%comm_size <= 1)then
@@ -34,15 +33,17 @@ contains
       return
     endif
 
-    header = trim(top_dir_name)//"/"//trim(part_dir_name)
-
-    fname = monolis_get_output_file_name_by_domain_id(trim(header), trim(file_name)//".recv", COM%my_rank)
+    fname = monolis_get_output_file_name_by_domain_id(trim(top_dir_name), trim(part_dir_name), &
+      & trim(file_name)//".recv", COM%my_rank)
     call monolis_input_recv_com_table(fname, COM)
 
-    fname = monolis_get_output_file_name_by_domain_id(trim(header), trim(file_name)//".send", COM%my_rank)
+    fname = monolis_get_output_file_name_by_domain_id(trim(top_dir_name), trim(part_dir_name), &
+      & trim(file_name)//".send", COM%my_rank)
     call monolis_input_send_com_table(fname, COM)
 
-    fname = monolis_get_output_file_name_by_domain_id(trim(header), trim(file_name)//".n_internal", COM%my_rank)
+    fname = monolis_get_output_file_name_by_domain_id(trim(top_dir_name), trim(part_dir_name), &
+      & trim(file_name)//".n_internal", COM%my_rank)
+
     call monolis_input_internal_vertex_number(fname, COM%n_internal_vertex)
   end subroutine monolis_com_input_comm_table
 

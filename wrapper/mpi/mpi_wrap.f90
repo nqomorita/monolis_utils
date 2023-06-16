@@ -6,7 +6,7 @@ module mod_monolis_mpi_wrap
 
 contains
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> allreduce 関数（整数配列型）
   subroutine monolis_allreduce_I_c(n, val, tag, comm)&
     & bind(c, name = "monolis_allreduce_I")
@@ -22,7 +22,7 @@ contains
     call monolis_allreduce_I(n, val, tag, comm)
   end subroutine monolis_allreduce_I_c
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> allreduce 関数（浮動小数点配列型）
   subroutine monolis_allreduce_R_c(n, val, tag, comm)&
     & bind(c, name = "monolis_allreduce_R")
@@ -38,7 +38,7 @@ contains
     call monolis_allreduce_R(n, val, tag, comm)
   end subroutine monolis_allreduce_R_c
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> allreduce 関数（複素数型）
   subroutine monolis_allreduce_C_c(n, val, tag, comm)&
     & bind(c, name = "monolis_allreduce_C")
@@ -54,7 +54,7 @@ contains
     call monolis_allreduce_C(n, val, tag, comm)
   end subroutine monolis_allreduce_C_c
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> ベクトルのアップデート関数（実数型）
   subroutine monolis_mpi_update_R_c(NP, n_dof, X, comm, &
     recv_n_neib, recv_nitem, recv_neib_pe, recv_index, recv_item, &
@@ -96,7 +96,7 @@ contains
        & X, n_dof, comm)
   end subroutine monolis_mpi_update_R_c
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> ベクトルのアップデート関数（整数型）
   subroutine monolis_mpi_update_I_c(NP, n_dof, X, comm, &
     recv_n_neib, recv_nitem, recv_neib_pe, recv_index, recv_item, &
@@ -138,7 +138,7 @@ contains
        & X, n_dof, comm)
   end subroutine monolis_mpi_update_I_c
 
-  !> @ingroup mpi
+  !> @ingroup wrap_mpi
   !> ベクトルのアップデート関数（複素数型）
   subroutine monolis_mpi_update_C_c(NP, n_dof, X, comm, &
     recv_n_neib, recv_nitem, recv_neib_pe, recv_index, recv_item, &
