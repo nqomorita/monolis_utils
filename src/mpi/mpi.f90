@@ -865,7 +865,7 @@ contains
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     real(kdouble), intent(inout) :: X(:)
-    !> [in,out] 入出力ベクトル
+    !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
@@ -894,7 +894,7 @@ contains
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     integer(kint), intent(inout) :: X(:)
-    !> [in,out] 入出力ベクトル
+    !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
@@ -923,7 +923,7 @@ contains
     integer(kint), intent(in) :: ndof
     !> [in,out] 入出力ベクトル
     complex(kdouble), intent(inout) :: X(:)
-    !> [in,out] 入出力ベクトル
+    !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
 
