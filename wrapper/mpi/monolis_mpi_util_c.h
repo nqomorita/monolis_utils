@@ -93,7 +93,7 @@ void monolis_mpi_local_barrier(
   int comm);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @brief MPI コミュニケータの分割
  * @param[in] comm 分割前の MPI コミュニケータ
  * @param[in] group_id コミュニケータのグループ id
  * @param[out] comm_split 分割後の MPI コミュニケータ
