@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @brief monolis 内部計算点自由度数の入力
  * @param[in] fname 出力ファイル名
  * @param[out] n_internal 内部自由度の数
  * @ingroup io
@@ -17,7 +17,7 @@ void monolis_input_internal_vertex_number(
   int*        n_internal);
 
 /**
- * @brief データ通信する recv 隣接領域の取得（並列実行版）
+ * @brief  monolis グローバル id の入力
  * @param[in] fname 出力ファイル名
  * @param[in] n_vertex 分割領域における全計算点数
  * @param[out] vertex_id 計算点 id

@@ -12,7 +12,7 @@ module mod_monolis_comm_par_util
 contains
 
   !> @ingroup com
-  !> 分割領域の内部計算点数リスト vtxdist を作成
+  !> @brief 分割領域の内部計算点数リスト vtxdist を作成
   subroutine monolis_com_n_vertex_list(n_internal_vertex, comm, vtxdist)
     implicit none
     !> [in] 分割領域における内部計算点数
@@ -35,7 +35,7 @@ contains
   end subroutine monolis_com_n_vertex_list
 
   !> @ingroup com
-  !> グローバル計算点番号を新たに生成
+  !> @brief グローバル計算点番号を新たに生成
   subroutine monolis_generate_global_vertex_id(n_internal_vertex, n_vertex, vertex_id, com)
     implicit none
     !> [in] 分割領域における内部計算点数
@@ -65,7 +65,7 @@ contains
   end subroutine monolis_generate_global_vertex_id
 
   !> @ingroup com
-  !> 外部計算点のグローバル計算点番号を取得
+  !> @brief 外部計算点のグローバル計算点番号を取得
   subroutine monolis_update_vertex_domain_id(vertex_domain_id, com)
     implicit none
     !> [in,out] グローバルノード番号配列
@@ -79,7 +79,7 @@ contains
   end subroutine monolis_update_vertex_domain_id
 
   !> @ingroup dev_com
-  !> 全ての外部計算点を取得
+  !> @brief 全ての外部計算点を取得
   subroutine monolis_comm_get_all_external_n_node_parallel(n_internal_vertex, n_vertex, comm, n_outer)
     implicit none
     !> [in] 分割領域における内部計算点数
@@ -107,7 +107,7 @@ contains
   end subroutine monolis_comm_get_all_external_n_node_parallel
 
   !> @ingroup dev_com
-  !> 全ての外部計算点を取得
+  !> @brief 全ての外部計算点を取得
   subroutine monolis_comm_get_all_external_node_parallel(n_internal_vertex, n_vertex, vertex_id, &
     & comm, outer_node_id_all, displs)
     implicit none
@@ -152,7 +152,7 @@ contains
   end subroutine monolis_comm_get_all_external_node_parallel
 
   !> @ingroup dev_com
-  !> 全ての外部計算点が所属する領域番号を取得
+  !> @brief 全ての外部計算点が所属する領域番号を取得
   subroutine monolis_comm_get_all_external_node_domain_id_parallel(n_internal_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
@@ -206,7 +206,7 @@ contains
   end subroutine monolis_comm_get_all_external_node_domain_id_parallel
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の取得（並列実行版）
+  !> @brief データ通信する recv 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_n_neib(comm, outer_domain_id_all, displs, n_neib_recv, is_neib)
     implicit none
     !> [in] MPI コミュニケータ
@@ -241,7 +241,7 @@ contains
   end subroutine monolis_comm_get_recv_parallel_n_neib
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の取得（並列実行版）
+  !> @brief データ通信する recv 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_neib_id(comm, is_neib, neib_id)
     implicit none
     !> [in] MPI コミュニケータ
@@ -264,7 +264,7 @@ contains
   end subroutine monolis_comm_get_recv_parallel_neib_id
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の index 配列取得（並列実行版）
+  !> @brief データ通信する recv 隣接領域の index 配列取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_index(comm, displs, outer_domain_id_all, n_neib_recv, neib_id, index)
     implicit none
     !> [in] MPI コミュニケータ
@@ -307,7 +307,7 @@ contains
   end subroutine monolis_comm_get_recv_parallel_index
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の item 配列取得（並列実行版）
+  !> @brief データ通信する recv 隣接領域の item 配列取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, comm, &
     & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, item)
     implicit none
@@ -373,7 +373,7 @@ contains
   end subroutine monolis_comm_get_recv_parallel_item
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の取得（並列実行版）
+  !> @brief データ通信する recv 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_recv_parallel(n_vertex, vertex_id, com, &
     & outer_node_id_all, outer_domain_id_all, displs)
     implicit none
@@ -415,7 +415,7 @@ contains
   end subroutine monolis_comm_get_recv_parallel
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（並列実行版）
+  !> @brief データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel_n_list(comm, recv_n_neib, recv_neib_pe, recv_index, send_n_list)
     implicit none
     !> [in] MPI コミュニケータ
@@ -445,7 +445,7 @@ contains
   end subroutine monolis_comm_get_send_parallel_n_list
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（並列実行版）
+  !> @brief データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel_n_neib(comm, send_n_list, n_neib_send)
     implicit none
     !> [in] MPI コミュニケータ
@@ -466,7 +466,7 @@ contains
   end subroutine monolis_comm_get_send_parallel_n_neib
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（並列実行版）
+  !> @brief データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel_neib_id(comm, send_n_list, send_neib_pe)
     implicit none
     !> [in] MPI コミュニケータ
@@ -491,7 +491,7 @@ contains
   end subroutine monolis_comm_get_send_parallel_neib_id
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（並列実行版）
+  !> @brief データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel_index(comm, send_n_list, send_n_neib, send_index)
     implicit none
     !> [in] MPI コミュニケータ
@@ -521,7 +521,7 @@ contains
   end subroutine monolis_comm_get_send_parallel_index
 
   !> @ingroup dev_com
-  !> データ通信する send の item 配列の取得（並列実行版）
+  !> @brief データ通信する send の item 配列の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel_item(comm, n_vertex, vertex_id, &
     & recv_n_neib, recv_neib_pe, recv_index, recv_item, &
     & send_n_neib, send_neib_pe, send_index, send_item)
@@ -606,7 +606,7 @@ contains
   end subroutine monolis_comm_get_send_parallel_item
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（並列実行版）
+  !> @brief データ通信する send 隣接領域の取得（並列実行版）
   subroutine monolis_comm_get_send_parallel(n_vertex, vertex_id, com)
     implicit none
     !> [in] 全計算点数

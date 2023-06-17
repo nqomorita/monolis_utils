@@ -64,7 +64,7 @@ module mod_monolis_utils_define_com
 contains
 
   !> @ingroup com
-  !> COM 構造体の終了処理関数
+  !> @brief COM 構造体の終了処理関数
   subroutine monolis_com_finalize(COM)
     implicit none
     !> [in,out] COM 構造体
@@ -87,7 +87,7 @@ contains
   end subroutine monolis_com_finalize
 
   !> @ingroup com
-  !> COM 構造体のコピー関数
+  !> @brief COM 構造体のコピー関数
   subroutine monolis_com_copy(in, out)
     implicit none
     !> [in] COM 構造体（コピー元）
@@ -133,7 +133,7 @@ contains
   end subroutine monolis_com_copy
 
   !> @ingroup com
-  !> COM 構造体に MPI コミュニケータを設定
+  !> @brief COM 構造体に MPI コミュニケータを設定
   subroutine monolis_com_set_communicator(COM, comm)
     implicit none
     !> [out] COM 構造体
@@ -144,7 +144,7 @@ contains
   end subroutine monolis_com_set_communicator
 
   !> @ingroup com
-  !> COM 構造体から MPI コミュニケータを取得
+  !> @brief COM 構造体から MPI コミュニケータを取得
   subroutine monolis_com_get_communicator(COM, comm)
     implicit none
     !> [in] COM 構造体
@@ -155,7 +155,7 @@ contains
   end subroutine monolis_com_get_communicator
 
   !> @ingroup com
-  !> COM 構造体に MPI ランク番号を設定
+  !> @brief COM 構造体に MPI ランク番号を設定
   subroutine monolis_com_set_my_rank(COM, my_rank)
     implicit none
     !> [out] COM 構造体
@@ -166,7 +166,7 @@ contains
   end subroutine monolis_com_set_my_rank
 
   !> @ingroup com
-  !> COM 構造体から MPI ランク番号を取得
+  !> @brief COM 構造体から MPI ランク番号を取得
   subroutine monolis_com_get_my_rank(COM, my_rank)
     implicit none
     !> [in] COM 構造体
@@ -177,7 +177,7 @@ contains
   end subroutine monolis_com_get_my_rank
 
   !> @ingroup com
-  !> COM 構造体に MPI コミュニケータサイズを設定
+  !> @brief COM 構造体に MPI コミュニケータサイズを設定
   subroutine monolis_com_set_comm_size(COM, comm_size)
     implicit none
     !> [out] COM 構造体
@@ -188,7 +188,7 @@ contains
   end subroutine monolis_com_set_comm_size
 
   !> @ingroup com
-  !> COM 構造体から MPI コミュニケータサイズを取得
+  !> @brief COM 構造体から MPI コミュニケータサイズを取得
   subroutine monolis_com_get_comm_size(COM, comm_size)
     implicit none
     !> [in] COM 構造体
@@ -199,7 +199,7 @@ contains
   end subroutine monolis_com_get_comm_size
 
   !> @ingroup com
-  !> COM 構造体に分割領域における内部計算点数を設定
+  !> @brief COM 構造体に分割領域における内部計算点数を設定
   subroutine monolis_com_set_n_internal_vertex(COM, n_internal_vertex)
     implicit none
     !> [out] COM 構造体
@@ -210,7 +210,7 @@ contains
   end subroutine monolis_com_set_n_internal_vertex
 
   !> @ingroup com
-  !> COM 構造体から分割領域における内部計算点数を取得
+  !> @brief COM 構造体から分割領域における内部計算点数を取得
   subroutine monolis_com_get_n_internal_vertex(COM, n_internal_vertex)
     implicit none
     !> [in] COM 構造体
@@ -221,7 +221,7 @@ contains
   end subroutine monolis_com_get_n_internal_vertex
 
   !> @ingroup dev_com
-  !> COM 構造体のデバッグ用データ書き出し
+  !> @brief COM 構造体のデバッグ用データ書き出し
   subroutine monolis_com_debug_write(COM)
     implicit none
     !> [in] COM 構造体

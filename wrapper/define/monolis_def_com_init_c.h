@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 /**
- * @brief COM 構造体の初期化関数
+ * @brief COM 構造体の初期化関数（事前分割したデータファイルを読込）
  * @param[in,out] com COM 構造体
  * @param[in] comm MPI コミュニケータ
  * @param[in] op_dir_name 通信テーブルデータ読込のトップディレクトリ名
@@ -23,7 +23,7 @@ void monolis_com_initialize_by_parted_files(
   const char*  file_name);
 
 /**
- * @brief COM 構造体の初期化関数
+ * @brief COM 構造体の初期化関数（グローバル計算点番号から初期化）
  * @param[in,out] com COM 構造体
  * @param[in] comm MPI コミュニケータ
  * @param[in] n_internal_vertex 分割領域における内部計算点数
@@ -39,7 +39,7 @@ void monolis_com_initialize_by_global_id(
   int*         global_id);
 
 /**
- * @brief COM 構造体の初期化関数
+ * @brief COM 構造体の初期化関数（MPI SELF コミュニケータで初期化）
  * @param[in,out] com COM 構造体
  * @ingroup com
  */

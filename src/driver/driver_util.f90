@@ -5,7 +5,7 @@ module mod_monolis_driver_util
 contains
 
   !> @ingroup dev_driver
-  !> 出力境界条件値を取得
+  !> @brief 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all_R(n_dof, val, is_get)
     implicit none
     !> [out] 計算点が持つ自由度
@@ -49,7 +49,7 @@ contains
   end subroutine monolis_driver_get_arg_dbc_all_R
 
   !> @ingroup dev_driver
-  !> 出力境界条件値を取得
+  !> @brief 出力境界条件値を取得
   subroutine monolis_driver_get_arg_dbc_all_C(n_dof, val, is_get)
     implicit none
     !> [out] 計算点が持つ自由度

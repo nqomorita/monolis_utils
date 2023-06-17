@@ -9,7 +9,7 @@ module mod_monolis_extract_util
 contains
 
   !> @ingroup dev_driver
-  !> 表面要素を抽出
+  !> @brief 表面要素を抽出
   subroutine monolis_get_surf(n_elem, n_base, elem, n_surf, &
     & n_base_out, n_elem_out, out)
     implicit none
@@ -63,7 +63,7 @@ contains
   end subroutine monolis_get_surf
 
   !> @ingroup dev_driver
-  !> 表面要素を構成する節点番号を抽出
+  !> @brief 表面要素を構成する節点番号を抽出
   subroutine monolis_get_surf_node(n_base, n_surf, surf, n_node, node_id)
     implicit none
     !> [in] 要素を構成する形状関数の数
@@ -98,7 +98,7 @@ contains
   end subroutine monolis_get_surf_node
 
   !> @ingroup dev_driver
-  !> 表面要素を抽出（メイン関数）
+  !> @brief 表面要素を抽出（メイン関数）
   subroutine monolis_get_surf_main(n_elem, n_base, elem, n_surf, is_inner)
     implicit none
     !> [in]  要素数
@@ -153,7 +153,7 @@ contains
   end subroutine monolis_get_surf_main
 
   !> @ingroup dev_driver
-  !> ハッシュキーの生成
+  !> @brief ハッシュキーの生成
   function get_key_surf(n_base, i, conn)
     implicit none
     !> [out] ハッシュキー

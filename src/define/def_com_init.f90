@@ -14,7 +14,7 @@ module mod_monolis_utils_define_com_init
 contains
 
   !> @ingroup com
-  !> COM 構造体の初期化関数
+  !> @brief COM 構造体の初期化関数
   subroutine monolis_com_input_comm_table(COM, top_dir_name, part_dir_name, file_name)
     implicit none
     !> [in,out] COM 構造体
@@ -48,7 +48,7 @@ contains
   end subroutine monolis_com_input_comm_table
 
   !> @ingroup com
-  !> COM 構造体の初期化関数
+  !> @brief COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_parted_files(COM, comm, top_dir_name, part_dir_name, file_name)
     implicit none
     !> [in,out] COM 構造体
@@ -86,7 +86,7 @@ contains
   end subroutine monolis_com_initialize_by_parted_files
 
   !> @ingroup com
-  !> COM 構造体の初期化関数
+  !> @brief COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_global_id(COM, comm, n_internal_vertex, n_vertex, global_id)
     implicit none
     !> [in,out] COM 構造体
@@ -124,7 +124,7 @@ contains
   end subroutine monolis_com_initialize_by_global_id
 
   !> @ingroup com
-  !> COM 構造体の初期化関数
+  !> @brief COM 構造体の初期化関数
   subroutine monolis_com_initialize_by_self(COM)
     implicit none
     !> [in,out] COM 構造体

@@ -10,7 +10,7 @@ module mod_monolis_comm_table
 contains
 
   !> @ingroup com
-  !> 通信テーブルを作成（並列実行版）
+  !> @brief 通信テーブルを作成（並列実行版）
   subroutine monolis_com_get_comm_table_parallel(n_internal_vertex, n_vertex, vertex_id, com)
     implicit none
     !> [in] 分割領域における内部計算点数
@@ -53,7 +53,7 @@ contains
   end subroutine monolis_com_get_comm_table_parallel
 
   !> @ingroup com
-  !> monolis 構造体に内部領域に属する単一メッシュのリストを取得
+  !> @brief monolis 構造体に内部領域に属する単一メッシュのリストを取得
   subroutine monolis_get_bool_list_of_internal_simple_mesh(monoCOM, n_node, n_elem, n_base, elem, list)
     implicit none
     !> [in] 分割領域に対応する com 構造体
@@ -94,7 +94,7 @@ contains
   end subroutine monolis_get_bool_list_of_internal_simple_mesh
 
   !> @ingroup com
-  !> monolis 構造体に内部領域に属するコネクティビティのリストを取得
+  !> @brief monolis 構造体に内部領域に属するコネクティビティのリストを取得
   subroutine monolis_get_bool_list_of_internal_connetivity(monoCOM, n_node, n_elem, index, item, list)
     implicit none
     !> [in] 分割領域に対応する com 構造体

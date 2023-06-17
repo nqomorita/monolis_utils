@@ -191,7 +191,7 @@ contains
   end subroutine monolis_output_elem
 
   !> @ingroup io
-  !> monolis 内部節点自由度数の入力
+  !> monolis 内部計算点自由度数の入力
   subroutine monolis_input_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名
@@ -208,7 +208,7 @@ contains
   end subroutine monolis_input_internal_vertex_number
 
   !> @ingroup io
-  !> monolis 内部節点自由度数の出力
+  !> monolis 内部計算点自由度数の出力
   subroutine monolis_output_internal_vertex_number(fname, n_internal)
     implicit none
     !> [in] 出力ファイル名

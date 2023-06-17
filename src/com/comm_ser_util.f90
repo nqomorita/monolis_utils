@@ -10,7 +10,7 @@ module mod_monolis_comm_ser_util
 contains
 
   !> @ingroup dev_com
-  !> 全ての外部計算点が所属する領域番号を取得（逐次実行版）
+  !> @brief 全ての外部計算点が所属する領域番号を取得（逐次実行版）
   subroutine monolis_comm_get_all_external_node_domain_id_serial(vertex_domain_id, n_domain, &
     & outer_node_id_all_global, outer_domain_id_all, displs)
     implicit none
@@ -36,7 +36,7 @@ contains
   end subroutine monolis_comm_get_all_external_node_domain_id_serial
 
   !> @ingroup dev_com
-  !> データ通信する recv 隣接領域の取得（逐次実行版）
+  !> @brief データ通信する recv 隣接領域の取得（逐次実行版）
   subroutine monolis_comm_get_recv_serial(n_domain, domain_id, n_internal_vertex, &
     & outer_node_id_all_global, outer_domain_id_all, displs, com, recv_list)
     implicit none
@@ -153,7 +153,7 @@ contains
   end subroutine monolis_comm_get_recv_serial
 
   !> @ingroup dev_com
-  !> データ通信する send 隣接領域の取得（逐次実行版）
+  !> @brief データ通信する send 隣接領域の取得（逐次実行版）
   subroutine monolis_comm_get_send_serial(n_domain, n_vertex, vertex_id, com, recv_list)
     implicit none
     !> [in] 分割領域数

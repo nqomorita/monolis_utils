@@ -65,7 +65,7 @@ int monolis_mpi_get_local_my_rank(
 double monolis_get_time();
 
 /**
- * @brief MPI 時間計測関数（グローバルコミュニケータでの動機）
+ * @brief MPI 時間計測関数（グローバルコミュニケータでの同期）
  * @ingroup mpi
  */
 double monolis_get_time_global_sync();

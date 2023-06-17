@@ -58,7 +58,7 @@ module mod_monolis_utils_hash
 contains
 
   !> @ingroup hash
-  !> ハッシュ構造体の初期化関数
+  !> @brief ハッシュ構造体の初期化関数
   subroutine monolis_hash_init(monolis_hash, key_size)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -80,7 +80,7 @@ contains
   end subroutine monolis_hash_init
 
   !> @ingroup hash
-  !> ハッシュ構造体の終了関数
+  !> @brief ハッシュ構造体の終了関数
   subroutine monolis_hash_finalize(monolis_hash)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -104,7 +104,7 @@ contains
   end subroutine monolis_hash_finalize
 
   !> @ingroup hash
-  !> 整数値からキーを取得
+  !> @brief 整数値からキーを取得
   subroutine monolis_hash_get_key_I(key_size, i, key)
     implicit none
     !> [in] キーサイズ
@@ -128,7 +128,7 @@ contains
   end subroutine monolis_hash_get_key_I
 
   !> @ingroup hash
-  !> キーから登録値の取得
+  !> @brief キーから登録値の取得
   subroutine monolis_hash_get(monolis_hash, key, val, is_exist)
     implicit none
     !> [in] ハッシュ構造体
@@ -148,7 +148,7 @@ contains
   end subroutine monolis_hash_get
 
   !> @ingroup hash
-  !> ハッシュ構造体へ値の登録
+  !> @brief ハッシュ構造体へ値の登録
   subroutine monolis_hash_push(monolis_hash, key, val, is_pushed, is_exist)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -184,7 +184,7 @@ contains
   end subroutine monolis_hash_push
 
   !> @ingroup dev_hash
-  !> ハッシュのリサイズ
+  !> @brief ハッシュのリサイズ
   subroutine monolis_hash_resize(monolis_hash)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -228,7 +228,7 @@ contains
   end subroutine monolis_hash_resize
 
   !> @ingroup dev_hash
-  !> キーから登録値の取得（メイン関数）
+  !> @brief キーから登録値の取得（メイン関数）
   subroutine monolis_hash_list_get(monolis_hash, key, hash, val, is_exist)
     implicit none
     !> [in] ハッシュ構造体
@@ -258,7 +258,7 @@ contains
   end subroutine monolis_hash_list_get
 
   !> @ingroup dev_hash
-  !> ハッシュ構造体へ値の登録（メイン関数）
+  !> @brief ハッシュ構造体へ値の登録（メイン関数）
   subroutine monolis_hash_list_push(monolis_hash, key, hash, val)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -298,7 +298,7 @@ contains
   end subroutine monolis_hash_list_push
 
   !> @ingroup dev_hash
-  !> ハッシュの登録値の更新
+  !> @brief ハッシュの登録値の更新
   subroutine monolis_hash_list_update(monolis_hash, key, hash, val)
     implicit none
     !> [in,out] ハッシュ構造体
@@ -324,7 +324,7 @@ contains
   end subroutine monolis_hash_list_update
 
   !> @ingroup dev_hash
-  !> BJD2 hash function
+  !> @brief BJD2 hash function
   subroutine monolis_hash_key(key, key_size, hash)
     implicit none
     !> [in] キー
@@ -343,7 +343,7 @@ contains
   end subroutine monolis_hash_key
 
   !> @ingroup dev_hash
-  !> ハッシュインデックス取得
+  !> @brief ハッシュインデックス取得
   subroutine monolis_index_key(hash, hash_size, index)
     implicit none
     !> [in] ハッシュ
