@@ -10,7 +10,6 @@
 #include "monolis_comm_table_c.h"
 #include "monolis_mpi_util_c.h"
 
-/** COM 構造体の初期化関数 */
 void monolis_com_input_comm_table(
   MONOLIS_COM* com,
   const char* top_dir_name,
@@ -47,7 +46,6 @@ void monolis_com_input_comm_table(
   monolis_input_internal_vertex_number(input_file_name, &com->n_internal_vertex);
 }
 
-/** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_parted_files(
   MONOLIS_COM* com,
   int          comm,
@@ -77,7 +75,6 @@ void monolis_com_initialize_by_parted_files(
     file_name);
 }
 
-/** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_global_id(
   MONOLIS_COM* com,
   int          comm,
@@ -107,7 +104,6 @@ void monolis_com_initialize_by_global_id(
     com);
 }
 
-/** COM 構造体の初期化関数 */
 void monolis_com_initialize_by_self(
   MONOLIS_COM* com)
 {
