@@ -450,7 +450,7 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 計算点の個数リスト
+    !> [in] send 計算点の個数リスト
     integer(kint), intent(in) :: send_n_list(:)
     !> [out] 隣接する領域数
     integer(kint), intent(out) :: n_neib_send
@@ -471,7 +471,7 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 計算点の個数リスト
+    !> [in] send 計算点の個数リスト
     integer(kint), intent(in):: send_n_list(:)
     !> [out] 隣接する領域番号
     integer(kint), intent(out) :: send_neib_pe(:)
@@ -496,7 +496,7 @@ contains
     implicit none
     !> [in] MPI コミュニケータ
     integer(kint), intent(in) :: comm
-    !> [out] send 計算点の個数リスト
+    !> [in] send 計算点の個数リスト
     integer(kint), intent(in) :: send_n_list(:)
     !> [in] 隣接する領域数
     integer(kint), intent(in) :: send_n_neib

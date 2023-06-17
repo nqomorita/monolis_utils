@@ -165,9 +165,9 @@ contains
     type(monolis_kdtree_structure_main), pointer, intent(inout) :: kdtree
     !> [in] 入力座標
     real(kdouble), intent(in) :: pos(3)
-    !> [out] 座標を含むバウンディングボックスの数
+    !> [in,out] 座標を含むバウンディングボックスの数
     integer(kint), intent(inout) :: n_BB
-    !> [out] 座標を含むバウンディングボックスの id（サイズ [n_BB]）
+    !> [in,out] 座標を含むバウンディングボックスの id（サイズ [n_BB]）
     integer(kint), intent(inout), allocatable :: BB_id(:)
     integer(kint) :: iadd(1)
     real(kdouble) :: ths = 1.0d-8

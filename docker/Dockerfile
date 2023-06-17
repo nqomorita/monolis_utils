@@ -7,6 +7,6 @@ RUN apt-get update \
  && apt-get -y install build-essential cmake gfortran git \
  && apt-get -y install libopenmpi-dev \
  && apt-get -y install libmetis-dev libptscotch-dev libmumps-dev \
- && apt-get -y install doxygen graphviz curl \
+ && apt-get -y install doxygen graphviz \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
