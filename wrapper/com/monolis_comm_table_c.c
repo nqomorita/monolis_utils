@@ -121,6 +121,13 @@ void monolis_get_bool_list_of_internal_simple_mesh(
   int id;
   int* domain_id;
 
+  if(monolis_mpi_get_local_comm_size(com->comm) == 1){
+    for (i = 0; i < n_elem; ++i) {
+      list[i] = true;
+    }
+    return;
+  }
+
   monolis_com_get_n_internal_vertex(com, &n_internal_vertex);
 
   my_rank = monolis_mpi_get_local_my_rank(com->comm);
@@ -159,6 +166,13 @@ void monolis_get_bool_list_of_internal_connetivity(
   int n_internal_vertex;
   int id;
   int* domain_id;
+
+  if(monolis_mpi_get_local_comm_size(com->comm) == 1){
+    for (i = 0; i < n_elem; ++i) {
+      list[i] = true;
+    }
+    return;
+  }
 
   monolis_com_get_n_internal_vertex(com, &n_internal_vertex);
 

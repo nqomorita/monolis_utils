@@ -71,6 +71,11 @@ contains
     integer(kint) :: i, in, j, id(n_base), n_internal_vertex, my_rank
     integer(kint), allocatable :: domain_id(:)
 
+    if(monolis_mpi_get_local_comm_size(monoCOM%comm) == 1)then
+      list = .true.
+      return
+    endif
+
     call monolis_com_get_n_internal_vertex(monoCOM, n_internal_vertex)
 
     my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
@@ -83,13 +88,13 @@ contains
 
     call monolis_mpi_update_I(monoCOM, 1, domain_id)
 
-    list = 0
+    list = .false.
     do i = 1, n_elem
       do j = 1, n_base
         id(j) = domain_id(elem(j,i))
       enddo
       in = minval(id)
-      if(in == my_rank) list(i) = 1
+      if(in == my_rank) list(i) = .true.
     enddo
   end subroutine monolis_get_bool_list_of_internal_simple_mesh
 
@@ -113,6 +118,11 @@ contains
     integer(kint), allocatable :: id(:)
     integer(kint), allocatable :: domain_id(:)
 
+    if(monolis_mpi_get_local_comm_size(monoCOM%comm) == 1)then
+      list = .true.
+      return
+    endif
+
     call monolis_com_get_n_internal_vertex(monoCOM, n_internal_vertex)
 
     my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
@@ -125,7 +135,7 @@ contains
 
     call monolis_mpi_update_I(monoCOM, 1, domain_id)
 
-    list = 0
+    list = .false.
     do i = 1, n_elem
       jS = index(i) + 1
       jE = index(i + 1)
@@ -138,7 +148,7 @@ contains
       in = minval(id)
       call monolis_dealloc_I_1d(id)
 
-      if(in == my_rank) list(i) = 1
+      if(in == my_rank) list(i) = .true.
     enddo
   end subroutine monolis_get_bool_list_of_internal_connetivity
 
