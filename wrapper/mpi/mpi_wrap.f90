@@ -93,7 +93,7 @@ contains
     call monolis_SendRecv_R(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
-       & X, n_dof, comm)
+       & X, X, n_dof, comm)
   end subroutine monolis_mpi_update_R_c
 
   !> @ingroup wrap_mpi
@@ -135,7 +135,7 @@ contains
     call monolis_SendRecv_I(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
-       & X, n_dof, comm)
+       & X, X, n_dof, comm)
   end subroutine monolis_mpi_update_I_c
 
   !> @ingroup wrap_mpi
@@ -177,6 +177,6 @@ contains
     call monolis_SendRecv_C(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
-       & X, n_dof, comm)
+       & X, X, n_dof, comm)
   end subroutine monolis_mpi_update_C_c
 end module mod_monolis_mpi_wrap

@@ -47,6 +47,7 @@ contains
     !> [in] com 構造体
     type(monolis_COM), intent(in) :: com
     integer(kint) :: my_rank, i, origin
+    real(kdouble) :: tcomm
     integer(kint), allocatable :: vtxdist(:)
 
     my_rank = monolis_mpi_get_local_my_rank(com%comm)
@@ -59,9 +60,7 @@ contains
       vertex_id(i) = origin + i
     enddo
 
-    call monolis_SendRecv_I(com%send_n_neib, com%send_neib_pe, com%recv_n_neib, com%recv_neib_pe, &
-    & com%send_index, com%send_item, com%recv_index, com%recv_item, &
-    & vertex_id, 1, com%comm)
+    call monolis_mpi_update_I(com, 1, vertex_id, tcomm)
   end subroutine monolis_generate_global_vertex_id
 
   !> @ingroup com
@@ -72,10 +71,9 @@ contains
     integer(kint), intent(inout) :: vertex_domain_id(:)
     !> [in] com 構造体
     type(monolis_COM), intent(in) :: com
+    real(kdouble) :: tcomm
 
-    call monolis_SendRecv_I(com%send_n_neib, com%send_neib_pe, com%recv_n_neib, com%recv_neib_pe, &
-    & com%send_index, com%send_item, com%recv_index, com%recv_item, &
-    & vertex_domain_id, 1, com%comm)
+    call monolis_mpi_update_I(com, 1, vertex_domain_id, tcomm)
   end subroutine monolis_update_vertex_domain_id
 
   !> @ingroup dev_com

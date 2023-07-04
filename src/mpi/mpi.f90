@@ -625,7 +625,7 @@ contains
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
   subroutine monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
-    & val, ndof, comm)
+    & val_in, val_out, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
     integer(kint), intent(in) :: send_n_neib
@@ -644,7 +644,9 @@ contains
     !> [in] recv の item 配列（受信する節点番号データ）
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
-    real(kdouble), intent(inout) :: val(:)
+    real(kdouble), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    real(kdouble), intent(inout) :: val_out(:)
     !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
@@ -670,7 +672,7 @@ contains
       if(in == 0) cycle
       do j = iS + 1, iS + in
         do k = 1, ndof
-          ws(ndof*(j - 1) + k) = val(ndof*(send_item(j) - 1) + k)
+          ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
       enddo
       call monolis_Isend_R(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
@@ -690,7 +692,7 @@ contains
       in = recv_index(i + 1) - iS
       do j = iS + 1, iS + in
         do k = 1, ndof
-          val(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
+          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
       enddo
     enddo
@@ -703,7 +705,7 @@ contains
   !> 通信テーブルを用いた send recv 関数（整数型）
   subroutine monolis_SendRecv_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
-    & val, ndof, comm)
+    & val_in, val_out, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
     integer(kint), intent(in) :: send_n_neib
@@ -722,7 +724,9 @@ contains
     !> [in] recv の item 配列（受信する節点番号データ）
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
-    integer(kint), intent(inout) :: val(:)
+    integer(kint), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    integer(kint), intent(inout) :: val_out(:)
     !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
@@ -748,7 +752,7 @@ contains
       if(in == 0) cycle
       do j = iS + 1, iS + in
         do k = 1, ndof
-          ws(ndof*(j - 1) + k) = val(ndof*(send_item(j) - 1) + k)
+          ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
       enddo
       call monolis_Isend_I(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
@@ -768,7 +772,7 @@ contains
       in = recv_index(i + 1) - iS
       do j = iS + 1, iS + in
         do k = 1, ndof
-          val(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
+          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
       enddo
     enddo
@@ -781,7 +785,7 @@ contains
   !> 通信テーブルを用いた send recv 関数（複素数型）
   subroutine monolis_SendRecv_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
-    & val, ndof, comm)
+    & val_in, val_out, ndof, comm)
     implicit none
     !> [in] send する隣接領域数
     integer(kint), intent(in) :: send_n_neib
@@ -800,7 +804,9 @@ contains
     !> [in] recv の item 配列（受信する節点番号データ）
     integer(kint), intent(in) :: recv_item (:)
     !> [in,out] 送信データ配列
-    complex(kdouble), intent(inout) :: val(:)
+    complex(kdouble), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    complex(kdouble), intent(inout) :: val_out(:)
     !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] MPI コミュニケータ
@@ -826,7 +832,7 @@ contains
       if(in == 0) cycle
       do j = iS + 1, iS + in
         do k = 1, ndof
-          ws(ndof*(j - 1) + k) = val(ndof*(send_item(j) - 1) + k)
+          ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
       enddo
       call monolis_Isend_C(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
@@ -846,7 +852,7 @@ contains
       in = recv_index(i + 1) - iS
       do j = iS + 1, iS + in
         do k = 1, ndof
-          val(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
+          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
       enddo
     enddo
@@ -876,7 +882,7 @@ contains
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, ndof, monoCOM%comm)
+       & X, X, ndof, monoCOM%comm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
@@ -905,7 +911,7 @@ contains
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, ndof, monoCOM%comm)
+       & X, X, ndof, monoCOM%comm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
@@ -934,7 +940,7 @@ contains
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, ndof, monoCOM%comm)
+       & X, X, ndof, monoCOM%comm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
