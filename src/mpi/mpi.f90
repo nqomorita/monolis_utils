@@ -670,11 +670,12 @@ contains
       iS = send_index(i)
       in = send_index(i + 1) - iS
       if(in == 0) cycle
-      do j = iS + 1, iS + in
+      l1:do j = iS + 1, iS + in
+        if(send_item(j) == -1) cycle l1
         do k = 1, ndof
           ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
-      enddo
+      enddo l1
       call monolis_Isend_R(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
     enddo
 
@@ -690,11 +691,12 @@ contains
     do i = 1, recv_n_neib
       iS = recv_index(i)
       in = recv_index(i + 1) - iS
-      do j = iS + 1, iS + in
+      l2:do j = iS + 1, iS + in
+        if(recv_item(j) == -1) cycle l2
         do k = 1, ndof
           val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
-      enddo
+      enddo l2
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
@@ -750,11 +752,12 @@ contains
       iS = send_index(i)
       in = send_index(i + 1) - iS
       if(in == 0) cycle
-      do j = iS + 1, iS + in
+      l1:do j = iS + 1, iS + in
+        if(send_item(j) == -1) cycle l1
         do k = 1, ndof
           ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
-      enddo
+      enddo l1
       call monolis_Isend_I(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
     enddo
 
@@ -770,11 +773,12 @@ contains
     do i = 1, recv_n_neib
       iS = recv_index(i)
       in = recv_index(i + 1) - iS
-      do j = iS + 1, iS + in
+      l2:do j = iS + 1, iS + in
+        if(recv_item(j) == -1) cycle l2
         do k = 1, ndof
           val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
-      enddo
+      enddo l2
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
@@ -830,11 +834,12 @@ contains
       iS = send_index(i)
       in = send_index(i + 1) - iS
       if(in == 0) cycle
-      do j = iS + 1, iS + in
+      l1:do j = iS + 1, iS + in
+        if(send_item(j) == -1) cycle l1
         do k = 1, ndof
           ws(ndof*(j - 1) + k) = val_in(ndof*(send_item(j) - 1) + k)
         enddo
-      enddo
+      enddo l1
       call monolis_Isend_C(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req1(i))
     enddo
 
@@ -850,11 +855,12 @@ contains
     do i = 1, recv_n_neib
       iS = recv_index(i)
       in = recv_index(i + 1) - iS
-      do j = iS + 1, iS + in
+      l2:do j = iS + 1, iS + in
+        if(recv_item(j) == -1) cycle l2
         do k = 1, ndof
           val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
         enddo
-      enddo
+      enddo l2
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
