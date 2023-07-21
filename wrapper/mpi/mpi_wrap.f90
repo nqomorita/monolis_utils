@@ -75,25 +75,31 @@ contains
     integer(c_int), intent(in), target :: recv_neib_pe(recv_n_neib)
     !> [in] recv の index 配列
     integer(c_int), intent(in), target :: recv_index(recv_n_neib + 1)
-    !> [in] recv の item 配列（受信する節点番号データ）
-    integer(c_int), intent(in), target :: recv_item(recv_nitem)
+    !> [in,out] recv の item 配列（受信する節点番号データ）
+    integer(c_int), intent(inout), target :: recv_item(recv_nitem)
     !> [in] send する隣接領域数
     integer(c_int), intent(in), value :: send_n_neib
     !> [in] send の item 数
     integer(c_int), intent(in), value :: send_nitem
-    !> [in] send する隣接領域 id
+    !> [in,] send する隣接領域 id
     integer(c_int), intent(in), target :: send_neib_pe(send_n_neib)
     !> [in] send の index 配列
     integer(c_int), intent(in), target :: send_index(send_n_neib + 1)
-    !> [in] send の item 配列（送信する節点番号データ）
-    integer(c_int), intent(in), target :: send_item(send_nitem)
+    !> [in,out] send の item 配列（送信する節点番号データ）
+    integer(c_int), intent(inout), target :: send_item(send_nitem)
     !> [in] 配列
     real(c_double), target :: X(n_dof*NP)
+
+    send_item = send_item + 1
+    recv_item = recv_item + 1
 
     call monolis_SendRecv_R(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
        & X, X, n_dof, comm)
+
+    send_item = send_item - 1
+    recv_item = recv_item - 1
   end subroutine monolis_mpi_update_R_c
 
   !> @ingroup wrap_mpi
@@ -117,8 +123,8 @@ contains
     integer(c_int), intent(in), target :: recv_neib_pe(recv_n_neib)
     !> [in] recv の index 配列
     integer(c_int), intent(in), target :: recv_index(recv_n_neib + 1)
-    !> [in] recv の item 配列（受信する節点番号データ）
-    integer(c_int), intent(in), target :: recv_item(recv_nitem)
+    !> [in,out] recv の item 配列（受信する節点番号データ）
+    integer(c_int), intent(inout), target :: recv_item(recv_nitem)
     !> [in] send する隣接領域数
     integer(c_int), intent(in), value :: send_n_neib
     !> [in] send の item 数
@@ -127,15 +133,21 @@ contains
     integer(c_int), intent(in), target :: send_neib_pe(send_n_neib)
     !> [in] send の index 配列
     integer(c_int), intent(in), target :: send_index(send_n_neib + 1)
-    !> [in] send の item 配列（送信する節点番号データ）
-    integer(c_int), intent(in), target :: send_item(send_nitem)
+    !> [in,out] send の item 配列（送信する節点番号データ）
+    integer(c_int), intent(inout), target :: send_item(send_nitem)
     !> [in] 配列
     integer(c_int), target :: X(n_dof*NP)
+
+    send_item = send_item + 1
+    recv_item = recv_item + 1
 
     call monolis_SendRecv_I(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
        & X, X, n_dof, comm)
+
+    send_item = send_item - 1
+    recv_item = recv_item - 1
   end subroutine monolis_mpi_update_I_c
 
   !> @ingroup wrap_mpi
@@ -159,8 +171,8 @@ contains
     integer(c_int), intent(in), target :: recv_neib_pe(recv_n_neib)
     !> [in] recv の index 配列
     integer(c_int), intent(in), target :: recv_index(recv_n_neib + 1)
-    !> [in] recv の item 配列（受信する節点番号データ）
-    integer(c_int), intent(in), target :: recv_item(recv_nitem)
+    !> [in,out] recv の item 配列（受信する節点番号データ）
+    integer(c_int), intent(inout), target :: recv_item(recv_nitem)
     !> [in] send する隣接領域数
     integer(c_int), intent(in), value :: send_n_neib
     !> [in] send の item 数
@@ -169,14 +181,20 @@ contains
     integer(c_int), intent(in), target :: send_neib_pe(send_n_neib)
     !> [in] send の index 配列
     integer(c_int), intent(in), target :: send_index(send_n_neib + 1)
-    !> [in] send の item 配列（送信する節点番号データ）
-    integer(c_int), intent(in), target :: send_item(send_nitem)
+    !> [in,out] send の item 配列（送信する節点番号データ）
+    integer(c_int), intent(inout), target :: send_item(send_nitem)
     !> [in] 配列
     complex(c_double), target :: X(n_dof*NP)
+
+    send_item = send_item + 1
+    recv_item = recv_item + 1
 
     call monolis_SendRecv_C(send_n_neib, send_neib_pe, &
        & recv_n_neib, recv_neib_pe, &
        & send_index, send_item, recv_index, recv_item, &
        & X, X, n_dof, comm)
+
+    send_item = send_item - 1
+    recv_item = recv_item - 1
   end subroutine monolis_mpi_update_C_c
 end module mod_monolis_mpi_wrap

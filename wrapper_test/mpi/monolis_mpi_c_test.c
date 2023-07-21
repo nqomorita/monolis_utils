@@ -131,12 +131,12 @@ void monolis_mpi_update_test()
   monoCOM.recv_index[1] = 2;
 
   monoCOM.send_item = monolis_alloc_I_1d(monoCOM.send_item, 2);
-  monoCOM.send_item[0] = 1;
-  monoCOM.send_item[1] = 2;
+  monoCOM.send_item[0] = 0;
+  monoCOM.send_item[1] = 1;
 
   monoCOM.recv_item = monolis_alloc_I_1d(monoCOM.recv_item, 2);
-  monoCOM.recv_item[0] = 3;
-  monoCOM.recv_item[1] = 4;
+  monoCOM.recv_item[0] = 2;
+  monoCOM.recv_item[1] = 3;
 
   monoCOM.send_neib_pe = monolis_alloc_I_1d(monoCOM.send_neib_pe, 1);
   monoCOM.recv_neib_pe = monolis_alloc_I_1d(monoCOM.recv_neib_pe, 1);

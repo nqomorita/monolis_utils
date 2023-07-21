@@ -183,6 +183,8 @@ contains
 
     call monolis_comm_get_recv_parallel_item(n_vertex, vertex_id, comm, &
       & outer_node_id_all, outer_domain_id_all, displs, recv_n_neib, neib_id, index, item)
+
+    item = item - 1
   end subroutine monolis_comm_get_recv_parallel_item_c
 
   !> @ingroup dev_com
@@ -295,9 +297,14 @@ contains
     !> [in] 隣接する領域数
     integer(c_int) :: send_item(send_nz)
 
+    recv_item = recv_item + 1
+
     call monolis_comm_get_send_parallel_item(comm, n_vertex, vertex_id, &
       & recv_n_neib, recv_neib_pe, recv_index, recv_item, &
       & send_n_neib, send_neib_pe, send_index, send_item)
+
+    recv_item = recv_item - 1
+    send_item = send_item - 1
   end subroutine monolis_comm_get_send_parallel_item_c
 
 end module mod_monolis_comm_par_util_wrap
