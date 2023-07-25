@@ -21,7 +21,7 @@ const char* monolis_get_global_input_file_name(
   if(comm_size > 1){
     snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
-    snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s", top_dir_name, file_name);
   }
 
   return filename;
@@ -45,7 +45,7 @@ const char* monolis_get_local_input_file_name(
   if(comm_size > 1){
     snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
-    snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s", top_dir_name, file_name);
   }
 
   return filename;
@@ -68,7 +68,7 @@ const char* monolis_get_global_output_file_name(
   if(comm_size > 1){
     snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
-    snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s", top_dir_name, file_name);
   }
 
   return filename;
@@ -92,7 +92,7 @@ const char* monolis_get_local_output_file_name(
   if(comm_size > 1){
     snprintf(filename, MONOLIS_CHARLEN, "%s/%s/%s.%d", top_dir_name, part_dir_name, file_name, my_rank);
   } else {
-    snprintf(filename, MONOLIS_CHARLEN, "%s", file_name);
+    snprintf(filename, MONOLIS_CHARLEN, "%s/%s", top_dir_name, file_name);
   }
 
   return filename;

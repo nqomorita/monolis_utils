@@ -29,7 +29,7 @@ void monolis_io_file_name_c_test()
   out1 = monolis_get_global_input_file_name(top_name, dir_name, file_name);
 
   if(comm_size == 1){
-    if(strcmp(out1, "input.text") == 0){
+    if(strcmp(out1, "./input.text") == 0){
       monolis_test_assert_pass("monolis_io_file_name_c_test 1_c");
     } else {
       monolis_test_assert_fail("monolis_io_file_name_c_test 1_c", "");
@@ -55,7 +55,7 @@ void monolis_io_file_name_c_test()
   out2 = monolis_get_local_input_file_name(top_name, dir_name, file_name, comm);
 
   if(comm_size == 1){
-    if(strcmp(out2, "input.text") == 0){
+    if(strcmp(out2, "./input.text") == 0){
       monolis_test_assert_pass("monolis_io_file_name_c_test 2_c");
     } else {
       monolis_test_assert_fail("monolis_io_file_name_c_test 2_c", "");
@@ -81,7 +81,7 @@ void monolis_io_file_name_c_test()
   out3 = monolis_get_global_output_file_name(top_name, dir_name, file_name);
 
   if(comm_size == 1){
-    if(strcmp(out3, "input.text") == 0){
+    if(strcmp(out3, "./input.text") == 0){
       monolis_test_assert_pass("monolis_io_file_name_c_test 3");
     } else {
       monolis_test_assert_fail("monolis_io_file_name_c_test 3", "");
@@ -107,7 +107,7 @@ void monolis_io_file_name_c_test()
   out4 = monolis_get_local_output_file_name(top_name, dir_name, file_name, comm);
 
   if(comm_size == 1){
-    if(strcmp(out4, "input.text") == 0){
+    if(strcmp(out4, "./input.text") == 0){
       monolis_test_assert_pass("monolis_io_file_name_c_test 4");
     } else {
       monolis_test_assert_fail("monolis_io_file_name_c_test 4", "");

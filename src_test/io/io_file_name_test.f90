@@ -30,7 +30,7 @@ contains
     string = monolis_get_global_input_file_name(topname, dirname, fname)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
-      if(trim(string) /= "input.txt")then
+      if(trim(string) /= "./input.txt")then
         call monolis_test_assert_fail("monolis_get_global_input_file_name_test", "")
       endif
     else
@@ -64,7 +64,7 @@ contains
     string = monolis_get_local_input_file_name(topname, dirname, fname, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
-      if(trim(string) /= "input.txt")then
+      if(trim(string) /= "./input.txt")then
         call monolis_test_assert_fail("monolis_get_local_input_file_name_test", "")
       endif
     else
@@ -97,7 +97,7 @@ contains
     string = monolis_get_global_output_file_name(topname, dirname, fname)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
-      if(trim(string) /= "input.txt")then
+      if(trim(string) /= "./input.txt")then
         call monolis_test_assert_fail("monolis_get_global_output_file_name_test", "")
       endif
     else
@@ -131,7 +131,7 @@ contains
     string = monolis_get_local_output_file_name(topname, dirname, fname, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
-      if(trim(string) /= "input.txt")then
+      if(trim(string) /= "./input.txt")then
         call monolis_test_assert_fail("monolis_get_local_output_file_name_test", "")
       endif
     else

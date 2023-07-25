@@ -31,7 +31,7 @@ contains
       monolis_get_global_input_file_name = trim(top_dir_name)//"/"//trim(part_dir_name)//"/" &
         & //trim(file_name)//"."//trim(cid)
     else
-      monolis_get_global_input_file_name = trim(file_name)
+      monolis_get_global_input_file_name = trim(top_dir_name)//"/"//trim(file_name)
     endif
   end function monolis_get_global_input_file_name
 
@@ -61,7 +61,7 @@ contains
       monolis_get_local_input_file_name = trim(top_dir_name)//"/"//trim(part_dir_name)//"/" &
         & //trim(file_name)//"."//trim(cid)
     else
-      monolis_get_local_input_file_name = trim(file_name)
+      monolis_get_local_input_file_name = trim(top_dir_name)//"/"//trim(file_name)
     endif
   end function monolis_get_local_input_file_name
 
@@ -89,7 +89,7 @@ contains
       monolis_get_global_output_file_name = trim(top_dir_name)//"/"//trim(part_dir_name)//"/" &
         & //trim(file_name)//"."//trim(cid)
     else
-      monolis_get_global_output_file_name = trim(file_name)
+      monolis_get_global_output_file_name = trim(top_dir_name)//"/"//trim(file_name)
     endif
   end function monolis_get_global_output_file_name
 
@@ -119,7 +119,7 @@ contains
       monolis_get_local_output_file_name = trim(top_dir_name)//"/"//trim(part_dir_name)//"/" &
         & //trim(file_name)//"."//trim(cid)
     else
-      monolis_get_local_output_file_name = trim(file_name)
+      monolis_get_local_output_file_name = trim(top_dir_name)//"/"//trim(file_name)
     endif
   end function monolis_get_local_output_file_name
 
