@@ -10,14 +10,14 @@ contains
   !> 行列からベクトル配列に変換（実数型）
   subroutine monolis_mat_to_vec_R(N, M, MAT, X)
     implicit none
-    !> 行数
-    integer(kint) :: N
-    !> 列数
-    integer(kint) :: M
-    !> 行列
-    real(kdouble) :: MAT(N,M)
-    !> ベクトル
-    real(kdouble) :: X(N*M)
+    !> [in] 行数
+    integer(kint), intent(in) :: N
+    !> [in] 列数
+    integer(kint), intent(in) :: M
+    !> [in] 行列
+    real(kdouble), intent(in) :: MAT(N,M)
+    !> [out] ベクトル
+    real(kdouble), intent(out) :: X(N*M)
     integer(kint) :: i, j
 
     do i = 1, M
@@ -31,14 +31,14 @@ contains
   !> ベクトル配列から行列に変換（実数型）
   subroutine monolis_vec_to_mat_R(N, M, X, MAT)
     implicit none
-    !> 行数
-    integer(kint) :: N
-    !> 列数
-    integer(kint) :: M
-    !> ベクトル
-    real(kdouble) :: X(N*M)
-    !> 行列
-    real(kdouble) :: MAT(N,M)
+    !> [in] 行数
+    integer(kint), intent(in) :: N
+    !> [in] 列数
+    integer(kint), intent(in) :: M
+    !> [in] ベクトル
+    real(kdouble), intent(in) :: X(N*M)
+    !> [out] 行列
+    real(kdouble), intent(out) :: MAT(N,M)
     integer(kint) :: i, j
 
     do i = 1, M
