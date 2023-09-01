@@ -16,6 +16,7 @@ contains
     call monolis_allgather_test()
     call monolis_allgather_1_test()
     call monolis_alltoall_1_test()
+    call monolis_alltoallv_test()
     call monolis_send_recv_test()
     call monolis_update_test()
 
@@ -640,6 +641,74 @@ contains
 
     call monolis_test_check_eq_I("monolis_alltoall_I1  1", sbuf, i_ans)
   end subroutine monolis_alltoall_1_test
+
+  subroutine monolis_alltoallv_test()
+    implicit none
+    integer(kint) :: comm, comm_size
+    integer(kint) :: scounts(2), sdispls(2), rcounts(2), rdispls(2)
+    integer(kint) :: sbuf_i(3), rbuf_i(4)
+    real(kdouble) :: sbuf_r(3), rbuf_r(4)
+
+    call monolis_std_global_log_string("monolis_alltoallv_I")
+    call monolis_std_global_log_string("monolis_alltoallv_R")
+
+    if(monolis_mpi_get_global_comm_size() == 1) return
+
+    comm = monolis_mpi_get_global_comm()
+    comm_size = monolis_mpi_get_global_comm_size()
+
+    scounts(1) = 1
+    scounts(2) = 2
+
+    sdispls(1) = 0
+    sdispls(2) = 1
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      rcounts(1) = 1
+      rcounts(2) = 1
+
+      rdispls(1) = 0
+      rdispls(2) = 1
+    else
+      rcounts(1) = 2
+      rcounts(2) = 2
+
+      rdispls(1) = 0
+      rdispls(2) = 2
+    endif
+
+    sbuf_i(1) = 10*monolis_mpi_get_global_my_rank() + 1
+    sbuf_i(2) = 10*monolis_mpi_get_global_my_rank() + 2
+    sbuf_i(3) = 10*monolis_mpi_get_global_my_rank() + 3
+
+     call monolis_alltoallv_I(sbuf_i, scounts, sdispls, rbuf_i, rcounts, rdispls, comm)
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 1a", rbuf_i(1), 1)
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 2a", rbuf_i(2), 11)
+    else
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 1b", rbuf_i(1), 2)
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 2b", rbuf_i(2), 3)
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 3b", rbuf_i(3), 12)
+      call monolis_test_check_eq_I1("monolis_alltoallv_I 4b", rbuf_i(4), 13)
+    endif
+
+    sbuf_r(1) = 10.0d0*monolis_mpi_get_global_my_rank() + 1.0d0
+    sbuf_r(2) = 10.0d0*monolis_mpi_get_global_my_rank() + 2.0d0
+    sbuf_r(3) = 10.0d0*monolis_mpi_get_global_my_rank() + 3.0d0
+
+    call monolis_alltoallv_R(sbuf_r, scounts, sdispls, rbuf_r, rcounts, rdispls, comm)
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 1a", rbuf_r(1), 1.0d0)
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 2a", rbuf_r(2), 11.0d0)
+    else
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 1b", rbuf_r(1), 2.0d0)
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 2b", rbuf_r(2), 3.0d0)
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 3b", rbuf_r(3), 12.0d0)
+      call monolis_test_check_eq_R1("monolis_alltoallv_R 4b", rbuf_r(4), 13.0d0)
+    endif
+  end subroutine monolis_alltoallv_test
 
   subroutine monolis_send_recv_test()
     implicit none

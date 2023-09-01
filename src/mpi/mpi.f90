@@ -622,6 +622,58 @@ contains
   end subroutine monolis_alltoall_I1
 
   !> @ingroup mpi
+  !> alltoallv 関数（整数型）
+  subroutine monolis_alltoallv_I(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
+    implicit none
+    !> [in] 送信データ配列
+    integer(kint), intent(in) :: sbuf(:)
+    !> [in] 各領域ごとの送信データの個数
+    integer(kint), intent(in) :: scounts(:)
+    !> [in] 各領域へ送信するデータ配列の開始位置
+    integer(kint), intent(in) :: sdispls(:)
+    !> [in] 受信データ配列
+    integer(kint), intent(out) :: rbuf(:)
+    !> [in] 各領域ごとの受信データの個数
+    integer(kint), intent(in) :: rcounts(:)
+    !> [in] 各領域から受信するデータ配列の開始位置
+    integer(kint), intent(in) :: rdispls(:)
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: ierr
+
+#ifndef NO_MPI
+    call mpi_alltoallv(sbuf, scounts, sdispls, MPI_INTEGER, &
+                     & rbuf, rcounts, rdispls, MPI_INTEGER, comm, ierr)
+#endif
+  end subroutine monolis_alltoallv_I
+
+  !> @ingroup mpi
+  !> alltoallv 関数（実数型）
+  subroutine monolis_alltoallv_R(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
+    implicit none
+    !> [in] 送信データ配列
+    real(kdouble), intent(in) :: sbuf(:)
+    !> [in] 各領域ごとの送信データの個数
+    integer(kint), intent(in) :: scounts(:)
+    !> [in] 各領域へ送信するデータ配列の開始位置
+    integer(kint), intent(in) :: sdispls(:)
+    !> [in] 受信データ配列
+    real(kdouble), intent(out) :: rbuf(:)
+    !> [in] 各領域ごとの受信データの個数
+    integer(kint), intent(in) :: rcounts(:)
+    !> [in] 各領域から受信するデータ配列の開始位置
+    integer(kint), intent(in) :: rdispls(:)
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: ierr
+
+#ifndef NO_MPI
+    call mpi_alltoallv(sbuf, scounts, sdispls, MPI_REAL8, &
+                     & rbuf, rcounts, rdispls, MPI_REAL8, comm, ierr)
+#endif
+  end subroutine monolis_alltoallv_R
+
+  !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
   subroutine monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
