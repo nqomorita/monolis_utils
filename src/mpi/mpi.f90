@@ -756,6 +756,87 @@ contains
   end subroutine monolis_SendRecv_R
 
   !> @ingroup mpi
+  !> 通信テーブルを用いた send recv reverse 関数（浮動小数点型）
+  subroutine monolis_SendRecv_reverse_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    & send_index, send_item, recv_index, recv_item, &
+    & val_in, val_out, ndof, comm)
+    implicit none
+    !> [in] send する隣接領域数
+    integer(kint), intent(in) :: send_n_neib
+    !> [in] send する隣接領域 id
+    integer(kint), intent(in) :: send_neib_pe(:)
+    !> [in] recv する隣接領域数
+    integer(kint), intent(in) :: recv_n_neib
+    !> [in] recv する隣接領域 id
+    integer(kint), intent(in) :: recv_neib_pe(:)
+    !> [in] send の index 配列
+    integer(kint), intent(in) :: send_index(:)
+    !> [in] send の item 配列（送信する節点番号データ）
+    integer(kint), intent(in) :: send_item (:)
+    !> [in] recv の index 配列
+    integer(kint), intent(in) :: recv_index(:)
+    !> [in] recv の item 配列（受信する節点番号データ）
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    real(kdouble), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    real(kdouble), intent(inout) :: val_out(:)
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: i, iS, in, j, k, ierr, ns, nr
+    integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
+    integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
+    integer(kint) :: req1(send_n_neib)
+    integer(kint) :: req2(recv_n_neib)
+    real(kdouble), allocatable :: ws(:)
+    real(kdouble), allocatable :: wr(:)
+
+#ifndef NO_MPI
+    ns = send_index(send_n_neib + 1)
+    nr = recv_index(recv_n_neib + 1)
+
+    call monolis_alloc_R_1d(ws, ndof*ns)
+    call monolis_alloc_R_1d(wr, ndof*nr)
+
+    do i = 1, recv_n_neib
+      iS = recv_index(i)
+      in = recv_index(i + 1) - iS
+      if(in == 0) cycle
+      l1:do j = iS + 1, iS + in
+        if(recv_item(j) == -1) cycle l1
+        do k = 1, ndof
+          wr(ndof*(j - 1) + k) = val_in(ndof*(recv_item(j) - 1) + k)
+        enddo
+      enddo l1
+      call monolis_Isend_R(ndof*in, wr(ndof*iS + 1:ndof*iS + ndof*in), recv_neib_pe(i), comm, req1(i))
+    enddo
+
+    do i = 1, send_n_neib
+      iS = send_index(i)
+      in = send_index(i + 1) - iS
+      if(in == 0) cycle
+      call monolis_Irecv_R(ndof*in, ws(ndof*iS + 1:ndof*iS + ndof*in), send_neib_pe(i), comm, req2(i))
+    enddo
+
+    call MPI_waitall(recv_n_neib, req2, sta2, ierr)
+
+    do i = 1, send_n_neib
+      iS = send_index(i)
+      in = send_index(i + 1) - iS
+      l2:do j = iS + 1, iS + in
+        do k = 1, ndof
+          val_out(ndof*(send_item(j) - 1) + k) = val_out(ndof*(send_item(j) - 1) + k) + wr(ndof*(j - 1) + k)
+        enddo
+      enddo l2
+    enddo
+
+    call MPI_waitall(recv_n_neib, req1, sta1, ierr)
+#endif
+  end subroutine monolis_SendRecv_reverse_R
+
+  !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（整数型）
   subroutine monolis_SendRecv_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
@@ -947,6 +1028,36 @@ contains
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_R
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（実数型）
+  subroutine monolis_mpi_update_reverse_R(monoCOM, ndof, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof
+    !> [in,out] 入出力ベクトル
+    real(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+    if(monoCOM%commsize == 1) return
+
+    t1 = monolis_get_time()
+    call monolis_SendRecv_reverse_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, ndof, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_update_reverse_R
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
