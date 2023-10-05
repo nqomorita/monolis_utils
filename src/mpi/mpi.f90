@@ -1044,7 +1044,7 @@ contains
     real(kdouble) :: t1, t2
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
-    if(monoCOM%commsize == 1) return
+    if(monoCOM%comm_size == 1) return
 
     t1 = monolis_get_time()
     call monolis_SendRecv_reverse_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
