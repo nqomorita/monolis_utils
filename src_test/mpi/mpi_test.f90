@@ -874,11 +874,14 @@ contains
     call monolis_std_global_log_string("monolis_mpi_update_I")
     call monolis_std_global_log_string("monolis_mpi_update_R")
     call monolis_std_global_log_string("monolis_mpi_update_C")
+    call monolis_std_global_log_string("monolis_mpi_update_reverse_R")
+    call monolis_std_global_log_string("monolis_SendRecv_reverse_R")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
     ndof = 2
     monoCOM%comm = monolis_mpi_get_global_comm()
+    monoCOM%comm_size = monolis_mpi_get_global_comm_size()
     monoCOM%send_n_neib = 1
     monoCOM%recv_n_neib = 1
 
@@ -909,6 +912,7 @@ contains
     endif
 
     !> case 1
+    i = 0
     if(monolis_mpi_get_global_my_rank() == 0)then
       i(1) = 1
       i(2) = 2
@@ -946,6 +950,7 @@ contains
     call monolis_test_check_eq_I("monolis_mpi_update_I  1", i, i_ans)
 
     !> case 2
+    r = 0.0d0
     if(monolis_mpi_get_global_my_rank() == 0)then
       r(1) = 1.0d0
       r(2) = 2.0d0
@@ -983,6 +988,7 @@ contains
     call monolis_test_check_eq_R("monolis_mpi_update_R  1", r, r_ans)
 
     !> case 3
+    c = 0.0d0
     if(monolis_mpi_get_global_my_rank() == 0)then
       c(1) = (1.0d0, 1.0d0)
       c(2) = (2.0d0, 2.0d0)
@@ -1018,5 +1024,43 @@ contains
     endif
 
     call monolis_test_check_eq_C("monolis_mpi_update_C  1", c, c_ans)
+
+    !> case 4
+    r = 0.0d0
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      r(5) = 5.0d0
+      r(6) = 6.0d0
+      r(7) = 7.0d0
+      r(8) = 8.0d0
+    else
+      r(5) = 1.0d0
+      r(6) = 2.0d0
+      r(7) = 3.0d0
+      r(8) = 4.0d0
+    endif
+
+    call monolis_mpi_update_reverse_R(monoCOM, ndof, r)
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      r_ans(1) = 1.0d0
+      r_ans(2) = 2.0d0
+      r_ans(3) = 3.0d0
+      r_ans(4) = 4.0d0
+      r_ans(5) = 5.0d0
+      r_ans(6) = 6.0d0
+      r_ans(7) = 7.0d0
+      r_ans(8) = 8.0d0
+    else
+      r_ans(1) = 5.0d0
+      r_ans(2) = 6.0d0
+      r_ans(3) = 7.0d0
+      r_ans(4) = 8.0d0
+      r_ans(5) = 1.0d0
+      r_ans(6) = 2.0d0
+      r_ans(7) = 3.0d0
+      r_ans(8) = 4.0d0
+    endif
+
+    call monolis_test_check_eq_R("monolis_mpi_update_reverse_R  1", r, r_ans)
   end subroutine monolis_update_test
 end module mod_monolis_mpi_test

@@ -827,7 +827,7 @@ contains
       in = send_index(i + 1) - iS
       l2:do j = iS + 1, iS + in
         do k = 1, ndof
-          val_out(ndof*(send_item(j) - 1) + k) = val_out(ndof*(send_item(j) - 1) + k) + wr(ndof*(j - 1) + k)
+          val_out(ndof*(send_item(j) - 1) + k) = val_out(ndof*(send_item(j) - 1) + k) + ws(ndof*(j - 1) + k)
         enddo
       enddo l2
     enddo
