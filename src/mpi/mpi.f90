@@ -822,6 +822,8 @@ contains
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
 
+    val_out = 0.0d0
+
     do i = 1, send_n_neib
       iS = send_index(i)
       in = send_index(i + 1) - iS
@@ -832,7 +834,7 @@ contains
       enddo l2
     enddo
 
-    call MPI_waitall(recv_n_neib, req1, sta1, ierr)
+    call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
   end subroutine monolis_SendRecv_reverse_R
 
