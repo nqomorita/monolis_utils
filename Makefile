@@ -156,8 +156,8 @@ $(addprefix define/, $(SRC_DEFINE1)) \
 $(addprefix mpi/, $(SRC_MPI1)) \
 $(addprefix sys/, $(SRC_SYS)) \
 $(addprefix define/, $(SRC_DEFINE2)) \
-$(addprefix mpi/, $(SRC_MPI2)) \
 $(addprefix std/, $(SRC_STD)) \
+$(addprefix mpi/, $(SRC_MPI2)) \
 $(addprefix kdtree/, $(SRC_KDTREE)) \
 $(addprefix hash/, $(SRC_HASH)) \
 $(addprefix com/, $(SRC_COM)) \

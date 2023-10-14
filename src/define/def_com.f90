@@ -220,6 +220,50 @@ contains
     n_internal_vertex = COM%n_internal_vertex
   end subroutine monolis_com_get_n_internal_vertex
 
+  !> @ingroup com
+  !> @brief COM 構造体から分割領域における送信領域数を取得
+  subroutine monolis_com_get_n_send_neib(COM, n_send_neib)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM), intent(in) :: COM
+    !> [out] 通信データにおける送信領域数
+    integer(kint), intent(out) :: n_send_neib
+    n_send_neib = COM%send_n_neib
+  end subroutine monolis_com_get_n_send_neib
+
+  !> @ingroup com
+  !> @brief COM 構造体から分割領域における送信領域 id を取得
+  subroutine monolis_com_get_send_neib_id(COM, send_neib_id)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM), intent(in) :: COM
+    !> [out] 通信データにおける送信領域 id（0 オリジン）
+    integer(kint), intent(out) :: send_neib_id(:)
+    send_neib_id = COM%recv_neib_pe
+  end subroutine monolis_com_get_send_neib_id
+
+  !> @ingroup com
+  !> @brief COM 構造体から分割領域における受信領域数を取得
+  subroutine monolis_com_get_n_recv_neib(COM, n_recv_neib)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM), intent(in) :: COM
+    !> [out] 通信データにおける送信領域数
+    integer(kint), intent(out) :: n_recv_neib
+    n_recv_neib = COM%recv_n_neib
+  end subroutine monolis_com_get_n_recv_neib
+
+  !> @ingroup com
+  !> @brief COM 構造体から分割領域における受信領域 id を取得
+  subroutine monolis_com_get_recv_neib_id(COM, recv_neib_id)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_COM), intent(in) :: COM
+    !> [out] 通信データにおける送信領域 id（0 オリジン）
+    integer(kint), intent(out) :: recv_neib_id(:)
+    recv_neib_id = COM%recv_neib_pe
+  end subroutine monolis_com_get_recv_neib_id
+
   !> @ingroup dev_com
   !> @brief COM 構造体のデバッグ用データ書き出し
   subroutine monolis_com_debug_write(COM)
