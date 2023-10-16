@@ -19,6 +19,7 @@ contains
     call monolis_alltoallv_test()
     call monolis_send_recv_test()
     call monolis_update_test()
+    call monolis_mpi_get_neib_vector_test()
 
     call monolis_std_global_log_string("monolis_mpi_initialize")
     call monolis_std_global_log_string("monolis_mpi_finalize")
@@ -1046,21 +1047,118 @@ contains
       r_ans(2) = 2.0d0
       r_ans(3) = 3.0d0
       r_ans(4) = 4.0d0
-      r_ans(5) = 5.0d0
-      r_ans(6) = 6.0d0
-      r_ans(7) = 7.0d0
-      r_ans(8) = 8.0d0
+      r_ans(5) = 0.0d0
+      r_ans(6) = 0.0d0
+      r_ans(7) = 0.0d0
+      r_ans(8) = 0.0d0
     else
       r_ans(1) = 5.0d0
       r_ans(2) = 6.0d0
       r_ans(3) = 7.0d0
       r_ans(4) = 8.0d0
-      r_ans(5) = 1.0d0
-      r_ans(6) = 2.0d0
-      r_ans(7) = 3.0d0
-      r_ans(8) = 4.0d0
+      r_ans(5) = 0.0d0
+      r_ans(6) = 0.0d0
+      r_ans(7) = 0.0d0
+      r_ans(8) = 0.0d0
     endif
 
     call monolis_test_check_eq_R("monolis_mpi_update_reverse_R  1", r, r_ans)
   end subroutine monolis_update_test
+
+  subroutine monolis_mpi_get_neib_vector_test()
+    implicit none
+    type(monolis_com) :: monoCOM
+    integer(kint) :: ndof, n_vec
+    real(kdouble) :: my_vec1(8,1), my_vec2(8,2), neib_vec(8,3), r_ans(8,3)
+
+    call monolis_std_global_log_string("monolis_mpi_get_neib_vector_R")
+
+    if(monolis_mpi_get_global_comm_size() == 1) return
+
+    ndof = 2
+    monoCOM%comm = monolis_mpi_get_global_comm()
+    monoCOM%comm_size = monolis_mpi_get_global_comm_size()
+    monoCOM%n_internal_vertex = 2
+    monoCOM%send_n_neib = 1
+    monoCOM%recv_n_neib = 1
+
+    call monolis_palloc_I_1d(monoCOM%send_index, 2)
+    monoCOM%send_index(1) = 0
+    monoCOM%send_index(2) = 2
+
+    call monolis_palloc_I_1d(monoCOM%recv_index, 2)
+    monoCOM%recv_index(1) = 0
+    monoCOM%recv_index(2) = 2
+
+    call monolis_palloc_I_1d(monoCOM%send_item, 2)
+    monoCOM%send_item(1) = 1
+    monoCOM%send_item(2) = 2
+
+    call monolis_palloc_I_1d(monoCOM%recv_item, 2)
+    monoCOM%recv_item(1) = 3
+    monoCOM%recv_item(2) = 4
+
+    call monolis_palloc_I_1d(monoCOM%send_neib_pe, 1)
+    call monolis_palloc_I_1d(monoCOM%recv_neib_pe, 1)
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      monoCOM%send_neib_pe(1) = 1
+      monoCOM%recv_neib_pe(1) = 1
+    else
+      monoCOM%send_neib_pe(1) = 0
+      monoCOM%recv_neib_pe(1) = 0
+    endif
+
+    my_vec1 = 0.0d0
+    my_vec2 = 0.0d0
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      n_vec = 1
+      my_vec1(1,1) = 1.0d0
+      my_vec1(2,1) = 2.0d0
+      my_vec1(3,1) = 3.0d0
+      my_vec1(4,1) = 4.0d0
+    else
+      n_vec = 2
+      my_vec2(1,1) = 5.0d0
+      my_vec2(2,1) = 6.0d0
+      my_vec2(3,1) = 7.0d0
+      my_vec2(4,1) = 8.0d0
+      my_vec2(1,2) =15.0d0
+      my_vec2(2,2) =16.0d0
+      my_vec2(3,2) =17.0d0
+      my_vec2(4,2) =18.0d0
+    endif
+
+    if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_mpi_get_neib_vector_R(monoCOM, n_vec, ndof, my_vec1, neib_vec)
+
+      r_ans(1,1) = 1.0d0; r_ans(1,2) = 0.0d0; r_ans(1,3) = 0.0d0
+      r_ans(2,1) = 2.0d0; r_ans(2,2) = 0.0d0; r_ans(2,3) = 0.0d0
+      r_ans(3,1) = 3.0d0; r_ans(3,2) = 0.0d0; r_ans(3,3) = 0.0d0
+      r_ans(4,1) = 4.0d0; r_ans(4,2) = 0.0d0; r_ans(4,3) = 0.0d0
+      r_ans(5,1) = 0.0d0; r_ans(5,2) = 5.0d0; r_ans(5,3) =15.0d0
+      r_ans(6,1) = 0.0d0; r_ans(6,2) = 6.0d0; r_ans(6,3) =16.0d0
+      r_ans(7,1) = 0.0d0; r_ans(7,2) = 7.0d0; r_ans(7,3) =17.0d0
+      r_ans(8,1) = 0.0d0; r_ans(8,2) = 8.0d0; r_ans(8,3) =18.0d0
+
+      call monolis_test_check_eq_R("monolis_mpi_update_R 1", neib_vec(:,1), r_ans(:,1))
+      call monolis_test_check_eq_R("monolis_mpi_update_R 2", neib_vec(:,2), r_ans(:,2))
+      call monolis_test_check_eq_R("monolis_mpi_update_R 3", neib_vec(:,3), r_ans(:,3))
+    else
+      call monolis_mpi_get_neib_vector_R(monoCOM, n_vec, ndof, my_vec2, neib_vec)
+
+      r_ans(1,1) = 5.0d0; r_ans(1,2) =15.0d0; r_ans(1,3) = 0.0d0
+      r_ans(2,1) = 6.0d0; r_ans(2,2) =16.0d0; r_ans(2,3) = 0.0d0
+      r_ans(3,1) = 7.0d0; r_ans(3,2) =17.0d0; r_ans(3,3) = 0.0d0
+      r_ans(4,1) = 8.0d0; r_ans(4,2) =18.0d0; r_ans(4,3) = 0.0d0
+      r_ans(5,1) = 0.0d0; r_ans(5,2) = 0.0d0; r_ans(5,3) = 1.0d0
+      r_ans(6,1) = 0.0d0; r_ans(6,2) = 0.0d0; r_ans(6,3) = 2.0d0
+      r_ans(7,1) = 0.0d0; r_ans(7,2) = 0.0d0; r_ans(7,3) = 3.0d0
+      r_ans(8,1) = 0.0d0; r_ans(8,2) = 0.0d0; r_ans(8,3) = 4.0d0
+
+      call monolis_test_check_eq_R("monolis_mpi_update_R 1", neib_vec(:,1), r_ans(:,1))
+      call monolis_test_check_eq_R("monolis_mpi_update_R 2", neib_vec(:,2), r_ans(:,2))
+      call monolis_test_check_eq_R("monolis_mpi_update_R 3", neib_vec(:,3), r_ans(:,3))
+    endif
+  end subroutine monolis_mpi_get_neib_vector_test
+
 end module mod_monolis_mpi_test

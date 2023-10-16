@@ -1134,9 +1134,9 @@ contains
     !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
     !> [in] 自領域のベクトル
-    integer(kint), intent(in) :: my_vec(:,:)
+    real(kdouble), intent(in) :: my_vec(:,:)
     !> [out] 自領域を含む隣接領域のベクトル
-    integer(kint), intent(out) :: neib_vec(:,:)
+    real(kdouble), intent(out) :: neib_vec(:,:)
     !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     integer(kint) :: i, j, k, in, jn, kS, kE, kn, m
@@ -1155,35 +1155,42 @@ contains
     my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
     comm_size = monolis_mpi_get_local_comm_size(monoCOM%comm)
     call monolis_alloc_I_1d(n_neib_send, comm_size)
-    call monolis_alltoall_I1(n_vec, n_neib_send, monoCOM%comm)
+    n_neib_send = n_vec
+    call monolis_alltoall_I1(comm_size, n_neib_send, monoCOM%comm)
 
-    !# 通信テーブルの計算
+    !# 通信テーブルの計算（send）
     call monolis_alloc_I_1d(send_index, monoCOM%send_n_neib + 1)
     call monolis_alloc_I_1d(recv_index, monoCOM%recv_n_neib + 1)
 
+    do i = 1, monoCOM%send_n_neib
+      send_index(i + 1) = n_vec*monoCOM%send_index(i + 1)
+    enddo
+
     n_send = monoCOM%send_index(monoCOM%send_n_neib + 1)
     call monolis_alloc_R_1d(X, n_vec*ndof*n_send)
-    call monolis_alloc_I_1d(send_item, n_vec*ndof*n_send)
-    call monolis_get_sequence_array_I(send_item, n_vec*ndof*n_send, 1, 1)
+    call monolis_alloc_I_1d(send_item, n_vec*n_send)
+    call monolis_get_sequence_array_I(send_item, n_vec*n_send, 1, 1)
 
+    !# 通信テーブルの計算（recv）
     n_recv = 0
     do i = 1, monoCOM%recv_n_neib
       in = monoCOM%recv_neib_pe(i)
       jn = monoCOM%recv_index(i + 1) - monoCOM%recv_index(i)
       n_recv = n_recv + jn*n_neib_send(in + 1)
+      recv_index(i + 1) = recv_index(i) + jn*n_neib_send(in + 1)
     enddo
 
     call monolis_alloc_R_1d(Y, ndof*n_recv)
-    call monolis_alloc_I_1d(recv_item, ndof*n_recv)
-    call monolis_get_sequence_array_I(recv_item, ndof*n_recv, 1, 1)
+    call monolis_alloc_I_1d(recv_item, n_recv)
+    call monolis_get_sequence_array_I(recv_item, n_recv, 1, 1)
 
     !# 送信ベクトル作成
     in = 0
     do i = 1, n_vec
-      do j = 1, n_send;
-        in = in + 1
-        jn = monoCOM%send_item(j)
-        X(in) = my_vec(jn,i)
+      do j = 1, n_send
+          in = in + 1
+          jn = monoCOM%send_item(j)
+          X(ndof*(in-1)+1:ndof*in) = my_vec(ndof*(jn-1)+1:ndof*jn,i)
       enddo
     enddo
 
@@ -1224,7 +1231,7 @@ contains
         do k = kS, kE
           kn = monoCOM%recv_item(k)
           m = m + 1
-          neib_vec(ndof*(kn-1)+1:ndof*kn, n_vec+jn) = Y(ndof*(m-1):ndof*m)
+          neib_vec(ndof*(kn-1)+1:ndof*kn, n_vec+jn) = Y(ndof*(m-1)+1:ndof*m)
         enddo
       enddo
     enddo
