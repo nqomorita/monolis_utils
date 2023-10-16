@@ -73,7 +73,6 @@ void monolis_com_copy_test()
   monolis_test_check_eq_I1("monolis_com_copy 18", com1.send_item[1], com2.send_item[1]);
 }
 
-
 void monolis_com_set_test()
 {
   MONOLIS_COM com;
@@ -85,6 +84,8 @@ void monolis_com_set_test()
   int         comm_size_ans;
   int         n_internal_vertex;
   int         n_internal_vertex_ans;
+  int         i_val;
+  int         i_array[2];
 
   monolis_std_global_log_string("monolis_com_set_communicator");
   monolis_std_global_log_string("monolis_com_get_communicator");
@@ -129,6 +130,28 @@ void monolis_com_set_test()
   monolis_com_get_n_internal_vertex(&com, &n_internal_vertex_ans);
 
   monolis_test_check_eq_I1("monolis_def_com_test 4_c", n_internal_vertex, n_internal_vertex_ans);
+
+  com.recv_n_neib = 1;
+  com.recv_neib_pe = monolis_alloc_I_1d(com.recv_neib_pe, com.recv_n_neib);
+  com.recv_neib_pe[0] = 10;
+
+  com.send_n_neib = 2;
+  com.send_neib_pe = monolis_alloc_I_1d(com.send_neib_pe, com.send_n_neib);
+  com.send_neib_pe[0] = 11;
+  com.send_neib_pe[1] = 21;
+
+  monolis_com_get_n_send_neib(&com, &i_val);
+  monolis_test_check_eq_I1("monolis_def_com_test 5_c", i_val, 2);
+
+  monolis_com_get_send_neib_id(&com, i_array);
+  monolis_test_check_eq_I1("monolis_def_com_test 6_c", i_array[0], 11);
+  monolis_test_check_eq_I1("monolis_def_com_test 6_c", i_array[1], 21);
+
+  monolis_com_get_n_recv_neib(&com, &i_val);
+  monolis_test_check_eq_I1("monolis_def_com_test 7_c", i_val, 1);
+
+  monolis_com_get_recv_neib_id(&com, i_array);
+  monolis_test_check_eq_I1("monolis_def_com_test 8a_c", i_array[0], 10);
 }
 
 void monolis_def_com_test()

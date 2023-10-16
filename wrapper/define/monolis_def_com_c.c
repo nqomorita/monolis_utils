@@ -144,3 +144,40 @@ void monolis_com_get_n_internal_vertex(
   *n_internal_vertex = com->n_internal_vertex;
 }
 
+/** COM 構造体から分割領域における送信領域数を取得 */
+void monolis_com_get_n_send_neib(
+  MONOLIS_COM* com,
+  int*         send_n_neib)
+{
+  *send_n_neib = com->send_n_neib;
+}
+
+/** COM 構造体から分割領域における送信領域 id を取得 */
+void monolis_com_get_send_neib_id(
+  MONOLIS_COM* com,
+  int*         send_neib_pe)
+{
+  int i;
+  for (i = 0; i < com->send_n_neib; ++i) {
+    send_neib_pe[i] = com->send_neib_pe[i];
+  }
+}
+
+/** COM 構造体から分割領域における受信領域数を取得 */
+void monolis_com_get_n_recv_neib(
+  MONOLIS_COM* com,
+  int*         recv_n_neib)
+{
+  *recv_n_neib = com->recv_n_neib;
+}
+
+/** COM 構造体から分割領域における受信領域 id を取得 */
+void monolis_com_get_recv_neib_id(
+  MONOLIS_COM* com,
+  int*         recv_neib_pe)
+{
+  int i;
+  for (i = 0; i < com->recv_n_neib; ++i) {
+    recv_neib_pe[i] = com->recv_neib_pe[i];
+  }
+}

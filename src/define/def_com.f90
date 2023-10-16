@@ -239,7 +239,9 @@ contains
     type(monolis_COM), intent(in) :: COM
     !> [out] 通信データにおける送信領域 id（0 オリジン）
     integer(kint), intent(out) :: send_neib_id(:)
-    send_neib_id = COM%recv_neib_pe
+    integer(kint) :: i
+    i = COM%send_n_neib
+    send_neib_id(1:i) = COM%send_neib_pe(1:i)
   end subroutine monolis_com_get_send_neib_id
 
   !> @ingroup com
@@ -261,7 +263,9 @@ contains
     type(monolis_COM), intent(in) :: COM
     !> [out] 通信データにおける送信領域 id（0 オリジン）
     integer(kint), intent(out) :: recv_neib_id(:)
-    recv_neib_id = COM%recv_neib_pe
+    integer(kint) :: i
+    i = COM%recv_n_neib
+    recv_neib_id(1:i) = COM%recv_neib_pe(1:i)
   end subroutine monolis_com_get_recv_neib_id
 
   !> @ingroup dev_com

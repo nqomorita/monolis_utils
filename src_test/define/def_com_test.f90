@@ -91,6 +91,7 @@ contains
     integer(kint) :: my_rank, my_rank_ans
     integer(kint) :: comm_size, comm_size_ans
     integer(kint) :: n_internal_vertex, n_internal_vertex_ans
+    integer(kint) :: i_val, i_array(2)
 
     call monolis_std_global_log_string("monolis_com_finalize")
 
@@ -139,6 +140,29 @@ contains
 
     call monolis_test_check_eq_I1("monolis_com_set_test 4", &
       & n_internal_vertex, n_internal_vertex_ans)
+
+    !> case 5
+    COM%recv_n_neib = 1
+    call monolis_palloc_I_1d(COM%recv_neib_pe, COM%recv_n_neib)
+    COM%recv_neib_pe(1) = 10
+
+    COM%send_n_neib = 2
+    call monolis_palloc_I_1d(COM%send_neib_pe, COM%send_n_neib)
+    COM%send_neib_pe(1) = 11
+    COM%send_neib_pe(2) = 21
+
+    call monolis_com_get_n_send_neib(COM, i_val)
+    call monolis_test_check_eq_I1("monolis_com_set_test 5", i_val, 2)
+
+    call monolis_com_get_send_neib_id(COM, i_array)
+    call monolis_test_check_eq_I1("monolis_com_set_test 6a", i_array(1), 11)
+    call monolis_test_check_eq_I1("monolis_com_set_test 6b", i_array(2), 21)
+
+    call monolis_com_get_n_recv_neib(COM, i_val)
+    call monolis_test_check_eq_I1("monolis_com_set_test 7", i_val, 1)
+
+    call monolis_com_get_recv_neib_id(COM, i_array)
+    call monolis_test_check_eq_I1("monolis_com_set_test 8a", i_array(1), 10)
 
     call monolis_com_finalize(COM)
   end subroutine monolis_com_set_test

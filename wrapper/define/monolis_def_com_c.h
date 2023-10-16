@@ -141,6 +141,26 @@ void monolis_com_get_n_internal_vertex(
   MONOLIS_COM* com,
   int*         n_internal_vertex);
 
+/** COM 構造体から分割領域における送信領域数を取得 */
+void monolis_com_get_n_send_neib(
+  MONOLIS_COM* com,
+  int*         send_n_neib);
+
+/** COM 構造体から分割領域における送信領域 id を取得 */
+void monolis_com_get_send_neib_id(
+  MONOLIS_COM* com,
+  int*         send_neib_pe);
+
+/** COM 構造体から分割領域における受信領域数を取得 */
+void monolis_com_get_n_recv_neib(
+  MONOLIS_COM* com,
+  int*         recv_n_neib);
+
+/** COM 構造体から分割領域における受信領域 id を取得 */
+void monolis_com_get_recv_neib_id(
+  MONOLIS_COM* com,
+  int*         recv_neib_pe);
+
 #ifdef __cplusplus
 }
 #endif
