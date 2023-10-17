@@ -200,6 +200,63 @@ void monolis_mpi_update_C_c_main(
   int*             send_index,
   int*             send_item);
 
+/**
+ * @brief 隣接領域の任意本数ベクトルのベクトル数取得関数
+ * @ingroup mpi
+ */
+void monolis_mpi_get_n_neib_vector(
+  MONOLIS_COM* com,
+  int          n_vec,
+  int*         n_neib_vec);
+
+/**
+ * @brief 隣接領域の任意本数ベクトルのベクトル数取得関数
+ * @ingroup mpi
+ */
+void monolis_mpi_get_n_neib_vector_c_main(
+  int  n_vec,
+  int* n_neib_vec,
+  int  comm,
+  int  recv_n_neib,
+  int* recv_neib_pe);
+
+/**
+ * @brief 隣接領域の任意本数ベクトルの取得関数（実数型）
+ * @ingroup mpi
+ */
+void monolis_mpi_get_neib_vector_R(
+  MONOLIS_COM* com,
+  int          np,
+  int          n_dof,
+  int          n_vec,
+  int          n_neib_vec,
+  double**     my_vec,
+  double**     neib_vec);
+
+/**
+ * @brief 隣接領域の任意本数ベクトルの取得関数（実数型）
+ * @ingroup mpi
+ */
+void monolis_mpi_get_neib_vector_R_c_main(
+  int          n_internal_vertex,
+  int          np,
+  int          n_dof,
+  int          n_vec,
+  int          n_neib_vec,
+  double*      my_vec_t,
+  double*      neib_vec_t,
+  int          comm,
+  int          recv_n_neib,
+  int          recv_nitem,
+  int*         recv_neib_pe,
+  int*         recv_index,
+  int*         recv_item,
+  int          send_n_neib,
+  int          send_nitem,
+  int*         send_neib_pe,
+  int*         send_index,
+  int*         send_item);
+
 #ifdef __cplusplus
 }
 #endif

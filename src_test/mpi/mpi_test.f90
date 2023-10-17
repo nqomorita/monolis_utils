@@ -1068,9 +1068,10 @@ contains
   subroutine monolis_mpi_get_neib_vector_test()
     implicit none
     type(monolis_com) :: monoCOM
-    integer(kint) :: ndof, n_vec
+    integer(kint) :: ndof, n_vec, n_neib_vec
     real(kdouble) :: my_vec1(8,1), my_vec2(8,2), neib_vec(8,3), r_ans(8,3)
 
+    call monolis_std_global_log_string("monolis_mpi_get_n_neib_vector")
     call monolis_std_global_log_string("monolis_mpi_get_neib_vector_R")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
@@ -1129,6 +1130,9 @@ contains
     endif
 
     if(monolis_mpi_get_global_my_rank() == 0)then
+      call monolis_mpi_get_n_neib_vector(monoCOM, n_vec, n_neib_vec)
+      call monolis_test_check_eq_I1("monolis_mpi_get_n_neib_vector 1", n_neib_vec, 3)
+
       call monolis_mpi_get_neib_vector_R(monoCOM, n_vec, ndof, my_vec1, neib_vec)
 
       r_ans(1,1) = 1.0d0; r_ans(1,2) = 0.0d0; r_ans(1,3) = 0.0d0
@@ -1144,6 +1148,9 @@ contains
       call monolis_test_check_eq_R("monolis_mpi_update_R 2", neib_vec(:,2), r_ans(:,2))
       call monolis_test_check_eq_R("monolis_mpi_update_R 3", neib_vec(:,3), r_ans(:,3))
     else
+      call monolis_mpi_get_n_neib_vector(monoCOM, n_vec, n_neib_vec)
+      call monolis_test_check_eq_I1("monolis_mpi_get_n_neib_vector 1", n_neib_vec, 3)
+
       call monolis_mpi_get_neib_vector_R(monoCOM, n_vec, ndof, my_vec2, neib_vec)
 
       r_ans(1,1) = 5.0d0; r_ans(1,2) =15.0d0; r_ans(1,3) = 0.0d0

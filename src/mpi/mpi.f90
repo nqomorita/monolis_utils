@@ -1123,13 +1123,46 @@ contains
   end subroutine monolis_mpi_update_C
 
   !> @ingroup mpi
+  !> 隣接領域に定義された任意本数ベクトルのベクトル数の取得関数
+  !> @detail 分割領域ごとに任意本数のベクトルが定義されている。
+  subroutine monolis_mpi_get_n_neib_vector(monoCOM, n_vec, n_neib_vec)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 自領域が持つベクトル数
+    integer(kint), intent(in) :: n_vec
+    !> [in] 自領域と隣接領域のベクトル数の合計
+    integer(kint), intent(out) :: n_neib_vec
+    integer(kint) :: i, in, comm_size, my_rank
+    integer(kint), allocatable :: n_neib_send(:)
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0)then
+      n_neib_vec = n_vec
+      return
+    endif
+
+    !# 送信ベクトル数の共有
+    my_rank = monolis_mpi_get_local_my_rank(monoCOM%comm)
+    comm_size = monolis_mpi_get_local_comm_size(monoCOM%comm)
+    call monolis_alloc_I_1d(n_neib_send, comm_size)
+    n_neib_send = n_vec
+    call monolis_alltoall_I1(comm_size, n_neib_send, monoCOM%comm)
+
+    n_neib_vec = n_vec
+    do i = 1, monoCOM%recv_n_neib
+      in = monoCOM%recv_neib_pe(i)
+      n_neib_vec = n_neib_vec + n_neib_send(in + 1)
+    enddo
+  end subroutine monolis_mpi_get_n_neib_vector
+
+  !> @ingroup mpi
   !> 隣接領域の任意本数ベクトルの取得関数（実数型）
   !> @detail 分割領域ごとに任意本数のベクトルが定義されている。
   subroutine monolis_mpi_get_neib_vector_R(monoCOM, n_vec, ndof, my_vec, neib_vec, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
-    !> [in] 計算点が持つ自由度
+    !> [in] 自領域が持つベクトル数
     integer(kint), intent(in) :: n_vec
     !> [in] 計算点が持つ自由度
     integer(kint), intent(in) :: ndof
