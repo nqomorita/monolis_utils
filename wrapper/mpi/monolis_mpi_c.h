@@ -59,7 +59,7 @@ void monolis_allreduce_C(
 /**
  * @brief ベクトルのアップデート関数（実数型）
  * @param[in] com COM 構造体
- * @param[in] n 配列サイズ
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @ingroup mpi
@@ -72,7 +72,7 @@ void monolis_mpi_update_R(
 
 /**
  * @brief ベクトルのアップデート関数（実数型）
- * @param[in] n 配列サイズ
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @param[in] comm MPI コミュニケータ
@@ -86,7 +86,7 @@ void monolis_mpi_update_R(
  * @param[in] send_neib_pe send する隣接領域 id
  * @param[in] send_index send の index 配列
  * @param[in] send_item send の item 配列（送信する節点番号データ）
- * @ingroup mpi
+ * @ingroup wrap_mpi
  */
 void monolis_mpi_update_R_c_main(
   int     n,
@@ -107,7 +107,7 @@ void monolis_mpi_update_R_c_main(
 /**
  * @brief ベクトルのアップデート関数（整数型）
  * @param[in] com COM 構造体
- * @param[in] n 配列サイズ
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @ingroup mpi
@@ -120,7 +120,7 @@ void monolis_mpi_update_I(
 
 /**
  * @brief ベクトルのアップデート関数（整数型）
- * @param[in] n 配列サイズ
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @param[in] comm MPI コミュニケータ
@@ -134,7 +134,7 @@ void monolis_mpi_update_I(
  * @param[in] send_neib_pe send する隣接領域 id
  * @param[in] send_index send の index 配列
  * @param[in] send_item send の item 配列（送信する節点番号データ）
- * @ingroup mpi
+ * @ingroup wrap_mpi
  */
 void monolis_mpi_update_I_c_main(
   int  n,
@@ -155,7 +155,7 @@ void monolis_mpi_update_I_c_main(
 /**
  * @brief ベクトルのアップデート関数（複素数型）
  * @param[in] com COM 構造体
- * @param[in] n 配列サイズ
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @ingroup mpi
@@ -167,8 +167,8 @@ void monolis_mpi_update_C(
   double _Complex* x);
 
 /**
- * @brief ベクトルのアップデート関数（複素数型）
- * @param[in] n 配列サイズ
+ * @brief ベクトルのアップデート関数（複素数型、ラッパー関数）
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
  * @param[in] n_dof 計算点が持つ自由度
  * @param[inout] x 入出力ベクトル
  * @param[in] comm MPI コミュニケータ
@@ -182,7 +182,7 @@ void monolis_mpi_update_C(
  * @param[in] send_neib_pe send する隣接領域 id
  * @param[in] send_index send の index 配列
  * @param[in] send_item send の item 配列（送信する節点番号データ）
- * @ingroup mpi
+ * @ingroup wrap_mpi
  */
 void monolis_mpi_update_C_c_main(
   int              n,
@@ -202,6 +202,9 @@ void monolis_mpi_update_C_c_main(
 
 /**
  * @brief 隣接領域の任意本数ベクトルのベクトル数取得関数
+ * @param[in] com COM 構造体
+ * @param[in] n_vec 自領域のベクトル数
+ * @param[out] n_neib_vec 自領域と隣接領域の合計ベクトル数
  * @ingroup mpi
  */
 void monolis_mpi_get_n_neib_vector(
@@ -210,8 +213,8 @@ void monolis_mpi_get_n_neib_vector(
   int*         n_neib_vec);
 
 /**
- * @brief 隣接領域の任意本数ベクトルのベクトル数取得関数
- * @ingroup mpi
+ * @brief 隣接領域の任意本数ベクトルのベクトル数取得関数（ラッパー関数）
+ * @ingroup wrap_mpi
  */
 void monolis_mpi_get_n_neib_vector_c_main(
   int  n_vec,
@@ -222,6 +225,13 @@ void monolis_mpi_get_n_neib_vector_c_main(
 
 /**
  * @brief 隣接領域の任意本数ベクトルの取得関数（実数型）
+ * @param[in] com COM 構造体
+ * @param[in] n 配列サイズ（オーバーラップ領域を含む）
+ * @param[in] n_dof 計算点が持つ自由度
+ * @param[in] n_vec 自領域のベクトル数
+ * @param[in] n_neib_vec 自領域と隣接領域の合計ベクトル数
+ * @param[in] my_vec 自領域のベクトル
+ * @param[out] neib_vec 自領域と隣接領域が並んだベクトル（自領域、隣接領域の順で並ぶ）
  * @ingroup mpi
  */
 void monolis_mpi_get_neib_vector_R(
@@ -234,8 +244,8 @@ void monolis_mpi_get_neib_vector_R(
   double**     neib_vec);
 
 /**
- * @brief 隣接領域の任意本数ベクトルの取得関数（実数型）
- * @ingroup mpi
+ * @brief 隣接領域の任意本数ベクトルの取得関数（実数型、ラッパー関数）
+ * @ingroup wrap_mpi
  */
 void monolis_mpi_get_neib_vector_R_c_main(
   int          n_internal_vertex,
