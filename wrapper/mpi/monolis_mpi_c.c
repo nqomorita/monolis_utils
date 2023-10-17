@@ -143,7 +143,7 @@ void monolis_mpi_get_neib_vector_R(
     com->send_index,
     com->send_item);
 
-  for(i = 0; i < n_vec; ++i){
+  for(i = 0; i < n_neib_vec; ++i){
     for(j = 0; j < np*n_dof; ++j){
       neib_vec[j][i] = neib_vec_t[np*n_dof*i + j];
     }

@@ -347,6 +347,24 @@ void monolis_mpi_get_neib_vector_test()
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 6_c", neib_vec[5][0], 0.0);
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 7_c", neib_vec[6][0], 0.0);
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 8_c", neib_vec[7][0], 0.0);
+
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 11_c", neib_vec[0][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 12_c", neib_vec[1][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 13_c", neib_vec[2][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 14_c", neib_vec[3][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 15_c", neib_vec[4][1], 5.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 16_c", neib_vec[5][1], 6.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 17_c", neib_vec[6][1], 7.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 18_c", neib_vec[7][1], 8.0);
+
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 21_c", neib_vec[0][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 22_c", neib_vec[1][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 23_c", neib_vec[2][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 24_c", neib_vec[3][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 25_c", neib_vec[4][2],15.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 26_c", neib_vec[5][2],16.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 27_c", neib_vec[6][2],17.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 28_c", neib_vec[7][2],18.0);
   } else {
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 1_c", neib_vec[0][0], 5.0);
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 2_c", neib_vec[1][0], 6.0);
@@ -356,6 +374,24 @@ void monolis_mpi_get_neib_vector_test()
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 6_c", neib_vec[5][0], 0.0);
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 7_c", neib_vec[6][0], 0.0);
     monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 8_c", neib_vec[7][0], 0.0);
+
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 11_c", neib_vec[0][1],15.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 12_c", neib_vec[1][1],16.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 13_c", neib_vec[2][1],17.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 14_c", neib_vec[3][1],18.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 15_c", neib_vec[4][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 16_c", neib_vec[5][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 17_c", neib_vec[6][1], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 18_c", neib_vec[7][1], 0.0);
+
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 21_c", neib_vec[0][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 22_c", neib_vec[1][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 23_c", neib_vec[2][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 24_c", neib_vec[3][2], 0.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 25_c", neib_vec[4][2], 1.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 26_c", neib_vec[5][2], 2.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 27_c", neib_vec[6][2], 3.0);
+    monolis_test_check_eq_R1("monolis_mpi_get_neib_vector_R 28_c", neib_vec[7][2], 4.0);
   }
 }
 
