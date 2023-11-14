@@ -1240,7 +1240,7 @@ contains
     neib_vec = 0.0d0
     do i = 1, n_vec
       do j = 1, monoCOM%n_internal_vertex*ndof
-        neib_vec(j,i) = X(monoCOM%n_internal_vertex*ndof*(i -1) + j)
+        neib_vec(j,i) = my_vec(j,i)
       enddo
     enddo
 
