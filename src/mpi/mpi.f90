@@ -1219,11 +1219,15 @@ contains
 
     !# 送信ベクトル作成
     in = 0
-    do i = 1, n_vec
-      do j = 1, n_send
+    do k = 1, monoCOM%send_n_neib
+      kS = monoCOM%send_index(k) + 1
+      kE = monoCOM%send_index(k + 1)
+      do i = 1, n_vec
+        do j = kS, kE
           in = in + 1
           jn = monoCOM%send_item(j)
           X(ndof*(in-1)+1:ndof*in) = my_vec(ndof*(jn-1)+1:ndof*jn,i)
+        enddo
       enddo
     enddo
 
