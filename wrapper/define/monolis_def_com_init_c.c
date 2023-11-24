@@ -107,7 +107,7 @@ void monolis_com_initialize_by_global_id(
 void monolis_com_initialize_by_self(
   MONOLIS_COM* com)
 {
-  com->comm = 0;
+  com->comm = monolis_mpi_get_self_comm();
   com->comm_size = 1;
   com->my_rank = 0;
   com->n_internal_vertex = 0;
