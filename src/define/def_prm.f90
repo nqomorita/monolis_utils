@@ -9,6 +9,8 @@ module mod_monolis_utils_define_prm
   integer(4), parameter :: kdouble = 8
   !> integer 変数の精度（C言語）
   integer(4), parameter :: kint_c  = c_int32_t
+  !> MPI 整数型の定義
+  integer(kint), parameter :: monolis_mpi_int = MPI_INTEGER4
 
   !> monolis ライブラリにおける正常処理フラグ
   integer(kint), parameter :: monolis_success = 0
