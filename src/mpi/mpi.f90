@@ -13,6 +13,8 @@ module mod_monolis_mpi
   integer(kint), parameter :: monolis_mpi_max = 2
   !> MPI 演算タグ（最小値）
   integer(kint), parameter :: monolis_mpi_min = 3
+  !> MPI 整数型のサイズ定義
+  integer(kint), parameter :: monolis_mpi_int = MPI_INTEGER8
 
 contains
 
@@ -33,11 +35,11 @@ contains
     out = 0
     n = 1
     if(tag == monolis_mpi_sum)then
-      call MPI_allreduce(in, out, n, MPI_INTEGER, MPI_SUM, comm, ierr)
+      call MPI_allreduce(in, out, n, monolis_mpi_int, MPI_SUM, comm, ierr)
     elseif(tag == monolis_mpi_max)then
-      call MPI_allreduce(in, out, n, MPI_INTEGER, MPI_MAX, comm, ierr)
+      call MPI_allreduce(in, out, n, monolis_mpi_int, MPI_MAX, comm, ierr)
     elseif(tag == monolis_mpi_min)then
-      call MPI_allreduce(in, out, n, MPI_INTEGER, MPI_MIN, comm, ierr)
+      call MPI_allreduce(in, out, n, monolis_mpi_int, MPI_MIN, comm, ierr)
     endif
     val = out(1)
 #endif
@@ -60,11 +62,11 @@ contains
 #ifndef NO_MPI
     temp = 0
     if(tag == monolis_mpi_sum)then
-      call MPI_allreduce(val, temp, n, MPI_INTEGER, MPI_SUM, comm, ierr)
+      call MPI_allreduce(val, temp, n, monolis_mpi_int, MPI_SUM, comm, ierr)
     elseif(tag == monolis_mpi_max)then
-      call MPI_allreduce(val, temp, n, MPI_INTEGER, MPI_MAX, comm, ierr)
+      call MPI_allreduce(val, temp, n, monolis_mpi_int, MPI_MAX, comm, ierr)
     elseif(tag == monolis_mpi_min)then
-      call MPI_allreduce(val, temp, n, MPI_INTEGER, MPI_MIN, comm, ierr)
+      call MPI_allreduce(val, temp, n, monolis_mpi_int, MPI_MIN, comm, ierr)
     endif
     val = temp
 #endif
@@ -329,7 +331,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_gatherv(sbuf, sc, MPI_INTEGER, rbuf, rc, disp, MPI_INTEGER, root, comm, ierr)
+    call MPI_gatherv(sbuf, sc, monolis_mpi_int, rbuf, rc, disp, monolis_mpi_int, root, comm, ierr)
 #else
     rbuf(1:sc) = sbuf(1:sc)
 #endif
@@ -356,7 +358,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_scatterv(sbuf, sc, disp, MPI_INTEGER, rbuf, rc, MPI_INTEGER, root, comm, ierr)
+    call MPI_scatterv(sbuf, sc, disp, monolis_mpi_int, rbuf, rc, monolis_mpi_int, root, comm, ierr)
 #else
     rbuf(1:rc) = sbuf(1:rc)
 #endif
@@ -483,7 +485,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call MPI_allgather(sval, 1, MPI_INTEGER, rbuf, 1, MPI_INTEGER, comm, ierr)
+    call MPI_allgather(sval, 1, monolis_mpi_int, rbuf, 1, monolis_mpi_int, comm, ierr)
 #else
     rbuf(1) = sval
 #endif
@@ -508,7 +510,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call mpi_allgatherv(sval, n, MPI_INTEGER, rbuf, counts, displs, MPI_INTEGER, comm, ierr)
+    call mpi_allgatherv(sval, n, monolis_mpi_int, rbuf, counts, displs, monolis_mpi_int, comm, ierr)
 #else
     rbuf = sval
 #endif
@@ -617,7 +619,7 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call mpi_alltoall(sbuf, 1, MPI_INTEGER, rbuf, 1, MPI_INTEGER, comm, ierr)
+    call mpi_alltoall(sbuf, 1, monolis_mpi_int, rbuf, 1, monolis_mpi_int, comm, ierr)
     sbuf = rbuf
 #endif
   end subroutine monolis_alltoall_I1
@@ -643,8 +645,8 @@ contains
     integer(kint) :: ierr
 
 #ifndef NO_MPI
-    call mpi_alltoallv(sbuf, scounts, sdispls, MPI_INTEGER, &
-                     & rbuf, rcounts, rdispls, MPI_INTEGER, comm, ierr)
+    call mpi_alltoallv(sbuf, scounts, sdispls, monolis_mpi_int, &
+                     & rbuf, rcounts, rdispls, monolis_mpi_int, comm, ierr)
 #endif
   end subroutine monolis_alltoallv_I
 

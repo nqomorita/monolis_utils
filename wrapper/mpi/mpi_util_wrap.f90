@@ -27,7 +27,7 @@ contains
   function monolis_mpi_get_global_comm_c()&
     & bind(c, name = "monolis_mpi_get_global_comm")
     implicit none
-    integer(c_int) :: monolis_mpi_get_global_comm_c
+    integer(kint_c) :: monolis_mpi_get_global_comm_c
     monolis_mpi_get_global_comm_c = monolis_mpi_get_global_comm()
   end function monolis_mpi_get_global_comm_c
 
@@ -36,7 +36,7 @@ contains
   function monolis_mpi_get_self_comm_c()&
     & bind(c, name = "monolis_mpi_get_self_comm")
     implicit none
-    integer(c_int) :: monolis_mpi_get_self_comm_c
+    integer(kint_c) :: monolis_mpi_get_self_comm_c
     monolis_mpi_get_self_comm_c = monolis_mpi_get_self_comm()
   end function monolis_mpi_get_self_comm_c
 
@@ -45,7 +45,7 @@ contains
   function monolis_mpi_get_global_comm_size_c()&
     & bind(c, name = "monolis_mpi_get_global_comm_size")
     implicit none
-    integer(c_int) :: monolis_mpi_get_global_comm_size_c
+    integer(kint_c) :: monolis_mpi_get_global_comm_size_c
     monolis_mpi_get_global_comm_size_c = monolis_mpi_get_global_comm_size()
   end function monolis_mpi_get_global_comm_size_c
 
@@ -54,7 +54,7 @@ contains
   function monolis_mpi_get_global_my_rank_c()&
     & bind(c, name = "monolis_mpi_get_global_my_rank")
     implicit none
-    integer(c_int) :: monolis_mpi_get_global_my_rank_c
+    integer(kint_c) :: monolis_mpi_get_global_my_rank_c
     monolis_mpi_get_global_my_rank_c = monolis_mpi_get_global_my_rank()
   end function monolis_mpi_get_global_my_rank_c
 
@@ -63,8 +63,8 @@ contains
   function monolis_mpi_get_local_comm_size_c(comm)&
     & bind(c, name = "monolis_mpi_get_local_comm_size")
     implicit none
-    integer(c_int), intent(in), value :: comm
-    integer(c_int) :: monolis_mpi_get_local_comm_size_c
+    integer(kint_c), intent(in), value :: comm
+    integer(kint_c) :: monolis_mpi_get_local_comm_size_c
     monolis_mpi_get_local_comm_size_c = monolis_mpi_get_local_comm_size(comm)
   end function monolis_mpi_get_local_comm_size_c
 
@@ -73,8 +73,8 @@ contains
   function monolis_mpi_get_local_my_rank_c(comm)&
     & bind(c, name = "monolis_mpi_get_local_my_rank")
     implicit none
-    integer(c_int), intent(in), value :: comm
-    integer(c_int) :: monolis_mpi_get_local_my_rank_c
+    integer(kint_c), intent(in), value :: comm
+    integer(kint_c) :: monolis_mpi_get_local_my_rank_c
     monolis_mpi_get_local_my_rank_c = monolis_mpi_get_local_my_rank(comm)
   end function monolis_mpi_get_local_my_rank_c
 
@@ -91,7 +91,7 @@ contains
   subroutine monolis_mpi_local_barrier_c(comm)&
     & bind(c, name = "monolis_mpi_local_barrier")
     implicit none
-    integer(c_int), intent(in), value :: comm
+    integer(kint_c), intent(in), value :: comm
     call monolis_mpi_local_barrier(comm)
   end subroutine monolis_mpi_local_barrier_c
 
@@ -100,9 +100,9 @@ contains
   subroutine monolis_mpi_split_comm_c(comm, group_id, comm_split)&
     & bind(c, name = "monolis_mpi_split_comm")
     implicit none
-    integer(c_int), intent(in), value :: comm
-    integer(c_int), intent(in), value :: group_id
-    integer(c_int), intent(inout) :: comm_split
+    integer(kint_c), intent(in), value :: comm
+    integer(kint_c), intent(in), value :: group_id
+    integer(kint_c), intent(inout) :: comm_split
     call monolis_mpi_split_comm(comm, group_id, comm_split)
   end subroutine monolis_mpi_split_comm_c
 
@@ -129,7 +129,7 @@ contains
   function monolis_get_time_local_sync_c(comm)&
     & bind(c, name = "monolis_get_time_local_sync")
     implicit none
-    integer(c_int), intent(in), value :: comm
+    integer(kint_c), intent(in), value :: comm
     real(c_double) :: monolis_get_time_local_sync_c
     monolis_get_time_local_sync_c = monolis_get_time_local_sync(comm)
   end function monolis_get_time_local_sync_c

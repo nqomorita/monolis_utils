@@ -55,7 +55,7 @@ contains
     implicit none
     character :: array(*)
     character(monolis_charlen) :: header
-    integer(c_int), value :: a, b
+    integer(kint_c), value :: a, b
 
     header = monolis_string_c2f(array)
     call monolis_test_check_eq_I1(header, a, b)
