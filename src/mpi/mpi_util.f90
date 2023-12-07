@@ -2,9 +2,6 @@
 module mod_monolis_mpi_util
   use mod_monolis_utils_define_prm
   implicit none
-#ifndef NO_MPI
-  include 'mpif.h'
-#endif
 
 #ifndef NO_MPI
   integer(kint), parameter :: monolis_mpi_status_size = MPI_STATUS_SIZE
