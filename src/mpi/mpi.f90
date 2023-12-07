@@ -14,7 +14,7 @@ module mod_monolis_mpi
   !> MPI 演算タグ（最小値）
   integer(kint), parameter :: monolis_mpi_min = 3
   !> MPI 整数型のサイズ定義
-  integer(kint), parameter :: monolis_mpi_int = MPI_INTEGER8
+  integer(kint), parameter :: monolis_mpi_int = MPI_INTEGER4
 
 contains
 
