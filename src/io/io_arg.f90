@@ -24,7 +24,7 @@ contains
     character(*), intent(in) :: tag
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, count
+    integer(kint) :: i, count, iargc
     character(monolis_charlen) :: argc1
 
     is_get = .false.
@@ -50,7 +50,7 @@ contains
     integer(kint), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, count
+    integer(kint) :: i, count, iargc
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
 
@@ -82,7 +82,7 @@ contains
     real(kdouble), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, count
+    integer(kint) :: i, count, iargc
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
 
@@ -114,7 +114,7 @@ contains
     character(monolis_charlen), intent(inout) :: var
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, count
+    integer(kint) :: i, count, iargc
     character(monolis_charlen) :: argc1
     character(monolis_charlen) :: argc2
 
