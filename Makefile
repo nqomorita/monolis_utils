@@ -5,6 +5,7 @@ FC     = mpif90
 FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
 CC     = mpicc -std=c99
 CFLAGS = -fPIC -O2
+LINK   = $(FC)
 
 ##> directory setting
 MOD_DIR = -J ./include
@@ -38,6 +39,16 @@ ifdef FLAGS
 		CC      = mpiicc 
 		CFLAGS  = -fPIC -O2 -no-multibyte-chars
 		MOD_DIR = -module ./include
+		LINK    = $(FC)
+	endif
+
+	ifeq ($(findstring INTEL, $(DFLAGS)), A64FX)
+		FC      = mpifrtpx
+		FFLAGS  = -Nalloc_assign -Kfast -SCALAPACK -SSL2
+		CC      = mpifccpx -Nclang 
+		CFLAGS  = -Kfast
+		MOD_DIR = -M ./include
+		LINK    = mpiFCCpx --linkfortran -SSL2
 	endif
 endif
 
@@ -292,31 +303,31 @@ $(OBJ_DIR)/%.o: $(TST_WRAP_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(DRIVE1): $(DRV_OBJS1)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS1) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS1) -L./lib -lmonolis_utils
 
 $(DRIVE2): $(DRV_OBJS2)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS2) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS2) -L./lib -lmonolis_utils
 
 $(DRIVE3): $(DRV_OBJS3)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS3) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS3) -L./lib -lmonolis_utils
 
 $(DRIVE4): $(DRV_OBJS4)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS4) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS4) -L./lib -lmonolis_utils
 
 $(DRIVE5): $(DRV_OBJS5)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS5) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS5) -L./lib -lmonolis_utils
 
 $(DRIVE6): $(DRV_OBJS6)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS6) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS6) -L./lib -lmonolis_utils
 
 $(DRIVE7): $(DRV_OBJS7)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS7) -L./lib -lmonolis_utils
 
 $(DRIVE8): $(DRV_OBJS8)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS8) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS8) -L./lib -lmonolis_utils
 
 $(DRIVE9): $(DRV_OBJS9)
-	$(FC) $(FFLAGS) -o $@ $(DRV_OBJS9) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) -o $@ $(DRV_OBJS9) -L./lib -lmonolis_utils
 
 cp_header:
 	$(CP) ./wrapper/mpi/monolis_mpi_util_c.h ./include/
