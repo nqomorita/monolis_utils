@@ -14,7 +14,7 @@ contains
     real(kdouble), allocatable, intent(out) :: val(:)
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, j, count
+    integer(kint) :: i, j, count, iargc
     character(monolis_charlen) :: argc1
 
     is_get = .false.
@@ -58,7 +58,7 @@ contains
     complex(kdouble), allocatable, intent(out) :: val(:)
     !> [out] 引数の取得判定
     logical, intent(out) :: is_get
-    integer(kint) :: i, j, count
+    integer(kint) :: i, j, count, iargc
     real(kdouble) :: r(2)
     character(monolis_charlen) :: argc1
 
