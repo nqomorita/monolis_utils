@@ -48,6 +48,7 @@ ifdef FLAGS
 		CC      = mpifccpx -Nclang 
 		CFLAGS  = -Kfast
 		MOD_DIR = -M ./include
+		INCLUDE = -I ./include
 		LINK    = mpiFCCpx --linkfortran -SSL2
 	endif
 endif
@@ -279,10 +280,10 @@ $(LIB_TARGET): $(LIB_OBJS)
 	$(AR) $@ $(LIB_OBJS)
 
 $(TEST_TARGET): $(TST_OBJS)
-	$(FC) $(FFLAGS) $(INCLUDE) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) $(INCLUDE) -o $@ $(TST_OBJS) -L./lib -lmonolis_utils
 
 $(TEST_C_TARGET): $(TST_C_OBJS)
-	$(FC) $(FFLAGS) $(INCLUDE) -o $@ $(TST_C_OBJS) -L./lib -lmonolis_utils
+	$(LINK) $(FFLAGS) $(INCLUDE) -o $@ $(TST_C_OBJS) -L./lib -lmonolis_utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.f90
 	$(FC) $(FFLAGS) $(CPP) $(INCLUDE) $(MOD_DIR) -o $@ -c $<
