@@ -2,14 +2,14 @@
 
 ##> compiler setting
 FC     = mpif90
-FFLAGS = -fPIC -O2 -mtune=native -march=native -std=legacy -Wno-missing-include-dirs
+FFLAGS = -fPIC -O2 -mtune=native -std=legacy -Wno-missing-include-dirs
 CC     = mpicc -std=c99
 CFLAGS = -fPIC -O2
 LINK   = $(FC)
 
 ##> directory setting
 MOD_DIR = -J ./include
-INCLUDE = -I /usr/include -I ./include
+INCLUDE = -I ./include -I /usr/include
 BIN_DIR = ./bin
 SRC_DIR = ./src
 TST_DIR = ./src_test
