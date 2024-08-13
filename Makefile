@@ -75,7 +75,8 @@ SRC_DEFINE2 = \
 def_com.f90
 
 SRC_MPI2 = \
-mpi.f90
+mpi.f90 \
+mpi_sendrecv.f90
 
 SRC_SYS = \
 error.f90 \

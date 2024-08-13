@@ -14,6 +14,7 @@ program monolis_utils_test
   use mod_monolis_utils_sys_test
   use mod_monolis_utils_define_com_init_test
   use mod_monolis_mpi_test
+  use mod_monolis_mpi_sendrecv_test
   use mod_monolis_mpi_util_test
   use mod_monolis_mpi_util
   use mod_monolis_io_arg_test
@@ -48,6 +49,7 @@ program monolis_utils_test
   call monolis_utils_sys_test()
 
   call monolis_mpi_test()
+  call monolis_mpi_sendrecv_test()
   call monolis_mpi_util_test()
   call monolis_comm_table_test()
   call monolis_comm_par_util_test()

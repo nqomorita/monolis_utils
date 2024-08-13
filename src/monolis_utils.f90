@@ -10,6 +10,7 @@ module mod_monolis_utils
   use mod_monolis_utils_stdlib
   use mod_monolis_utils_hash
   use mod_monolis_mpi
+  use mod_monolis_mpi_sendrecv
   use mod_monolis_mpi_util
   use mod_monolis_utils_aabb
   use mod_monolis_utils_kdtree

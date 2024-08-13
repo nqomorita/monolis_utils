@@ -1,6 +1,7 @@
 !> MPI wrap モジュール
 module mod_monolis_mpi_wrap
   use mod_monolis_mpi
+  use mod_monolis_mpi_sendrecv
   use iso_c_binding
   implicit none
 
