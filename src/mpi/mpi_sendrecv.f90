@@ -8,6 +8,127 @@ module mod_monolis_mpi_sendrecv
 contains
 
   !> @ingroup mpi
+  !> 通信テーブルを用いた send recv 関数（浮動小数点型、可変ブロックサイズ）
+  subroutine monolis_SendRecvV_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    & send_index, send_item, recv_index, recv_item, &
+    & val_in, val_out, n_dof_index, comm)
+    implicit none
+    !> [in] send する隣接領域数
+    integer(kint), intent(in) :: send_n_neib
+    !> [in] send する隣接領域 id
+    integer(kint), intent(in) :: send_neib_pe(:)
+    !> [in] recv する隣接領域数
+    integer(kint), intent(in) :: recv_n_neib
+    !> [in] recv する隣接領域 id
+    integer(kint), intent(in) :: recv_neib_pe(:)
+    !> [in] send の index 配列
+    integer(kint), intent(in) :: send_index(:)
+    !> [in] send の item 配列（送信する節点番号データ）
+    integer(kint), intent(in) :: send_item (:)
+    !> [in] recv の index 配列
+    integer(kint), intent(in) :: recv_index(:)
+    !> [in] recv の item 配列（受信する節点番号データ）
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    real(kdouble), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    real(kdouble), intent(inout) :: val_out(:)
+    !> [in] 計算点が持つ自由度の index 配列
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: i, iS, iE, in, j, jn, jS, jE, k, kn, ierr, ns, nr, nd
+    integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
+    integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
+    integer(kint) :: req1(send_n_neib)
+    integer(kint) :: req2(recv_n_neib)
+    integer(kint) :: ws_index(send_n_neib + 1)
+    integer(kint) :: wr_index(recv_n_neib + 1)
+    real(kdouble), allocatable :: ws(:)
+    real(kdouble), allocatable :: wr(:)
+
+#ifndef NO_MPI
+    ws_index = 0
+    ns = 0
+    do i = 1, send_n_neib
+      jS = send_index(i) + 1
+      jE = send_index(i + 1)
+      do j = jS, jE
+        in = send_item(j)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        ns = ns + nd
+      enddo
+      ws_index(i + 1) = ns
+    enddo
+
+    wr_index = 0
+    nr = 0
+    do i = 1, recv_n_neib
+      jS = recv_index(i) + 1
+      jE = recv_index(i + 1)
+      do j = jS, jE
+        in = recv_item(i)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        nr = nr + nd
+      enddo
+      wr_index(i + 1) = nr
+    enddo
+
+    call monolis_alloc_R_1d(ws, ns)
+    call monolis_alloc_R_1d(wr, nr)
+
+    kn = 0
+    do i = 1, send_n_neib
+      iS = send_index(i)
+      iE = send_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      l1:do j = iS + 1, iE
+        jn = send_item(j)
+        if(jn == -1) cycle l1
+        jS = n_dof_index(jn)
+        jE = n_dof_index(jn + 1)
+        nd = jE - jS
+        do k = 1, nd
+          kn = kn + 1
+          ws(kn) = val_in(jS + k)
+        enddo
+      enddo l1
+      iS = ws_index(i) + 1
+      iE = ws_index(i + 1)
+      call monolis_Isend_R(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+    enddo
+
+    do i = 1, recv_n_neib
+      iS = wr_index(i) + 1
+      iE = wr_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      call monolis_Irecv_R(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+    enddo
+
+    call MPI_waitall(recv_n_neib, req2, sta2, ierr)
+
+    kn = 0
+    do i = 1, recv_index(recv_n_neib + 1)
+      in = recv_item(i)
+      if(in == -1) cycle
+      jS = n_dof_index(in)
+      jE = n_dof_index(in + 1)
+      nd = jE - jS
+      do j = 1, nd
+        kn = kn + 1
+        val_out(jS + j) = wr(kn)
+      enddo
+    enddo
+
+    call MPI_waitall(send_n_neib, req1, sta1, ierr)
+#endif
+  end subroutine monolis_SendRecvV_R
+
+  !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
   subroutine monolis_SendRecv_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
@@ -74,15 +195,12 @@ contains
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
 
-    do i = 1, recv_n_neib
-      iS = recv_index(i)
-      in = recv_index(i + 1) - iS
-      l2:do j = iS + 1, iS + in
-        if(recv_item(j) == -1) cycle l2
-        do k = 1, ndof
-          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
-        enddo
-      enddo l2
+    do i = 1, nr
+      in = recv_item(i)
+      if(in == -1) cycle
+      do j = 1, ndof
+        val_out(ndof*(in - 1) + j) = wr(ndof*(i - 1) + j)
+      enddo
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
@@ -158,19 +276,138 @@ contains
 
     val_out = 0.0d0
 
-    do i = 1, send_n_neib
-      iS = send_index(i)
-      in = send_index(i + 1) - iS
-      l2:do j = iS + 1, iS + in
-        do k = 1, ndof
-          val_out(ndof*(send_item(j) - 1) + k) = val_out(ndof*(send_item(j) - 1) + k) + ws(ndof*(j - 1) + k)
-        enddo
-      enddo l2
+    do i = 1, ns
+      in = send_item(i)
+      if(in == -1) cycle
+      do j = 1, ndof
+        val_out(ndof*(in - 1) + j) = val_out(ndof*(in - 1) + j) + ws(ndof*(i - 1) + j)
+      enddo
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
   end subroutine monolis_SendRecv_reverse_R
+
+  !> @ingroup mpi
+  !> 通信テーブルを用いた send recv 関数（整数型、可変ブロックサイズ）
+  subroutine monolis_SendRecvV_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    & send_index, send_item, recv_index, recv_item, &
+    & val_in, val_out, n_dof_index, comm)
+    implicit none
+    !> [in] send する隣接領域数
+    integer(kint), intent(in) :: send_n_neib
+    !> [in] send する隣接領域 id
+    integer(kint), intent(in) :: send_neib_pe(:)
+    !> [in] recv する隣接領域数
+    integer(kint), intent(in) :: recv_n_neib
+    !> [in] recv する隣接領域 id
+    integer(kint), intent(in) :: recv_neib_pe(:)
+    !> [in] send の index 配列
+    integer(kint), intent(in) :: send_index(:)
+    !> [in] send の item 配列（送信する節点番号データ）
+    integer(kint), intent(in) :: send_item (:)
+    !> [in] recv の index 配列
+    integer(kint), intent(in) :: recv_index(:)
+    !> [in] recv の item 配列（受信する節点番号データ）
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    integer(kint), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    integer(kint), intent(inout) :: val_out(:)
+    !> [in] 計算点が持つ自由度の index 配列
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: i, iS, iE, in, j, jn, jS, jE, k, kn, ierr, ns, nr, nd
+    integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
+    integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
+    integer(kint) :: req1(send_n_neib)
+    integer(kint) :: req2(recv_n_neib)
+    integer(kint) :: ws_index(send_n_neib + 1)
+    integer(kint) :: wr_index(recv_n_neib + 1)
+    integer(kint), allocatable :: ws(:)
+    integer(kint), allocatable :: wr(:)
+
+#ifndef NO_MPI
+    ws_index = 0
+    ns = 0
+    do i = 1, send_n_neib
+      jS = send_index(i) + 1
+      jE = send_index(i + 1)
+      do j = jS, jE
+        in = send_item(j)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        ns = ns + nd
+      enddo
+      ws_index(i + 1) = ns
+    enddo
+
+    wr_index = 0
+    nr = 0
+    do i = 1, recv_n_neib
+      jS = recv_index(i) + 1
+      jE = recv_index(i + 1)
+      do j = jS, jE
+        in = recv_item(i)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        nr = nr + nd
+      enddo
+      wr_index(i + 1) = nr
+    enddo
+
+    call monolis_alloc_I_1d(ws, ns)
+    call monolis_alloc_I_1d(wr, nr)
+
+    kn = 0
+    do i = 1, send_n_neib
+      iS = send_index(i)
+      iE = send_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      l1:do j = iS + 1, iE
+        jn = send_item(j)
+        if(jn == -1) cycle l1
+        jS = n_dof_index(jn)
+        jE = n_dof_index(jn + 1)
+        nd = jE - jS
+        do k = 1, nd
+          kn = kn + 1
+          ws(kn) = val_in(jS + k)
+        enddo
+      enddo l1
+      iS = ws_index(i) + 1
+      iE = ws_index(i + 1)
+      call monolis_Isend_I(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+    enddo
+
+    do i = 1, recv_n_neib
+      iS = wr_index(i) + 1
+      iE = wr_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      call monolis_Irecv_I(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+    enddo
+
+    call MPI_waitall(recv_n_neib, req2, sta2, ierr)
+
+    kn = 0
+    do i = 1, recv_index(recv_n_neib + 1)
+      in = recv_item(i)
+      if(in == -1) cycle
+      jS = n_dof_index(in)
+      jE = n_dof_index(in + 1)
+      nd = jE - jS
+      do j = 1, nd
+        kn = kn + 1
+        val_out(jS + j) = wr(kn)
+      enddo
+    enddo
+
+    call MPI_waitall(send_n_neib, req1, sta1, ierr)
+#endif
+  end subroutine monolis_SendRecvV_I
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（整数型）
@@ -239,20 +476,138 @@ contains
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
 
-    do i = 1, recv_n_neib
-      iS = recv_index(i)
-      in = recv_index(i + 1) - iS
-      l2:do j = iS + 1, iS + in
-        if(recv_item(j) == -1) cycle l2
-        do k = 1, ndof
-          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
-        enddo
-      enddo l2
+    do i = 1, nr
+      in = recv_item(i)
+      if(in == -1) cycle
+      do j = 1, ndof
+        val_out(ndof*(in - 1) + j) = wr(ndof*(i - 1) + j)
+      enddo
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
   end subroutine monolis_SendRecv_I
+
+  !> @ingroup mpi
+  !> 通信テーブルを用いた send recv 関数（整数型、可変ブロックサイズ）
+  subroutine monolis_SendRecvV_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    & send_index, send_item, recv_index, recv_item, &
+    & val_in, val_out, n_dof_index, comm)
+    implicit none
+    !> [in] send する隣接領域数
+    integer(kint), intent(in) :: send_n_neib
+    !> [in] send する隣接領域 id
+    integer(kint), intent(in) :: send_neib_pe(:)
+    !> [in] recv する隣接領域数
+    integer(kint), intent(in) :: recv_n_neib
+    !> [in] recv する隣接領域 id
+    integer(kint), intent(in) :: recv_neib_pe(:)
+    !> [in] send の index 配列
+    integer(kint), intent(in) :: send_index(:)
+    !> [in] send の item 配列（送信する節点番号データ）
+    integer(kint), intent(in) :: send_item (:)
+    !> [in] recv の index 配列
+    integer(kint), intent(in) :: recv_index(:)
+    !> [in] recv の item 配列（受信する節点番号データ）
+    integer(kint), intent(in) :: recv_item (:)
+    !> [in,out] 送信データ配列
+    complex(kdouble), intent(inout) :: val_in(:)
+    !> [in,out] 受信データ配列
+    complex(kdouble), intent(inout) :: val_out(:)
+    !> [in] 計算点が持つ自由度の index 配列
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: i, iS, iE, in, j, jn, jS, jE, k, kn, ierr, ns, nr, nd
+    integer(kint) :: sta1(monolis_mpi_status_size, send_n_neib)
+    integer(kint) :: sta2(monolis_mpi_status_size, recv_n_neib)
+    integer(kint) :: req1(send_n_neib)
+    integer(kint) :: req2(recv_n_neib)
+    integer(kint) :: ws_index(send_n_neib + 1)
+    integer(kint) :: wr_index(recv_n_neib + 1)
+    complex(kdouble), allocatable :: ws(:)
+    complex(kdouble), allocatable :: wr(:)
+
+#ifndef NO_MPI
+    ws_index = 0
+    ns = 0
+    do i = 1, send_n_neib
+      jS = send_index(i) + 1
+      jE = send_index(i + 1)
+      do j = jS, jE
+        in = send_item(j)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        ns = ns + nd
+      enddo
+      ws_index(i + 1) = ns
+    enddo
+
+    wr_index = 0
+    nr = 0
+    do i = 1, recv_n_neib
+      jS = recv_index(i) + 1
+      jE = recv_index(i + 1)
+      do j = jS, jE
+        in = recv_item(i)
+        if(in == -1) cycle
+        nd = n_dof_index(in + 1) - n_dof_index(in)
+        nr = nr + nd
+      enddo
+      wr_index(i + 1) = nr
+    enddo
+
+    call monolis_alloc_C_1d(ws, ns)
+    call monolis_alloc_C_1d(wr, nr)
+
+    kn = 0
+    do i = 1, send_n_neib
+      iS = send_index(i)
+      iE = send_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      l1:do j = iS + 1, iE
+        jn = send_item(j)
+        if(jn == -1) cycle l1
+        jS = n_dof_index(jn)
+        jE = n_dof_index(jn + 1)
+        nd = jE - jS
+        do k = 1, nd
+          kn = kn + 1
+          ws(kn) = val_in(jS + k)
+        enddo
+      enddo l1
+      iS = ws_index(i) + 1
+      iE = ws_index(i + 1)
+      call monolis_Isend_C(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+    enddo
+
+    do i = 1, recv_n_neib
+      iS = wr_index(i) + 1
+      iE = wr_index(i + 1)
+      in = iE - iS
+      if(in == 0) cycle
+      call monolis_Irecv_C(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+    enddo
+
+    call MPI_waitall(recv_n_neib, req2, sta2, ierr)
+
+    kn = 0
+    do i = 1, recv_index(recv_n_neib + 1)
+      in = recv_item(i)
+      if(in == -1) cycle
+      jS = n_dof_index(in)
+      jE = n_dof_index(in + 1)
+      nd = jE - jS
+      do j = 1, nd
+        kn = kn + 1
+        val_out(jS + j) = wr(kn)
+      enddo
+    enddo
+
+    call MPI_waitall(send_n_neib, req1, sta1, ierr)
+#endif
+  end subroutine monolis_SendRecvV_C
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（複素数型）
@@ -321,15 +676,12 @@ contains
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
 
-    do i = 1, recv_n_neib
-      iS = recv_index(i)
-      in = recv_index(i + 1) - iS
-      l2:do j = iS + 1, iS + in
-        if(recv_item(j) == -1) cycle l2
-        do k = 1, ndof
-          val_out(ndof*(recv_item(j) - 1) + k) = wr(ndof*(j - 1) + k)
-        enddo
-      enddo l2
+    do i = 1, nr
+      in = recv_item(i)
+      if(in == -1) cycle
+      do j = 1, ndof
+        val_out(ndof*(in - 1) + j) = wr(ndof*(i - 1) + j)
+      enddo
     enddo
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
