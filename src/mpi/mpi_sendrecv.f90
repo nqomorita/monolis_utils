@@ -691,6 +691,40 @@ contains
   !# monoCOM 構造体を引数にとる関数群（隣接領域情報が必要）
 
   !> @ingroup mpi
+  !> ベクトルのアップデート関数（実数型、可変ブロックサイズ）
+  subroutine monolis_mpi_updateV_R(monoCOM, n, ndof_list, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof_list(:)
+    !> [in,out] 入出力ベクトル
+    real(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+    integer(kint), allocatable :: ndof_index(:)
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_alloc_I_1d(ndof_index, n + 1)
+    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
+    call monolis_SendRecvV_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, ndof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_updateV_R
+
+  !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型）
   subroutine monolis_mpi_update_R(monoCOM, ndof, X, tcomm)
     implicit none
@@ -751,6 +785,40 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
+  subroutine monolis_mpi_updateV_I(monoCOM, n, ndof_list, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof_list(:)
+    !> [in,out] 入出力ベクトル
+    integer(kint), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+    integer(kint), allocatable :: ndof_index(:)
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_alloc_I_1d(ndof_index, n + 1)
+    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
+    call monolis_SendRecvV_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, ndof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_updateV_I
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（整数型）
   subroutine monolis_mpi_update_I(monoCOM, ndof, X, tcomm)
     implicit none
     !> [in] COM 構造体
@@ -777,6 +845,40 @@ contains
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_I
+
+  !> @ingroup mpi
+  !> ベクトルのアップデート関数（複素数型）
+  subroutine monolis_mpi_updateV_C(monoCOM, n, ndof_list, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof_list(:)
+    !> [in,out] 入出力ベクトル
+    complex(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+    integer(kint), allocatable :: ndof_index(:)
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_alloc_I_1d(ndof_index, n + 1)
+    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
+    call monolis_SendRecvV_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, ndof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_updateV_C
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）
@@ -930,4 +1032,18 @@ contains
     endif
   end subroutine monolis_mpi_get_neib_vector_R
 
+  subroutine monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
+   implicit none
+    !> [in] 全計算点数
+    integer(kint), intent(in) :: n
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof_list(:)
+    !> [in,out] 入出力ベクトル
+    integer(kint), intent(out) :: ndof_index(:)
+    integer(kint) :: i
+    ndof_index = 0
+    do i = 1, n
+      ndof_index(i + 1) = ndof_index(i) + ndof_list(i)
+    enddo
+  end subroutine monolis_get_ndof_index_from_ndof_list
 end module mod_monolis_mpi_sendrecv
