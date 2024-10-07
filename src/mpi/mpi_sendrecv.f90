@@ -9,7 +9,7 @@ contains
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型、可変ブロックサイズ）
-  subroutine monolis_SendRecvV_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+  subroutine monolis_SendRecv_V_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
     & val_in, val_out, n_dof_index, comm)
     implicit none
@@ -126,7 +126,7 @@ contains
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
-  end subroutine monolis_SendRecvV_R
+  end subroutine monolis_SendRecv_V_R
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（浮動小数点型）
@@ -290,7 +290,7 @@ contains
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（整数型、可変ブロックサイズ）
-  subroutine monolis_SendRecvV_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+  subroutine monolis_SendRecv_V_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
     & val_in, val_out, n_dof_index, comm)
     implicit none
@@ -407,7 +407,7 @@ contains
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
-  end subroutine monolis_SendRecvV_I
+  end subroutine monolis_SendRecv_V_I
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（整数型）
@@ -490,7 +490,7 @@ contains
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（整数型、可変ブロックサイズ）
-  subroutine monolis_SendRecvV_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+  subroutine monolis_SendRecv_V_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
     & send_index, send_item, recv_index, recv_item, &
     & val_in, val_out, n_dof_index, comm)
     implicit none
@@ -607,7 +607,7 @@ contains
 
     call MPI_waitall(send_n_neib, req1, sta1, ierr)
 #endif
-  end subroutine monolis_SendRecvV_C
+  end subroutine monolis_SendRecv_V_C
 
   !> @ingroup mpi
   !> 通信テーブルを用いた send recv 関数（複素数型）
@@ -692,7 +692,7 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型、可変ブロックサイズ）
-  subroutine monolis_mpi_updateV_R(monoCOM, n, ndof_list, X, tcomm)
+  subroutine monolis_mpi_update_V_R(monoCOM, n, ndof_list, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
@@ -712,7 +712,7 @@ contains
     t1 = monolis_get_time()
     call monolis_alloc_I_1d(ndof_index, n + 1)
     call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecvV_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+    call monolis_SendRecv_V_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
@@ -722,7 +722,7 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_mpi_updateV_R
+  end subroutine monolis_mpi_update_V_R
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型）
@@ -785,7 +785,7 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
-  subroutine monolis_mpi_updateV_I(monoCOM, n, ndof_list, X, tcomm)
+  subroutine monolis_mpi_update_V_I(monoCOM, n, ndof_list, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
@@ -805,7 +805,7 @@ contains
     t1 = monolis_get_time()
     call monolis_alloc_I_1d(ndof_index, n + 1)
     call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecvV_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+    call monolis_SendRecv_V_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
@@ -815,7 +815,7 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_mpi_updateV_I
+  end subroutine monolis_mpi_update_V_I
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
@@ -848,7 +848,7 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）
-  subroutine monolis_mpi_updateV_C(monoCOM, n, ndof_list, X, tcomm)
+  subroutine monolis_mpi_update_V_C(monoCOM, n, ndof_list, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
@@ -868,7 +868,7 @@ contains
     t1 = monolis_get_time()
     call monolis_alloc_I_1d(ndof_index, n + 1)
     call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecvV_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+    call monolis_SendRecv_V_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
        & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
        & monoCOM%send_index, monoCOM%send_item, &
        & monoCOM%recv_index, monoCOM%recv_item, &
@@ -878,7 +878,7 @@ contains
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
-  end subroutine monolis_mpi_updateV_C
+  end subroutine monolis_mpi_update_V_C
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）

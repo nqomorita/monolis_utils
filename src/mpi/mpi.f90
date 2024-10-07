@@ -310,7 +310,7 @@ contains
 
   !> @ingroup mpi
   !> gatherv 関数（整数配列型）
-  subroutine monolis_gatherv_I(sbuf, sc, rbuf, rc, disp, root, comm)
+  subroutine monolis_gather_V_I(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
     integer(kint), intent(in) :: sbuf(:)
@@ -333,11 +333,11 @@ contains
 #else
     rbuf(1:sc) = sbuf(1:sc)
 #endif
-  end subroutine monolis_gatherv_I
+  end subroutine monolis_gather_V_I
 
   !> @ingroup mpi
   !> scatterv 関数（整数配列型）
-  subroutine monolis_scatterv_I(sbuf, sc, disp, rbuf, rc, root, comm)
+  subroutine monolis_scatter_V_I(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
     integer(kint), intent(in) :: sbuf(:)
@@ -360,11 +360,11 @@ contains
 #else
     rbuf(1:rc) = sbuf(1:rc)
 #endif
-  end subroutine monolis_scatterv_I
+  end subroutine monolis_scatter_V_I
 
   !> @ingroup mpi
   !> gatherv 関数（実数配列型）
-  subroutine monolis_gatherv_R(sbuf, sc, rbuf, rc, disp, root, comm)
+  subroutine monolis_gather_V_R(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
     real(kdouble), intent(in) :: sbuf(:)
@@ -387,11 +387,11 @@ contains
 #else
     rbuf(1:sc) = sbuf(1:sc)
 #endif
-  end subroutine monolis_gatherv_R
+  end subroutine monolis_gather_V_R
 
   !> @ingroup mpi
   !> scatterv 関数（実数配列型）
-  subroutine monolis_scatterv_R(sbuf, sc, disp, rbuf, rc, root, comm)
+  subroutine monolis_scatter_V_R(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
     real(kdouble), intent(in) :: sbuf(:)
@@ -414,11 +414,11 @@ contains
 #else
     rbuf(1:rc) = sbuf(1:rc)
 #endif
-  end subroutine monolis_scatterv_R
+  end subroutine monolis_scatter_V_R
 
   !> @ingroup mpi
   !> gatherv 関数（実数配列型）
-  subroutine monolis_gatherv_C(sbuf, sc, rbuf, rc, disp, root, comm)
+  subroutine monolis_gather_V_C(sbuf, sc, rbuf, rc, disp, root, comm)
     implicit none
     !> [in] 送信データ配列
     complex(kdouble), intent(in) :: sbuf(:)
@@ -441,11 +441,11 @@ contains
 #else
     rbuf(1:sc) = sbuf(1:sc)
 #endif
-  end subroutine monolis_gatherv_C
+  end subroutine monolis_gather_V_C
 
   !> @ingroup mpi
   !> scatterv 関数（実数配列型）
-  subroutine monolis_scatterv_C(sbuf, sc, disp, rbuf, rc, root, comm)
+  subroutine monolis_scatter_V_C(sbuf, sc, disp, rbuf, rc, root, comm)
     implicit none
     !> [in] 送信データ配列
     complex(kdouble), intent(in) :: sbuf(:)
@@ -468,7 +468,7 @@ contains
 #else
     rbuf(1:rc) = sbuf(1:rc)
 #endif
-  end subroutine monolis_scatterv_C
+  end subroutine monolis_scatter_V_C
 
   !> @ingroup mpi
   !> allgather 関数（整数型）
@@ -491,7 +491,7 @@ contains
 
   !> @ingroup mpi
   !> allgatherv 関数（整数型）
-  subroutine monolis_allgatherv_I(n, sval, rbuf, counts, displs, comm)
+  subroutine monolis_allgather_V_I(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
     integer(kint), intent(in) :: n
@@ -512,7 +512,7 @@ contains
 #else
     rbuf = sval
 #endif
-  end subroutine monolis_allgatherv_I
+  end subroutine monolis_allgather_V_I
 
   !> @ingroup mpi
   !> allgather 関数（実数型）
@@ -535,7 +535,7 @@ contains
 
   !> @ingroup mpi
   !> allgatherv 関数（実数型）
-  subroutine monolis_allgatherv_R(n, sval, rbuf, counts, displs, comm)
+  subroutine monolis_allgather_V_R(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
     integer(kint), intent(in) :: n
@@ -556,7 +556,7 @@ contains
 #else
     rbuf = sval
 #endif
-  end subroutine monolis_allgatherv_R
+  end subroutine monolis_allgather_V_R
 
   !> @ingroup mpi
   !> allgather 関数（実数型）
@@ -579,7 +579,7 @@ contains
 
   !> @ingroup mpi
   !> allgatherv 関数（実数型）
-  subroutine monolis_allgatherv_C(n, sval, rbuf, counts, displs, comm)
+  subroutine monolis_allgather_V_C(n, sval, rbuf, counts, displs, comm)
     implicit none
     !> [in] データ送信個数
     integer(kint), intent(in) :: n
@@ -600,7 +600,7 @@ contains
 #else
     rbuf = sval
 #endif
-  end subroutine monolis_allgatherv_C
+  end subroutine monolis_allgather_V_C
 
   !> @ingroup mpi
   !> alltoall 関数（整数型）
@@ -624,7 +624,7 @@ contains
 
   !> @ingroup mpi
   !> alltoallv 関数（整数型）
-  subroutine monolis_alltoallv_I(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
+  subroutine monolis_alltoall_V_I(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
     implicit none
     !> [in] 送信データ配列
     integer(kint), intent(in) :: sbuf(:)
@@ -646,11 +646,11 @@ contains
     call mpi_alltoallv(sbuf, scounts, sdispls, monolis_mpi_int, &
                      & rbuf, rcounts, rdispls, monolis_mpi_int, comm, ierr)
 #endif
-  end subroutine monolis_alltoallv_I
+  end subroutine monolis_alltoall_V_I
 
   !> @ingroup mpi
   !> alltoallv 関数（実数型）
-  subroutine monolis_alltoallv_R(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
+  subroutine monolis_alltoall_V_R(sbuf, scounts, sdispls, rbuf, rcounts, rdispls, comm)
     implicit none
     !> [in] 送信データ配列
     real(kdouble), intent(in) :: sbuf(:)
@@ -672,7 +672,7 @@ contains
     call mpi_alltoallv(sbuf, scounts, sdispls, MPI_REAL8, &
                      & rbuf, rcounts, rdispls, MPI_REAL8, comm, ierr)
 #endif
-  end subroutine monolis_alltoallv_R
+  end subroutine monolis_alltoall_V_R
 
   !> @ingroup mpi
   !> 隣接領域に定義された任意本数ベクトルのベクトル数の取得関数
@@ -706,5 +706,4 @@ contains
       n_neib_vec = n_neib_vec + n_neib_send(in + 1)
     enddo
   end subroutine monolis_mpi_get_n_neib_vector
-
 end module mod_monolis_mpi
