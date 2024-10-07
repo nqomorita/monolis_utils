@@ -147,7 +147,7 @@ contains
     enddo
 
     !> 全ての外部計算点を取得
-    call monolis_allgatherv_I(M, outer_node_id_local, outer_node_id_all, counts, displs, comm)
+    call monolis_allgather_V_I(M, outer_node_id_local, outer_node_id_all, counts, displs, comm)
   end subroutine monolis_comm_get_all_external_node_parallel
 
   !> @ingroup dev_com

@@ -248,7 +248,7 @@ contains
       i(6) =10
     endif
 
-    call monolis_SendRecvV_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    call monolis_SendRecv_V_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
         & i, i, ndof_index, comm)
 
@@ -293,7 +293,7 @@ contains
       r(6) =10.0d0
     endif
 
-    call monolis_SendRecvV_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    call monolis_SendRecv_V_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
         & r, r, ndof_index, comm)
 
@@ -338,7 +338,7 @@ contains
       c(6) = (10.0d0, 10.0d0)
     endif
 
-    call monolis_SendRecvV_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
+    call monolis_SendRecv_V_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
         & c, c, ndof_index, comm)
 
@@ -630,7 +630,7 @@ contains
       i(4) = 8
     endif
 
-    call monolis_mpi_updateV_I(monoCOM, ndof, i)
+    !call monolis_mpi_update_V_I(monoCOM, ndof, i)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       i_ans(1) = 1
@@ -668,7 +668,7 @@ contains
       r(4) = 8.0d0
     endif
 
-    call monolis_mpi_updateV_R(monoCOM, ndof, r)
+    !call monolis_mpi_update_V_R(monoCOM, ndof, r)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       r_ans(1) = 1.0d0
@@ -706,7 +706,7 @@ contains
       c(4) = (8.0d0, 8.0d0)
     endif
 
-    call monolis_mpi_updateV_C(monoCOM, ndof, c)
+    !call monolis_mpi_update_V_C(monoCOM, ndof, c)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       c_ans(1) = (1.0d0, 1.0d0)

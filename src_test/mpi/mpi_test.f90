@@ -223,9 +223,9 @@ contains
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
 
-    call monolis_std_global_log_string("monolis_gatherv_I")
-    call monolis_std_global_log_string("monolis_gatherv_R")
-    call monolis_std_global_log_string("monolis_gatherv_C")
+    call monolis_std_global_log_string("monolis_gather_V_I")
+    call monolis_std_global_log_string("monolis_gather_V_R")
+    call monolis_std_global_log_string("monolis_gather_V_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -240,7 +240,7 @@ contains
     disp(2) = 2
     i_rbuf = 0
 
-    call monolis_gatherv_I(i_sbuf, sc, i_rbuf, rc, disp, root, comm)
+    call monolis_gather_V_I(i_sbuf, sc, i_rbuf, rc, disp, root, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       i_ans(1) = 1
@@ -269,7 +269,7 @@ contains
       disp(2) = 2
       i_rbuf = 0
 
-      call monolis_gatherv_I(i_sbuf, sc, i_rbuf, rc, disp, root, comm)
+      call monolis_gather_V_I(i_sbuf, sc, i_rbuf, rc, disp, root, comm)
 
       i_ans(1) = 1
       i_ans(2) = 2
@@ -292,7 +292,7 @@ contains
     disp(2) = 2
     r_rbuf = 0.0d0
 
-    call monolis_gatherv_R(r_sbuf, sc, r_rbuf, rc, disp, root, comm)
+    call monolis_gather_V_R(r_sbuf, sc, r_rbuf, rc, disp, root, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       r_ans(1) = 1.0d0
@@ -321,7 +321,7 @@ contains
       disp(2) = 2
       r_rbuf = 0.0d0
 
-      call monolis_gatherv_R(r_sbuf, sc, r_rbuf, rc, disp, root, comm)
+      call monolis_gather_V_R(r_sbuf, sc, r_rbuf, rc, disp, root, comm)
 
       r_ans(1) = 1.0d0
       r_ans(2) = 2.0d0
@@ -346,7 +346,7 @@ contains
     disp(2) = 2
     c_rbuf = (0.0d0, 0.0d0)
 
-    call monolis_gatherv_C(c_sbuf, sc, c_rbuf, rc, disp, root, comm)
+    call monolis_gather_V_C(c_sbuf, sc, c_rbuf, rc, disp, root, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       c_ans(1) = (1.0d0, 1.0d0)
@@ -377,7 +377,7 @@ contains
       disp(2) = 2
       c_ans = (0.0d0, 0.0d0)
 
-      call monolis_gatherv_C(c_sbuf, sc, c_rbuf, rc, disp, root, comm)
+      call monolis_gather_V_C(c_sbuf, sc, c_rbuf, rc, disp, root, comm)
 
       c_ans(1) = (1.0d0, 1.0d0)
       c_ans(2) = (2.0d0, 2.0d0)
@@ -397,9 +397,9 @@ contains
     real(kdouble) :: r_sbuf(4), r_rbuf(2), r_ans(2)
     complex(kdouble) :: c_sbuf(4), c_rbuf(2), c_ans(2)
 
-    call monolis_std_global_log_string("monolis_scatterv_I")
-    call monolis_std_global_log_string("monolis_scatterv_R")
-    call monolis_std_global_log_string("monolis_scatterv_C")
+    call monolis_std_global_log_string("monolis_scatter_V_I")
+    call monolis_std_global_log_string("monolis_scatter_V_R")
+    call monolis_std_global_log_string("monolis_scatter_V_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -415,7 +415,7 @@ contains
     disp(1) = 0
     disp(2) = 2
 
-    call monolis_scatterv_I(i_sbuf, sc, disp, i_rbuf, rc, root, comm)
+    call monolis_scatter_V_I(i_sbuf, sc, disp, i_rbuf, rc, root, comm)
 
     i_ans(1) = 2*monolis_mpi_get_global_my_rank() + 1
     i_ans(2) = 2*monolis_mpi_get_global_my_rank() + 2
@@ -434,7 +434,7 @@ contains
     disp(1) = 0
     disp(2) = 2
 
-    call monolis_scatterv_R(r_sbuf, sc, disp, r_rbuf, rc, root, comm)
+    call monolis_scatter_V_R(r_sbuf, sc, disp, r_rbuf, rc, root, comm)
 
     r_ans(1) = 2.0d0*monolis_mpi_get_global_my_rank() + 1.0d0
     r_ans(2) = 2.0d0*monolis_mpi_get_global_my_rank() + 2.0d0
@@ -453,7 +453,7 @@ contains
     disp(1) = 0
     disp(2) = 2
 
-    call monolis_scatterv_C(c_sbuf, sc, disp, c_rbuf, rc, root, comm)
+    call monolis_scatter_V_C(c_sbuf, sc, disp, c_rbuf, rc, root, comm)
 
     r_ans(1) = 2.0d0*monolis_mpi_get_global_my_rank() + 1.0d0
     r_ans(2) = 2.0d0*monolis_mpi_get_global_my_rank() + 2.0d0
@@ -533,9 +533,9 @@ contains
     real(kdouble) :: r_sbuf(2), r_rbuf(4), r_ans(4)
     complex(kdouble) :: c_sbuf(2), c_rbuf(4), c_ans(4)
 
-    call monolis_std_global_log_string("monolis_allgatherv_I")
-    call monolis_std_global_log_string("monolis_allgatherv_R")
-    call monolis_std_global_log_string("monolis_allgatherv_C")
+    call monolis_std_global_log_string("monolis_allgather_V_I")
+    call monolis_std_global_log_string("monolis_allgather_V_R")
+    call monolis_std_global_log_string("monolis_allgather_V_C")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -549,7 +549,7 @@ contains
     disp(2) = 2
     i_rbuf = 0
 
-    call monolis_allgatherv_I(sc, i_sbuf, i_rbuf, rc, disp, comm)
+    call monolis_allgather_V_I(sc, i_sbuf, i_rbuf, rc, disp, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       i_ans(1) = 1
@@ -575,7 +575,7 @@ contains
     disp(2) = 2
     r_rbuf = 0.0d0
 
-    call monolis_allgatherv_R(sc, r_sbuf, r_rbuf, rc, disp, comm)
+    call monolis_allgather_V_R(sc, r_sbuf, r_rbuf, rc, disp, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       r_ans(1) = 1.0d0
@@ -603,7 +603,7 @@ contains
     disp(2) = 2
     c_rbuf = (0.0d0, 0.0d0)
 
-    call monolis_allgatherv_C(sc, c_sbuf, c_rbuf, rc, disp, comm)
+    call monolis_allgather_V_C(sc, c_sbuf, c_rbuf, rc, disp, comm)
 
     if(monolis_mpi_get_global_comm_size() == 1)then
       c_ans(1) = (1.0d0, 1.0d0)
@@ -680,7 +680,7 @@ contains
     sbuf_i(2) = 10*monolis_mpi_get_global_my_rank() + 2
     sbuf_i(3) = 10*monolis_mpi_get_global_my_rank() + 3
 
-     call monolis_alltoallv_I(sbuf_i, scounts, sdispls, rbuf_i, rcounts, rdispls, comm)
+     call monolis_alltoall_V_I(sbuf_i, scounts, sdispls, rbuf_i, rcounts, rdispls, comm)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       call monolis_test_check_eq_I1("monolis_alltoallv_I 1a", rbuf_i(1), 1)
@@ -696,7 +696,7 @@ contains
     sbuf_r(2) = 10.0d0*monolis_mpi_get_global_my_rank() + 2.0d0
     sbuf_r(3) = 10.0d0*monolis_mpi_get_global_my_rank() + 3.0d0
 
-    call monolis_alltoallv_R(sbuf_r, scounts, sdispls, rbuf_r, rcounts, rdispls, comm)
+    call monolis_alltoall_V_R(sbuf_r, scounts, sdispls, rbuf_r, rcounts, rdispls, comm)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       call monolis_test_check_eq_R1("monolis_alltoallv_R 1a", rbuf_r(1), 1.0d0)
