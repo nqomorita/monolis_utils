@@ -705,24 +705,49 @@ contains
     !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
-    integer(kint), allocatable :: ndof_index(:)
+    integer(kint), allocatable :: n_dof_index(:)
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
 
     t1 = monolis_get_time()
-    call monolis_alloc_I_1d(ndof_index, n + 1)
-    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecv_V_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
-       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
-       & monoCOM%send_index, monoCOM%send_item, &
-       & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, X, ndof_index, monoCOM%comm)
+    call monolis_alloc_I_1d(n_dof_index, n + 1)
+    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, n_dof_index)
+    call monolis_mpi_update_V_R_main(monoCOM, n_dof_index, X, tcomm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_V_R
+
+  !> @ingroup dev_mpi
+  !> ベクトルのアップデート関数（実数型、可変ブロックサイズ）
+  subroutine monolis_mpi_update_V_R_main(monoCOM, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    real(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_SendRecv_V_R(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, n_dof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_update_V_R_main
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型）
@@ -785,14 +810,14 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
-  subroutine monolis_mpi_update_V_I(monoCOM, n, ndof_list, X, tcomm)
+  subroutine monolis_mpi_update_V_I(monoCOM, n, n_dof_index, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
     !> [in] 全計算点数
     integer(kint), intent(in) :: n
     !> [in] 計算点が持つ自由度
-    integer(kint), intent(in) :: ndof_list(:)
+    integer(kint), intent(in) :: n_dof_index(:)
     !> [in,out] 入出力ベクトル
     integer(kint), intent(inout) :: X(:)
     !> [in,out] 通信時間
@@ -804,18 +829,43 @@ contains
 
     t1 = monolis_get_time()
     call monolis_alloc_I_1d(ndof_index, n + 1)
-    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecv_V_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
-       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
-       & monoCOM%send_index, monoCOM%send_item, &
-       & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, X, ndof_index, monoCOM%comm)
+    call monolis_get_ndof_index_from_ndof_list(n, n_dof_index, ndof_index)
+    call monolis_mpi_update_V_I_main(monoCOM, n_dof_index, X, tcomm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_V_I
+
+  !> @ingroup dev_mpi
+  !> ベクトルのアップデート関数（整数型）
+  subroutine monolis_mpi_update_V_I_main(monoCOM, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    integer(kint), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_SendRecv_V_I(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, n_dof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_update_V_I_main
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
@@ -861,24 +911,49 @@ contains
     !> [in,out] 通信時間
     real(kdouble), optional, intent(inout) :: tcomm
     real(kdouble) :: t1, t2
-    integer(kint), allocatable :: ndof_index(:)
+    integer(kint), allocatable :: n_dof_index(:)
 
     if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
 
     t1 = monolis_get_time()
-    call monolis_alloc_I_1d(ndof_index, n + 1)
-    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, ndof_index)
-    call monolis_SendRecv_V_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
-       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
-       & monoCOM%send_index, monoCOM%send_item, &
-       & monoCOM%recv_index, monoCOM%recv_item, &
-       & X, X, ndof_index, monoCOM%comm)
+    call monolis_alloc_I_1d(n_dof_index, n + 1)
+    call monolis_get_ndof_index_from_ndof_list(n, ndof_list, n_dof_index)
+    call monolis_mpi_update_V_C_main(monoCOM, n_dof_index, X, tcomm)
     t2 = monolis_get_time()
 
     if(present(tcomm))then
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_V_C
+
+  !> @ingroup dev_mpi
+  !> ベクトルのアップデート関数（複素数型）
+  subroutine monolis_mpi_update_V_C_main(monoCOM, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    complex(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), optional, intent(inout) :: tcomm
+    real(kdouble) :: t1, t2
+
+    if(monoCOM%send_n_neib == 0 .and. monoCOM%recv_n_neib == 0) return
+
+    t1 = monolis_get_time()
+    call monolis_SendRecv_V_C(monoCOM%send_n_neib, monoCOM%send_neib_pe, &
+       & monoCOM%recv_n_neib, monoCOM%recv_neib_pe, &
+       & monoCOM%send_index, monoCOM%send_item, &
+       & monoCOM%recv_index, monoCOM%recv_item, &
+       & X, X, n_dof_index, monoCOM%comm)
+    t2 = monolis_get_time()
+
+    if(present(tcomm))then
+      tcomm = tcomm + t2 - t1
+    endif
+  end subroutine monolis_mpi_update_V_C_main
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）
