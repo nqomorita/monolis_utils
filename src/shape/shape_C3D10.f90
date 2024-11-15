@@ -74,7 +74,7 @@ contains
 
     call monolis_C3D10_shapefunc_deriv(r, deriv)
     xj = matmul(node, deriv)
-    call monolis_get_inverse_matrix_3d(xj, inv, det)
+    call monolis_get_inverse_matrix_R_3d(xj, inv, det)
     dndx = matmul(deriv, inv)
   end subroutine monolis_C3D10_get_global_deriv
 

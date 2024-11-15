@@ -21,8 +21,9 @@ module mod_monolis_utils
   use mod_monolis_io_util
   use mod_monolis_io_file_name
   use mod_monolis_shape_util
-  use mod_monolis_shape_c3d8
   use mod_monolis_shape_c3d4
+  use mod_monolis_shape_c3d8
+  use mod_monolis_shape_c3d10
   use mod_monolis_shape_c2d4
   use mod_monolis_driver_util
   use mod_monolis_extract_util
