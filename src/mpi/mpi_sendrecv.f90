@@ -68,7 +68,7 @@ contains
       jS = recv_index(i) + 1
       jE = recv_index(i + 1)
       do j = jS, jE
-        in = recv_item(i)
+        in = recv_item(j)
         if(in == -1) cycle
         nd = n_dof_index(in + 1) - n_dof_index(in)
         nr = nr + nd
@@ -349,7 +349,7 @@ contains
       jS = recv_index(i) + 1
       jE = recv_index(i + 1)
       do j = jS, jE
-        in = recv_item(i)
+        in = recv_item(j)
         if(in == -1) cycle
         nd = n_dof_index(in + 1) - n_dof_index(in)
         nr = nr + nd
@@ -549,7 +549,7 @@ contains
       jS = recv_index(i) + 1
       jE = recv_index(i + 1)
       do j = jS, jE
-        in = recv_item(i)
+        in = recv_item(j)
         if(in == -1) cycle
         nd = n_dof_index(in + 1) - n_dof_index(in)
         nr = nr + nd
