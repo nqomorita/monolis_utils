@@ -250,7 +250,7 @@ contains
 
     call monolis_SendRecv_V_I(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
-        & i, i, ndof_index, comm)
+        & i, i, ndof_index, ndof_index, comm)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       i_ans(1) = 1
@@ -295,7 +295,7 @@ contains
 
     call monolis_SendRecv_V_R(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
-        & r, r, ndof_index, comm)
+        & r, r, ndof_index, ndof_index, comm)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       r_ans(1) = 1.0d0
@@ -340,7 +340,7 @@ contains
 
     call monolis_SendRecv_V_C(send_n_neib, send_neib_pe, recv_n_neib, recv_neib_pe, &
         & send_index, send_item, recv_index, recv_item, &
-        & c, c, ndof_index, comm)
+        & c, c, ndof_index, ndof_index, comm)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       c_ans(1) = (1.0d0, 1.0d0)
