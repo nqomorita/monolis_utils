@@ -47,7 +47,7 @@ contains
 
 #ifndef NO_MPI
     call MPI_Type_free(monolis_mpi_type_R_N128, ierr)
-    call MPI_Op_free(monolis_add_R_N128_MPI, ierr)
+    call MPI_Op_free(monolis_mpi_add_R_N128, ierr)
 #endif
   end subroutine monolis_add_R_N128_MPI_finalize
 

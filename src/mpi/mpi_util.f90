@@ -29,8 +29,8 @@ contains
     implicit none
     integer(kint) :: ierr
 #ifndef NO_MPI
-    call MPI_finalize(ierr)
     call monolis_add_R_N128_MPI_finalize()
+    call MPI_finalize(ierr)
 #endif
   end subroutine monolis_mpi_finalize
 
