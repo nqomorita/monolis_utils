@@ -11,6 +11,7 @@ program monolis_utils_test
   use mod_monolis_utils_aabb_test
   use mod_monolis_utils_kdtree_test
   use mod_monolis_utils_define_com_test
+  use mod_monolis_utils_define_R_N128_test
   use mod_monolis_utils_sys_test
   use mod_monolis_utils_define_com_init_test
   use mod_monolis_mpi_test
@@ -33,6 +34,8 @@ program monolis_utils_test
 
   call monolis_mpi_initialize()
 
+  call monolis_utils_define_R_N128_test()
+  
   call monolis_utils_error_test()
   call monolis_utils_std_test_test()
   call monolis_utils_std_sort_I_test()

@@ -1,6 +1,7 @@
 !> MPI モジュール
 module mod_monolis_mpi
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_define_R_N128
   use mod_monolis_mpi_util
   use mod_monolis_utils_alloc
   use mod_monolis_utils_define_com
@@ -125,6 +126,35 @@ contains
     val = temp
 #endif
   end subroutine monolis_allreduce_R
+
+  !> @ingroup mpi
+  !> allreduce 関数（擬似四倍精度実数型）
+  subroutine monolis_allreduce_R1_N128(val, tag, comm)
+    implicit none
+    !> [in,out] 入出力値（浮動小数点型）
+    type(monolis_R_N128), intent(inout) :: val
+    !> [in] MPI 演算タグ（monolis_mpi_sum, monolis_mpi_max, monolis_mpi_min）
+    integer(kint), intent(in) :: tag
+    !> [in] MPI コミュニケータ
+    integer(kint), intent(in) :: comm
+    integer(kint) :: ierr, n
+    type(monolis_R_N128) :: in(1), out(1)
+
+#ifndef NO_MPI
+    n = 1
+    in(1) = monolis_copy_R_N128(val)
+    if(tag == monolis_mpi_sum)then
+      call MPI_allreduce(in, out, n, monolis_mpi_type_R_N128, monolis_mpi_add_R_N128, comm, ierr)
+    elseif(tag == monolis_mpi_max)then
+      stop "monolis_allreduce_R1_N128 with max op. is not enabled"
+      !call MPI_allreduce(in, out, n, MPI_REAL8, MPI_MAX, comm, ierr)
+    elseif(tag == monolis_mpi_min)then
+      stop "monolis_allreduce_R1_N128 with min op. is not enabled"
+      !call MPI_allreduce(in, out, n, MPI_REAL8, MPI_MIN, comm, ierr)
+    endif
+    val = monolis_copy_R_N128(out(1))
+#endif
+  end subroutine monolis_allreduce_R1_N128
 
   !> @ingroup mpi
   !> allreduce 関数（複素数型）

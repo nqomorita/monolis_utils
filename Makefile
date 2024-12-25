@@ -66,7 +66,8 @@ LIB_TARGET = $(LIB_DIR)/$(LIBRARY)
 
 ##> source file define
 SRC_DEFINE1 = \
-def_prm.f90
+def_prm.f90 \
+def_R_N128.f90
 
 SRC_MPI1 = \
 mpi_util.f90
