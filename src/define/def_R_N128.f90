@@ -53,6 +53,7 @@ contains
 
   !> @ingroup nhp
   !> 加算 c = a + b（擬似四倍精度実数型）
+  !> @details Cary-Add 方式（下位パートの誤差を厳密に計算しない）
   subroutine monolis_add_R_N128(a, b, c)
     implicit none
     !> [in] 入力値（擬似四倍精度実数型）
@@ -61,18 +62,19 @@ contains
     type(monolis_R_N128), intent(in) :: b
     !> [out] 出力値（擬似四倍精度実数型）
     type(monolis_R_N128), intent(out) :: c
-    real(kdouble) :: t1, t2, e
+    real(kdouble) :: th, tl, f, e
 
-    !# 高精度部の加算
-    t1 = a%hi + b%hi
-    e  = t1 - a%hi
+    !# 上位部の加算（Two_Sum）
+    th = a%hi + b%hi
+    e  = th - a%hi
+    f  = (b%hi - e) + (a%hi - (th - e))
 
-    !# 誤差を低精度側で取得
-    t2 = ((b%hi - e) + (a%hi - (t1 - e))) + a%lo + b%lo
+    !# 下位部の加算
+    tl = f + a%lo + b%lo
 
-    !# 結果を分けて保持
-    c%hi = t1 + t2
-    c%lo = t2 - (c%hi - t1)
+    !# 上位と下位の加算結果を分けて保持（Fast_Two_Sum）
+    c%hi = th + tl
+    c%lo = tl - (c%hi - th)
   end subroutine monolis_add_R_N128
 
   !> @ingroup nhp
@@ -97,16 +99,16 @@ contains
 
   !> @ingroup nhp
   !> 倍精度型から擬似四倍精度実数型の変換
-  subroutine monolis_conv_R_to_R_N128(x, a)
+  function monolis_conv_R_to_R_N128(x) result(a)
     implicit none
     !> [in] 入出力値（整数型）
     real(kdouble), intent(in) :: x
     !> [out] 出力値（擬似四倍精度実数型）
-    type(monolis_R_N128), intent(out) :: a
+    type(monolis_R_N128) :: a
 
     a%hi = x
     a%lo = 0.0d0
-  end subroutine monolis_conv_R_to_R_N128
+  end function monolis_conv_R_to_R_N128
 
   !> @ingroup nhp
   !> 倍精度型から擬似四倍精度実数型の変換
