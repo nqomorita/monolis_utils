@@ -46,10 +46,12 @@ contains
     integer(kint) :: i, comm
     real(kdouble) :: r
     complex(kdouble) :: c
+    type(monolis_R_N128) :: d
 
     call monolis_std_global_log_string("monolis_allreduce_I1")
     call monolis_std_global_log_string("monolis_allreduce_R1")
     call monolis_std_global_log_string("monolis_allreduce_C1")
+    call monolis_std_global_log_string("monolis_allreduce_R1_N128")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -109,6 +111,21 @@ contains
     else
       call monolis_test_check_eq_C1("monolis_allreduce_C1  1", c, (3.0d0, 3.0d0))
     endif
+
+    !> case 4
+    r = dble(monolis_mpi_get_global_my_rank() + 1.0d0)
+    if(monolis_mpi_get_global_my_rank() == 1) r = 1.0d-20*r
+    d = monolis_conv_R_to_R_N128(r)
+    call monolis_allreduce_R1_N128(d, monolis_mpi_sum, comm)
+
+    if(monolis_mpi_get_global_comm_size() == 1)then
+      call monolis_test_check_eq_R1("monolis_allreduce_R1_N128 1a", d%hi, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1_N128 1b", d%lo, 0.0d0)
+    else
+      call monolis_test_check_eq_R1("monolis_allreduce_R1_N128 1pa", d%hi, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R1_N128 1pb", d%lo, 2.0d-20)
+    endif
+
   end subroutine monolis_allreduce_x1_test
 
   subroutine monolis_allreduce_x_test()
@@ -116,10 +133,12 @@ contains
     integer(kint) :: i(2), i_ans(2), comm
     real(kdouble) :: r(2), r_ans(2)
     complex(kdouble) :: c(2), c_ans(2)
+    type(monolis_R_N128) :: d(2)
 
     call monolis_std_global_log_string("monolis_allreduce_I")
     call monolis_std_global_log_string("monolis_allreduce_R")
     call monolis_std_global_log_string("monolis_allreduce_C")
+    call monolis_std_global_log_string("monolis_allreduce_R_N128")
 
     comm = monolis_mpi_get_global_comm()
 
@@ -214,6 +233,27 @@ contains
     endif
 
     call monolis_test_check_eq_C("monolis_allreduce_C  1", c, c_ans)
+
+    !> case 4
+    r(1) = dble(monolis_mpi_get_global_my_rank() + 1.0d0)
+    r(2) = dble(monolis_mpi_get_global_my_rank() + 2.0d0)
+    if(monolis_mpi_get_global_my_rank() == 1) r(1) = 1.0d-20*r(1)
+    if(monolis_mpi_get_global_my_rank() == 1) r(2) = 1.0d-20*r(2)
+    d(1) = monolis_conv_R_to_R_N128(r(1))
+    d(2) = monolis_conv_R_to_R_N128(r(2))
+    call monolis_allreduce_R_N128(2, d, monolis_mpi_sum, comm)
+
+    if(monolis_mpi_get_global_comm_size() == 1)then
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1a", d(1)%hi, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1b", d(1)%lo, 0.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1c", d(2)%hi, 2.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1d", d(2)%lo, 0.0d0)
+    else
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1pa", d(1)%hi, 1.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1pb", d(1)%lo, 2.0d-20)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1pc", d(2)%hi, 2.0d0)
+      call monolis_test_check_eq_R1("monolis_allreduce_R_N128 1pd", d(2)%lo, 3.0d-20)
+    endif
   end subroutine monolis_allreduce_x_test
 
   subroutine monolis_gather_test()

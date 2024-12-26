@@ -1,6 +1,7 @@
 !> MPI util モジュール
 module mod_monolis_mpi_util
   use mod_monolis_utils_define_prm
+  use mod_monolis_utils_define_R_N128
   implicit none
 
 #ifndef NO_MPI
@@ -18,6 +19,7 @@ contains
     integer(kint) :: ierr
 #ifndef NO_MPI
     call MPI_init(ierr)
+    call monolis_add_R_N128_MPI_init()
 #endif
   end subroutine monolis_mpi_initialize
 
@@ -27,6 +29,7 @@ contains
     implicit none
     integer(kint) :: ierr
 #ifndef NO_MPI
+    call monolis_add_R_N128_MPI_finalize()
     call MPI_finalize(ierr)
 #endif
   end subroutine monolis_mpi_finalize
