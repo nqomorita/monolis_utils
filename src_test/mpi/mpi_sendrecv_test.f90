@@ -573,18 +573,22 @@ contains
   subroutine monolis_updateV_test()
     implicit none
     type(monolis_com) :: monoCOM
-    integer(kint) :: ndof
+    integer(kint) :: n, n_dof_index(4)
     integer(kint) :: i(8), i_ans(8)
     real(kdouble) :: r(8), r_ans(8)
     complex(kdouble) :: c(8), c_ans(8)
 
-    call monolis_std_global_log_string("monolis_mpi_updateV_I")
-    call monolis_std_global_log_string("monolis_mpi_updateV_R")
-    call monolis_std_global_log_string("monolis_mpi_updateV_C")
+    call monolis_std_global_log_string("monolis_mpi_update_V_I")
+    call monolis_std_global_log_string("monolis_mpi_update_V_R")
+    call monolis_std_global_log_string("monolis_mpi_update_V_C")
 
     if(monolis_mpi_get_global_comm_size() == 1) return
 
-    ndof = 2
+    n = 4
+    n_dof_index(1) = 3
+    n_dof_index(2) = 1
+    n_dof_index(3) = 3
+    n_dof_index(4) = 1
     monoCOM%comm = monolis_mpi_get_global_comm()
     monoCOM%comm_size = monolis_mpi_get_global_comm_size()
     monoCOM%send_n_neib = 1
@@ -630,7 +634,7 @@ contains
       i(4) = 8
     endif
 
-    !call monolis_mpi_update_V_I(monoCOM, ndof, i)
+    call monolis_mpi_update_V_I(monoCOM, n, n_dof_index, i)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       i_ans(1) = 1
@@ -668,7 +672,7 @@ contains
       r(4) = 8.0d0
     endif
 
-    !call monolis_mpi_update_V_R(monoCOM, ndof, r)
+    call monolis_mpi_update_V_R(monoCOM, n, n_dof_index, r)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       r_ans(1) = 1.0d0
@@ -706,7 +710,7 @@ contains
       c(4) = (8.0d0, 8.0d0)
     endif
 
-    !call monolis_mpi_update_V_C(monoCOM, ndof, c)
+    call monolis_mpi_update_V_C(monoCOM, n, n_dof_index, c)
 
     if(monolis_mpi_get_global_my_rank() == 0)then
       c_ans(1) = (1.0d0, 1.0d0)

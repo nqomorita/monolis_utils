@@ -910,14 +910,14 @@ contains
 
   !> @ingroup mpi
   !> ベクトルのアップデート関数（整数型）
-  subroutine monolis_mpi_update_V_I(monoCOM, n, n_dof_index, X, tcomm)
+  subroutine monolis_mpi_update_V_I(monoCOM, n, n_dof_list, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
     !> [in] 全計算点数
     integer(kint), intent(in) :: n
-    !> [in] 計算点が持つ自由度
-    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in] 計算点が持つ自由度リスト
+    integer(kint), intent(in) :: n_dof_list(:)
     !> [in,out] 入出力ベクトル
     integer(kint), intent(inout) :: X(:)
     !> [in,out] 通信時間
@@ -929,7 +929,7 @@ contains
 
     t1 = monolis_get_time()
     call monolis_alloc_I_1d(index_temp, n + 1)
-    call monolis_get_ndof_index_from_ndof_list(n, n_dof_index, index_temp)
+    call monolis_get_ndof_index_from_ndof_list(n, n_dof_list, index_temp)
     call monolis_mpi_update_V_I_main(monoCOM, index_temp, X, tcomm)
     t2 = monolis_get_time()
 

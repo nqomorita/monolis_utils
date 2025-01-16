@@ -828,9 +828,9 @@ contains
       r_ans(7,1) = 0.0d0; r_ans(7,2) = 7.0d0; r_ans(7,3) =17.0d0
       r_ans(8,1) = 0.0d0; r_ans(8,2) = 8.0d0; r_ans(8,3) =18.0d0
 
-      call monolis_test_check_eq_R("monolis_mpi_update_R 1", neib_vec(:,1), r_ans(:,1))
-      call monolis_test_check_eq_R("monolis_mpi_update_R 2", neib_vec(:,2), r_ans(:,2))
-      call monolis_test_check_eq_R("monolis_mpi_update_R 3", neib_vec(:,3), r_ans(:,3))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 1", neib_vec(:,1), r_ans(:,1))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 2", neib_vec(:,2), r_ans(:,2))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 3", neib_vec(:,3), r_ans(:,3))
     else
       call monolis_mpi_get_n_neib_vector(monoCOM, n_vec, n_neib_vec)
       call monolis_test_check_eq_I1("monolis_mpi_get_n_neib_vector 1", n_neib_vec, 3)
@@ -846,9 +846,9 @@ contains
       r_ans(7,1) = 0.0d0; r_ans(7,2) = 0.0d0; r_ans(7,3) = 3.0d0
       r_ans(8,1) = 0.0d0; r_ans(8,2) = 0.0d0; r_ans(8,3) = 4.0d0
 
-      call monolis_test_check_eq_R("monolis_mpi_update_R 1", neib_vec(:,1), r_ans(:,1))
-      call monolis_test_check_eq_R("monolis_mpi_update_R 2", neib_vec(:,2), r_ans(:,2))
-      call monolis_test_check_eq_R("monolis_mpi_update_R 3", neib_vec(:,3), r_ans(:,3))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 1", neib_vec(:,1), r_ans(:,1))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 2", neib_vec(:,2), r_ans(:,2))
+      call monolis_test_check_eq_R("monolis_mpi_get_neib_vector_R 3", neib_vec(:,3), r_ans(:,3))
     endif
   end subroutine monolis_mpi_get_neib_vector_test
 
