@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
+
 /**
  * @brief 1 次元整数配列のメモリ確保
  * @details 初期値 0 でメモリ確保がなされる。
@@ -135,6 +137,25 @@ void monolis_dealloc_C_2d(
   double _Complex*** var,
   const int          size1,
   const int          size2);
+
+/**
+ * @brief 1 次元論理型配列のメモリ確保
+ * @details 初期値 0 でメモリ確保がなされる。
+ * @param[inout] var メモリ確保する配列
+ * @param[in] size 配列サイズ
+ * @ingroup alloc
+ */
+bool* monolis_alloc_L_1d(
+  bool*     var,
+  const int size);
+
+/**
+ * @brief 1 次元論理型配列のメモリ開放
+ * @param[inout] var メモリ開放する配列
+ * @ingroup alloc
+ */
+void monolis_dealloc_L_1d(
+  bool**    var);
 
 #ifdef __cplusplus
 }

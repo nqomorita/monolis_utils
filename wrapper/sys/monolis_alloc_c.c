@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "monolis_alloc_c.h"
 
 /** 1 次元整数配列のメモリ確保 */
@@ -134,6 +135,23 @@ void monolis_dealloc_C_2d(
   for(i = 0; i < size1; i++) {
     free((*var)[i]);
   }
+  free(*var);
+  *var = NULL;
+}
+
+/** 1 次元論理型配列のメモリ確保 */
+bool* monolis_alloc_L_1d(
+  bool*     var,
+  const int size)
+{
+  var = (bool*)calloc(size, sizeof(bool));
+  return var;
+}
+
+/** 1 次元論理型配列のメモリ開放 */
+void monolis_dealloc_L_1d(
+  bool**    var)
+{
   free(*var);
   *var = NULL;
 }

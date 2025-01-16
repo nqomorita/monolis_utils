@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
+
 /**
  * @brief 通常ログ出力関数
  * @param[in] array 出力ログ

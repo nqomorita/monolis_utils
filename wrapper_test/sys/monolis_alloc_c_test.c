@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "monolis_utils.h"
 #include "monolis_alloc_c_test.h"
 
@@ -263,6 +264,44 @@ void monolis_dealloc_C_2d_test()
   }
 }
 
+void monolis_alloc_L_1d_test()
+{
+  bool* var;
+  int  size;
+
+  monolis_std_global_log_string("monolis_alloc_L_1d");
+
+  size = 5;
+
+  var = monolis_alloc_L_1d(var, size);
+
+  if(var[0]){monolis_test_assert_fail("monolis_alloc_L_1d", "not .FALSE.");}
+  if(var[1]){monolis_test_assert_fail("monolis_alloc_L_1d", "not .FALSE.");}
+  if(var[2]){monolis_test_assert_fail("monolis_alloc_L_1d", "not .FALSE.");}
+  if(var[3]){monolis_test_assert_fail("monolis_alloc_L_1d", "not .FALSE.");}
+  if(var[4]){monolis_test_assert_fail("monolis_alloc_L_1d", "not .FALSE.");}
+}
+
+void monolis_dealloc_L_1d_test()
+{
+  bool* var;
+  int  size;
+
+  monolis_std_global_log_string("monolis_dealloc_L_1d");
+
+  size = 5;
+
+  var = monolis_alloc_L_1d(var, size);
+
+  monolis_dealloc_L_1d(&var);
+
+  if(var == NULL){
+    monolis_test_assert_pass("monolis_dealloc_L_1d_test");
+  } else {
+    monolis_test_assert_fail("monolis_dealloc_L_1d_test", "not NULL");
+  }
+}
+
 void monolis_alloc_test()
 {
    monolis_alloc_I_1d_test();
@@ -282,4 +321,7 @@ void monolis_alloc_test()
 
    monolis_alloc_C_2d_test();
    monolis_dealloc_C_2d_test();
+
+   monolis_alloc_L_1d_test();
+   monolis_dealloc_L_1d_test();
 }
