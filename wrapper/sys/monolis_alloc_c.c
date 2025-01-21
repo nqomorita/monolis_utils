@@ -21,6 +21,57 @@ void monolis_dealloc_I_1d(
   *var = NULL;
 }
 
+/** 1 次元整数配列のメモリ再確保 */
+int* monolis_realloc_I_1d(
+  int*      var,
+  const int size_old,
+  const int size_new)
+{
+  if (var == NULL) {
+    var = monolis_alloc_I_1d(var, size_new);
+    return var;
+  }
+
+  int* temp;
+
+  temp = monolis_alloc_I_1d(temp, size_old);
+
+  for (int i = 0; i < size_old; ++i) {
+    temp[i] = var[i];
+  }
+
+  monolis_dealloc_I_1d(&var);
+  var = monolis_alloc_I_1d(var, size_new);
+
+  for (int i = 0; i < size_old; ++i) {
+    var[i] = temp[i];
+  }
+
+  return var;
+}
+
+/** 1 次元整数配列の末尾にデータ配列を追加 */
+int* monolis_append_I_1d(
+  int* var,
+  int  size_old,
+  int  size_add,
+  int* var_add)
+{
+  if (var == NULL) {
+    size_old = 0;
+  }
+
+  int n_all = size_old + size_add;
+
+  var = monolis_realloc_I_1d(var, size_old, n_all);
+
+  for (int i = size_old; i < n_all; ++i) {
+    var[i] = var_add[i - size_old];
+  }
+
+  return var;
+}
+
 /** 2 次元整数配列のメモリ確保 */
 int** monolis_alloc_I_2d(
   int**     var,

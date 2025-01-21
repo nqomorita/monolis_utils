@@ -43,6 +43,77 @@ void monolis_dealloc_I_1d_test()
   }
 }
 
+void monolis_realloc_I_1d_test()
+{
+  int* var;
+  int  size;
+  int  size_new;
+
+  monolis_std_global_log_string("monolis_realloc_I_1d");
+
+  size = 3;
+
+  var = monolis_alloc_I_1d(var, size);
+
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[0], 0);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[1], 0);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[2], 0);
+
+  var[0] = 1;
+  var[1] = 2;
+  var[2] = 3;
+
+  size_new = 5;
+
+  var = monolis_realloc_I_1d(var, size, size_new);
+
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[0], 1);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[1], 2);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[2], 3);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[3], 0);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[4], 0);
+}
+
+void monolis_append_I_1d_test()
+{
+  int* var;
+  int  size;
+
+  monolis_std_global_log_string("monolis_append_I_1d");
+
+  size = 3;
+
+  var = monolis_alloc_I_1d(var, size);
+
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[0], 0);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[1], 0);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[2], 0);
+
+  var[0] = 1;
+  var[1] = 2;
+  var[2] = 3;
+
+  int n_add = 2;
+  int var_add[2];
+
+  var_add[0] = 4;
+  var_add[1] = 5;
+
+  var = monolis_append_I_1d(var, size, n_add, var_add);
+
+printf("aa %d\n", var[0]);
+printf("aa %d\n", var[1]);
+printf("aa %d\n", var[2]);
+printf("aa %d\n", var[3]);
+printf("aa %d\n", var[4]);
+
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[0], 1);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[1], 2);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[2], 3);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[3], 4);
+  monolis_test_check_eq_I1("monolis_append_I_1d_test", var[4], 5);
+}
+
 void monolis_alloc_I_2d_test()
 {
   int** var;
@@ -306,6 +377,8 @@ void monolis_alloc_test()
 {
    monolis_alloc_I_1d_test();
    monolis_dealloc_I_1d_test();
+   monolis_realloc_I_1d_test();
+   monolis_append_I_1d_test();
 
    monolis_alloc_I_2d_test();
    monolis_dealloc_I_2d_test();

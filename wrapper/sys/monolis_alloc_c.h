@@ -28,6 +28,33 @@ void monolis_dealloc_I_1d(
   int**     var);
 
 /**
+ * @brief 1 次元整数配列のメモリ再確保
+ * @details 再確保で増えた配列部分は初期値 0 でメモリ確保がなされる。
+ * @param[inout] var メモリ確保する配列
+ * @param[in] size_old 元の配列サイズ
+ * @param[in] size_new 再確保する配列サイズ
+ * @ingroup alloc
+ */
+int* monolis_realloc_I_1d(
+  int*      var,
+  const int size_old,
+  const int size_new);
+
+/**
+ * @brief 1 次元整数配列の末尾にデータ配列を追加
+ * @param[inout] var データ追加する配列
+ * @param[in] size_old 元の配列サイズ
+ * @param[in] size_add 追加する配列サイズ
+ * @param[in] var_add 追加する配列
+ * @ingroup alloc
+ */
+int* monolis_append_I_1d(
+  int* var,
+  int  size_old,
+  int  size_add,
+  int* var_add);
+
+/**
  * @brief 2 次元整数配列のメモリ確保
  * @details 配列サイズは var(size1, size2) として確保される。
  * @param[inout] var メモリ確保する配列
