@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+#include <math.h>
 
 /**
  * @brief 通常ログ出力関数
@@ -77,6 +78,54 @@ void monolis_test_check_eq_C1(
   const char*     array,
   double _Complex a,
   double _Complex b);
+
+/**
+ * @brief 実数配列の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] size_a 入力配列 a のサイズ
+ * @param[in] a 入力配列 a
+ * @param[in] size_a 入力配列 b のサイズ
+ * @param[in] b 入力配列 b
+ * @ingroup dev_test
+ */
+void monolis_test_check_eq_R(
+  const char* header,
+  const int size_a,
+  const double* a,
+  const int size_b,
+  const double* b);
+
+/**
+ * @brief 整数配列の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] size_a 入力配列 a のサイズ
+ * @param[in] a 入力配列 a
+ * @param[in] size_a 入力配列 b のサイズ
+ * @param[in] b 入力配列 b
+ * @ingroup dev_test
+ */
+void monolis_test_check_eq_I(
+  const char* header,
+  const int size_a,
+  const int* a,
+  const int size_b,
+  const int* b);
+
+/**
+ * @brief 複素数配列の比較
+ * @param[in] array テスト内容を示す文字列
+ * @param[in] size_a 入力配列 a のサイズ
+ * @param[in] a 入力配列 a
+ * @param[in] size_a 入力配列 b のサイズ
+ * @param[in] b 入力配列 b
+ * @ingroup dev_test
+ */
+void monolis_test_check_eq_C(
+  const char* header,
+  const int size_a,
+  const double _Complex* a,
+  const int size_b,
+  const double _Complex* b);
 
 #ifdef __cplusplus
 }

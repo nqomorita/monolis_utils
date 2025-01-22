@@ -18,6 +18,7 @@ extern "C" {
 #include "monolis_std_sort_I_c.h"
 #include "monolis_std_list_c.h"
 #include "monolis_std_test_c.h"
+#include "monolis_std_test_c.h"
 #include "monolis_alloc_c.h"
 #include "monolis_comm_par_util_c.h"
 #include "monolis_comm_table_c.h"

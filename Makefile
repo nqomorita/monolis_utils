@@ -139,6 +139,7 @@ SRC_SYS_C = \
 monolis_alloc_c.c
 
 SRC_STD_C = \
+monolis_std_test_c.c \
 monolis_std_list_c.c \
 std_sort_I_wrap.f90 \
 std_test_wrap.f90
