@@ -97,6 +97,7 @@ SRC_STD = \
 std_test.f90 \
 std_sort_I.f90 \
 std_sort_R.f90 \
+std_list.f90 \
 std_algebra.f90 \
 stdlib.f90
 
@@ -138,6 +139,7 @@ SRC_SYS_C = \
 monolis_alloc_c.c
 
 SRC_STD_C = \
+monolis_std_list_c.c \
 std_sort_I_wrap.f90 \
 std_test_wrap.f90
 
@@ -232,7 +234,8 @@ SRC_SYS_C_TEST = \
 monolis_alloc_c_test.c
 
 SRC_STD_C_TEST = \
-std_sort_I_wrap_test.c
+std_sort_I_wrap_test.c \
+std_list_c_test.c
 
 SRC_IO_C_TEST = \
 monolis_io_file_name_c_test.c \
@@ -343,6 +346,7 @@ cp_header:
 	$(CP) ./wrapper/io/monolis_io_util_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
+	$(CP) ./wrapper/std/monolis_std_list_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_test_c.h ./include/
 	$(CP) ./wrapper/sys/monolis_alloc_c.h ./include/
 	$(CP) ./wrapper/com/monolis_comm_par_util_c.h ./include/

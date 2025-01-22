@@ -16,6 +16,7 @@ extern "C" {
 #include "monolis_mpi_c.h"
 #include "monolis_mpi_util_c.h"
 #include "monolis_std_sort_I_c.h"
+#include "monolis_std_list_c.h"
 #include "monolis_std_test_c.h"
 #include "monolis_alloc_c.h"
 #include "monolis_comm_par_util_c.h"
@@ -36,6 +37,9 @@ extern "C" {
 
  * @defgroup com 通信テーブルデータ関数群
  * 通信テーブルデータに関連する関数グループ
+
+ * @defgroup list リスト構造関数群
+ * リスト構造に関連する関数グループ
 
  * @defgroup dev_com 開発者用：通信テーブルデータ関数群
  * 通信テーブルデータに関連する関数グループ（開発者用）

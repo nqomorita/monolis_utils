@@ -255,6 +255,8 @@ void monolis_alloc_C_1d_test()
 
   var = monolis_alloc_C_1d(var, size);
 
+  ans = CMPLX(0.0, 0.0);
+
   monolis_test_check_eq_C1("monolis_alloc_C_1d_test", var[0], ans);
   monolis_test_check_eq_C1("monolis_alloc_C_1d_test", var[1], ans);
   monolis_test_check_eq_C1("monolis_alloc_C_1d_test", var[2], ans);

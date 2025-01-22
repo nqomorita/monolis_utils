@@ -64,6 +64,9 @@ end module mod_monolis_utils
 !> @defgroup hash ハッシュ関数群
 !> ハッシュに関連する関数グループ
 
+!> @defgroup list リスト構造関数群
+!> リスト構造に関連する関数グループ
+
 !> @defgroup dev_io 開発者用：ファイル入出力関数群
 !> ファイル入出力に関連する関数グループ（開発者用）
 
