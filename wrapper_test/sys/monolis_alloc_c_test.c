@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <complex.h>
 #include "monolis_utils.h"
 #include "monolis_alloc_c_test.h"
 
@@ -255,7 +256,7 @@ void monolis_alloc_C_1d_test()
 
   var = monolis_alloc_C_1d(var, size);
 
-  ans = CMPLX(0.0, 0.0);
+  ans = 0.0 + 0.0*I;
 
   monolis_test_check_eq_C1("monolis_alloc_C_1d_test", var[0], ans);
   monolis_test_check_eq_C1("monolis_alloc_C_1d_test", var[1], ans);
