@@ -9,12 +9,14 @@ extern "C" {
 /**
  * @brief クイックソート（1次元整数配列）
  * @param[in,out] array 整数配列
+ * @param[in] n 配列サイズ
  * @param[in] iS ソートする開始位置
  * @param[in] iE ソートする終了位置
  * @ingroup std
  */
 void monolis_qsort_I_1d(
   int* array,
+  int  n,
   int  iS,
   int  iE);
 
@@ -22,6 +24,7 @@ void monolis_qsort_I_1d(
  * @brief クイックソート（2次元整数配列）
  * @param[in,out] array1 ソートされる整数配列
  * @param[in,out] array2 ソートに従属する整数配列
+ * @param[in] n 配列サイズ
  * @param[in] iS ソートする開始位置
  * @param[in] iE ソートする終了位置
  * @ingroup std
@@ -29,12 +32,14 @@ void monolis_qsort_I_1d(
 void monolis_qsort_I_2d(
   int* array1,
   int* array2,
+  int  n,
   int  iS,
   int  iE);
 
 /**
  * @brief 整数配列の二分探索
  * @param[in,out] array 整数配列
+ * @param[in] n 配列サイズ
  * @param[in] iS ソートする開始位置
  * @param[in] iE ソートする終了位置
  * @param[in] val 検索する値
@@ -43,6 +48,7 @@ void monolis_qsort_I_2d(
  */
 void monolis_bsearch_I(
   int* array,
+  int  n,
   int  iS,
   int  iE,
   int  val,

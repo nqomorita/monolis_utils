@@ -74,6 +74,23 @@ contains
     b(5) = 5.0d0
 
     call monolis_test_check_eq_R("monolis_qsort_R_1d case 3", a, b)
+
+    !> case 4
+    a(1) = 5.0d0
+    a(2) = 4.0d0
+    a(3) = 3.0d0
+    a(4) = 2.0d0
+    a(5) = 1.0d0
+
+    call monolis_qsort_R_1d(a, 2, 4)
+
+    b(1) = 5.0d0
+    b(2) = 2.0d0
+    b(3) = 3.0d0
+    b(4) = 4.0d0
+    b(5) = 1.0d0
+
+    call monolis_test_check_eq_R("monolis_qsort_R_1d case 4", a, b)
   end subroutine monolis_qsort_R_1d_test
 
   subroutine monolis_qsort_R_1d_I_1d_test()
@@ -136,6 +153,24 @@ contains
 
     call monolis_test_check_eq_R("monolis_qsort_R_1d_I_1d case 3", a, c)
     call monolis_test_check_eq_I("monolis_qsort_R_1d_I_1d case 3", b, d)
+
+    !> case 4
+    a(1) = 5.0d0; b(1) = 50
+    a(2) = 4.0d0; b(2) = 40
+    a(3) = 3.0d0; b(3) = 30
+    a(4) = 2.0d0; b(4) = 20
+    a(5) = 1.0d0; b(5) = 10
+
+    call monolis_qsort_R_1d_I_1d(a, b, 2, 4)
+
+    c(1) = 5.0d0; d(1) = 50
+    c(2) = 2.0d0; d(2) = 20
+    c(3) = 3.0d0; d(3) = 30
+    c(4) = 4.0d0; d(4) = 40
+    c(5) = 1.0d0; d(5) = 10
+
+    call monolis_test_check_eq_R("monolis_qsort_R_1d_I_1d case 4", a, c)
+    call monolis_test_check_eq_I("monolis_qsort_R_1d_I_1d case 4", b, d)
   end subroutine monolis_qsort_R_1d_I_1d_test
 
   subroutine monolis_qsort_R_2d_test()
@@ -197,6 +232,24 @@ contains
 
     call monolis_test_check_eq_R("monolis_qsort_R_2d case 3", a, c)
     call monolis_test_check_eq_R("monolis_qsort_R_2d case 3", b, d)
+
+    !> case 4
+    a(1) = 5.0d0; b(1) = 50.0d0
+    a(2) = 4.0d0; b(2) = 40.0d0
+    a(3) = 3.0d0; b(3) = 30.0d0
+    a(4) = 2.0d0; b(4) = 20.0d0
+    a(5) = 1.0d0; b(5) = 10.0d0
+
+    call monolis_qsort_R_2d(a, b, 2, 4)
+
+    c(1) = 5.0d0; d(1) = 50.0d0
+    c(2) = 2.0d0; d(2) = 20.0d0
+    c(3) = 3.0d0; d(3) = 30.0d0
+    c(4) = 4.0d0; d(4) = 40.0d0
+    c(5) = 1.0d0; d(5) = 10.0d0
+
+    call monolis_test_check_eq_R("monolis_qsort_R_2d case 4", a, c)
+    call monolis_test_check_eq_R("monolis_qsort_R_2d case 4", b, d)
   end subroutine monolis_qsort_R_2d_test
 
   subroutine monolis_bsearch_R_test()
@@ -224,6 +277,10 @@ contains
     call monolis_bsearch_R(a, 1, 3, 40.0d0, idx)
 
     call monolis_test_check_eq_I1("monolis_bsearch_R case 3", idx, -1)
+    
+    call monolis_bsearch_R(a, 2, 4, 40.0d0, idx)
+
+    call monolis_test_check_eq_I1("monolis_bsearch_R case 4", idx, 4)
   end subroutine monolis_bsearch_R_test
 
   subroutine monolis_get_sequence_array_R_test()

@@ -101,12 +101,6 @@ void monolis_append_I_1d_test()
 
   var = monolis_append_I_1d(var, size, n_add, var_add);
 
-printf("aa %d\n", var[0]);
-printf("aa %d\n", var[1]);
-printf("aa %d\n", var[2]);
-printf("aa %d\n", var[3]);
-printf("aa %d\n", var[4]);
-
   monolis_test_check_eq_I1("monolis_append_I_1d_test", var[0], 1);
   monolis_test_check_eq_I1("monolis_append_I_1d_test", var[1], 2);
   monolis_test_check_eq_I1("monolis_append_I_1d_test", var[2], 3);
