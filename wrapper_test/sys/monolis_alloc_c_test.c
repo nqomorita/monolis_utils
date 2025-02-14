@@ -73,6 +73,13 @@ void monolis_realloc_I_1d_test()
   monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[2], 3);
   monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[3], 0);
   monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[4], 0);
+
+  size_new = 2;
+
+  var = monolis_realloc_I_1d(var, size, size_new);
+
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[0], 1);
+  monolis_test_check_eq_I1("monolis_realloc_I_1d_test", var[1], 2);
 }
 
 void monolis_append_I_1d_test()
