@@ -43,7 +43,14 @@ int* monolis_realloc_I_1d(
   monolis_dealloc_I_1d(&var);
   var = monolis_alloc_I_1d(var, size_new);
 
-  for (int i = 0; i < size_old; ++i) {
+  int size;
+  if(size_old > size_new){
+    size = size_new;
+  }else{
+    size = size_old;
+  }
+
+  for (int i = 0; i < size; ++i) {
     var[i] = temp[i];
   }
 
