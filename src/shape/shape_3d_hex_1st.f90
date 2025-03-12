@@ -35,6 +35,24 @@ module mod_monolis_shape_3d_hex_1st
      3, 4, 8, 7, &
      4, 1, 5, 8  ], [4,6])
 
+  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
+  real(kdouble), parameter :: monolis_shape_3d_hex_1st_surf_constraint_value(7,6) = reshape([ &
+     0.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0  ], [7,6])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_3d_hex_1st_surf_constraint_flag(7,6) = reshape([ &
+     .false., .false., .true. , .false., .false., .false., .false., &
+     .false., .false., .true. , .false., .false., .false., .false., &
+     .false., .true. , .false., .false., .false., .false., .false., &
+     .true. , .false., .false., .false., .false., .false., .false., &
+     .false., .true. , .false., .false., .false., .false., .false., &
+     .true. , .false., .false., .false., .false., .false., .false.  ], [7,6])
+
   integer(kint), parameter :: monolis_shape_3d_hex_1st_edge(2,12) = reshape([ &
      1, 2, &
      2, 3, &
@@ -49,16 +67,51 @@ module mod_monolis_shape_3d_hex_1st
      3, 7, &
      4, 8  ], [2,12])
 
+  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
+  real(kdouble), parameter :: monolis_shape_3d_hex_1st_edge_constraint_value(7,12) = reshape([ &
+     0.0d0,-1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     1.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0,-1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     1.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0  ], [7,12])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_3d_hex_1st_edge_constraint_flag(7,12) = reshape([ &
+     .false., .true. , .true. , .false., .false., .false., .false., &
+     .true. , .false., .true. , .false., .false., .false., .false., &
+     .false., .true. , .true. , .false., .false., .false., .false., &
+     .true. , .false., .true. , .false., .false., .false., .false., &
+     .false., .true. , .true. , .false., .false., .false., .false., &
+     .true. , .false., .true. , .false., .false., .false., .false., &
+     .false., .true. , .true. , .false., .false., .false., .false., &
+     .true. , .false., .true. , .false., .false., .false., .false., &
+     .true. , .true. , .false., .false., .false., .false., .false., &
+     .true. , .true. , .false., .false., .false., .false., .false., &
+     .true. , .true. , .false., .false., .false., .false., .false., &
+     .true. , .true. , .false., .false., .false., .false., .false.  ], [7,12])
+
     public :: monolis_shape_3d_hex_1st_num_gauss_point
     public :: monolis_shape_3d_hex_1st_weight
     public :: monolis_shape_3d_hex_1st_integral_point
     public :: monolis_shape_3d_hex_1st_node_point
+    public :: monolis_shape_3d_hex_1st_is_inside_domain
     public :: monolis_shape_3d_hex_1st_shapefunc
     public :: monolis_shape_3d_hex_1st_shapefunc_deriv
-    public :: monolis_shape_3d_hex_1st_surf
-    public :: monolis_shape_3d_hex_1st_edge
     public :: monolis_shape_3d_hex_1st_get_global_position
     public :: monolis_shape_3d_hex_1st_get_global_deriv
+    public :: monolis_shape_3d_hex_1st_surf
+    public :: monolis_shape_3d_hex_1st_surf_constraint_value
+    public :: monolis_shape_3d_hex_1st_surf_constraint_flag
+    public :: monolis_shape_3d_hex_1st_edge
+    public :: monolis_shape_3d_hex_1st_edge_constraint_value
+    public :: monolis_shape_3d_hex_1st_edge_constraint_flag
 
 contains
 
@@ -94,6 +147,19 @@ contains
     r(2) = np(2,i)
     r(3) = np(3,i)
   end subroutine monolis_shape_3d_hex_1st_node_point
+
+  subroutine monolis_shape_3d_hex_1st_is_inside_domain(local, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local(3)
+    logical, intent(out) :: is_inside
+
+    is_inside = .false.
+    if(0.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
+       0.0d0 <= local(2) .and. local(2) <= 1.0d0 .and. &
+       0.0d0 <= local(3) .and. local(3) <= 1.0d0)then 
+      is_inside = .true.
+    endif
+  end subroutine monolis_shape_3d_hex_1st_is_inside_domain
 
   subroutine monolis_shape_3d_hex_1st_shapefunc(local, func)
     implicit none

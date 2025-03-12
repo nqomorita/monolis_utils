@@ -1,6 +1,7 @@
 module mod_monolis_shape_3d_tet_2nd
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
+  use mod_monolis_shape_3d_tet_1st
   implicit none
 
   private
@@ -19,15 +20,67 @@ module mod_monolis_shape_3d_tet_2nd
   !   -1.0d0,  1.0d0, 1.0d0  &
   !  ], [3,4])
 
+  integer(kint), parameter :: monolis_shape_3d_tet_2nd_surf(6,4) = reshape([ &
+     3, 2, 1, 6, 5, 7,&
+     1, 2, 4, 5, 9, 8,&
+     2, 3, 4, 6,10, 9,&
+     3, 1, 4, 7, 8,10 ], [6,4])
+
+  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
+  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_surf_constraint_value(7,4) = reshape([ &
+     0.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, &
+    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0  ], [7,4])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_3d_tet_2nd_surf_constraint_flag(7,4) = reshape([ &
+     .false., .false., .true. , .false., .false., .false., .false., &
+     .false., .true. , .false., .false., .false., .false., .false., &
+     .false., .false., .false., .false., .false., .false., .true., &
+     .true. , .false., .false., .false., .false., .false., .false.  ], [7,4])
+
+  integer(kint), parameter :: monolis_shape_3d_tet_2nd_edge(3,6) = reshape([ &
+     1, 1, 2, &
+     2, 2, 3, &
+     3, 3, 1, &
+     1, 1, 4, &
+     2, 2, 4, &
+     3, 3, 4  ], [3,6])
+
+  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
+  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_edge_constraint_value(7,6) = reshape([ &
+     0.0d0,-1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 0.0d0,-1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, &
+    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0  ], [7,6])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_3d_tet_2nd_edge_constraint_flag(7,6) = reshape([ &
+     .false., .true. , .true. , .false., .false., .false., .false., &
+     .false., .false., .true. , .true. , .false., .false., .false., &
+     .true. , .false., .true. , .false., .false., .false., .false., &
+     .true. , .true. , .false., .false., .false., .false., .false., &
+     .false., .true. , .false., .false., .false., .true. , .false., &
+     .true. , .false., .false., .false., .true. , .false., .false.  ], [7,6])
+
     public :: monolis_shape_3d_tet_2nd_num_gauss_point
     public :: monolis_shape_3d_tet_2nd_weight
     public :: monolis_shape_3d_tet_2nd_integral_point
     !public :: monolis_shape_3d_tet_2nd_node_point
+    public :: monolis_shape_3d_tet_2nd_is_inside_domain
     public :: monolis_shape_3d_tet_2nd_shapefunc
     public :: monolis_shape_3d_tet_2nd_shapefunc_deriv
-    !public :: monolis_shape_3d_tet_2nd_surf
     public :: monolis_shape_3d_tet_2nd_get_global_position
     public :: monolis_shape_3d_tet_2nd_get_global_deriv
+    public :: monolis_shape_3d_tet_2nd_surf
+    public :: monolis_shape_3d_tet_2nd_surf_constraint_value
+    public :: monolis_shape_3d_tet_2nd_surf_constraint_flag
+    public :: monolis_shape_3d_tet_2nd_edge
+    public :: monolis_shape_3d_tet_2nd_edge_constraint_value
+    public :: monolis_shape_3d_tet_2nd_edge_constraint_flag
 
 contains
 
@@ -63,6 +116,22 @@ contains
   !  r(2) = np(2,i)
   !  r(3) = np(3,i)
   !end subroutine monolis_shape_3d_tet_2nd_node_point
+
+  subroutine monolis_shape_3d_tet_2nd_is_inside_domain(local, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local(3)
+    logical, intent(out) :: is_inside
+    real(kdouble) :: func(4)
+
+    is_inside = .false.
+    call monolis_shape_3d_tet_1st_shapefunc(local, func)
+    if(0.0d0 <= func(1) .and. func(1) <= 1.0d0 .and. &
+       0.0d0 <= func(2) .and. func(2) <= 1.0d0 .and. &
+       0.0d0 <= func(3) .and. func(3) <= 1.0d0 .and. &
+       0.0d0 <= func(4) .and. func(4) <= 1.0d0)then 
+      is_inside = .true.
+    endif
+  end subroutine monolis_shape_3d_tet_2nd_is_inside_domain
 
   subroutine monolis_shape_3d_tet_2nd_shapefunc(local, func)
     implicit none

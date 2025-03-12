@@ -21,15 +21,35 @@ module mod_monolis_shape_2d_tri_1st
      0.166666666666666d0,0.166666666666666d0,0.166666666666666d0 &
     ]
 
+  integer(kint), parameter :: monolis_shape_2d_tri_1st_edge(2,3) = reshape([ &
+     1, 2, &
+     2, 3, &
+     3, 1  ], [2,3])
+
+  !> [r_1, r_2, r_1 and r_2]
+  real(kdouble), parameter :: monolis_shape_2d_tri_1st_edge_constraint_value(3,3) = reshape([ &
+     0.0d0,-1.0d0, 0.0d0, &
+     0.0d0, 0.0d0, 0.0d0, &
+    -1.0d0, 0.0d0, 0.0d0  ], [3,3])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_2d_tri_1st_edge_constraint_flag(3,3) = reshape([ &
+     .false., .true. , .false., &
+     .false., .false., .true. , &
+     .true. , .false., .false.  ], [3,3])
+
     public :: monolis_shape_2d_tri_1st_num_gauss_point
     public :: monolis_shape_2d_tri_1st_weight
     public :: monolis_shape_2d_tri_1st_integral_point
     public :: monolis_shape_2d_tri_1st_node_point
+    public :: monolis_shape_2d_tri_1st_is_inside_domain
     public :: monolis_shape_2d_tri_1st_shapefunc
     public :: monolis_shape_2d_tri_1st_shapefunc_deriv
-    !public :: monolis_shape_2d_tri_1st_edge
     public :: monolis_shape_2d_tri_1st_get_global_position
     public :: monolis_shape_2d_tri_1st_get_global_deriv
+    public :: monolis_shape_2d_tri_1st_edge
+    public :: monolis_shape_2d_tri_1st_edge_constraint_value
+    public :: monolis_shape_2d_tri_1st_edge_constraint_flag
 
 contains
 
@@ -63,6 +83,21 @@ contains
     r(1) = np(1,i)
     r(2) = np(2,i)
   end subroutine monolis_shape_2d_tri_1st_node_point
+
+  subroutine monolis_shape_2d_tri_1st_is_inside_domain(local, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local(2)
+    logical, intent(out) :: is_inside
+    real(kdouble) :: func(3)
+
+    is_inside = .false.
+    call monolis_shape_2d_tri_1st_shapefunc(local, func)
+    if(0.0d0 <= func(1) .and. func(1) <= 1.0d0 .and. &
+       0.0d0 <= func(2) .and. func(2) <= 1.0d0 .and. &
+       0.0d0 <= func(3) .and. func(3) <= 1.0d0)then 
+      is_inside = .true.
+    endif
+  end subroutine monolis_shape_2d_tri_1st_is_inside_domain
 
   subroutine monolis_shape_2d_tri_1st_shapefunc(local, func)
     implicit none

@@ -19,15 +19,38 @@ module mod_monolis_shape_2d_quad_1st
      -1.0d0,  1.0d0  &
     ], [2,4])
 
+  integer(kint), parameter :: monolis_shape_2d_quad_1st_edge(2,4) = reshape([ &
+     1, 2, &
+     2, 3, &
+     3, 4, &
+     4, 1  ], [2,4])
+
+  !> [r_1, r_2, r_1 and r_2]
+  real(kdouble), parameter :: monolis_shape_2d_quad_1st_edge_constraint_value(3,4) = reshape([ &
+     0.0d0,-1.0d0, 0.0d0, &
+     1.0d0, 0.0d0, 0.0d0, &
+     0.0d0, 1.0d0, 0.0d0, &
+    -1.0d0, 0.0d0, 0.0d0  ], [3,4])
+
+  !> [r_1, r_2, r_1 and r_2]
+  logical, parameter :: monolis_shape_2d_quad_1st_edge_constraint_flag(3,4) = reshape([ &
+     .false., .true. , .false., &
+     .true. , .false., .false., &
+     .false., .true. , .false., &
+     .true. , .false., .false.  ], [3,4])
+
     public :: monolis_shape_2d_quad_1st_num_gauss_point
     public :: monolis_shape_2d_quad_1st_weight
     public :: monolis_shape_2d_quad_1st_integral_point
     public :: monolis_shape_2d_quad_1st_node_point
+    public :: monolis_shape_2d_quad_1st_is_inside_domain
     public :: monolis_shape_2d_quad_1st_shapefunc
     public :: monolis_shape_2d_quad_1st_shapefunc_deriv
-    !public :: monolis_shape_2d_quad_1st_edge
     public :: monolis_shape_2d_quad_1st_get_global_position
     public :: monolis_shape_2d_quad_1st_get_global_deriv
+    public :: monolis_shape_2d_quad_1st_edge
+    public :: monolis_shape_2d_quad_1st_edge_constraint_value
+    public :: monolis_shape_2d_quad_1st_edge_constraint_flag
 
 contains
 
@@ -61,6 +84,18 @@ contains
     r(1) = np(1,i)
     r(2) = np(2,i)
   end subroutine monolis_shape_2d_quad_1st_node_point
+
+  subroutine monolis_shape_2d_quad_1st_is_inside_domain(local, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local(2)
+    logical, intent(out) :: is_inside
+
+    is_inside = .false.
+    if(0.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
+       0.0d0 <= local(2) .and. local(2) <= 1.0d0)then 
+      is_inside = .true.
+    endif
+  end subroutine monolis_shape_2d_quad_1st_is_inside_domain
 
   subroutine monolis_shape_2d_quad_1st_shapefunc(local, func)
     implicit none
