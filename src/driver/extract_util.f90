@@ -2,8 +2,8 @@ module mod_monolis_extract_util
   use mod_monolis_utils_std_sort_I
   use mod_monolis_utils_alloc
   use mod_monolis_utils_hash
-  use mod_monolis_shape_c3d4
-  use mod_monolis_shape_c3d8
+  use mod_monolis_shape_3d_tet_1st
+  use mod_monolis_shape_3d_hex_1st
   implicit none
 
 contains
@@ -51,9 +51,9 @@ contains
           n_elem_out = n_elem_out + 1
           do i = 1, n_base_out
             if(n_base == 4)then
-              in = conn(monolis_C3D4_surf(i,j))
+              in = conn(monolis_shape_3d_tet_1st_surf(i,j))
             elseif(n_base == 8)then
-              in = conn(monolis_C3D8_surf(i,j))
+              in = conn(monolis_shape_3d_hex_1st_surf(i,j))
             endif
             out(i,n_elem_out) = in
           enddo
@@ -169,15 +169,15 @@ contains
     character :: c1*9, c2*9, c3*9
 
     if(n_base == 4)then
-      i1 = conn(monolis_C3D4_surf(1,i))
-      i2 = conn(monolis_C3D4_surf(2,i))
-      i3 = conn(monolis_C3D4_surf(3,i))
+      i1 = conn(monolis_shape_3d_tet_1st_surf(1,i))
+      i2 = conn(monolis_shape_3d_tet_1st_surf(2,i))
+      i3 = conn(monolis_shape_3d_tet_1st_surf(3,i))
       i4 = 2100000000
     elseif(n_base == 8)then
-      i1 = conn(monolis_C3D8_surf(1,i))
-      i2 = conn(monolis_C3D8_surf(2,i))
-      i3 = conn(monolis_C3D8_surf(3,i))
-      i4 = conn(monolis_C3D8_surf(4,i))
+      i1 = conn(monolis_shape_3d_hex_1st_surf(1,i))
+      i2 = conn(monolis_shape_3d_hex_1st_surf(2,i))
+      i3 = conn(monolis_shape_3d_hex_1st_surf(3,i))
+      i4 = conn(monolis_shape_3d_hex_1st_surf(4,i))
     else
       stop "error get_key_surf"
     endif

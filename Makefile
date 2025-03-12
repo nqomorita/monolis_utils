@@ -109,12 +109,12 @@ SRC_HASH = \
 hash.f90
 
 SRC_SHAPE = \
-shape_C2D3.f90 \
-shape_C2D4.f90 \
-shape_C2D6.f90 \
-shape_C3D10.f90 \
-shape_C3D4.f90 \
-shape_C3D8.f90 \
+shape_2d_tri_1st.f90 \
+shape_2d_tri_2nd.f90 \
+shape_2d_quad_1st.f90 \
+shape_3d_tet_1st.f90 \
+shape_3d_tet_2nd.f90 \
+shape_3d_hex_1st.f90 \
 shape_util.f90
 
 SRC_IO = \

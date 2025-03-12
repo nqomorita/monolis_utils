@@ -22,10 +22,12 @@ module mod_monolis_utils
   use mod_monolis_io_util
   use mod_monolis_io_file_name
   use mod_monolis_shape_util
-  use mod_monolis_shape_c3d4
-  use mod_monolis_shape_c3d8
-  use mod_monolis_shape_c3d10
-  use mod_monolis_shape_c2d4
+  use mod_monolis_shape_2d_tri_1st
+  use mod_monolis_shape_2d_tri_2nd
+  use mod_monolis_shape_2d_quad_1st
+  use mod_monolis_shape_3d_tet_1st
+  use mod_monolis_shape_3d_tet_2nd
+  use mod_monolis_shape_3d_hex_1st
   use mod_monolis_driver_util
   use mod_monolis_extract_util
   use mod_monolis_refiner_util

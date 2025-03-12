@@ -2,8 +2,8 @@ module mod_monolis_refiner_util
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_hash
   use mod_monolis_utils_alloc
-  use mod_monolis_shape_c3d4
-  use mod_monolis_shape_c3d8
+  use mod_monolis_shape_3d_tet_1st
+  use mod_monolis_shape_3d_hex_1st
   use mod_monolis_extract_util
   implicit none
 
@@ -47,8 +47,8 @@ contains
     do eid = 1, n_elem
       conn = elem(:,eid)
       do i = 1, 6
-        i1 = conn(monolis_C3D4_edge(1, i))
-        i2 = conn(monolis_C3D4_edge(2, i))
+        i1 = conn(monolis_shape_3d_tet_1st_edge(1, i))
+        i2 = conn(monolis_shape_3d_tet_1st_edge(2, i))
 
         if(i1 < i2)then
           i3 = i1
@@ -160,8 +160,8 @@ contains
       nid = 0
       !> node on edge
       do i = 1, 12
-        i1 = conn(monolis_C3D8_edge(1, i))
-        i2 = conn(monolis_C3D8_edge(2, i))
+        i1 = conn(monolis_shape_3d_hex_1st_edge(1, i))
+        i2 = conn(monolis_shape_3d_hex_1st_edge(2, i))
 
         if(i1 < i2)then
           i3 = i1
@@ -203,7 +203,7 @@ contains
           call monolis_hash_push(hash_tree, ckey, nid(i + 12), is_pushed, is_exist)
           pos = 0.0d0
           do j = 1, 4
-            i1 = conn(monolis_C3D8_surf(j,i))
+            i1 = conn(monolis_shape_3d_hex_1st_surf(j,i))
             pos(:,1) = pos(:,1) + 0.25d0*node(:,i1)
           enddo
           call monolis_append_R_2d(node_ref, 1, pos)
@@ -333,8 +333,8 @@ contains
     do eid = 1, n_elem
       conn = elem(:,eid)
       do i = 1, 6
-        i1 = conn(monolis_C3D4_edge(1, i))
-        i2 = conn(monolis_C3D4_edge(2, i))
+        i1 = conn(monolis_shape_3d_tet_1st_edge(1, i))
+        i2 = conn(monolis_shape_3d_tet_1st_edge(2, i))
         call monolis_hash_get_key_I(9, i1, ckey1)
         call monolis_hash_get_key_I(9, i2, ckey2)
         ckey = ckey1//ckey2
