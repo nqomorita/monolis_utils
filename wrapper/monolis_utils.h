@@ -13,6 +13,12 @@ extern "C" {
 #include "monolis_io_com_c.h"
 #include "monolis_io_c.h"
 #include "monolis_io_util_c.h"
+#include "monolis_shape_2d_tri_1st_c.h"
+#include "monolis_shape_2d_tri_2nd_c.h"
+#include "monolis_shape_2d_quad_1st_c.h"
+#include "monolis_shape_3d_tet_1st_c.h"
+#include "monolis_shape_3d_tet_2nd_c.h"
+#include "monolis_shape_3d_hex_1st_c.h"
 #include "monolis_mpi_c.h"
 #include "monolis_mpi_util_c.h"
 #include "monolis_std_sort_I_c.h"
@@ -38,6 +44,9 @@ extern "C" {
 
  * @defgroup com 通信テーブルデータ関数群
  * 通信テーブルデータに関連する関数グループ
+
+ * @defgroup shape 形状関数ライブラリ群
+ * 階乗関数に関連する関数グループ
 
  * @defgroup list リスト構造関数群
  * リスト構造に関連する関数グループ

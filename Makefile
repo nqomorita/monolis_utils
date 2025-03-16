@@ -150,6 +150,14 @@ monolis_io_file_name_c.c \
 monolis_io_com_c.c \
 monolis_io_c.c
 
+SRC_SHAPE_C = \
+monolis_shape_2d_tri_1st_c.c \
+monolis_shape_2d_tri_2nd_c.c \
+monolis_shape_2d_quad_1st_c.c \
+monolis_shape_3d_tet_1st_c.c \
+monolis_shape_3d_tet_2nd_c.c \
+monolis_shape_3d_hex_1st_c.c 
+
 SRC_COM_C = \
 comm_par_util_wrap.f90 \
 monolis_comm_table_c.c
@@ -242,6 +250,14 @@ SRC_IO_C_TEST = \
 monolis_io_file_name_c_test.c \
 monolis_io_com_c_test.c \
 monolis_io_c_test.c
+
+SRC_SHAPE_C_TEST = \
+monolis_shape_2d_tri_1st_c_test.c \
+monolis_shape_2d_tri_2nd_c_test.c \
+monolis_shape_2d_quad_1st_c_test.c \
+monolis_shape_3d_tet_1st_c_test.c \
+monolis_shape_3d_tet_2nd_c_test.c \
+monolis_shape_3d_hex_1st_c_test.c 
 
 SRC_COM_C_TEST = \
 monolis_comm_table_c_test.c
@@ -346,6 +362,12 @@ cp_header:
 	$(CP) ./wrapper/io/monolis_io_com_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_util_c.h ./include/
 	$(CP) ./wrapper/io/monolis_io_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_2d_tri_1st_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_2d_tri_2nd_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_2d_quad_1st_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_3d_tet_1st_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_3d_tet_2nd_c.h ./include/
+	$(CP) ./wrapper/shape/monolis_shape_3d_hex_1st_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_sort_I_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_list_c.h ./include/
 	$(CP) ./wrapper/std/monolis_std_test_c.h ./include/
