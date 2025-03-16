@@ -49,8 +49,8 @@ void monolis_shape_2d_quad_1st_is_inside_domain(
     bool*         is_inside) 
 {
     *is_inside = false;
-    if (local[0] >= 0.0 && local[0] <= 1.0 &&
-        local[1] >= 0.0 && local[1] <= 1.0) 
+    if (local[0] >= -1.0 && local[0] <= 1.0 &&
+        local[1] >= -1.0 && local[1] <= 1.0) 
     {
         *is_inside = true;
     }

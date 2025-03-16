@@ -51,8 +51,10 @@ void monolis_shape_2d_tri_2nd_shapefunc_deriv(
     const double* local, 
     double**      func);
 
+/*
 void monolis_shape_2d_tri_2nd_shapefunc_2nd_deriv(
     double*** func);
+*/
 
 #ifdef __cplusplus
 }

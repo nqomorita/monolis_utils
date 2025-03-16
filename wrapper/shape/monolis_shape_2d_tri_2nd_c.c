@@ -102,6 +102,7 @@ void monolis_shape_2d_tri_2nd_shapefunc_deriv(
     func[5][1] = 4.0 * (st - et);
 }
 
+/*
 void monolis_shape_2d_tri_2nd_shapefunc_2nd_deriv(
     double*** func) 
 {
@@ -119,3 +120,4 @@ void monolis_shape_2d_tri_2nd_shapefunc_2nd_deriv(
     func[4][1][0] =  4.0;  func[4][1][1] =  0.0;
     func[5][1][0] = -4.0;  func[5][1][1] = -8.0;
 }
+*/

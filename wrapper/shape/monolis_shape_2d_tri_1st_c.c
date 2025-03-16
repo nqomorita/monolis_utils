@@ -30,15 +30,15 @@ void monolis_shape_2d_tri_1st_integral_point(
     const int i, 
     double*   r)
 {
-    r[0] = gsp[0][i];
-    r[1] = gsp[1][i];
+    r[0] = gsp[i][0];
+    r[1] = gsp[i][1];
 }
 
 void monolis_shape_2d_tri_1st_node_point(
     const int i, 
     double*   r) {
-    r[0] = np[0][i];
-    r[1] = np[1][i];
+    r[0] = np[i][0];
+    r[1] = np[i][1];
 }
 
 void monolis_shape_2d_tri_1st_shapefunc(

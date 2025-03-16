@@ -52,15 +52,15 @@ void monolis_shape_2d_tri_2nd_is_inside_domain_c_test()
     monolis_std_log_string("monolis_shape_2d_tri_2nd_is_inside_domain");
 
     double inside_points[][2] = {
-        {0.3, 0.3}, {0.0, 0.0}, {0.5, 0.0}, {0.1, 0.1}
+        {0.3, 0.3}, {0.0, 0.0}, {0.5, 0.0}, {0.1, 0.1}, {0.5, 0.5}
     };
     double outside_points[][2] = {
-        {-0.1, 0.1}, {1.1, 0.0}, {0.5, 0.5}, {0.0, 1.0}
+        {-0.1, 0.1}, {1.1, 0.0}, {0.5, 0.6}, {0.0, 1.1}
     };
 
     bool is_inside;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         monolis_shape_2d_tri_2nd_is_inside_domain(inside_points[i], &is_inside);
         monolis_test_check_eq_I1("monolis_shape_2d_tri_2nd_is_inside_domain inside", is_inside, 1);
     }
