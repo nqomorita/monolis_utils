@@ -1,6 +1,6 @@
 /* alloc_c.h */
-#ifndef MONOLIS_ALLOC_C_H
-#define MONOLIS_ALLOC_C_H
+#ifndef MONOLIS_SHAPP_3D_TET_2ND_H
+#define MONOLIS_SHAPP_3D_TET_2ND_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -56,14 +56,14 @@ static const bool monolis_shape_3d_tet_2nd_edge_constraint_flag[6][7] = {
     { true,  false, false, false, true,  false, false }
 };
 
-int monolis_shape_3d_tet_2nd_num_gauss_point();
+int monolis_shape_3d_tet_2nd_num_integral_point();
 
 double monolis_shape_3d_tet_2nd_weight(
-    int i);
+    const int i);
 
 void monolis_shape_3d_tet_2nd_integral_point(
-    int     i, 
-    double* r);
+    const int i, 
+    double*   r);
 
 void monolis_shape_3d_tet_2nd_is_inside_domain(
     const double* local, 

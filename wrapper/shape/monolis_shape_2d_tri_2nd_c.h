@@ -1,6 +1,6 @@
 /* alloc_c.h */
-#ifndef MONOLIS_ALLOC_C_H
-#define MONOLIS_ALLOC_C_H
+#ifndef MONOLIS_SHAPP_2D_TRI_2ND_H
+#define MONOLIS_SHAPP_2D_TRI_2ND_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,18 +26,18 @@ static const bool monolis_shape_2d_tri_2nd_edge_constraint_flag[3][3] = {
     { true,  false, false }
 };
 
-int monolis_shape_2d_tri_2nd_num_gauss_point();
+int monolis_shape_2d_tri_2nd_num_integral_point();
 
 double monolis_shape_2d_tri_2nd_weight(
-    int i);
+    const int i);
 
 void monolis_shape_2d_tri_2nd_integral_point(
-    int     i, 
-    double* r);
+    const int i, 
+    double*   r);
 
 void monolis_shape_2d_tri_2nd_node_point(
-    int     i, 
-    double* r);
+    const int i, 
+    double*   r);
 
 void monolis_shape_2d_tri_2nd_is_inside_domain(
     const double* local, 
@@ -52,7 +52,7 @@ void monolis_shape_2d_tri_2nd_shapefunc_deriv(
     double**      func);
 
 void monolis_shape_2d_tri_2nd_shapefunc_2nd_deriv(
-    double func[6][2][2]);
+    double*** func);
 
 #ifdef __cplusplus
 }

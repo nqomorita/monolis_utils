@@ -1,6 +1,6 @@
 /* alloc_c.h */
-#ifndef MONOLIS_ALLOC_C_H
-#define MONOLIS_ALLOC_C_H
+#ifndef MONOLIS_SHAPP_2D_QUAD_1ST_H
+#define MONOLIS_SHAPP_2D_QUAD_1ST_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,18 +36,18 @@ static const bool monolis_shape_2d_quad_1st_edge_constraint_flag[4][3] = {
  * @param[in] size 配列サイズ
  * @ingroup alloc
  */
-int monolis_shape_2d_quad_1st_num_gauss_point();
+int monolis_shape_2d_quad_1st_num_integral_point();
 
 double monolis_shape_2d_quad_1st_weight(
-    int i);
+    const int i);
 
 void monolis_shape_2d_quad_1st_integral_point(
-    int     i, 
-    double* r);
+    const int i, 
+    double*   r);
 
 void monolis_shape_2d_quad_1st_node_point(
-    int     i, 
-    double* r);
+    const int i, 
+    double*   r);
 
 void monolis_shape_2d_quad_1st_is_inside_domain(
     const double* local, 

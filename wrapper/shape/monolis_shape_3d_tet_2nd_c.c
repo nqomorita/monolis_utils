@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "monolis_shape_3d_tet_1st_c.h"
 
 static const double gsp[4][3] = {
     {0.138196601125011, 0.138196601125011, 0.138196601125011},
@@ -10,20 +11,20 @@ static const double gsp[4][3] = {
     {0.138196601125011, 0.138196601125011, 0.585410196624968}
 };
 
-int monolis_shape_3d_tet_2nd_num_gauss_point()
+int monolis_shape_3d_tet_2nd_num_integral_point()
 {
     return 4;
 }
 
 double monolis_shape_3d_tet_2nd_weight(
-    int i)
+    const int i)
 {
     return 0.041666666666667;
 }
 
 void monolis_shape_3d_tet_2nd_integral_point(
-    int     i, 
-    double* r)
+    const int i, 
+    double*   r)
 {
     r[0] = gsp[i][0];
     r[1] = gsp[i][1];

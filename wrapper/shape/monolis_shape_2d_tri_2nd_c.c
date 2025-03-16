@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "monolis_shape_2d_tri_1st_c.h"
 
 static const double gsp[4][2] = {
     {0.166666666666667, 0.166666666666667},
@@ -19,32 +20,28 @@ static const double np[6][2] = {
     {0.0, 0.5}
 };
 
-static const double weight[4] = {
-    0.5, 0.5, 0.5, 0.5
-};
-
-int monolis_shape_2d_tri_2nd_num_gauss_point() 
+int monolis_shape_2d_tri_2nd_num_integral_point() 
 {
     return 4;
 }
 
 double monolis_shape_2d_tri_2nd_weight(
-    int i) 
+    const int i) 
 {
-    return weight[i];
+    return 0.5;
 }
 
 void monolis_shape_2d_tri_2nd_integral_point(
-    int     i, 
-    double* r) 
+    const int i, 
+    double*   r) 
 {
     r[0] = gsp[i][0];
     r[1] = gsp[i][1];
 }
 
 void monolis_shape_2d_tri_2nd_node_point(
-    int     i, 
-    double* r) 
+    const int i, 
+    double*   r) 
 {
     r[0] = np[i][0];
     r[1] = np[i][1];
@@ -106,7 +103,7 @@ void monolis_shape_2d_tri_2nd_shapefunc_deriv(
 }
 
 void monolis_shape_2d_tri_2nd_shapefunc_2nd_deriv(
-    double func[6][2][2]) 
+    double*** func) 
 {
     func[0][0][0] =  4.0;  func[0][0][1] =  4.0;
     func[1][0][0] =  4.0;  func[1][0][1] =  0.0;

@@ -17,28 +17,28 @@ static const double np[4][2] = {
     {-1.0,  1.0}
 };
 
-int monolis_shape_2d_quad_1st_num_gauss_point() 
+int monolis_shape_2d_quad_1st_num_integral_point() 
 {
     return 4;
 }
 
 double monolis_shape_2d_quad_1st_weight(
-    int i) 
+    const int i) 
 {
     return 1.0;
 }
 
 void monolis_shape_2d_quad_1st_integral_point(
-    int     i, 
-    double* r) 
+    const int i, 
+    double*   r) 
 {
     r[0] = gsp[i][0];
     r[1] = gsp[i][1];
 }
 
 void monolis_shape_2d_quad_1st_node_point(
-    int     i, 
-    double* r) 
+    const int i, 
+    double*   r) 
 {
     r[0] = np[i][0];
     r[1] = np[i][1];

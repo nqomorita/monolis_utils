@@ -12,6 +12,12 @@
 #include "./io/monolis_io_file_name_c_test.h"
 #include "./io/monolis_io_com_c_test.h"
 #include "./io/monolis_io_c_test.h"
+#include "./shape/monolis_shape_2d_quad_1st_c_test.h"
+#include "./shape/monolis_shape_2d_tri_1st_c_test.h"
+#include "./shape/monolis_shape_2d_tri_2nd_c_test.h"
+#include "./shape/monolis_shape_3d_hex_1st_c_test.h"
+#include "./shape/monolis_shape_3d_tet_1st_c_test.h"
+#include "./shape/monolis_shape_3d_tet_2nd_c_test.h"
 #include "./com/monolis_comm_table_c_test.h"
 
 int main()
@@ -37,6 +43,18 @@ int main()
   monolis_mpi_util_test();
 
   monolis_comm_table_c_test();
+
+  monolis_shape_2d_quad_1st_test();
+
+  monolis_shape_2d_tri_1st_test();
+
+  monolis_shape_2d_tri_2nd_test();
+
+  monolis_shape_3d_hex_1st_test();
+
+  monolis_shape_3d_tet_1st_test();
+
+  monolis_shape_3d_tet_2nd_test();
 
   monolis_mpi_finalize();
 }

@@ -173,6 +173,7 @@ $(addprefix sys/, $(SRC_SYS_C)) \
 $(addprefix std/, $(SRC_STD_C)) \
 $(addprefix io/, $(SRC_IO_C)) \
 $(addprefix com/, $(SRC_COM_C)) \
+$(addprefix shape/, $(SRC_SHAPE_C)) \
 $(addprefix mpi/, $(SRC_MPI_C))
 
 ##> all targes
@@ -271,6 +272,7 @@ $(addprefix define/, $(SRC_DEFINE_C_TEST)) \
 $(addprefix sys/, $(SRC_SYS_C_TEST)) \
 $(addprefix io/, $(SRC_IO_C_TEST)) \
 $(addprefix std/, $(SRC_STD_C_TEST)) \
+$(addprefix shape/, $(SRC_SHAPE_C_TEST)) \
 $(addprefix com/, $(SRC_COM_C_TEST)) \
 $(addprefix mpi/, $(SRC_MPI_C_TEST))
 
