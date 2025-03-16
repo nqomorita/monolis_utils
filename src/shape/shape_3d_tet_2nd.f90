@@ -41,12 +41,12 @@ module mod_monolis_shape_3d_tet_2nd
      .true. , .false., .false., .false., .false., .false., .false.  ], [7,4])
 
   integer(kint), parameter :: monolis_shape_3d_tet_2nd_edge(3,6) = reshape([ &
-     1, 1, 2, &
-     2, 2, 3, &
-     3, 3, 1, &
-     1, 1, 4, &
-     2, 2, 4, &
-     3, 3, 4  ], [3,6])
+     1, 5, 2, &
+     2, 6, 3, &
+     3, 7, 1, &
+     1, 8, 4, &
+     2, 9, 4, &
+     3,10, 4  ], [3,6])
 
   !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
   real(kdouble), parameter :: monolis_shape_3d_tet_2nd_edge_constraint_value(7,6) = reshape([ &
