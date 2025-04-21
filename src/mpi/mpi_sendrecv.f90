@@ -1130,7 +1130,7 @@ contains
 
   !> @ingroup mpi_dev
   !> ベクトルのアップデート関数（複素数型）
-  subroutine monolis_mpi_update_C_wapper(monoCOM, ndof, n_dof_index, X, tcomm)
+  subroutine monolis_mpi_update_C_wrapper(monoCOM, ndof, n_dof_index, X, tcomm)
     implicit none
     !> [in] COM 構造体
     type(monolis_com), intent(in) :: monoCOM
@@ -1148,7 +1148,7 @@ contains
     else
       call monolis_mpi_update_C(monoCOM, ndof, X, tcomm)
     endif
-  end subroutine monolis_mpi_update_C_wapper
+  end subroutine monolis_mpi_update_C_wrapper
 
   !> @ingroup mpi
   !> 隣接領域の任意本数ベクトルの取得関数（実数型）
