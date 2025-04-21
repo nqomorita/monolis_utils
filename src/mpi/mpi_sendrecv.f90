@@ -878,6 +878,28 @@ contains
     endif
   end subroutine monolis_mpi_update_R
 
+  !> @ingroup mpi_dev
+  !> ベクトルのアップデート関数（実数型）
+  subroutine monolis_mpi_update_R_wrapper(monoCOM, ndof, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    real(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), intent(inout) :: tcomm
+
+    if(ndof == -1)then
+      call monolis_mpi_update_V_R_main(monoCOM, n_dof_index, X, tcomm)
+    else
+      call monolis_mpi_update_R(monoCOM, ndof, X, tcomm)
+    endif
+  end subroutine monolis_mpi_update_R_wrapper
+
   !> @ingroup mpi
   !> ベクトルのアップデート関数（実数型）
   subroutine monolis_mpi_update_reverse_R(monoCOM, ndof, X, tcomm)
@@ -996,6 +1018,28 @@ contains
     endif
   end subroutine monolis_mpi_update_I
 
+  !> @ingroup mpi_dev
+  !> ベクトルのアップデート関数（整数型）
+  subroutine monolis_mpi_update_I_wrapper(monoCOM, ndof, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    integer(kint), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), intent(inout) :: tcomm
+
+    if(ndof == -1)then
+      call monolis_mpi_update_V_I_main(monoCOM, n_dof_index, X, tcomm)
+    else
+      call monolis_mpi_update_I(monoCOM, ndof, X, tcomm)
+    endif
+  end subroutine monolis_mpi_update_I_wrapper
+
   !> @ingroup mpi
   !> ベクトルのアップデート関数（複素数型）
   subroutine monolis_mpi_update_V_C(monoCOM, n, n_dof_list, X, tcomm)
@@ -1083,6 +1127,28 @@ contains
       tcomm = tcomm + t2 - t1
     endif
   end subroutine monolis_mpi_update_C
+
+  !> @ingroup mpi_dev
+  !> ベクトルのアップデート関数（複素数型）
+  subroutine monolis_mpi_update_C_wapper(monoCOM, ndof, n_dof_index, X, tcomm)
+    implicit none
+    !> [in] COM 構造体
+    type(monolis_com), intent(in) :: monoCOM
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: ndof
+    !> [in] 計算点が持つ自由度
+    integer(kint), intent(in) :: n_dof_index(:)
+    !> [in,out] 入出力ベクトル
+    complex(kdouble), intent(inout) :: X(:)
+    !> [in,out] 通信時間
+    real(kdouble), intent(inout) :: tcomm
+
+    if(ndof == -1)then
+      call monolis_mpi_update_V_C_main(monoCOM, n_dof_index, X, tcomm)
+    else
+      call monolis_mpi_update_C(monoCOM, ndof, X, tcomm)
+    endif
+  end subroutine monolis_mpi_update_C_wapper
 
   !> @ingroup mpi
   !> 隣接領域の任意本数ベクトルの取得関数（実数型）
