@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <complex.h>
 #include "monolis_utils.h"
 
 void monolis_list_initialize_R_c_test()
@@ -113,7 +114,7 @@ void monolis_list_set_I_c_test()
 void monolis_list_set_C_c_test()
 {
   MONOLIS_LIST_C list_struct_C[1];
-  double complex array[1];
+  double _Complex array[1];
 
   monolis_std_log_string("monolis_list_set_C");
 
@@ -163,8 +164,8 @@ void monolis_list_get_I_c_test()
 void monolis_list_get_C_c_test()
 {
   MONOLIS_LIST_C list_struct_C[1];
-  double complex array1[1];
-  double complex *array2 = NULL;
+  double _Complex array1[1];
+  double _Complex *array2 = NULL;
 
   monolis_std_log_string("monolis_list_get_C");
 

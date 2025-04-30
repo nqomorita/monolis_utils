@@ -96,7 +96,7 @@ void monolis_list_set_C(
   MONOLIS_LIST_C* list_struct_C,
   const int id,
   const int n,
-  const double complex* array)
+  const double _Complex* array)
 {
   list_struct_C[id].n = n;
   monolis_dealloc_C_1d(&list_struct_C[id].array);
@@ -133,7 +133,7 @@ void monolis_list_get_I(
 void monolis_list_get_C(
   const MONOLIS_LIST_C* list_struct_C,
   const int id,
-  double complex** array)
+  double _Complex** array)
 {
   monolis_dealloc_C_1d(array);
   *array = monolis_alloc_C_1d(*array, list_struct_C[id].n);

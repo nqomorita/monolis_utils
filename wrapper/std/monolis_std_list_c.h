@@ -6,8 +6,6 @@
 extern "C" {
 #endif
 
-#include<complex.h>
-
 typedef struct{
   int n;
   double* array;
@@ -20,7 +18,7 @@ typedef struct{
 
 typedef struct{
   int n;
-  double complex* array;
+  double _Complex* array;
 } MONOLIS_LIST_C;
 
 void monolis_list_initialize_R(
@@ -63,7 +61,7 @@ void monolis_list_set_C(
   MONOLIS_LIST_C* list_struct_C,
   const int id,
   const int n,
-  const double complex* array);
+  const double _Complex* array);
 
 void monolis_list_get_R(
   const MONOLIS_LIST_R* list_struct_R,
@@ -78,7 +76,7 @@ void monolis_list_get_I(
 void monolis_list_get_C(
   const MONOLIS_LIST_C* list_struct_C,
   const int id,
-  double complex** array);
+  double _Complex** array);
 
 #ifdef __cplusplus
 }
