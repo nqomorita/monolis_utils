@@ -10,7 +10,7 @@ void monolis_list_initialize_R(
 {
   for (int i = 0; i < n; i++) {
     list_struct_R[i].n = 0;
-    monolis_dealloc_R_1d(&list_struct_R[i].array);
+    list_struct_R[i].array = NULL;
   }
 }
 
@@ -20,7 +20,7 @@ void monolis_list_initialize_I(
 {
   for (int i = 0; i < n; i++) {
     list_struct_I[i].n = 0;
-    monolis_dealloc_I_1d(&list_struct_I[i].array);
+    list_struct_I[i].array = NULL;
   }
 }
 
@@ -30,7 +30,7 @@ void monolis_list_initialize_C(
 {
   for (int i = 0; i < n; i++) {
     list_struct_C[i].n = 0;
-    monolis_dealloc_C_1d(&list_struct_C[i].array);
+    list_struct_C[i].array = NULL;
   }
 }
 
