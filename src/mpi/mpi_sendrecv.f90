@@ -98,17 +98,17 @@ contains
           ws(kn) = val_in(jS + k)
         enddo
       enddo l1
-      iS = ws_index(i) + 1
+      iS = ws_index(i)
       iE = ws_index(i + 1)
-      call monolis_Isend_R(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+      call monolis_Isend_R(iE-iS, ws(iS+1:iE), send_neib_pe(i), comm, req1(i))
     enddo
 
     do i = 1, recv_n_neib
-      iS = wr_index(i) + 1
+      iS = wr_index(i)
       iE = wr_index(i + 1)
       in = iE - iS
       if(in == 0) cycle
-      call monolis_Irecv_R(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+      call monolis_Irecv_R(iE-iS, wr(iS+1:iE), recv_neib_pe(i), comm, req2(i))
     enddo
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
@@ -428,17 +428,17 @@ contains
           ws(kn) = val_in(jS + k)
         enddo
       enddo l1
-      iS = ws_index(i) + 1
+      iS = ws_index(i)
       iE = ws_index(i + 1)
-      call monolis_Isend_I(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+      call monolis_Isend_I(iE-iS, ws(iS+1:iE), send_neib_pe(i), comm, req1(i))
     enddo
 
     do i = 1, recv_n_neib
-      iS = wr_index(i) + 1
+      iS = wr_index(i)
       iE = wr_index(i + 1)
       in = iE - iS
       if(in == 0) cycle
-      call monolis_Irecv_I(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+      call monolis_Irecv_I(iE-iS, wr(iS+1:iE), recv_neib_pe(i), comm, req2(i))
     enddo
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
@@ -677,17 +677,17 @@ contains
           ws(kn) = val_in(jS + k)
         enddo
       enddo l1
-      iS = ws_index(i) + 1
+      iS = ws_index(i)
       iE = ws_index(i + 1)
-      call monolis_Isend_C(iE-iS+1, ws(iS:iE), send_neib_pe(i), comm, req1(i))
+      call monolis_Isend_C(iE-iS, ws(iS+1:iE), send_neib_pe(i), comm, req1(i))
     enddo
 
     do i = 1, recv_n_neib
-      iS = wr_index(i) + 1
+      iS = wr_index(i)
       iE = wr_index(i + 1)
       in = iE - iS
       if(in == 0) cycle
-      call monolis_Irecv_C(iE-iS+1, wr(iS:iE), recv_neib_pe(i), comm, req2(i))
+      call monolis_Irecv_C(iE-iS, wr(iS+1:iE), recv_neib_pe(i), comm, req2(i))
     enddo
 
     call MPI_waitall(recv_n_neib, req2, sta2, ierr)
