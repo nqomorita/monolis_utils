@@ -1,6 +1,7 @@
 module mod_monolis_shape_3d_tet_1st
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
+  use mod_monolis_def_shape
   implicit none
 
   private
@@ -77,6 +78,14 @@ module mod_monolis_shape_3d_tet_1st
     public :: monolis_shape_3d_tet_1st_edge
     public :: monolis_shape_3d_tet_1st_edge_constraint_value
     public :: monolis_shape_3d_tet_1st_edge_constraint_flag
+    ! 標準インターフェース用の関数
+    public :: monolis_shape_func_3d_tet_1st
+    public :: monolis_domain_func_3d_tet
+    public :: monolis_shape_3d_tet_1st_get_face_data
+    public :: monolis_shape_3d_tet_1st_get_edge_data
+    ! 境界マッピング関数
+    public :: monolis_shape_3d_tet_1st_map_local_coord
+    public :: monolis_shape_3d_tet_1st_is_on_boundary
 
 contains
 
@@ -186,4 +195,140 @@ contains
     call monolis_get_inverse_matrix_R_3d(xj, inv, det, is_fail)
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_3d_tet_1st_get_global_deriv
+
+  !> 標準インターフェースによる形状関数
+  subroutine monolis_shape_func_3d_tet_1st(local_coord, N)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: N(:)
+    
+    call monolis_shape_3d_tet_1st_shapefunc(local_coord, N)
+  end subroutine monolis_shape_func_3d_tet_1st
+
+  !> 標準インターフェースによる定義域判定関数
+  subroutine monolis_domain_func_3d_tet(local_coord, dim, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    integer(kint), intent(in) :: dim
+    logical, intent(out) :: is_inside
+    
+    call monolis_shape_3d_tet_1st_is_inside_domain(local_coord, is_inside)
+  end subroutine monolis_domain_func_3d_tet
+
+  !> 四面体1次要素の面情報を取得する関数
+  subroutine monolis_shape_3d_tet_1st_get_face_data(face_id, face_nodes, face_type)
+    use mod_monolis_def_shape, only: monolis_shape_2d_tri_1st
+    implicit none
+    integer(kint), intent(in) :: face_id
+    integer(kint), allocatable, intent(out) :: face_nodes(:)
+    integer(kint), intent(out) :: face_type
+    
+    if(face_id < 1 .or. face_id > 4) then
+      face_type = -1
+      return
+    endif
+    
+    face_type = monolis_shape_2d_tri_1st
+    allocate(face_nodes(3))
+    face_nodes(1:3) = monolis_shape_3d_tet_1st_surf(1:3, face_id)
+  end subroutine monolis_shape_3d_tet_1st_get_face_data
+
+  !> 四面体1次要素のエッジ情報を取得する関数
+  subroutine monolis_shape_3d_tet_1st_get_edge_data(edge_id, edge_nodes, edge_type)
+    use mod_monolis_def_shape, only: monolis_shape_1d_line_1st
+    implicit none
+    integer(kint), intent(in) :: edge_id
+    integer(kint), allocatable, intent(out) :: edge_nodes(:)
+    integer(kint), intent(out) :: edge_type
+    
+    if(edge_id < 1 .or. edge_id > 6) then
+      edge_type = -1
+      return
+    endif
+    
+    edge_type = monolis_shape_1d_line_1st
+    allocate(edge_nodes(2))
+    edge_nodes(1:2) = monolis_shape_3d_tet_1st_edge(1:2, edge_id)
+  end subroutine monolis_shape_3d_tet_1st_get_edge_data
+
+  !> 四面体1次要素の局所座標をマッピングする関数
+  subroutine monolis_shape_3d_tet_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
+    implicit none
+    !> [in] 部分要素次元（0:頂点, 1:エッジ, 2:面）
+    integer(kint), intent(in) :: sub_dim
+    !> [in] 部分要素ID (1-based)
+    integer(kint), intent(in) :: sub_id
+    !> [in] 部分要素での局所座標
+    real(kdouble), intent(in) :: sub_coord(:)
+    !> [out] 親要素での対応する局所座標
+    real(kdouble), intent(out) :: parent_coord(3)
+    
+    real(kdouble) :: u, v
+    
+    parent_coord = 0.0d0
+    
+    if(sub_dim == 2) then ! 面の場合
+      u = sub_coord(1)
+      v = sub_coord(2)
+      select case(sub_id)
+        case(1) ! 底面 (x+y+z=0)
+          parent_coord(1) = u
+          parent_coord(2) = v
+          parent_coord(3) = 0.0d0
+        case(2) ! 側面1 (z=0, y=0)
+          parent_coord(1) = u
+          parent_coord(2) = 0.0d0
+          parent_coord(3) = v
+        case(3) ! 側面2 (x=1-y-z)
+          parent_coord(1) = 1.0d0 - v
+          parent_coord(2) = u
+          parent_coord(3) = v
+        case(4) ! 側面3 (x=0)
+          parent_coord(1) = 0.0d0
+          parent_coord(2) = u
+          parent_coord(3) = v
+      end select
+      
+    else if(sub_dim == 1) then ! エッジの場合
+      u = sub_coord(1) ! エッジ上の局所座標 [0,1]
+      select case(sub_id)
+        case(1) ! エッジ1-2
+          parent_coord = (/0.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/1.0d0, 0.0d0, 0.0d0/) * u
+        case(2) ! エッジ2-3
+          parent_coord = (/1.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/0.0d0, 1.0d0, 0.0d0/) * u
+        case(3) ! エッジ3-1
+          parent_coord = (/0.0d0, 1.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/0.0d0, 0.0d0, 0.0d0/) * u
+        case(4) ! エッジ1-4
+          parent_coord = (/0.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/0.0d0, 0.0d0, 1.0d0/) * u
+        case(5) ! エッジ2-4
+          parent_coord = (/1.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/0.0d0, 0.0d0, 1.0d0/) * u
+        case(6) ! エッジ3-4
+          parent_coord = (/0.0d0, 1.0d0, 0.0d0/) * (1.0d0-u) + &
+                        (/0.0d0, 0.0d0, 1.0d0/) * u
+      end select
+      
+    else if(sub_dim == 0) then ! 頂点の場合
+      select case(sub_id)
+        case(1); parent_coord = (/0.0d0, 0.0d0, 0.0d0/)
+        case(2); parent_coord = (/1.0d0, 0.0d0, 0.0d0/)
+        case(3); parent_coord = (/0.0d0, 1.0d0, 0.0d0/)
+        case(4); parent_coord = (/0.0d0, 0.0d0, 1.0d0/)
+      end select
+    endif
+  end subroutine monolis_shape_3d_tet_1st_map_local_coord
+
+  !> 四面体1次要素の境界上にあるかを判定する関数
+  subroutine monolis_shape_3d_tet_1st_is_on_boundary(local_coord, is_on_boundary)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    logical, intent(out) :: is_on_boundary
+
+    is_on_boundary = (local_coord(1) == 0.0d0 .or. local_coord(2) == 0.0d0 .or. local_coord(3) == 0.0d0)
+  end subroutine monolis_shape_3d_tet_1st_is_on_boundary
+
 end module mod_monolis_shape_3d_tet_1st

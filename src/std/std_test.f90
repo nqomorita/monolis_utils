@@ -117,13 +117,15 @@ contains
     !> [in] 入力配列 b
     integer(kint), intent(in) :: b
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     call monolis_test_check_eq_I_main(a, b, is_eq)
 
     if(is_eq)then
       call monolis_test_assert_pass(header)
     else
-      call monolis_test_assert_fail(header, "value mismatch")
+      write(reason, '(a,i0,a,i0)') "value mismatch: expected ", b, " but got ", a
+      call monolis_test_assert_fail(header, trim(reason))
     endif
   end subroutine monolis_test_check_eq_I1
 
@@ -138,13 +140,15 @@ contains
     !> [in] 入力配列 b
     real(kdouble), intent(in) :: b
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     call monolis_test_check_eq_R_main(a, b, is_eq)
 
     if(is_eq)then
       call monolis_test_assert_pass(header)
     else
-      call monolis_test_assert_fail(header, "value mismatch")
+      write(reason, '(a,e15.8,a,e15.8)') "value mismatch: expected ", b, " but got ", a
+      call monolis_test_assert_fail(header, trim(reason))
     endif
   end subroutine monolis_test_check_eq_R1
 
@@ -159,13 +163,16 @@ contains
     !> [in] 入力配列 b
     complex(kdouble), intent(in) :: b
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     call monolis_test_check_eq_C_main(a, b, is_eq)
 
     if(is_eq)then
       call monolis_test_assert_pass(header)
     else
-      call monolis_test_assert_fail(header, "value mismatch")
+      write(reason, '(a,2e15.8,a,2e15.8)') "value mismatch: expected (", real(b), dimag(b), &
+        & ") but got (", real(a), dimag(a), ")"
+      call monolis_test_assert_fail(header, trim(reason))
     endif
   end subroutine monolis_test_check_eq_C1
 
@@ -180,13 +187,25 @@ contains
     !> [in] 入力配列 b
     logical, intent(in) :: b
     logical :: is_eq
+    character(monolis_charlen) :: reason, a_val, b_val
 
     call monolis_test_check_eq_L_main(a, b, is_eq)
 
     if(is_eq)then
       call monolis_test_assert_pass(header)
     else
-      call monolis_test_assert_fail(header, "value mismatch")
+      if(a) then
+        a_val = "true"
+      else
+        a_val = "false"
+      endif
+      if(b) then
+        b_val = "true"
+      else
+        b_val = "false"
+      endif
+      write(reason, '(a,a,a,a)') "value mismatch: expected ", trim(b_val), " but got ", trim(a_val)
+      call monolis_test_assert_fail(header, trim(reason))
     endif
   end subroutine monolis_test_check_eq_L1
 
@@ -202,6 +221,7 @@ contains
     integer(kint), intent(in) :: b(:)
     integer(kint) :: i
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     if(size(a) /= size(b))then
       call monolis_test_assert_fail(header, "size mismatch")
@@ -209,7 +229,10 @@ contains
 
     do i = 1, size(a)
       call monolis_test_check_eq_I_main(a(i), b(i), is_eq)
-      if(.not. is_eq) call monolis_test_assert_fail(header, "value mismatch")
+      if(.not. is_eq) then
+        write(reason, '(a,i0,a,i0,a,i0)') "value mismatch at index ", i, ": expected ", b(i), " but got ", a(i)
+        call monolis_test_assert_fail(header, trim(reason))
+      endif
     enddo
 
     call monolis_test_assert_pass(header)
@@ -227,6 +250,7 @@ contains
     real(kdouble), intent(in) :: b(:)
     integer(kint) :: i
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     if(size(a) /= size(b))then
       call monolis_test_assert_fail(header, "size mismatch")
@@ -234,7 +258,10 @@ contains
 
     do i = 1, size(a)
       call monolis_test_check_eq_R_main(a(i), b(i), is_eq)
-      if(.not. is_eq) call monolis_test_assert_fail(header, "value mismatch")
+      if(.not. is_eq) then
+        write(reason, '(a,i0,a,e15.8,a,e15.8)') "value mismatch at index ", i, ": expected ", b(i), " but got ", a(i)
+        call monolis_test_assert_fail(header, trim(reason))
+      endif
     enddo
 
     call monolis_test_assert_pass(header)
@@ -252,6 +279,7 @@ contains
     complex(kdouble), intent(in) :: b(:)
     integer(kint) :: i
     logical :: is_eq
+    character(monolis_charlen) :: reason
 
     if(size(a) /= size(b))then
       call monolis_test_assert_fail(header, "size mismatch")
@@ -259,7 +287,11 @@ contains
 
     do i = 1, size(a)
       call monolis_test_check_eq_C_main(a(i), b(i), is_eq)
-      if(.not. is_eq) call monolis_test_assert_fail(header, "value mismatch")
+      if(.not. is_eq) then
+        write(reason, '(a,i0,a,2e15.8,a,2e15.8)') "value mismatch at index ", i, ": expected (", real(b(i)), dimag(b(i)), &
+          & ") but got (", real(a(i)), dimag(a(i)), ")"
+        call monolis_test_assert_fail(header, trim(reason))
+      endif
     enddo
 
     call monolis_test_assert_pass(header)
@@ -277,6 +309,7 @@ contains
     logical, intent(in) :: b(:)
     integer(kint) :: i
     logical :: is_eq
+    character(monolis_charlen) :: reason, a_val, b_val
 
     if(size(a) /= size(b))then
       call monolis_test_assert_fail(header, "size mismatch")
@@ -284,7 +317,20 @@ contains
 
     do i = 1, size(a)
       call monolis_test_check_eq_L_main(a(i), b(i), is_eq)
-      if(.not. is_eq) call monolis_test_assert_fail(header, "value mismatch")
+      if(.not. is_eq) then
+        if(a(i)) then
+          a_val = "true"
+        else
+          a_val = "false"
+        endif
+        if(b(i)) then
+          b_val = "true"
+        else
+          b_val = "false"
+        endif
+        write(reason, '(a,i0,a,a,a,a)') "value mismatch at index ", i, ": expected ", trim(b_val), " but got ", trim(a_val)
+        call monolis_test_assert_fail(header, trim(reason))
+      endif
     enddo
 
     call monolis_test_assert_pass(header)

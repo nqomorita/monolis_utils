@@ -19,6 +19,11 @@ program monolis_utils_test
   use mod_monolis_mpi_sendrecv_test
   use mod_monolis_mpi_util_test
   use mod_monolis_mpi_util
+  use mod_monolis_shape_1d_line_1st_test
+  use mod_monolis_shape_2d_tri_1st_test
+  use mod_monolis_shape_2d_quad_1st_test
+  use mod_monolis_shape_3d_tet_1st_test
+  use mod_monolis_shape_3d_hex_1st_test
   use mod_monolis_io_arg_test
   use mod_monolis_io_file_name_test
   use mod_monolis_io_com_test
@@ -56,6 +61,9 @@ program monolis_utils_test
   call monolis_mpi_test()
   call monolis_mpi_sendrecv_test()
   call monolis_mpi_util_test()
+  call monolis_shape_1d_line_1st_test()
+  call monolis_shape_2d_tri_1st_test()
+  call monolis_shape_2d_quad_1st_test()
   call monolis_comm_table_test()
   call monolis_comm_par_util_test()
   call monolis_comm_ser_util_test()
@@ -64,6 +72,9 @@ program monolis_utils_test
   call monolis_driver_util_test()
   call monolis_extract_util_test()
   call monolis_refiner_util_test()
+
+  call monolis_shape_3d_tet_1st_test()
+  call monolis_shape_3d_hex_1st_test()
 
   if(monolis_mpi_get_global_comm_size() == 1)then
     call monolis_io_arg_test()

@@ -1,6 +1,7 @@
 module mod_monolis_shape_3d_hex_1st
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
+  use mod_monolis_def_shape
   implicit none
 
   private
@@ -112,6 +113,13 @@ module mod_monolis_shape_3d_hex_1st
     public :: monolis_shape_3d_hex_1st_edge
     public :: monolis_shape_3d_hex_1st_edge_constraint_value
     public :: monolis_shape_3d_hex_1st_edge_constraint_flag
+    ! 標準インターフェース用の関数
+    public :: monolis_shape_func_3d_hex_1st
+    public :: monolis_domain_func_3d_hex
+    public :: monolis_shape_3d_hex_1st_get_face_data
+    public :: monolis_shape_3d_hex_1st_get_edge_data
+    public :: monolis_shape_3d_hex_1st_is_on_boundary
+    public :: monolis_shape_3d_hex_1st_map_local_coord
 
 contains
 
@@ -234,4 +242,175 @@ contains
     call monolis_get_inverse_matrix_R_3d(xj, inv, det, is_fail)
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_3d_hex_1st_get_global_deriv
+
+  !> 標準インターフェースによる形状関数
+  subroutine monolis_shape_func_3d_hex_1st(local_coord, N)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: N(:)
+    
+    call monolis_shape_3d_hex_1st_shapefunc(local_coord, N)
+  end subroutine monolis_shape_func_3d_hex_1st
+
+  !> 標準インターフェースによる定義域判定関数
+  subroutine monolis_domain_func_3d_hex(local_coord, dim, is_inside)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    integer(kint), intent(in) :: dim
+    logical, intent(out) :: is_inside
+    
+    call monolis_shape_3d_hex_1st_is_inside_domain(local_coord, is_inside)
+  end subroutine monolis_domain_func_3d_hex
+
+  !> 六面体1次要素の面情報を取得する関数
+  subroutine monolis_shape_3d_hex_1st_get_face_data(face_id, face_nodes, face_type)
+    use mod_monolis_def_shape, only: monolis_shape_2d_quad_1st
+    implicit none
+    integer(kint), intent(in) :: face_id
+    integer(kint), allocatable, intent(out) :: face_nodes(:)
+    integer(kint), intent(out) :: face_type
+    
+    if(face_id < 1 .or. face_id > 6) then
+      face_type = -1
+      return
+    endif
+    
+    face_type = monolis_shape_2d_quad_1st
+    allocate(face_nodes(4))
+    face_nodes(1:4) = monolis_shape_3d_hex_1st_surf(1:4, face_id)
+  end subroutine monolis_shape_3d_hex_1st_get_face_data
+
+  !> 六面体1次要素のエッジ情報を取得する関数
+  subroutine monolis_shape_3d_hex_1st_get_edge_data(edge_id, edge_nodes, edge_type)
+    use mod_monolis_def_shape, only: monolis_shape_1d_line_1st
+    implicit none
+    integer(kint), intent(in) :: edge_id
+    integer(kint), allocatable, intent(out) :: edge_nodes(:)
+    integer(kint), intent(out) :: edge_type
+    
+    if(edge_id < 1 .or. edge_id > 12) then
+      edge_type = -1
+      return
+    endif
+    
+    edge_type = monolis_shape_1d_line_1st
+    allocate(edge_nodes(2))
+    edge_nodes(1:2) = monolis_shape_3d_hex_1st_edge(1:2, edge_id)
+  end subroutine monolis_shape_3d_hex_1st_get_edge_data
+
+  !> 六面体1次要素の境界上にあるかを判定する関数
+  subroutine monolis_shape_3d_hex_1st_is_on_boundary(local_coord, is_on_boundary)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    logical, intent(out) :: is_on_boundary
+    real(kdouble) :: eps
+
+    eps = 1.0d-10
+    is_on_boundary = .false.
+    
+    ! いずれかの面上にあるか確認
+    if (abs(local_coord(1) - (-1.0d0)) < eps .or. &
+        abs(local_coord(1) - 1.0d0) < eps .or. &
+        abs(local_coord(2) - (-1.0d0)) < eps .or. &
+        abs(local_coord(2) - 1.0d0) < eps .or. &
+        abs(local_coord(3) - (-1.0d0)) < eps .or. &
+        abs(local_coord(3) - 1.0d0) < eps) then
+      is_on_boundary = .true.
+    endif
+  end subroutine monolis_shape_3d_hex_1st_is_on_boundary
+
+  !> 六面体1次要素の境界座標マッピング関数 (部分要素から親要素へ)
+  subroutine monolis_shape_3d_hex_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
+    implicit none
+    integer(kint), intent(in) :: sub_dim !> 部分要素次元（0:頂点, 1:エッジ, 2:面）
+    integer(kint), intent(in) :: sub_id  !> 部分要素ID (1-based)
+    real(kdouble), intent(in) :: sub_coord(:)  !> 部分要素での局所座標
+    real(kdouble), intent(out) :: parent_coord(3) !> 親要素での対応する局所座標
+    
+    real(kdouble) :: u, v
+    
+    parent_coord = 0.0d0
+    
+    if (sub_dim == 2) then ! 面
+      u = sub_coord(1)
+      v = sub_coord(2)
+      select case(sub_id)
+        case(1) ! z = -1 面
+          parent_coord(1) = u
+          parent_coord(2) = v
+          parent_coord(3) = -1.0d0
+        case(2) ! z = 1 面
+          parent_coord(1) = u
+          parent_coord(2) = v
+          parent_coord(3) = 1.0d0
+        case(3) ! y = -1 面
+          parent_coord(1) = u
+          parent_coord(2) = -1.0d0
+          parent_coord(3) = v
+        case(4) ! x = 1 面
+          parent_coord(1) = 1.0d0
+          parent_coord(2) = u
+          parent_coord(3) = v
+        case(5) ! y = 1 面
+          parent_coord(1) = u
+          parent_coord(2) = 1.0d0
+          parent_coord(3) = v
+        case(6) ! x = -1 面
+          parent_coord(1) = -1.0d0
+          parent_coord(2) = u
+          parent_coord(3) = v
+      end select
+    else if (sub_dim == 1) then ! エッジ
+      u = sub_coord(1) ! エッジ上の局所座標 [-1, 1]
+      select case(sub_id)
+        case(1) ! エッジ1-2
+          parent_coord = (/-1.0d0, -1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0, -1.0d0, -1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(2) ! エッジ2-3
+          parent_coord = (/ 1.0d0, -1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0,  1.0d0, -1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(3) ! エッジ3-4
+          parent_coord = (/ 1.0d0,  1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0,  1.0d0, -1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(4) ! エッジ4-1
+          parent_coord = (/-1.0d0,  1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0, -1.0d0, -1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(5) ! エッジ5-6
+          parent_coord = (/-1.0d0, -1.0d0,  1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0, -1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(6) ! エッジ6-7
+          parent_coord = (/ 1.0d0, -1.0d0,  1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0,  1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(7) ! エッジ7-8
+          parent_coord = (/ 1.0d0,  1.0d0,  1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0,  1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(8) ! エッジ8-5
+          parent_coord = (/-1.0d0,  1.0d0,  1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0, -1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(9) ! エッジ1-5
+          parent_coord = (/-1.0d0, -1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0, -1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(10) ! エッジ2-6
+          parent_coord = (/ 1.0d0, -1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0, -1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(11) ! エッジ3-7
+          parent_coord = (/ 1.0d0,  1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/ 1.0d0,  1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+        case(12) ! エッジ4-8
+          parent_coord = (/-1.0d0,  1.0d0, -1.0d0/) * (1.0d0 - (u+1.0d0)/2.0d0) + &
+                        (/-1.0d0,  1.0d0,  1.0d0/) * ((u+1.0d0)/2.0d0)
+      end select
+    else if (sub_dim == 0) then ! 頂点
+      select case(sub_id)
+        case(1); parent_coord = (/-1.0d0, -1.0d0, -1.0d0/)
+        case(2); parent_coord = (/ 1.0d0, -1.0d0, -1.0d0/)
+        case(3); parent_coord = (/ 1.0d0,  1.0d0, -1.0d0/)
+        case(4); parent_coord = (/-1.0d0,  1.0d0, -1.0d0/)
+        case(5); parent_coord = (/-1.0d0, -1.0d0,  1.0d0/)
+        case(6); parent_coord = (/ 1.0d0, -1.0d0,  1.0d0/)
+        case(7); parent_coord = (/ 1.0d0,  1.0d0,  1.0d0/)
+        case(8); parent_coord = (/-1.0d0,  1.0d0,  1.0d0/)
+      end select
+    endif
+  end subroutine monolis_shape_3d_hex_1st_map_local_coord
 end module mod_monolis_shape_3d_hex_1st

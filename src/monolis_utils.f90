@@ -22,6 +22,7 @@ module mod_monolis_utils
   use mod_monolis_io_util
   use mod_monolis_io_file_name
   use mod_monolis_shape_util
+  use mod_monolis_shape_1d_line_1st
   use mod_monolis_shape_2d_tri_1st
   use mod_monolis_shape_2d_tri_2nd
   use mod_monolis_shape_2d_quad_1st

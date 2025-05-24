@@ -7,18 +7,24 @@ module mod_monolis_shape_3d_tet_2nd
   private
 
   real(kdouble), parameter :: gsp(3,4) = reshape([ &
-     0.138196601125011d0, 0.138196601125011d0, 0.138196601125011d0, &
-     0.585410196624968d0, 0.138196601125011d0, 0.138196601125011d0, &
-     0.138196601125011d0, 0.585410196624968d0, 0.138196601125011d0, &
-     0.138196601125011d0, 0.138196601125011d0, 0.585410196624968d0  &
+    0.25d0, 0.25d0, 0.25d0, &
+    0.5d0, 0.1666666666666667d0, 0.1666666666666667d0, &
+    0.1666666666666667d0, 0.5d0, 0.1666666666666667d0, &
+    0.1666666666666667d0, 0.1666666666666667d0, 0.5d0 &
     ], [3,4])
 
-  !real(kdouble), parameter :: np(3,4) = reshape([ &
-  !   -1.0d0, -1.0d0,-1.0d0, &
-  !    1.0d0, -1.0d0,-1.0d0, &
-  !    1.0d0,  1.0d0, 1.0d0, &
-  !   -1.0d0,  1.0d0, 1.0d0  &
-  !  ], [3,4])
+  real(kdouble), parameter :: np(3,10) = reshape([ &
+    0.0d0, 0.0d0, 0.0d0, &
+    1.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 1.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 1.0d0, &
+    0.5d0, 0.0d0, 0.0d0, &
+    0.5d0, 0.5d0, 0.0d0, &
+    0.0d0, 0.5d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.5d0, &
+    0.5d0, 0.0d0, 0.5d0, &
+    0.0d0, 0.5d0, 0.5d0 &
+    ], [3,10])
 
   integer(kint), parameter :: monolis_shape_3d_tet_2nd_surf(6,4) = reshape([ &
      3, 2, 1, 6, 5, 7,&
@@ -41,35 +47,37 @@ module mod_monolis_shape_3d_tet_2nd
      .true. , .false., .false., .false., .false., .false., .false.  ], [7,4])
 
   integer(kint), parameter :: monolis_shape_3d_tet_2nd_edge(3,6) = reshape([ &
-     1, 5, 2, &
-     2, 6, 3, &
-     3, 7, 1, &
-     1, 8, 4, &
-     2, 9, 4, &
-     3,10, 4  ], [3,6])
-
-  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
-  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_edge_constraint_value(7,6) = reshape([ &
-     0.0d0,-1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0, 0.0d0,-1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    -1.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    -1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, &
-    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0  ], [7,6])
+    1, 5, 2, &
+    2, 6, 3, &
+    3, 7, 1, &
+    1, 8, 4, &
+    2, 9, 4, &
+    3, 10, 4 &
+    ], [3,6])
 
   !> [r_1, r_2, r_1 and r_2]
+  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_edge_constraint_value(7,6) = reshape([ &
+    0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0 &
+    ], [7,6])
+
   logical, parameter :: monolis_shape_3d_tet_2nd_edge_constraint_flag(7,6) = reshape([ &
-     .false., .true. , .true. , .false., .false., .false., .false., &
-     .false., .false., .true. , .true. , .false., .false., .false., &
-     .true. , .false., .true. , .false., .false., .false., .false., &
-     .true. , .true. , .false., .false., .false., .false., .false., &
-     .false., .true. , .false., .false., .false., .true. , .false., &
-     .true. , .false., .false., .false., .true. , .false., .false.  ], [7,6])
+    .false., .true. , .true. , .false., .false., .false., .false., &
+    .false., .false., .true. , .true. , .false., .false., .false., &
+    .true. , .false., .true. , .false., .false., .false., .false., &
+    .true. , .true. , .false., .false., .false., .false., .false., &
+    .false., .true. , .false., .false., .false., .true. , .false., &
+    .true. , .false., .false., .false., .true. , .false., .false. &
+    ], [7,6])
 
     public :: monolis_shape_3d_tet_2nd_num_gauss_point
     public :: monolis_shape_3d_tet_2nd_weight
     public :: monolis_shape_3d_tet_2nd_integral_point
-    !public :: monolis_shape_3d_tet_2nd_node_point
+    public :: monolis_shape_3d_tet_2nd_node_point
     public :: monolis_shape_3d_tet_2nd_is_inside_domain
     public :: monolis_shape_3d_tet_2nd_shapefunc
     public :: monolis_shape_3d_tet_2nd_shapefunc_deriv
@@ -107,15 +115,15 @@ contains
     r(3) = gsp(3,i)
   end subroutine monolis_shape_3d_tet_2nd_integral_point
 
-  !subroutine monolis_shape_3d_tet_2nd_node_point(i, r)
-  !  implicit none
-  !  integer(kint), intent(in) :: i
-  !  real(kdouble), intent(out) :: r(3)
+  subroutine monolis_shape_3d_tet_2nd_node_point(i, r)
+    implicit none
+    integer(kint), intent(in) :: i
+    real(kdouble), intent(out) :: r(3)
 
-  !  r(1) = np(1,i)
-  !  r(2) = np(2,i)
-  !  r(3) = np(3,i)
-  !end subroutine monolis_shape_3d_tet_2nd_node_point
+    r(1) = np(1,i)
+    r(2) = np(2,i)
+    r(3) = np(3,i)
+  end subroutine monolis_shape_3d_tet_2nd_node_point
 
   subroutine monolis_shape_3d_tet_2nd_is_inside_domain(local, is_inside)
     implicit none
