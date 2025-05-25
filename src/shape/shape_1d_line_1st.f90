@@ -128,10 +128,9 @@ contains
   end subroutine monolis_shape_func_1d_line_1st
 
   ! 標準インターフェースによる定義域判定関数
-  subroutine monolis_domain_func_1d_line(local_coord, dim, is_inside)
+  subroutine monolis_domain_func_1d_line(local_coord, is_inside)
     implicit none
     real(kdouble), intent(in) :: local_coord(:)
-    integer(kint), intent(in) :: dim
     logical, intent(out) :: is_inside
     
     call monolis_shape_1d_line_1st_is_inside_domain(local_coord, is_inside)

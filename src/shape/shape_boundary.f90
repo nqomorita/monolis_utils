@@ -39,11 +39,10 @@ module mod_monolis_shape_boundary
 
   ! 定義域関数のインターフェース定義
   interface
-    subroutine monolis_domain_func(local_coord, dim, is_inside)
+    subroutine monolis_domain_func(local_coord,  is_inside)
       use mod_monolis_utils_define_prm
       implicit none
       real(kdouble), intent(in) :: local_coord(:)
-      integer(kint), intent(in) :: dim
       logical, intent(out) :: is_inside
     end subroutine monolis_domain_func
   end interface
