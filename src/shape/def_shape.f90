@@ -52,53 +52,78 @@ module mod_monolis_def_shape
   integer(kint), parameter :: monolis_shape_3d_hex_1st  = 361  ! 六面体1次要素 (3D)
   integer(kint), parameter :: monolis_shape_3d_hex_2nd  = 362  ! 六面体2次要素 (3D)
 
-  !> 形状関数インターフェース
+  !> 形状関数のインターフェース定義
   interface
-    subroutine monolis_shape_func_if(local_coord, N)
+    subroutine monolis_shape_func(local_coord, N)
       use mod_monolis_utils_define_prm
       implicit none
       real(kdouble), intent(in) :: local_coord(:)
       real(kdouble), intent(out) :: N(:)
-    end subroutine monolis_shape_func_if
+    end subroutine monolis_shape_func
   end interface
 
-  !> 定義域判定インターフェース
+  !> 定義域関数のインターフェース定義
   interface
-    subroutine monolis_domain_func_if(local_coord, dim, is_inside)
+    subroutine monolis_domain_func(local_coord, is_inside)
       use mod_monolis_utils_define_prm
       implicit none
       real(kdouble), intent(in) :: local_coord(:)
-      integer(kint), intent(in) :: dim
       logical, intent(out) :: is_inside
-    end subroutine monolis_domain_func_if
+    end subroutine monolis_domain_func
   end interface
 
-  !> エッジ情報取得インターフェース
+  !> 局所座標系における節点位置定義関数のインターフェース定義
   interface
-    subroutine monolis_get_edge_data_if(edge_id, edge_nodes, edge_type)
+    subroutine monolis_local_node_point_func(i, local_coord)
       use mod_monolis_utils_define_prm
       implicit none
-      integer(kint), intent(in) :: edge_id
-      integer(kint), allocatable, intent(out) :: edge_nodes(:)
-      integer(kint), intent(out) :: edge_type
-    end subroutine monolis_get_edge_data_if
+      integer(kint), intent(in) :: i
+      real(kdouble), intent(out) :: local_coord
+    end subroutine monolis_local_node_point_func
   end interface
 
-  !> 面情報取得インターフェース
+  !> エッジ・面上の局所座標系から、３次元局所座標系へのマップ関数のインターフェース定義
   interface
-    subroutine monolis_get_face_data_if(face_id, face_nodes, face_type)
+    subroutine monolis_shape_map_func(i, local_coord, local_coord_3d)
       use mod_monolis_utils_define_prm
       implicit none
-      integer(kint), intent(in) :: face_id
-      integer(kint), allocatable, intent(out) :: face_nodes(:)
-      integer(kint), intent(out) :: face_type
-    end subroutine monolis_get_face_data_if
+      integer(kint), intent(in) :: i
+      real(kdouble), intent(in) :: local_coord(:)
+      real(kdouble), intent(out) :: local_coord_3d(:)
+    end subroutine monolis_shape_map_func
   end interface
 
-  ! プロジェクト全体で使用できるようにインターフェースを公開
-  public :: monolis_shape_func_if
-  public :: monolis_domain_func_if
-  public :: monolis_get_edge_data_if
-  public :: monolis_get_face_data_if
+  !> エッジ情報定義関数のインターフェース定義
+  interface
+    subroutine monolis_edge_data_func(i_edge, n_edge_node, edge_node_ids, &
+      edge_shape_func, edge_domain_func, edge_local_np_fucn, edge_shape_map_func)
+      use mod_monolis_utils_define_prm
+      implicit none
+      integer(kint), intent(in) :: i_edge
+      integer(kint), intent(out) :: n_edge_node
+      integer(kint), intent(out) :: edge_node_ids(:)
+      procedure(monolis_shape_func) :: edge_shape_func
+      procedure(monolis_domain_func) :: edge_domain_func
+      procedure(monolis_local_node_point_func) :: edge_local_np_fucn
+      procedure(monolis_shape_map_func) :: edge_shape_map_func
+    end subroutine monolis_edge_data_func
+  end interface
 
+  !> 面情報定義関数のインターフェース定義
+  interface
+    subroutine monolis_surf_data_func(i_face, n_face_node, face_node_ids, &
+      face_shape_func, face_domain_func, n_face_edge, edge_data_func, face_shape_map_func)
+      use mod_monolis_utils_define_prm
+      implicit none
+      integer(kint), intent(in) :: i_face
+      integer(kint), intent(out) :: n_face_node
+      integer(kint), intent(out) :: n_face_edge
+      integer(kint), intent(out) :: face_node_ids(:)
+      procedure(monolis_shape_func) :: face_shape_func
+      procedure(monolis_domain_func) :: face_domain_func
+      procedure(monolis_local_node_point_func) :: edge_local_np_fucn
+      procedure(monolis_edge_data_func) :: edge_data_func
+      procedure(monolis_shape_map_func) :: face_shape_map_func
+    end subroutine monolis_surf_data_func
+  end interface
 end module mod_monolis_def_shape

@@ -26,26 +26,6 @@ module mod_monolis_shape_boundary
   public :: monolis_shape_get_boundary_shape_func
   public :: monolis_shape_get_boundary_domain_func
   public :: monolis_shape_get_boundary_info
-  
-  ! 形状関数のインターフェース定義
-  interface
-    subroutine monolis_shape_func(local_coord, N)
-      use mod_monolis_utils_define_prm
-      implicit none
-      real(kdouble), intent(in) :: local_coord(:)
-      real(kdouble), intent(out) :: N(:)
-    end subroutine monolis_shape_func
-  end interface
-
-  ! 定義域関数のインターフェース定義
-  interface
-    subroutine monolis_domain_func(local_coord,  is_inside)
-      use mod_monolis_utils_define_prm
-      implicit none
-      real(kdouble), intent(in) :: local_coord(:)
-      logical, intent(out) :: is_inside
-    end subroutine monolis_domain_func
-  end interface
 
 contains
 
@@ -64,28 +44,50 @@ contains
     integer(kint), intent(out) :: n_edge
     
     select case(elem_type)
-      case(monolis_shape_point) ! 点要素(1)
+      ! 点要素(1)
+      case(monolis_shape_point) 
         n_node = 1; dim = DIM_0D; n_face = 0; n_edge = 0
-      case(monolis_shape_1d_line_1st) ! 線要素1次(111)
+
+      ! 線要素1次(111)
+      case(monolis_shape_1d_line_1st)
         n_node = 2; dim = DIM_1D; n_face = 0; n_edge = 0
-      case(monolis_shape_1d_line_2nd) ! 線要素2次(112)
+
+      ! 線要素2次(112)
+      case(monolis_shape_1d_line_2nd)
         n_node = 3; dim = DIM_1D; n_face = 0; n_edge = 0
-      case(monolis_shape_2d_tri_1st) ! 三角形1次要素(231)
+
+      ! 三角形1次要素(231)
+      case(monolis_shape_2d_tri_1st)
         n_node = 3; dim = DIM_2D; n_face = 0; n_edge = 3
-      case(monolis_shape_2d_tri_2nd) ! 三角形2次要素(232)
+
+      ! 三角形2次要素(232)
+      case(monolis_shape_2d_tri_2nd) 
         n_node = 6; dim = DIM_2D; n_face = 0; n_edge = 3
-      case(monolis_shape_2d_quad_1st) ! 四角形1次要素(241)
+
+      ! 四角形1次要素(241)
+      case(monolis_shape_2d_quad_1st)
         n_node = 4; dim = DIM_2D; n_face = 0; n_edge = 4
-      case(monolis_shape_2d_quad_2nd) ! 四角形2次要素(242)
+
+      ! 四角形2次要素(242)
+      case(monolis_shape_2d_quad_2nd)
         n_node = 8; dim = DIM_2D; n_face = 0; n_edge = 4
-      case(monolis_shape_3d_tet_1st) ! 四面体1次要素(341)
+
+      ! 四面体1次要素(341)
+      case(monolis_shape_3d_tet_1st) 
         n_node = 4; dim = DIM_3D; n_face = 4; n_edge = 6
-      case(monolis_shape_3d_tet_2nd) ! 四面体2次要素(342)
+
+      ! 四面体2次要素(342)
+      case(monolis_shape_3d_tet_2nd) 
         n_node = 10; dim = DIM_3D; n_face = 4; n_edge = 6
-      case(monolis_shape_3d_hex_1st) ! 六面体1次要素(361)
+
+      ! 六面体1次要素(361)
+      case(monolis_shape_3d_hex_1st) 
         n_node = 8; dim = DIM_3D; n_face = 6; n_edge = 12
-      case(monolis_shape_3d_hex_2nd) ! 六面体2次要素(362)
+
+      ! 六面体2次要素(362)
+      case(monolis_shape_3d_hex_2nd) 
         n_node = 20; dim = DIM_3D; n_face = 6; n_edge = 12
+  
       case default
         n_node = 0; dim = -1; n_face = 0; n_edge = 0
         print *, "Error: Unknown element type:", elem_type

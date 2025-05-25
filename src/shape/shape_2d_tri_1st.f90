@@ -27,18 +27,6 @@ module mod_monolis_shape_2d_tri_1st
      2, 3, &
      3, 1  ], [2,3])
 
-  !> [r_1, r_2, r_1 and r_2]
-  real(kdouble), parameter :: monolis_shape_2d_tri_1st_edge_constraint_value(3,3) = reshape([ &
-     0.0d0,-1.0d0, 0.0d0, &
-     0.0d0, 0.0d0, 0.0d0, &
-    -1.0d0, 0.0d0, 0.0d0  ], [3,3])
-
-  !> [r_1, r_2, r_1 and r_2]
-  logical, parameter :: monolis_shape_2d_tri_1st_edge_constraint_flag(3,3) = reshape([ &
-     .false., .true. , .false., &
-     .false., .false., .true. , &
-     .true. , .false., .false.  ], [3,3])
-
     public :: monolis_shape_2d_tri_1st_num_gauss_point
     public :: monolis_shape_2d_tri_1st_weight
     public :: monolis_shape_2d_tri_1st_integral_point
@@ -49,14 +37,11 @@ module mod_monolis_shape_2d_tri_1st
     public :: monolis_shape_2d_tri_1st_get_global_position
     public :: monolis_shape_2d_tri_1st_get_global_deriv
     public :: monolis_shape_2d_tri_1st_edge
-    public :: monolis_shape_2d_tri_1st_edge_constraint_value
-    public :: monolis_shape_2d_tri_1st_edge_constraint_flag
     ! 標準インターフェース用の関数を公開
     public :: monolis_shape_func_2d_tri_1st
     public :: monolis_domain_func_2d_tri
-    public :: monolis_shape_2d_tri_1st_get_edge_data
-    public :: monolis_shape_2d_tri_1st_is_on_boundary
-    public :: monolis_shape_2d_tri_1st_map_local_coord
+    public :: monolis_edge_data_func_2d_tri_1st
+    !public :: monolis_shape_2d_tri_1st_map_local_coord
 
 contains
 
@@ -155,7 +140,7 @@ contains
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_2d_tri_1st_get_global_deriv
 
-  ! 標準インターフェースによる形状関数
+  !> 標準インターフェースによる形状関数
   subroutine monolis_shape_func_2d_tri_1st(local_coord, N)
     implicit none
     real(kdouble), intent(in) :: local_coord(:)
@@ -164,7 +149,7 @@ contains
     call monolis_shape_2d_tri_1st_shapefunc(local_coord, N)
   end subroutine monolis_shape_func_2d_tri_1st
 
-  ! 標準インターフェースによる定義域判定関数
+  !> 標準インターフェースによる定義域判定関数
   subroutine monolis_domain_func_2d_tri(local_coord, is_inside)
     implicit none
     real(kdouble), intent(in) :: local_coord(:)
@@ -173,41 +158,23 @@ contains
     call monolis_shape_2d_tri_1st_is_inside_domain(local_coord, is_inside)
   end subroutine monolis_domain_func_2d_tri
 
-  !> 2次元三角形1次要素のエッジ情報を取得する関数
-  subroutine monolis_shape_2d_tri_1st_get_edge_data(edge_id, edge_nodes, edge_type)
-    use mod_monolis_def_shape, only: monolis_shape_1d_line_1st
+  !> 標準インターフェースによるエッジ情報定義関数
+  subroutine monolis_edge_data_func_2d_tri_1st(i_edge, n_edge_node, edge_node_ids, &
+    edge_shape_func, edge_domain_func, edge_local_np_fucn, edge_shape_map_func)
     implicit none
-    integer(kint), intent(in) :: edge_id
-    integer(kint), allocatable, intent(out) :: edge_nodes(:)
-    integer(kint), intent(out) :: edge_type
-    
-    if(edge_id < 1 .or. edge_id > 3) then
-      edge_type = -1
-      return
-    endif
-    
-    edge_type = monolis_shape_1d_line_1st
-    allocate(edge_nodes(2))
-    edge_nodes(1:2) = monolis_shape_2d_tri_1st_edge(1:2, edge_id)
-  end subroutine monolis_shape_2d_tri_1st_get_edge_data
+    integer(kint), intent(in) :: i_edge
+    integer(kint), intent(out) :: n_edge_node
+    integer(kint), intent(out) :: edge_node_ids(:)
+    procedure(monolis_shape_func), pointer :: edge_shape_func
+    procedure(monolis_domain_func), pointer :: edge_domain_func
+    procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
+    procedure(monolis_shape_map_func), pointer :: edge_shape_map_func
 
-  !> 2D三角形要素の境界上にあるかを判定する関数
-  subroutine monolis_shape_2d_tri_1st_is_on_boundary(local_coord, is_on_boundary)
-    implicit none
-    real(kdouble), intent(in) :: local_coord(:)
-    logical, intent(out) :: is_on_boundary
-    real(kdouble) :: eps
-
-    eps = 1.0d-10
-    is_on_boundary = .false.
-    
-    ! 辺上にあるかどうかをチェック
-    if (abs(local_coord(1)) < eps .or. &
-        abs(local_coord(2)) < eps .or. &
-        abs(local_coord(1) + local_coord(2) - 1.0d0) < eps) then
-      is_on_boundary = .true.
-    endif
-  end subroutine monolis_shape_2d_tri_1st_is_on_boundary
+    edge_shape_func => null()
+    edge_domain_func => null()
+    edge_local_np_fucn => null()
+    edge_shape_map_func => null()
+  end subroutine monolis_edge_data_func_2d_tri_1st
 
   !> 2D三角形要素の部分要素の局所座標を親要素の局所座標にマップする関数
   subroutine monolis_shape_2d_tri_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
@@ -221,8 +188,8 @@ contains
     
     parent_coord = 0.0d0
     
-    if (sub_dim == 1) then ! 辺
-      u = 0.5d0 * (sub_coord(1) + 1.0d0) ! [-1,1] -> [0,1]
+    if (sub_dim == 1) then
+      u = 0.5d0 * (sub_coord(1) + 1.0d0)
       select case(sub_id)
         case(1) ! 辺1-2
           parent_coord(1) = u
@@ -234,7 +201,7 @@ contains
           parent_coord(1) = 0.0d0
           parent_coord(2) = 1.0d0 - u
       end select
-    else if (sub_dim == 0) then ! 頂点
+    else if (sub_dim == 0) then
       select case(sub_id)
         case(1); parent_coord(1:2) = (/0.0d0, 0.0d0/)
         case(2); parent_coord(1:2) = (/1.0d0, 0.0d0/)

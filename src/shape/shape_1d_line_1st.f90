@@ -29,8 +29,8 @@ module mod_monolis_shape_1d_line_1st
     ! 標準インターフェース用の関数を公開
     public :: monolis_shape_func_1d_line_1st
     public :: monolis_domain_func_1d_line
-    ! 境界マッピング関数
-    public :: monolis_shape_1d_line_1st_map_local_coord
+    public :: monolis_local_node_position_1d_line_1st
+    !public :: monolis_shape_1d_line_1st_map_local_coord
 
 contains
 
@@ -135,6 +135,17 @@ contains
     
     call monolis_shape_1d_line_1st_is_inside_domain(local_coord, is_inside)
   end subroutine monolis_domain_func_1d_line
+
+  ! 標準インターフェースによる定義域判定関数
+  subroutine monolis_local_node_position_1d_line_1st(i_node, local_positon)
+    implicit none
+    integer(kint), intent(in) :: i_node
+    real(kdouble), intent(out) :: local_positon
+    real(kdouble) :: r(1)
+    
+    call monolis_shape_1d_line_1st_node_point(i_node, r)
+    local_positon = r(1)
+  end subroutine monolis_local_node_position_1d_line_1st
 
   !> 1D線要素の部分要素（端点）の局所座標を親要素の局所座標にマップする関数
   subroutine monolis_shape_1d_line_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)

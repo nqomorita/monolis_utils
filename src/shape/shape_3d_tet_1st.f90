@@ -23,20 +23,6 @@ module mod_monolis_shape_3d_tet_1st
      2, 3, 4, &
      3, 1, 4  ], [3,4])
 
-  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
-  real(kdouble), parameter :: monolis_shape_3d_tet_1st_surf_constraint_value(7,4) = reshape([ &
-     0.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, &
-    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0  ], [7,4])
-
-  !> [r_1, r_2, r_1 and r_2]
-  logical, parameter :: monolis_shape_3d_tet_1st_surf_constraint_flag(7,4) = reshape([ &
-     .false., .false., .true. , .false., .false., .false., .false., &
-     .false., .true. , .false., .false., .false., .false., .false., &
-     .false., .false., .false., .false., .false., .false., .true., &
-     .true. , .false., .false., .false., .false., .false., .false.  ], [7,4])
-
   integer(kint), parameter :: monolis_shape_3d_tet_1st_edge(2,6) = reshape([ &
      1, 2, &
      2, 3, &
@@ -44,24 +30,6 @@ module mod_monolis_shape_3d_tet_1st
      1, 4, &
      2, 4, &
      3, 4  ], [2,6])
-
-  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
-  real(kdouble), parameter :: monolis_shape_3d_tet_1st_edge_constraint_value(7,6) = reshape([ &
-     0.0d0,-1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0, 0.0d0,-1.0d0, 1.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    -1.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    -1.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, &
-    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, 0.0d0, 0.0d0  ], [7,6])
-
-  !> [r_1, r_2, r_1 and r_2]
-  logical, parameter :: monolis_shape_3d_tet_1st_edge_constraint_flag(7,6) = reshape([ &
-     .false., .true. , .true. , .false., .false., .false., .false., &
-     .false., .false., .true. , .true. , .false., .false., .false., &
-     .true. , .false., .true. , .false., .false., .false., .false., &
-     .true. , .true. , .false., .false., .false., .false., .false., &
-     .false., .true. , .false., .false., .false., .true. , .false., &
-     .true. , .false., .false., .false., .true. , .false., .false.  ], [7,6])
 
     public :: monolis_shape_3d_tet_1st_num_gauss_point
     public :: monolis_shape_3d_tet_1st_weight
@@ -73,19 +41,15 @@ module mod_monolis_shape_3d_tet_1st
     public :: monolis_shape_3d_tet_1st_get_global_position
     public :: monolis_shape_3d_tet_1st_get_global_deriv
     public :: monolis_shape_3d_tet_1st_surf
-    public :: monolis_shape_3d_tet_1st_surf_constraint_value
-    public :: monolis_shape_3d_tet_1st_surf_constraint_flag
     public :: monolis_shape_3d_tet_1st_edge
-    public :: monolis_shape_3d_tet_1st_edge_constraint_value
-    public :: monolis_shape_3d_tet_1st_edge_constraint_flag
     ! 標準インターフェース用の関数
     public :: monolis_shape_func_3d_tet_1st
     public :: monolis_domain_func_3d_tet
-    public :: monolis_shape_3d_tet_1st_get_face_data
-    public :: monolis_shape_3d_tet_1st_get_edge_data
-    ! 境界マッピング関数
-    public :: monolis_shape_3d_tet_1st_map_local_coord
-    public :: monolis_shape_3d_tet_1st_is_on_boundary
+    public :: monolis_surf_data_func_3d_tet_1st
+!    public :: monolis_shape_3d_tet_1st_get_face_data
+!    public :: monolis_shape_3d_tet_1st_get_edge_data
+!    public :: monolis_shape_3d_tet_1st_map_local_coord
+!    public :: monolis_shape_3d_tet_1st_is_on_boundary
 
 contains
 
@@ -214,41 +178,26 @@ contains
     call monolis_shape_3d_tet_1st_is_inside_domain(local_coord, is_inside)
   end subroutine monolis_domain_func_3d_tet
 
-  !> 四面体1次要素の面情報を取得する関数
-  subroutine monolis_shape_3d_tet_1st_get_face_data(face_id, face_nodes, face_type)
-    use mod_monolis_def_shape, only: monolis_shape_2d_tri_1st
+  subroutine monolis_surf_data_func_3d_tet_1st(i_face, n_face_node, face_node_ids, &
+    face_shape_func, face_domain_func, n_face_edge, edge_data_func, face_shape_map_func)
+    use mod_monolis_utils_define_prm
     implicit none
-    integer(kint), intent(in) :: face_id
-    integer(kint), allocatable, intent(out) :: face_nodes(:)
-    integer(kint), intent(out) :: face_type
-    
-    if(face_id < 1 .or. face_id > 4) then
-      face_type = -1
-      return
-    endif
-    
-    face_type = monolis_shape_2d_tri_1st
-    allocate(face_nodes(3))
-    face_nodes(1:3) = monolis_shape_3d_tet_1st_surf(1:3, face_id)
-  end subroutine monolis_shape_3d_tet_1st_get_face_data
+    integer(kint), intent(in) :: i_face
+    integer(kint), intent(out) :: n_face_node
+    integer(kint), intent(out) :: n_face_edge
+    integer(kint), intent(out) :: face_node_ids(:)
+    procedure(monolis_shape_func), pointer :: face_shape_func
+    procedure(monolis_domain_func), pointer :: face_domain_func
+    procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
+    procedure(monolis_edge_data_func), pointer :: edge_data_func
+    procedure(monolis_shape_map_func), pointer :: face_shape_map_func
 
-  !> 四面体1次要素のエッジ情報を取得する関数
-  subroutine monolis_shape_3d_tet_1st_get_edge_data(edge_id, edge_nodes, edge_type)
-    use mod_monolis_def_shape, only: monolis_shape_1d_line_1st
-    implicit none
-    integer(kint), intent(in) :: edge_id
-    integer(kint), allocatable, intent(out) :: edge_nodes(:)
-    integer(kint), intent(out) :: edge_type
-    
-    if(edge_id < 1 .or. edge_id > 6) then
-      edge_type = -1
-      return
-    endif
-    
-    edge_type = monolis_shape_1d_line_1st
-    allocate(edge_nodes(2))
-    edge_nodes(1:2) = monolis_shape_3d_tet_1st_edge(1:2, edge_id)
-  end subroutine monolis_shape_3d_tet_1st_get_edge_data
+    face_shape_func => null()
+    face_domain_func => null()
+    edge_local_np_fucn => null()
+    edge_data_func => null()
+    face_shape_map_func => null()
+  end subroutine monolis_surf_data_func_3d_tet_1st
 
   !> 四面体1次要素の局所座標をマッピングする関数
   subroutine monolis_shape_3d_tet_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
@@ -320,14 +269,5 @@ contains
       end select
     endif
   end subroutine monolis_shape_3d_tet_1st_map_local_coord
-
-  !> 四面体1次要素の境界上にあるかを判定する関数
-  subroutine monolis_shape_3d_tet_1st_is_on_boundary(local_coord, is_on_boundary)
-    implicit none
-    real(kdouble), intent(in) :: local_coord(:)
-    logical, intent(out) :: is_on_boundary
-
-    is_on_boundary = (local_coord(1) == 0.0d0 .or. local_coord(2) == 0.0d0 .or. local_coord(3) == 0.0d0)
-  end subroutine monolis_shape_3d_tet_1st_is_on_boundary
 
 end module mod_monolis_shape_3d_tet_1st
