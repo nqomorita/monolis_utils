@@ -1,7 +1,11 @@
 module mod_monolis_shape_3d_tet_2nd
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
+  use mod_monolis_def_shape
   use mod_monolis_shape_3d_tet_1st
+  use mod_monolis_shape_2d_tri_1st
+  use mod_monolis_shape_2d_tri_2nd
+  use mod_monolis_utils_alloc
   implicit none
 
   private
@@ -32,20 +36,6 @@ module mod_monolis_shape_3d_tet_2nd
      2, 3, 4, 6,10, 9,&
      3, 1, 4, 7, 8,10 ], [6,4])
 
-  !> [r_1, r_2, r_3, r_1 and r_2, r_2 and r_3, r_1 and r_3, r_1 and r_2 and r_3]
-  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_surf_constraint_value(7,4) = reshape([ &
-     0.0d0, 0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-     0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 1.0d0, &
-    -1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0  ], [7,4])
-
-  !> [r_1, r_2, r_1 and r_2]
-  logical, parameter :: monolis_shape_3d_tet_2nd_surf_constraint_flag(7,4) = reshape([ &
-     .false., .false., .true. , .false., .false., .false., .false., &
-     .false., .true. , .false., .false., .false., .false., .false., &
-     .false., .false., .false., .false., .false., .false., .true., &
-     .true. , .false., .false., .false., .false., .false., .false.  ], [7,4])
-
   integer(kint), parameter :: monolis_shape_3d_tet_2nd_edge(3,6) = reshape([ &
     1, 5, 2, &
     2, 6, 3, &
@@ -54,25 +44,6 @@ module mod_monolis_shape_3d_tet_2nd
     2, 9, 4, &
     3, 10, 4 &
     ], [3,6])
-
-  !> [r_1, r_2, r_1 and r_2]
-  real(kdouble), parameter :: monolis_shape_3d_tet_2nd_edge_constraint_value(7,6) = reshape([ &
-    0.0d0,-1.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
-    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0 &
-    ], [7,6])
-
-  logical, parameter :: monolis_shape_3d_tet_2nd_edge_constraint_flag(7,6) = reshape([ &
-    .false., .true. , .true. , .false., .false., .false., .false., &
-    .false., .false., .true. , .true. , .false., .false., .false., &
-    .true. , .false., .true. , .false., .false., .false., .false., &
-    .true. , .true. , .false., .false., .false., .false., .false., &
-    .false., .true. , .false., .false., .false., .true. , .false., &
-    .true. , .false., .false., .false., .true. , .false., .false. &
-    ], [7,6])
 
     public :: monolis_shape_3d_tet_2nd_num_gauss_point
     public :: monolis_shape_3d_tet_2nd_weight
@@ -84,11 +55,11 @@ module mod_monolis_shape_3d_tet_2nd
     public :: monolis_shape_3d_tet_2nd_get_global_position
     public :: monolis_shape_3d_tet_2nd_get_global_deriv
     public :: monolis_shape_3d_tet_2nd_surf
-    public :: monolis_shape_3d_tet_2nd_surf_constraint_value
-    public :: monolis_shape_3d_tet_2nd_surf_constraint_flag
     public :: monolis_shape_3d_tet_2nd_edge
-    public :: monolis_shape_3d_tet_2nd_edge_constraint_value
-    public :: monolis_shape_3d_tet_2nd_edge_constraint_flag
+    ! 標準インターフェース用の関数
+    public :: monolis_shape_func_3d_tet_2nd
+    public :: monolis_surf_data_func_3d_tet_2nd
+    public :: monolis_surf_map_func_3d_tet_2nd
 
 contains
 
@@ -233,4 +204,93 @@ contains
     call monolis_get_inverse_matrix_R_3d(xj, inv, det)
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_3d_tet_2nd_get_global_deriv
+
+  !> 標準インターフェースによる形状関数
+  subroutine monolis_shape_func_3d_tet_2nd(local_coord, N)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: N(:)
+    
+    call monolis_shape_3d_tet_2nd_shapefunc(local_coord, N)
+  end subroutine monolis_shape_func_3d_tet_2nd
+
+  subroutine monolis_surf_data_func_3d_tet_2nd(i_face, n_face_node, face_node_ids, &
+    face_shape_func, face_domain_func, n_face_edge, edge_data_func, face_shape_map_func)
+    use mod_monolis_utils_define_prm
+    implicit none
+    integer(kint), intent(in) :: i_face
+    integer(kint), intent(out) :: n_face_node
+    integer(kint), intent(out) :: n_face_edge
+    integer(kint), intent(out), allocatable :: face_node_ids(:)
+    procedure(monolis_shape_func), pointer :: face_shape_func
+    procedure(monolis_domain_func), pointer :: face_domain_func
+    procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
+    procedure(monolis_edge_data_func), pointer :: edge_data_func
+    procedure(monolis_shape_map_func), pointer :: face_shape_map_func
+
+    if(i_face < 1 .or. 6 < i_face)then
+      n_face_node = -1
+      return
+    endif
+
+    n_face_node = 6
+    call monolis_alloc_I_1d(face_node_ids, 6)
+    face_node_ids(1) = monolis_shape_3d_tet_2nd_surf(1, i_face)
+    face_node_ids(2) = monolis_shape_3d_tet_2nd_surf(2, i_face)
+    face_node_ids(3) = monolis_shape_3d_tet_2nd_surf(3, i_face)
+    face_node_ids(4) = monolis_shape_3d_tet_2nd_surf(4, i_face)
+    face_node_ids(5) = monolis_shape_3d_tet_2nd_surf(5, i_face)
+    face_node_ids(6) = monolis_shape_3d_tet_2nd_surf(6, i_face)
+
+    n_face_edge = 3
+
+    face_shape_func => monolis_shape_func_2d_tri_2nd
+    face_domain_func => monolis_domain_func_2d_tri
+    edge_data_func => monolis_edge_data_func_2d_tri_2nd
+    face_shape_map_func => monolis_surf_map_func_3d_tet_2nd
+  end subroutine monolis_surf_data_func_3d_tet_2nd
+
+  !> 2D六面体1次要素の部分要素の局所座標を親要素の局所座標にマップする関数
+  subroutine monolis_surf_map_func_3d_tet_2nd(i_surf, local_coord, local_coord_3d)
+    use mod_monolis_utils_define_prm
+    implicit none
+    integer(kint), intent(in) :: i_surf
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: local_coord_3d(:)
+    real(kdouble) :: u, v
+
+    u = local_coord(1)
+    v = local_coord(2)
+
+    select case(i_surf)
+      case(1) ! 底面 (z=0)
+        local_coord_3d(1) = u
+        local_coord_3d(2) = v
+        local_coord_3d(3) = 0.0d0
+        local_coord_3d(4) = 0.0d0
+        local_coord_3d(5) = 0.0d0
+        local_coord_3d(6) = 0.0d0
+      case(2) ! 側面1 (y=0)
+        local_coord_3d(1) = u
+        local_coord_3d(2) = 0.0d0
+        local_coord_3d(3) = v
+        local_coord_3d(4) = 0.0d0
+        local_coord_3d(5) = 0.0d0
+        local_coord_3d(6) = 0.0d0
+      case(3) ! 側面2 (x=1-y-z)
+        local_coord_3d(1) = 1.0d0 - v
+        local_coord_3d(2) = u
+        local_coord_3d(3) = v
+        local_coord_3d(4) = 0.0d0
+        local_coord_3d(5) = 0.0d0
+        local_coord_3d(6) = 0.0d0
+      case(4) ! 側面3 (x=0)
+        local_coord_3d(1) = 0.0d0
+        local_coord_3d(2) = u
+        local_coord_3d(3) = v
+        local_coord_3d(4) = 0.0d0
+        local_coord_3d(5) = 0.0d0
+        local_coord_3d(6) = 0.0d0
+    end select
+  end subroutine monolis_surf_map_func_3d_tet_2nd
 end module mod_monolis_shape_3d_tet_2nd

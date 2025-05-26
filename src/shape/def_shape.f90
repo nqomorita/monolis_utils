@@ -13,7 +13,6 @@ module mod_monolis_def_shape
   !> ## 呼び出し方法
   !> 1. 直接呼び出し: `call monolis_shape_2d_tri_1st_shapefunc(local_coord, shape_values)`
   !> 2. インターフェース経由: `call monolis_shape_get_shape_func(elem_type, shape_func)`
-  !> 3. 境界要素経由: `call monolis_shape_get_boundary_info()`
   !>
   !> ## 要素ID定義
 
@@ -84,10 +83,10 @@ module mod_monolis_def_shape
 
   !> エッジ・面上の局所座標系から、３次元局所座標系へのマップ関数のインターフェース定義
   interface
-    subroutine monolis_shape_map_func(i, local_coord, local_coord_3d)
+    subroutine monolis_shape_map_func(i_sub, local_coord, local_coord_3d)
       use mod_monolis_utils_define_prm
       implicit none
-      integer(kint), intent(in) :: i
+      integer(kint), intent(in) :: i_sub
       real(kdouble), intent(in) :: local_coord(:)
       real(kdouble), intent(out) :: local_coord_3d(:)
     end subroutine monolis_shape_map_func
@@ -101,7 +100,7 @@ module mod_monolis_def_shape
       implicit none
       integer(kint), intent(in) :: i_edge
       integer(kint), intent(out) :: n_edge_node
-      integer(kint), intent(out) :: edge_node_ids(:)
+      integer(kint), intent(out), allocatable :: edge_node_ids(:)
       procedure(monolis_shape_func) :: edge_shape_func
       procedure(monolis_domain_func) :: edge_domain_func
       procedure(monolis_local_node_point_func) :: edge_local_np_fucn
@@ -118,7 +117,7 @@ module mod_monolis_def_shape
       integer(kint), intent(in) :: i_face
       integer(kint), intent(out) :: n_face_node
       integer(kint), intent(out) :: n_face_edge
-      integer(kint), intent(out) :: face_node_ids(:)
+      integer(kint), intent(out), allocatable :: face_node_ids(:)
       procedure(monolis_shape_func) :: face_shape_func
       procedure(monolis_domain_func) :: face_domain_func
       procedure(monolis_local_node_point_func) :: edge_local_np_fucn

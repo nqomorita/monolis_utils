@@ -30,7 +30,6 @@ module mod_monolis_shape_1d_line_1st
     public :: monolis_shape_func_1d_line_1st
     public :: monolis_domain_func_1d_line
     public :: monolis_local_node_position_1d_line_1st
-    !public :: monolis_shape_1d_line_1st_map_local_coord
 
 contains
 
@@ -146,28 +145,4 @@ contains
     call monolis_shape_1d_line_1st_node_point(i_node, r)
     local_positon = r(1)
   end subroutine monolis_local_node_position_1d_line_1st
-
-  !> 1D線要素の部分要素（端点）の局所座標を親要素の局所座標にマップする関数
-  subroutine monolis_shape_1d_line_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
-    implicit none
-    integer(kint), intent(in) :: sub_dim    !> 部分要素次元（0:頂点）
-    integer(kint), intent(in) :: sub_id     !> 部分要素ID (1-based)
-    real(kdouble), intent(in) :: sub_coord(:) !> 部分要素での局所座標
-    real(kdouble), intent(out) :: parent_coord(:) !> 親要素での対応する局所座標
-    
-    parent_coord = 0.0d0
-    
-    ! 1次元線要素の場合、部分要素はすべて頂点（0次元）のみ
-    if (sub_dim == 0) then ! 頂点
-      select case(sub_id)
-        case(1) ! 最初の頂点 (-1.0)
-          parent_coord(1) = -1.0d0
-        case(2) ! 2番目の頂点 (1.0)
-          parent_coord(1) = 1.0d0
-        case default
-          parent_coord(1) = 0.0d0 ! デフォルト値
-      end select
-    endif
-  end subroutine monolis_shape_1d_line_1st_map_local_coord
-
 end module mod_monolis_shape_1d_line_1st

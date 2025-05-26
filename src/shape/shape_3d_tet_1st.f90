@@ -2,6 +2,8 @@ module mod_monolis_shape_3d_tet_1st
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
   use mod_monolis_def_shape
+  use mod_monolis_shape_2d_tri_1st
+  use mod_monolis_utils_alloc
   implicit none
 
   private
@@ -46,10 +48,7 @@ module mod_monolis_shape_3d_tet_1st
     public :: monolis_shape_func_3d_tet_1st
     public :: monolis_domain_func_3d_tet
     public :: monolis_surf_data_func_3d_tet_1st
-!    public :: monolis_shape_3d_tet_1st_get_face_data
-!    public :: monolis_shape_3d_tet_1st_get_edge_data
-!    public :: monolis_shape_3d_tet_1st_map_local_coord
-!    public :: monolis_shape_3d_tet_1st_is_on_boundary
+    public :: monolis_surf_map_func_3d_tet_1st
 
 contains
 
@@ -185,89 +184,61 @@ contains
     integer(kint), intent(in) :: i_face
     integer(kint), intent(out) :: n_face_node
     integer(kint), intent(out) :: n_face_edge
-    integer(kint), intent(out) :: face_node_ids(:)
+    integer(kint), intent(out), allocatable :: face_node_ids(:)
     procedure(monolis_shape_func), pointer :: face_shape_func
     procedure(monolis_domain_func), pointer :: face_domain_func
     procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
     procedure(monolis_edge_data_func), pointer :: edge_data_func
     procedure(monolis_shape_map_func), pointer :: face_shape_map_func
 
-    face_shape_func => null()
-    face_domain_func => null()
-    edge_local_np_fucn => null()
-    edge_data_func => null()
-    face_shape_map_func => null()
+    if(i_face < 1 .or. 4 < i_face)then
+      n_face_node = -1
+      return
+    endif
+
+    n_face_node = 3
+    call monolis_alloc_I_1d(face_node_ids, 3)
+    face_node_ids(1) = monolis_shape_3d_tet_1st_surf(1, i_face)
+    face_node_ids(2) = monolis_shape_3d_tet_1st_surf(2, i_face)
+    face_node_ids(3) = monolis_shape_3d_tet_1st_surf(3, i_face)
+
+    n_face_edge = 3
+
+    face_shape_func => monolis_shape_func_2d_tri_1st
+    face_domain_func => monolis_domain_func_2d_tri
+    edge_data_func => monolis_edge_data_func_2d_tri_1st
+    face_shape_map_func => monolis_surf_map_func_3d_tet_1st
   end subroutine monolis_surf_data_func_3d_tet_1st
 
-  !> 四面体1次要素の局所座標をマッピングする関数
-  subroutine monolis_shape_3d_tet_1st_map_local_coord(sub_dim, sub_id, sub_coord, parent_coord)
+  !> 2D六面体1次要素の部分要素の局所座標を親要素の局所座標にマップする関数
+  subroutine monolis_surf_map_func_3d_tet_1st(i_surf, local_coord, local_coord_3d)
+    use mod_monolis_utils_define_prm
     implicit none
-    !> [in] 部分要素次元（0:頂点, 1:エッジ, 2:面）
-    integer(kint), intent(in) :: sub_dim
-    !> [in] 部分要素ID (1-based)
-    integer(kint), intent(in) :: sub_id
-    !> [in] 部分要素での局所座標
-    real(kdouble), intent(in) :: sub_coord(:)
-    !> [out] 親要素での対応する局所座標
-    real(kdouble), intent(out) :: parent_coord(3)
-    
+    integer(kint), intent(in) :: i_surf
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: local_coord_3d(:)
     real(kdouble) :: u, v
-    
-    parent_coord = 0.0d0
-    
-    if(sub_dim == 2) then ! 面の場合
-      u = sub_coord(1)
-      v = sub_coord(2)
-      select case(sub_id)
-        case(1) ! 底面 (x+y+z=0)
-          parent_coord(1) = u
-          parent_coord(2) = v
-          parent_coord(3) = 0.0d0
-        case(2) ! 側面1 (z=0, y=0)
-          parent_coord(1) = u
-          parent_coord(2) = 0.0d0
-          parent_coord(3) = v
-        case(3) ! 側面2 (x=1-y-z)
-          parent_coord(1) = 1.0d0 - v
-          parent_coord(2) = u
-          parent_coord(3) = v
-        case(4) ! 側面3 (x=0)
-          parent_coord(1) = 0.0d0
-          parent_coord(2) = u
-          parent_coord(3) = v
-      end select
-      
-    else if(sub_dim == 1) then ! エッジの場合
-      u = sub_coord(1) ! エッジ上の局所座標 [0,1]
-      select case(sub_id)
-        case(1) ! エッジ1-2
-          parent_coord = (/0.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/1.0d0, 0.0d0, 0.0d0/) * u
-        case(2) ! エッジ2-3
-          parent_coord = (/1.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/0.0d0, 1.0d0, 0.0d0/) * u
-        case(3) ! エッジ3-1
-          parent_coord = (/0.0d0, 1.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/0.0d0, 0.0d0, 0.0d0/) * u
-        case(4) ! エッジ1-4
-          parent_coord = (/0.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/0.0d0, 0.0d0, 1.0d0/) * u
-        case(5) ! エッジ2-4
-          parent_coord = (/1.0d0, 0.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/0.0d0, 0.0d0, 1.0d0/) * u
-        case(6) ! エッジ3-4
-          parent_coord = (/0.0d0, 1.0d0, 0.0d0/) * (1.0d0-u) + &
-                        (/0.0d0, 0.0d0, 1.0d0/) * u
-      end select
-      
-    else if(sub_dim == 0) then ! 頂点の場合
-      select case(sub_id)
-        case(1); parent_coord = (/0.0d0, 0.0d0, 0.0d0/)
-        case(2); parent_coord = (/1.0d0, 0.0d0, 0.0d0/)
-        case(3); parent_coord = (/0.0d0, 1.0d0, 0.0d0/)
-        case(4); parent_coord = (/0.0d0, 0.0d0, 1.0d0/)
-      end select
-    endif
-  end subroutine monolis_shape_3d_tet_1st_map_local_coord
 
+    u = local_coord(1)
+    v = local_coord(2)
+
+    select case(i_surf)
+      case(1) ! 底面 (z=0)
+        local_coord_3d(1) = u
+        local_coord_3d(2) = v
+        local_coord_3d(3) = 0.0d0
+      case(2) ! 側面1 (y=0)
+        local_coord_3d(1) = u
+        local_coord_3d(2) = 0.0d0
+        local_coord_3d(3) = v
+      case(3) ! 側面2 (x=1-y-z)
+        local_coord_3d(1) = 1.0d0 - v
+        local_coord_3d(2) = u
+        local_coord_3d(3) = v
+      case(4) ! 側面3 (x=0)
+        local_coord_3d(1) = 0.0d0
+        local_coord_3d(2) = u
+        local_coord_3d(3) = v
+    end select
+  end subroutine monolis_surf_map_func_3d_tet_1st
 end module mod_monolis_shape_3d_tet_1st

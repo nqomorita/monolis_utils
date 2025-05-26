@@ -1,7 +1,10 @@
 module mod_monolis_shape_2d_tri_2nd
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
+  use mod_monolis_def_shape
   use mod_monolis_shape_2d_tri_1st
+  use mod_monolis_shape_1d_line_1st
+  use mod_monolis_utils_alloc
   implicit none
 
   private
@@ -42,6 +45,10 @@ module mod_monolis_shape_2d_tri_2nd
     public :: monolis_shape_2d_tri_2nd_get_global_position
     public :: monolis_shape_2d_tri_2nd_get_global_deriv
     public :: monolis_shape_2d_tri_2nd_edge
+    !> 標準インターフェース用の関数を公開
+    public :: monolis_shape_func_2d_tri_2nd
+    public :: monolis_edge_data_func_2d_tri_2nd
+    public :: monolis_edge_map_func_2d_tri_2nd
 
 contains
 
@@ -176,4 +183,66 @@ contains
     call monolis_get_inverse_matrix_2d(xj, inv, det)
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_2d_tri_2nd_get_global_deriv
+
+  !> 標準インターフェースによる形状関数
+  subroutine monolis_shape_func_2d_tri_2nd(local_coord, N)
+    implicit none
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: N(:)
+    
+    call monolis_shape_2d_tri_2nd_shapefunc(local_coord, N)
+  end subroutine monolis_shape_func_2d_tri_2nd
+
+  !> 標準インターフェースによるエッジ情報定義関数
+  subroutine monolis_edge_data_func_2d_tri_2nd(i_edge, n_edge_node, edge_node_ids, &
+    edge_shape_func, edge_domain_func, edge_local_np_func, edge_shape_map_func)
+    implicit none
+    integer(kint), intent(in) :: i_edge
+    integer(kint), intent(out) :: n_edge_node
+    integer(kint), intent(out), allocatable :: edge_node_ids(:)
+    procedure(monolis_shape_func), pointer :: edge_shape_func
+    procedure(monolis_domain_func), pointer :: edge_domain_func
+    procedure(monolis_local_node_point_func), pointer :: edge_local_np_func
+    procedure(monolis_shape_map_func), pointer :: edge_shape_map_func
+
+    if(i_edge < 1 .or. 3 < i_edge)then
+      n_edge_node = -1
+      return
+    endif
+
+    n_edge_node = 3
+    call monolis_alloc_I_1d(edge_node_ids, 3)
+    edge_node_ids(1) = monolis_shape_2d_tri_2nd_edge(1, i_edge)
+    edge_node_ids(2) = monolis_shape_2d_tri_2nd_edge(2, i_edge)
+    edge_node_ids(3) = monolis_shape_2d_tri_2nd_edge(3, i_edge)
+
+    edge_shape_func => null() !monolis_shape_func_1d_line_2nd
+    edge_domain_func => monolis_domain_func_1d_line
+    edge_local_np_func => null() !monolis_local_node_position_1d_line_2nd
+    edge_shape_map_func => monolis_edge_map_func_2d_tri_2nd
+  end subroutine monolis_edge_data_func_2d_tri_2nd
+
+  !> 2D三角形要素の部分要素の局所座標を親要素の局所座標にマップする関数
+  subroutine monolis_edge_map_func_2d_tri_2nd(i_edge, local_coord, local_coord_3d)
+    use mod_monolis_utils_define_prm
+    implicit none
+    integer(kint), intent(in) :: i_edge
+    real(kdouble), intent(in) :: local_coord(:)
+    real(kdouble), intent(out) :: local_coord_3d(:)
+    real(kdouble) :: u
+
+    !u = 0.5d0 * (local_coord(1) + 1.0d0)
+
+    !select case(i_edge)
+    !  case(1) ! 辺1-2
+    !    local_coord_3d(1) = u
+    !    local_coord_3d(2) = 0.0d0
+    !  case(2) ! 辺2-3
+    !    local_coord_3d(1) = 1.0d0 - u
+    !    local_coord_3d(2) = u
+    !  case(3) ! 辺3-1
+    !    local_coord_3d(1) = 0.0d0
+    !    local_coord_3d(2) = 1.0d0 - u
+    !end select
+  end subroutine monolis_edge_map_func_2d_tri_2nd
 end module mod_monolis_shape_2d_tri_2nd
