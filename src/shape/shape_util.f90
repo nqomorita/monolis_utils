@@ -1,31 +1,8 @@
 module mod_monolis_shape_util
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
-  use mod_monolis_def_shape  ! 基本定義モジュールをインポート
-  use mod_monolis_shape_3d_hex_1st
+  use mod_monolis_def_shape
   implicit none
-
-  !> 局所勾配計算関数のインターフェース定義
-  interface
-    subroutine monolis_shape_deriv_func(local_coord, dNdx)
-      use mod_monolis_utils_define_prm
-      implicit none
-      real(kdouble), intent(in) :: local_coord(:)
-      real(kdouble), intent(out) :: dNdx(:,:)
-    end subroutine monolis_shape_deriv_func
-  end interface
-
-  !> 部分要素の局所座標マッピング関数のインターフェース定義
-  interface
-    subroutine monolis_map_func(sub_dim, sub_id, sub_coord, parent_coord)
-      use mod_monolis_utils_define_prm
-      implicit none
-      integer(kint), intent(in) :: sub_dim
-      integer(kint), intent(in) :: sub_id
-      real(kdouble), intent(in) :: sub_coord(:)
-      real(kdouble), intent(out) :: parent_coord(:)
-    end subroutine monolis_map_func
-  end interface
 
 contains
 
@@ -196,5 +173,4 @@ contains
         det = 0.0d0
     end select
   end subroutine monolis_shape_evaluate_all
-
 end module mod_monolis_shape_util

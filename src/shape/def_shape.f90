@@ -13,39 +13,18 @@ module mod_monolis_def_shape
   !> ## 呼び出し方法
   !> 1. 直接呼び出し: `call monolis_shape_2d_tri_1st_shapefunc(local_coord, shape_values)`
   !> 2. インターフェース経由: `call monolis_shape_get_shape_func(elem_type, shape_func)`
-  !>
-  !> ## 要素ID定義
 
-  ! 次元、形状タイプ、次数の定数定義
-  integer(kint), parameter :: DIM_0D = 0
-  integer(kint), parameter :: DIM_1D = 1
-  integer(kint), parameter :: DIM_2D = 2
-  integer(kint), parameter :: DIM_3D = 3
-
-  integer(kint), parameter :: SHAPE_POINT = 0  ! 点
-  integer(kint), parameter :: SHAPE_LINE  = 1  ! 線
-  integer(kint), parameter :: SHAPE_TRI   = 3  ! 三角形
-  integer(kint), parameter :: SHAPE_QUAD  = 4  ! 四角形
-  integer(kint), parameter :: SHAPE_TET   = 4  ! 四面体
-  integer(kint), parameter :: SHAPE_HEX   = 6  ! 六面体
-
-  integer(kint), parameter :: ORDER_1ST = 1 ! 1次
-  integer(kint), parameter :: ORDER_2ND = 2 ! 2次
-
-  ! 点要素
-  integer(kint), parameter :: monolis_shape_point = 1  ! 点要素 (0D)
-
-  ! 1次元要素
+  !> 点要素
+  integer(kint), parameter :: monolis_shape_0d_point    = 001  ! 点要素 (0D)
+  !> 1次元要素
   integer(kint), parameter :: monolis_shape_1d_line_1st = 111  ! 線要素1次 (1D)
   integer(kint), parameter :: monolis_shape_1d_line_2nd = 112  ! 線要素2次 (1D)
-
-  ! 2次元要素
+  !> 2次元要素
   integer(kint), parameter :: monolis_shape_2d_tri_1st  = 231  ! 三角形1次要素 (2D)
   integer(kint), parameter :: monolis_shape_2d_tri_2nd  = 232  ! 三角形2次要素 (2D)
   integer(kint), parameter :: monolis_shape_2d_quad_1st = 241  ! 四角形1次要素 (2D)
   integer(kint), parameter :: monolis_shape_2d_quad_2nd = 242  ! 四角形2次要素 (2D)
-
-  ! 3次元要素
+  !> 3次元要素
   integer(kint), parameter :: monolis_shape_3d_tet_1st  = 341  ! 四面体1次要素 (3D)
   integer(kint), parameter :: monolis_shape_3d_tet_2nd  = 342  ! 四面体2次要素 (3D)
   integer(kint), parameter :: monolis_shape_3d_hex_1st  = 361  ! 六面体1次要素 (3D)
