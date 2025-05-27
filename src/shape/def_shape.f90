@@ -80,10 +80,10 @@ module mod_monolis_def_shape
       integer(kint), intent(in) :: i_edge
       integer(kint), intent(out) :: n_edge_node
       integer(kint), intent(out), allocatable :: edge_node_ids(:)
-      procedure(monolis_shape_func) :: edge_shape_func
-      procedure(monolis_domain_func) :: edge_domain_func
-      procedure(monolis_local_node_point_func) :: edge_local_np_fucn
-      procedure(monolis_shape_map_func) :: edge_shape_map_func
+      procedure(monolis_shape_func), pointer, intent(out) :: edge_shape_func
+      procedure(monolis_domain_func), pointer, intent(out) :: edge_domain_func
+      procedure(monolis_local_node_point_func), pointer, intent(out) :: edge_local_np_fucn
+      procedure(monolis_shape_map_func), pointer, intent(out) :: edge_shape_map_func
     end subroutine monolis_edge_data_func
   end interface
 
@@ -97,11 +97,10 @@ module mod_monolis_def_shape
       integer(kint), intent(out) :: n_face_node
       integer(kint), intent(out) :: n_face_edge
       integer(kint), intent(out), allocatable :: face_node_ids(:)
-      procedure(monolis_shape_func) :: face_shape_func
-      procedure(monolis_domain_func) :: face_domain_func
-      procedure(monolis_local_node_point_func) :: edge_local_np_fucn
-      procedure(monolis_edge_data_func) :: edge_data_func
-      procedure(monolis_shape_map_func) :: face_shape_map_func
+      procedure(monolis_shape_func), pointer, intent(out) :: face_shape_func
+      procedure(monolis_domain_func), pointer, intent(out) :: face_domain_func
+      procedure(monolis_edge_data_func), pointer, intent(out) :: edge_data_func
+      procedure(monolis_shape_map_func), pointer, intent(out) :: face_shape_map_func
     end subroutine monolis_surf_data_func
   end interface
 end module mod_monolis_def_shape

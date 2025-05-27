@@ -2,7 +2,9 @@ module mod_monolis_shape_2d_tri_1st
   use mod_monolis_utils_define_prm
   use mod_monolis_utils_std_algebra
   use mod_monolis_def_shape
-  use mod_monolis_shape_1d_line_1st
+  !use mod_monolis_shape_1d_line_1st
+  use mod_monolis_shape_1d_line_1st, only: monolis_shape_func_1d_line_1st, &
+    monolis_domain_func_1d_line, monolis_local_node_position_1d_line_1st
   use mod_monolis_utils_alloc
   implicit none
 
@@ -167,10 +169,11 @@ contains
     integer(kint), intent(in) :: i_edge
     integer(kint), intent(out) :: n_edge_node
     integer(kint), intent(out), allocatable :: edge_node_ids(:)
-    procedure(monolis_shape_func), pointer :: edge_shape_func
-    procedure(monolis_domain_func), pointer :: edge_domain_func
-    procedure(monolis_local_node_point_func), pointer :: edge_local_np_func
-    procedure(monolis_shape_map_func), pointer :: edge_shape_map_func
+    procedure(monolis_shape_func), pointer, intent(out) :: edge_shape_func
+    procedure(monolis_domain_func), pointer, intent(out) :: edge_domain_func
+    procedure(monolis_local_node_point_func), pointer, intent(out) :: edge_local_np_func
+    procedure(monolis_shape_map_func), pointer, intent(out) :: edge_shape_map_func
+    real(kdouble) :: local_coord(1) = 0.0d0, N(2)
 
     if(i_edge < 1 .or. 3 < i_edge)then
       n_edge_node = -1

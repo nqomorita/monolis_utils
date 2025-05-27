@@ -224,7 +224,6 @@ contains
     integer(kint), intent(out), allocatable :: face_node_ids(:)
     procedure(monolis_shape_func), pointer :: face_shape_func
     procedure(monolis_domain_func), pointer :: face_domain_func
-    procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
     procedure(monolis_edge_data_func), pointer :: edge_data_func
     procedure(monolis_shape_map_func), pointer :: face_shape_map_func
 

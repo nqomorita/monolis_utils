@@ -165,10 +165,10 @@ contains
     integer(kint), intent(in) :: i_edge
     integer(kint), intent(out) :: n_edge_node
     integer(kint), intent(out), allocatable :: edge_node_ids(:)
-    procedure(monolis_shape_func), pointer :: edge_shape_func
-    procedure(monolis_domain_func), pointer :: edge_domain_func
-    procedure(monolis_local_node_point_func), pointer :: edge_local_np_func
-    procedure(monolis_shape_map_func), pointer :: edge_shape_map_func
+    procedure(monolis_shape_func), pointer, intent(out) :: edge_shape_func
+    procedure(monolis_domain_func), pointer, intent(out) :: edge_domain_func
+    procedure(monolis_local_node_point_func), pointer, intent(out) :: edge_local_np_func
+    procedure(monolis_shape_map_func), pointer, intent(out) :: edge_shape_map_func
 
     if(i_edge < 1 .or. 4 < i_edge)then
       n_edge_node = -1

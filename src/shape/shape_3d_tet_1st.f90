@@ -185,11 +185,10 @@ contains
     integer(kint), intent(out) :: n_face_node
     integer(kint), intent(out) :: n_face_edge
     integer(kint), intent(out), allocatable :: face_node_ids(:)
-    procedure(monolis_shape_func), pointer :: face_shape_func
-    procedure(monolis_domain_func), pointer :: face_domain_func
-    procedure(monolis_local_node_point_func), pointer :: edge_local_np_fucn
-    procedure(monolis_edge_data_func), pointer :: edge_data_func
-    procedure(monolis_shape_map_func), pointer :: face_shape_map_func
+    procedure(monolis_shape_func), pointer, intent(out) :: face_shape_func
+    procedure(monolis_domain_func), pointer, intent(out) :: face_domain_func
+    procedure(monolis_edge_data_func), pointer, intent(out) :: edge_data_func
+    procedure(monolis_shape_map_func), pointer, intent(out) :: face_shape_map_func
 
     if(i_face < 1 .or. 4 < i_face)then
       n_face_node = -1
