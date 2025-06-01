@@ -351,18 +351,18 @@ contains
     call monolis_test_check_eq_I1("monolis_extract_all_surf_tet_test 1", n_elem, 12)
     call monolis_test_check_eq_I1("monolis_extract_all_surf_tet_test 2", n_base, 3)
 
-    ians(1, 1) = 3; ians(2, 1) = 2; ians(3, 1) = 1;
-    ians(1, 2) = 4; ians(2, 2) = 3; ians(3, 2) = 1;
-    ians(1, 3) = 5; ians(2, 3) = 6; ians(3, 3) = 7;
-    ians(1, 4) = 5; ians(2, 4) = 7; ians(3, 4) = 8;
-    ians(1, 5) = 5; ians(2, 5) = 1; ians(3, 5) = 2;
-    ians(1, 6) = 6; ians(2, 6) = 5; ians(3, 6) = 2;
-    ians(1, 7) = 6; ians(2, 7) = 2; ians(3, 7) = 3;
-    ians(1, 8) = 7; ians(2, 8) = 6; ians(3, 8) = 3;
-    ians(1, 9) = 7; ians(2, 9) = 3; ians(3, 9) = 4;
-    ians(1,10) = 8; ians(2,10) = 7; ians(3,10) = 4;
-    ians(1,11) = 8; ians(2,11) = 4; ians(3,11) = 1;
-    ians(1,12) = 5; ians(2,12) = 8; ians(3,12) = 1;
+    ians(1, 1) = 1; ians(2, 1) = 3; ians(3, 1) = 2;
+    ians(1, 2) = 1; ians(2, 2) = 4; ians(3, 2) = 3;
+    ians(1, 3) = 7; ians(2, 3) = 5; ians(3, 3) = 6;
+    ians(1, 4) = 8; ians(2, 4) = 5; ians(3, 4) = 7;
+    ians(1, 5) = 2; ians(2, 5) = 5; ians(3, 5) = 1;
+    ians(1, 6) = 2; ians(2, 6) = 6; ians(3, 6) = 5;
+    ians(1, 7) = 3; ians(2, 7) = 6; ians(3, 7) = 2;
+    ians(1, 8) = 3; ians(2, 8) = 7; ians(3, 8) = 6;
+    ians(1, 9) = 4; ians(2, 9) = 7; ians(3, 9) = 3;
+    ians(1,10) = 4; ians(2,10) = 8; ians(3,10) = 6;
+    ians(1,11) = 1; ians(2,11) = 8; ians(3,11) = 4;
+    ians(1,12) = 1; ians(2,12) = 5; ians(3,12) = 8;
 
     do i = 1, 12
       call monolis_test_check_eq_I1("monolis_dbc_all_surf_tet_test", ians(1,i), elem(1,i))
