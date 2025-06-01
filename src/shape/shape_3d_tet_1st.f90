@@ -20,10 +20,10 @@ module mod_monolis_shape_3d_tet_1st
     ], [3,4])
 
   integer(kint), parameter :: monolis_shape_3d_tet_1st_surf(3,4) = reshape([ &
-     3, 2, 1, &
+     1, 3, 2, &
      1, 2, 4, &
-     2, 3, 4, &
-     3, 1, 4  ], [3,4])
+     4, 2, 3, &
+     1, 4, 3  ], [3,4])
 
   integer(kint), parameter :: monolis_shape_3d_tet_1st_edge(2,6) = reshape([ &
      1, 2, &
@@ -209,7 +209,7 @@ contains
     face_shape_map_func => monolis_surf_map_func_3d_tet_1st
   end subroutine monolis_surf_data_func_3d_tet_1st
 
-  !> 2D六面体1次要素の部分要素の局所座標を親要素の局所座標にマップする関数
+  !> 2D四面体1次要素の部分要素の局所座標を親要素の局所座標にマップする関数
   subroutine monolis_surf_map_func_3d_tet_1st(i_surf, local_coord, local_coord_3d)
     use mod_monolis_utils_define_prm
     implicit none
@@ -222,22 +222,22 @@ contains
     v = local_coord(2)
 
     select case(i_surf)
-      case(1) ! 底面 (z=0)
-        local_coord_3d(1) = u
-        local_coord_3d(2) = v
+      case(1) ! 底面
+        local_coord_3d(1) = v
+        local_coord_3d(2) = u
         local_coord_3d(3) = 0.0d0
-      case(2) ! 側面1 (y=0)
+      case(2) ! 側面1
         local_coord_3d(1) = u
         local_coord_3d(2) = 0.0d0
         local_coord_3d(3) = v
-      case(3) ! 側面2 (x=1-y-z)
-        local_coord_3d(1) = 1.0d0 - v
-        local_coord_3d(2) = u
-        local_coord_3d(3) = v
-      case(4) ! 側面3 (x=0)
+      case(3) ! 側面2
+        local_coord_3d(1) = u
+        local_coord_3d(2) = v
+        local_coord_3d(3) = 1.0d0 - v - u
+      case(4) ! 側面3
         local_coord_3d(1) = 0.0d0
-        local_coord_3d(2) = u
-        local_coord_3d(3) = v
+        local_coord_3d(2) = v
+        local_coord_3d(3) = u
     end select
   end subroutine monolis_surf_map_func_3d_tet_1st
 end module mod_monolis_shape_3d_tet_1st

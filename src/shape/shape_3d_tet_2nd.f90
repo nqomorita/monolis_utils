@@ -258,6 +258,8 @@ contains
     real(kdouble), intent(out) :: local_coord_3d(:)
     real(kdouble) :: u, v
 
+    stop "monolis_surf_map_func_3d_tet_2nd"
+
     u = local_coord(1)
     v = local_coord(2)
 

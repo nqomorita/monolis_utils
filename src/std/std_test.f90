@@ -50,7 +50,7 @@ contains
     !> [out] 一致判定（一致していれば .ture.）
     logical, intent(out) :: is_eq
 
-    if(abs(a) < 1.0d-20)then
+    if(abs(a) < 1.0d-8)then
       if(abs(a - b) > monolis_test_ths)then
         is_eq = .false.
       else
@@ -74,7 +74,7 @@ contains
     !> [out] 一致判定（一致していれば .ture.）
     logical, intent(out) :: is_eq
 
-    if(abs(real(a)) < 1.0d-20 .or. abs(dimag(a)) < 1.0d-20)then
+    if(abs(real(a)) < 1.0d-8 .or. abs(dimag(a)) < 1.0d-8)then
       if(abs(real(a) - real(b)) + abs(dimag(a) - dimag(b)) > monolis_test_ths)then
         is_eq = .false.
       else

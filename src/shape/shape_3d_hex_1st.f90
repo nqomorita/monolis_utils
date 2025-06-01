@@ -110,9 +110,9 @@ contains
     logical, intent(out) :: is_inside
 
     is_inside = .false.
-    if(0.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
-       0.0d0 <= local(2) .and. local(2) <= 1.0d0 .and. &
-       0.0d0 <= local(3) .and. local(3) <= 1.0d0)then 
+    if(-1.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
+       -1.0d0 <= local(2) .and. local(2) <= 1.0d0 .and. &
+       -1.0d0 <= local(3) .and. local(3) <= 1.0d0)then 
       is_inside = .true.
     endif
   end subroutine monolis_shape_3d_hex_1st_is_inside_domain
@@ -258,7 +258,7 @@ contains
     select case(i_surf)
       case(1) ! z = -1 面
         local_coord_3d(1) = u
-        local_coord_3d(2) = v
+        local_coord_3d(2) = -v
         local_coord_3d(3) = -1.0d0
       case(2) ! z = 1 面
         local_coord_3d(1) = u
@@ -273,13 +273,13 @@ contains
         local_coord_3d(2) = u
         local_coord_3d(3) = v
       case(5) ! y = 1 面
-        local_coord_3d(1) = u
+        local_coord_3d(1) = -u
         local_coord_3d(2) = 1.0d0
         local_coord_3d(3) = v
       case(6) ! x = -1 面
         local_coord_3d(1) = -1.0d0
         local_coord_3d(2) = u
-        local_coord_3d(3) = v
+        local_coord_3d(3) = -v
     end select
   end subroutine monolis_surf_map_func_3d_hex_1st
 end module mod_monolis_shape_3d_hex_1st

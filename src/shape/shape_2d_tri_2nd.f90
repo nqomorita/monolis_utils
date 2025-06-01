@@ -205,6 +205,8 @@ contains
     procedure(monolis_local_node_point_func), pointer, intent(out) :: edge_local_np_func
     procedure(monolis_shape_map_func), pointer, intent(out) :: edge_shape_map_func
 
+    stop "monolis_edge_data_func_2d_tri_2nd"
+
     if(i_edge < 1 .or. 3 < i_edge)then
       n_edge_node = -1
       return
@@ -230,6 +232,8 @@ contains
     real(kdouble), intent(in) :: local_coord(:)
     real(kdouble), intent(out) :: local_coord_3d(:)
     real(kdouble) :: u
+
+    stop "monolis_edge_map_func_2d_tri_2nd"
 
     !u = 0.5d0 * (local_coord(1) + 1.0d0)
 

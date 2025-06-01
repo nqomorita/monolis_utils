@@ -83,8 +83,8 @@ contains
     logical, intent(out) :: is_inside
 
     is_inside = .false.
-    if(0.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
-       0.0d0 <= local(2) .and. local(2) <= 1.0d0)then 
+    if(-1.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
+       -1.0d0 <= local(2) .and. local(2) <= 1.0d0)then 
       is_inside = .true.
     endif
   end subroutine monolis_shape_2d_quad_1st_is_inside_domain
