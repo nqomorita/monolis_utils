@@ -180,7 +180,7 @@ contains
 
     call monolis_shape_2d_tri_2nd_shapefunc_deriv(r, deriv)
     xj = matmul(node, deriv)
-    call monolis_get_inverse_matrix_2d(xj, inv, det)
+    call monolis_get_inverse_matrix_R_2d(xj, inv, det)
     dndx = matmul(deriv, inv)
   end subroutine monolis_shape_2d_tri_2nd_get_global_deriv
 
