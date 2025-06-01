@@ -360,7 +360,7 @@ contains
     ians(1, 7) = 3; ians(2, 7) = 6; ians(3, 7) = 2;
     ians(1, 8) = 3; ians(2, 8) = 7; ians(3, 8) = 6;
     ians(1, 9) = 4; ians(2, 9) = 7; ians(3, 9) = 3;
-    ians(1,10) = 4; ians(2,10) = 8; ians(3,10) = 6;
+    ians(1,10) = 4; ians(2,10) = 8; ians(3,10) = 7;
     ians(1,11) = 1; ians(2,11) = 8; ians(3,11) = 4;
     ians(1,12) = 1; ians(2,12) = 5; ians(3,12) = 8;
 
