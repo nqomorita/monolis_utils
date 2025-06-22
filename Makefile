@@ -118,7 +118,7 @@ shape_3d_tet_1st.f90 \
 shape_3d_tet_2nd.f90 \
 shape_3d_hex_1st.f90 \
 shape_util.f90 \
-shape_boundary.f90
+shape_info.f90
 
 SRC_IO = \
 io_arg.f90 \

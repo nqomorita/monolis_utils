@@ -52,22 +52,24 @@ module mod_monolis_shape_3d_hex_1st
      3, 7, &
      4, 8  ], [2,12])
 
-    public :: monolis_shape_3d_hex_1st_num_gauss_point
-    public :: monolis_shape_3d_hex_1st_weight
-    public :: monolis_shape_3d_hex_1st_integral_point
-    public :: monolis_shape_3d_hex_1st_node_point
-    public :: monolis_shape_3d_hex_1st_is_inside_domain
-    public :: monolis_shape_3d_hex_1st_shapefunc
-    public :: monolis_shape_3d_hex_1st_shapefunc_deriv
-    public :: monolis_shape_3d_hex_1st_get_global_position
-    public :: monolis_shape_3d_hex_1st_get_global_deriv
-    public :: monolis_shape_3d_hex_1st_surf
-    public :: monolis_shape_3d_hex_1st_edge
-    ! 標準インターフェース用の関数
-    public :: monolis_shape_func_3d_hex_1st
-    public :: monolis_domain_func_3d_hex
-    public :: monolis_surf_data_func_3d_hex_1st
-    public :: monolis_surf_map_func_3d_hex_1st
+  real(kdouble), parameter :: EPS = 1.0d-6
+
+  public :: monolis_shape_3d_hex_1st_num_gauss_point
+  public :: monolis_shape_3d_hex_1st_weight
+  public :: monolis_shape_3d_hex_1st_integral_point
+  public :: monolis_shape_3d_hex_1st_node_point
+  public :: monolis_shape_3d_hex_1st_is_inside_domain
+  public :: monolis_shape_3d_hex_1st_shapefunc
+  public :: monolis_shape_3d_hex_1st_shapefunc_deriv
+  public :: monolis_shape_3d_hex_1st_get_global_position
+  public :: monolis_shape_3d_hex_1st_get_global_deriv
+  public :: monolis_shape_3d_hex_1st_surf
+  public :: monolis_shape_3d_hex_1st_edge
+  ! 標準インターフェース用の関数
+  public :: monolis_shape_func_3d_hex_1st
+  public :: monolis_domain_func_3d_hex
+  public :: monolis_surf_data_func_3d_hex_1st
+  public :: monolis_surf_map_func_3d_hex_1st
 
 contains
 
@@ -110,9 +112,9 @@ contains
     logical, intent(out) :: is_inside
 
     is_inside = .false.
-    if(-1.0d0 <= local(1) .and. local(1) <= 1.0d0 .and. &
-       -1.0d0 <= local(2) .and. local(2) <= 1.0d0 .and. &
-       -1.0d0 <= local(3) .and. local(3) <= 1.0d0)then 
+    if(-1.0d0 - EPS <= local(1) .and. local(1) <= 1.0d0 + EPS .and. &
+       -1.0d0 - EPS <= local(2) .and. local(2) <= 1.0d0 + EPS .and. &
+       -1.0d0 - EPS <= local(3) .and. local(3) <= 1.0d0 + EPS)then 
       is_inside = .true.
     endif
   end subroutine monolis_shape_3d_hex_1st_is_inside_domain
