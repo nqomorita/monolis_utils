@@ -31,7 +31,7 @@ module mod_monolis_def_shape
   integer(kint), parameter :: monolis_shape_3d_hex_2nd  = 362  ! 六面体2次要素 (3D)
 
   !> 形状関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_shape_func(local_coord, N)
       use mod_monolis_utils_define_prm
       implicit none
@@ -41,7 +41,7 @@ module mod_monolis_def_shape
   end interface
 
   !> 定義域関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_domain_func(local_coord, is_inside)
       use mod_monolis_utils_define_prm
       implicit none
@@ -51,7 +51,7 @@ module mod_monolis_def_shape
   end interface
 
   !> 局所座標系における節点位置定義関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_local_node_point_func(i, local_coord)
       use mod_monolis_utils_define_prm
       implicit none
@@ -61,7 +61,7 @@ module mod_monolis_def_shape
   end interface
 
   !> エッジ・面上の局所座標系から、３次元局所座標系へのマップ関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_shape_map_func(i_sub, local_coord, local_coord_3d)
       use mod_monolis_utils_define_prm
       implicit none
@@ -72,10 +72,14 @@ module mod_monolis_def_shape
   end interface
 
   !> エッジ情報定義関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_edge_data_func(i_edge, n_edge_node, edge_node_ids, &
       edge_shape_func, edge_domain_func, edge_local_np_fucn, edge_shape_map_func)
       use mod_monolis_utils_define_prm
+      import :: monolis_shape_func
+      import :: monolis_domain_func
+      import :: monolis_local_node_point_func
+      import :: monolis_shape_map_func
       implicit none
       integer(kint), intent(in) :: i_edge
       integer(kint), intent(out) :: n_edge_node
@@ -88,10 +92,14 @@ module mod_monolis_def_shape
   end interface
 
   !> 面情報定義関数のインターフェース定義
-  interface
+  abstract interface
     subroutine monolis_surf_data_func(i_face, n_face_node, face_node_ids, &
       face_shape_func, face_domain_func, n_face_edge, edge_data_func, face_shape_map_func)
       use mod_monolis_utils_define_prm
+      import :: monolis_shape_func
+      import :: monolis_domain_func
+      import :: monolis_edge_data_func
+      import :: monolis_shape_map_func
       implicit none
       integer(kint), intent(in) :: i_face
       integer(kint), intent(out) :: n_face_node
