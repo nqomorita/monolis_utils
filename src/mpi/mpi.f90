@@ -767,4 +767,40 @@ contains
       n_neib_vec = n_neib_vec + n_neib_send(in + 1)
     enddo
   end subroutine monolis_mpi_get_n_neib_vector
+
+  !> @ingroup mpi
+  !> Wait 関数（単一リクエスト）
+  subroutine monolis_wait(req, ierr)
+    implicit none
+    !> [in] MPI リクエスト
+    integer(kint), intent(in) :: req
+    !> [out] エラーコード
+    integer(kint), intent(out) :: ierr
+
+#ifndef NO_MPI
+    call MPI_Wait(req, MPI_STATUS_IGNORE, ierr)
+#else
+    ierr = 0
+#endif
+  end subroutine monolis_wait
+
+  !> @ingroup mpi
+  !> Waitall 関数（複数リクエスト）
+  subroutine monolis_waitall(n, reqs, ierr)
+    implicit none
+    !> [in] リクエスト数
+    integer(kint), intent(in) :: n
+    !> [in] MPI リクエスト配列
+    integer(kint), intent(in) :: reqs(n)
+    !> [out] エラーコード
+    integer(kint), intent(out) :: ierr
+
+#ifndef NO_MPI
+    call MPI_Waitall(n, reqs, MPI_STATUSES_IGNORE, ierr)
+#else
+    ierr = 0
+#endif
+  end subroutine monolis_waitall
+
+  !> @ingroup mpi
 end module mod_monolis_mpi
