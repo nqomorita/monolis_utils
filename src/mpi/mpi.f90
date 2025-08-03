@@ -770,7 +770,7 @@ contains
 
   !> @ingroup mpi
   !> Wait 関数（単一リクエスト）
-  subroutine monolis_wait(req, ierr)
+  subroutine monolis_mpi_wait(req, ierr)
     implicit none
     !> [in] MPI リクエスト
     integer(kint), intent(in) :: req
@@ -782,11 +782,11 @@ contains
 #else
     ierr = 0
 #endif
-  end subroutine monolis_wait
+  end subroutine monolis_mpi_wait
 
   !> @ingroup mpi
   !> Waitall 関数（複数リクエスト）
-  subroutine monolis_waitall(n, reqs, ierr)
+  subroutine monolis_mpi_waitall(n, reqs, ierr)
     implicit none
     !> [in] リクエスト数
     integer(kint), intent(in) :: n
@@ -800,7 +800,7 @@ contains
 #else
     ierr = 0
 #endif
-  end subroutine monolis_waitall
+  end subroutine monolis_mpi_waitall
 
   !> @ingroup mpi
 end module mod_monolis_mpi
