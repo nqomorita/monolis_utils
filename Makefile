@@ -301,7 +301,16 @@ all: \
 
 lib: \
 	cp_header \
-	$(LIB_TARGET)
+	$(LIB_TARGET) \
+	$(DRIVE1) \
+	$(DRIVE2) \
+	$(DRIVE3) \
+	$(DRIVE4) \
+	$(DRIVE5) \
+	$(DRIVE6) \
+	$(DRIVE7) \
+	$(DRIVE8) \
+	$(DRIVE9) \
 
 $(LIB_TARGET): $(LIB_OBJS)
 	$(AR) $@ $(LIB_OBJS)
