@@ -20,7 +20,7 @@
 #include "./shape/monolis_shape_3d_tet_2nd_c_test.h"
 #include "./com/monolis_comm_table_c_test.h"
 
-int main()
+int32_t main()
 {
   monolis_mpi_initialize();
 

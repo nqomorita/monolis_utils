@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <complex.h>
+#include <math.h>
 #include "monolis_def_prm_c.h"
 #include "monolis_std_test_c.h"
 #include "monolis_alloc_c.h"
