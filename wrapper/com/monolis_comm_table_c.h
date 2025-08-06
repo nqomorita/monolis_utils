@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+#include "monolis_def_prm_c.h"
 #include "monolis_def_com_c.h"
 
 /**

@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include <stdio.h>
+#include "monolis_def_prm_c.h"
 
 /**
  * @brief IO のためのファイルポインタの取得

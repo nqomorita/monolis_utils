@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief monolis ライブラリで利用する MPI の初期化関数
  * @ingroup mpi

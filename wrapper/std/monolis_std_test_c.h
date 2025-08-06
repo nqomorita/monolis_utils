@@ -8,6 +8,7 @@ extern "C" {
 
 #include <stdbool.h>
 #include <math.h>
+#include "monolis_def_prm_c.h"
 
 /**
  * @brief 通常ログ出力関数

@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
   /** 通信テーブルデータ読込のトップディレクトリ名 */
   static const char* MONOLIS_DEFAULT_TOP_DIR = "./";
 

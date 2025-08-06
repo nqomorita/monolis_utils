@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief データ通信する recv 隣接領域の取得（並列実行版）
  * @param[in] comm MPI コミュニケータ

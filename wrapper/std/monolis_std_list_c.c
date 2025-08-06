@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "monolis_def_prm_c.h"
 #include "monolis_std_list_c.h"
 #include "monolis_alloc_c.h"
 

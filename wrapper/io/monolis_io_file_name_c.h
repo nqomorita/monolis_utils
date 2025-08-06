@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief 並列計算用読み込みファイル名の取得（グローバルコミュニケータから指定）
  * @param[in] top_dir_name トップディレクトリパス

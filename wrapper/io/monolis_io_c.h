@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief monolis 内部計算点自由度数の入力
  * @param[in] fname 出力ファイル名

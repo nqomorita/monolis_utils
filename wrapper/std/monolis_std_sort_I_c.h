@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief クイックソート（1次元整数配列）
  * @param[in,out] array 整数配列

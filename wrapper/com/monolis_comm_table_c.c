@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "monolis_def_prm_c.h"
 #include "monolis_def_com_c.h"
 #include "monolis_mpi_c.h"
 #include "monolis_mpi_util_c.h"

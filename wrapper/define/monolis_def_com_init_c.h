@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include "monolis_def_prm_c.h"
+
 /**
  * @brief COM 構造体の初期化関数（事前分割したデータファイルを読込）
  * @param[in,out] com COM 構造体

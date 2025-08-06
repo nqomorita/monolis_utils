@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "monolis_def_prm_c.h"
 #include "monolis_alloc_c.h"
 #include "monolis_def_com_c.h"
-#include "monolis_def_prm_c.h"
 #include "monolis_io_util_c.h"
 
 void monolis_input_com_table_main(

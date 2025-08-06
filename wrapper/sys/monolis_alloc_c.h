@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+#include "monolis_def_prm_c.h"
 
 /**
  * @brief 1 次元整数配列のメモリ確保

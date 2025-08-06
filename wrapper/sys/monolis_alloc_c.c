@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "monolis_def_prm_c.h"
 #include "monolis_alloc_c.h"
 
 /** 1 次元整数配列のメモリ確保 */
