@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "monolis_utils.h"
 #include "./define/monolis_def_com_c_test.h"
 #include "./std/std_sort_I_wrap_test.h"
